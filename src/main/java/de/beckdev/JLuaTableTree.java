@@ -100,8 +100,6 @@ public class JLuaTableTree extends Application {
         }
     }
 
-
-
     private static TreeItem iterateOnTable(LuaTable table) {
         String branchname = table.get("branchname").tojstring();
         TreeItem treeNode = new TreeItem(branchname);
@@ -117,7 +115,7 @@ public class JLuaTableTree extends Application {
                     LuaTable checktable = v.checktable();
                     newNode = iterateOnTable(checktable);
                 } else if (v.isstring()) {
-                    if (!k.checkstring().tojstring().equals("branchname")) {
+                    if (!k.checkstring().tojstring().equals("branchname") && !k.checkstring().tojstring().equals("state")) {
                         newNode = new TreeItem(v.checkstring().tojstring());
                     }
                 }
