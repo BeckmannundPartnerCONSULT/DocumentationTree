@@ -25,6 +25,7 @@ import java.io.StringWriter;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.*;
 
 public class JLuaTableTree extends Application {
 
@@ -54,7 +55,8 @@ public class JLuaTableTree extends Application {
                 LuaValue result = globals.load(script);
                 LuaTable table = result.checkfunction().call().checktable();
 
-                final TreeItem<TextNode> rootItem = iterateOnTable(table);
+                Map<String, TextNode> nodes = new HashMap<>();
+                final TreeItem<TextNode> rootItem = iterateOnTable(nodes, table);
                 final TreeView<TextNode> tree = new TreeView<>(rootItem);
                 final LastClickedItemContainer lastClickedItem = new LastClickedItemContainer();
                 tree.setCellFactory(new Callback<TreeView<TextNode>,TreeCell<TextNode>>() {
@@ -82,6 +84,7 @@ public class JLuaTableTree extends Application {
                                 TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
                                 TreeItem<TextNode> treeItem = source.getTreeItem();
 
+                                treeItem.getValue().setColor("blue");
                                 setColorParents(treeItem, "red");
                                 setColorChildren(treeItem, "green");
                                 tree.refresh();
@@ -161,7 +164,7 @@ public class JLuaTableTree extends Application {
         }
     }
 
-    private static TreeItem<TextNode> iterateOnTable(LuaTable table) {
+    private static TreeItem<TextNode> iterateOnTable(Map<String, TextNode> nodes, LuaTable table) {
         String branchname = table.get("branchname").tojstring();
         TreeItem<TextNode> treeNode = new TreeItem(new TextNode(branchname));
         boolean collapsed = table.get("state") != LuaValue.NIL ? "COLLAPSED".equals(table.get("state").tojstring()) : false;
@@ -174,10 +177,15 @@ public class JLuaTableTree extends Application {
                 TreeItem<TextNode> newNode = null;
                 if (v.istable()) {
                     LuaTable checktable = v.checktable();
-                    newNode = iterateOnTable(checktable);
+                    newNode = iterateOnTable(nodes, checktable);
                 } else if (v.isstring()) {
                     if (!k.checkstring().tojstring().equals("branchname") && !k.checkstring().tojstring().equals("state")) {
-                        newNode = new TreeItem(new TextNode(v.checkstring().tojstring()));
+                        String text = v.checkstring().tojstring();
+                        if (!nodes.containsKey(text)) {
+                            TextNode textNode = new TextNode(text);
+                            nodes.put(text, textNode);
+                        }
+                        newNode = new TreeItem(nodes.get(text));
                     }
                 }
                 if (newNode != null) {
