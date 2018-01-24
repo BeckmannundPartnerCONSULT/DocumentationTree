@@ -1,0 +1,3 @@
+.tree-cell:filled:selected {
+    -fx-background-color: blue;
+}

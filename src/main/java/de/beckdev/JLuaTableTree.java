@@ -1,13 +1,17 @@
 package de.beckdev;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTreeCell;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
@@ -29,7 +33,7 @@ public class JLuaTableTree extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws URISyntaxException {
         primaryStage.setTitle("Lua Table Tree");
 
         FileChooser fileChooser = new FileChooser();
@@ -50,8 +54,43 @@ public class JLuaTableTree extends Application {
                 LuaValue result = globals.load(script);
                 LuaTable table = result.checkfunction().call().checktable();
 
-                TreeItem<String> rootItem = iterateOnTable(table);
-                TreeView<String> tree = new TreeView<>(rootItem);
+                final TreeItem<TextNode> rootItem = iterateOnTable(table);
+                final TreeView<TextNode> tree = new TreeView<>(rootItem);
+                final LastClickedItemContainer lastClickedItem = new LastClickedItemContainer();
+                tree.setCellFactory(new Callback<TreeView<TextNode>,TreeCell<TextNode>>() {
+                    @Override
+                    public TreeCell<TextNode> call(final TreeView<TextNode> p) {
+                        final TextFieldTreeCell textFieldTreeCell = new TextFieldTreeCell() {
+                            @Override
+                            public void updateItem(Object item, boolean empty) {
+                                if (item != null) {
+                                    TextNode textNode = (TextNode) item;
+                                    setStyle("-fx-base: " + textNode.getColor() + ";");
+                                    System.out.println("Changed color " + textNode.getColor() + ": " + textNode.getText());
+                                }
+                                super.updateItem(item, empty);
+                            }
+                        };
+                        textFieldTreeCell.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                            @Override
+                            public void handle(MouseEvent event) {
+                                System.out.println("Clicked item");
+                                if (lastClickedItem.lastClickedItem != null) {
+                                    setColorParents(lastClickedItem.lastClickedItem, "#ffffff");
+                                    setColorChildren(lastClickedItem.lastClickedItem, "#ffffff");
+                                }
+                                TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
+                                TreeItem<TextNode> treeItem = source.getTreeItem();
+
+                                setColorParents(treeItem, "red");
+                                setColorChildren(treeItem, "green");
+                                tree.refresh();
+                                lastClickedItem.lastClickedItem = treeItem;
+                            }
+                        });
+                        return textFieldTreeCell;
+                    }
+                });
                 root.getChildren().add(tree);
             } catch (RuntimeException | IOException e) {
                 StringWriter sw = new StringWriter();
@@ -95,14 +134,36 @@ public class JLuaTableTree extends Application {
             }
             alert.showAndWait();
         } else {
-            primaryStage.setScene(new Scene(root, 300, 250));
+            Scene scene = new Scene(root, 300, 250);
+            scene.getStylesheets().add("/tree.css");
+            primaryStage.setScene(scene);
             primaryStage.show();
         }
     }
 
-    private static TreeItem iterateOnTable(LuaTable table) {
+    private void setColorParents(TreeItem<TextNode> item, String color) {
+        if (item != null) {
+            if (item.getParent() != null) {
+                item.getParent().getValue().setColor(color);
+                setColorParents(item.getParent(), color);
+            }
+        }
+    }
+
+    private void setColorChildren(TreeItem<TextNode> item, String color) {
+        if (item != null) {
+            if (item.getChildren() != null) {
+                for (TreeItem<TextNode> child : item.getChildren()) {
+                    child.getValue().setColor(color);
+                    setColorChildren(child, color);
+                }
+            }
+        }
+    }
+
+    private static TreeItem<TextNode> iterateOnTable(LuaTable table) {
         String branchname = table.get("branchname").tojstring();
-        TreeItem treeNode = new TreeItem(branchname);
+        TreeItem<TextNode> treeNode = new TreeItem(new TextNode(branchname));
         boolean collapsed = table.get("state") != LuaValue.NIL ? "COLLAPSED".equals(table.get("state").tojstring()) : false;
         Varargs n;
         LuaValue k = LuaValue.NIL;
@@ -110,13 +171,13 @@ public class JLuaTableTree extends Application {
             if (!(k = n.arg1()).isnil()) {
                 LuaValue v = n.arg(2);
 
-                TreeItem newNode = null;
+                TreeItem<TextNode> newNode = null;
                 if (v.istable()) {
                     LuaTable checktable = v.checktable();
                     newNode = iterateOnTable(checktable);
                 } else if (v.isstring()) {
                     if (!k.checkstring().tojstring().equals("branchname") && !k.checkstring().tojstring().equals("state")) {
-                        newNode = new TreeItem(v.checkstring().tojstring());
+                        newNode = new TreeItem(new TextNode(v.checkstring().tojstring()));
                     }
                 }
                 if (newNode != null) {
