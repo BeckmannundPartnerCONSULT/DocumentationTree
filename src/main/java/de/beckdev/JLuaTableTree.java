@@ -6,9 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -22,10 +20,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JLuaTableTree extends Application {
 
@@ -34,19 +32,20 @@ public class JLuaTableTree extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws URISyntaxException {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Lua Table Tree");
 
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("."));
         File file = fileChooser.showOpenDialog(primaryStage);
 
-        StackPane root = new StackPane();
+        BorderPane root = new BorderPane();
         String message = null;
         String header = null;
         String title = null;
         if (file != null) {
-
+            final Button mark = new Button("Markieren");
+            mark.setDisable(true);
             try {
                 Globals globals = JsePlatform.standardGlobals();
 
@@ -76,17 +75,23 @@ public class JLuaTableTree extends Application {
                         textFieldTreeCell.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent event) {
+                                mark.setDisable(false);
+                                lastClickedItem.markNodes = true;
+                                tree.getRoot().getValue().setColor("#ffffff");
+                                setColorChildren(tree.getRoot(), "#ffffff");
+                                mark.setText("Markieren");
+                                tree.refresh();
                                 System.out.println("Clicked item");
-                                if (lastClickedItem.lastClickedItem != null) {
-                                    setColorParents(lastClickedItem.lastClickedItem, "#ffffff");
-                                    setColorChildren(lastClickedItem.lastClickedItem, "#ffffff");
-                                }
+//                                if (lastClickedItem.lastClickedItem != null) {
+//                                    setColorParents(tree.getRoot(), "#ffffff");
+                                    setColorChildren(tree.getRoot(), "#ffffff");
+//                                }
                                 TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
                                 TreeItem<TextNode> treeItem = source.getTreeItem();
 
-                                treeItem.getValue().setColor("blue");
-                                setColorParents(treeItem, "red");
-                                setColorChildren(treeItem, "green");
+//                                treeItem.getValue().setColor("blue");
+//                                setColorParents(treeItem, "red");
+//                                setColorChildren(treeItem, "green");
                                 tree.refresh();
                                 lastClickedItem.lastClickedItem = treeItem;
                             }
@@ -94,7 +99,32 @@ public class JLuaTableTree extends Application {
                         return textFieldTreeCell;
                     }
                 });
-                root.getChildren().add(tree);
+                mark.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (!lastClickedItem.markNodes) {
+                            lastClickedItem.markNodes = true;
+                            tree.getRoot().getValue().setColor("#ffffff");
+                            setColorChildren(tree.getRoot(), "#ffffff");
+                            mark.setText("Markieren");
+                            tree.refresh();
+                        } else {
+                            lastClickedItem.markNodes = false;
+                            setColorChildren(tree.getRoot(), "#ffffff");
+                            lastClickedItem.lastClickedItem.getValue().setColor("blue");
+                            setColorParents(lastClickedItem.lastClickedItem, "red");
+                            setColorChildren(lastClickedItem.lastClickedItem, "green");
+                            mark.setText("Markierungen löschen");
+                            tree.refresh();
+                        }
+                    }
+                });
+                StackPane center = new StackPane();
+                root.setCenter(center);
+                center.getChildren().add(tree);
+                HBox bottom = new HBox();
+                root.setBottom(bottom);
+                bottom.getChildren().add(mark);
             } catch (RuntimeException | IOException e) {
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);

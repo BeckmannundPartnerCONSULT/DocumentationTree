@@ -9,7 +9,7 @@ public class TextNode {
 
     public TextNode(String text) {
         this.text = text;
-        this.color = "ffffff";
+        this.color = "#ffffff";
     }
 
     public TextNode(String text, String color) {
