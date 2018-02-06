@@ -2,6 +2,7 @@ package de.beckdev;
 
 import com.sun.javafx.scene.control.skin.TreeViewSkin;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -102,6 +103,7 @@ public class JLuaTableTree extends Application {
                             lastClickedItem.markNodes = false;
                             resetTree(tree);
                             refresh(tree);
+                            setColorOtherNodes(tree.getRoot(), lastClickedItem.lastClickedItem, "grey");
                             lastClickedItem.lastClickedItem.getValue().setColor("blue");
                             setColorParents(lastClickedItem.lastClickedItem, "red");
                             setColorChildren(lastClickedItem.lastClickedItem, "green");
@@ -162,6 +164,20 @@ public class JLuaTableTree extends Application {
             scene.getStylesheets().add("/tree.css");
             primaryStage.setScene(scene);
             primaryStage.show();
+        }
+    }
+
+    private void setColorOtherNodes(TreeItem<TextNode> node, TreeItem<TextNode> nodeToSearch, String color) {
+        boolean foundSameNode = false;
+        ObservableList<TreeItem<TextNode>> children = node.getChildren();
+        for (TreeItem<TextNode> child : children) {
+            setColorOtherNodes(child, nodeToSearch, color);
+            if (child.getValue().equals(nodeToSearch.getValue())) {
+                foundSameNode = true;
+            }
+        }
+        if (foundSameNode) {
+            setColorParents(node, color);
         }
     }
 
