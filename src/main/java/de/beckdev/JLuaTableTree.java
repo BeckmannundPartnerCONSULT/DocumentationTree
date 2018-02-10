@@ -65,16 +65,16 @@ public class JLuaTableTree extends Application {
             final Button mark = new Button("Markieren");
             mark.setDisable(true);
             try {
-                Globals globals = JsePlatform.standardGlobals();
-
-                Path input = file.toPath();
-                String script = new String(Files.readAllBytes(input));
-                LuaValue result = globals.load(script);
-                LuaTable table = result.checkfunction().call().checktable();
-
-                Map<String, TextNode> nodes = new HashMap<>();
-                final TreeItem<TextNode> rootItem = iterateOnTable(nodes, table);
-                final TreeView<TextNode> tree = new TreeView<>(rootItem);
+                final TreeView<TextNode> tree = new TreeView<>();
+                final TreeItem<TextNode> rootItem = createTreeFromLuaTable(file);
+                rootItem.addEventHandler(TreeItem.childrenModificationEvent(), new EventHandler<TreeItem.TreeModificationEvent<Object>>() {
+                    @Override
+                    public void handle(TreeItem.TreeModificationEvent<Object> event) {
+                        System.out.println("Collapse!");
+                        resetTree(tree);
+                    }
+                });
+                tree.setRoot(rootItem);
                 final LastClickedItemContainer lastClickedItem = new LastClickedItemContainer();
                 tree.setCellFactory(new Callback<TreeView<TextNode>,TreeCell<TextNode>>() {
                     @Override
@@ -85,7 +85,6 @@ public class JLuaTableTree extends Application {
                                 if (item != null) {
                                     TextNode textNode = (TextNode) item;
                                     setStyle("-fx-base: " + textNode.getColor() + ";");
-                                    // System.out.println("Changed color " + textNode.getColor() + ": " + textNode.getText());
                                 }
                                 super.updateItem(item, empty);
                             }
@@ -93,15 +92,17 @@ public class JLuaTableTree extends Application {
                         textFieldTreeCell.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                             @Override
                             public void handle(MouseEvent event) {
-                                mark.setDisable(false);
-                                lastClickedItem.markNodes = true;
-                                resetTree(tree);
-                                refresh(tree);
-                                mark.setText("Markieren");
                                 TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
+                                if (source.getTreeItem().equals(tree.getSelectionModel().getSelectedItem())) {
+                                    mark.setDisable(false);
+                                    lastClickedItem.markNodes = true;
+                                    resetTree(tree);
+                                    refresh(tree);
+                                    mark.setText("Markieren");
 
-                                refresh(tree);
-                                lastClickedItem.lastClickedItem = source.getTreeItem();
+                                    refresh(tree);
+                                    lastClickedItem.lastClickedItem = source.getTreeItem();
+                                }
                             }
                         });
                         return textFieldTreeCell;
@@ -119,7 +120,7 @@ public class JLuaTableTree extends Application {
                             lastClickedItem.markNodes = false;
                             resetTree(tree);
                             refresh(tree);
-                            setColorOtherNodes(tree.getRoot(), lastClickedItem.lastClickedItem, "grey");
+                            setColorOtherNodes(tree.getRoot(), lastClickedItem.lastClickedItem, "grey", lastClickedItem);
                             lastClickedItem.lastClickedItem.getValue().setColor("blue");
                             setColorParents(lastClickedItem.lastClickedItem, "red");
                             setColorChildren(lastClickedItem.lastClickedItem, "green");
@@ -183,21 +184,34 @@ public class JLuaTableTree extends Application {
         }
     }
 
-    private void setColorOtherNodes(TreeItem<TextNode> node, TreeItem<TextNode> nodeToSearch, String color) {
-        boolean foundSameNode = false;
+    private TreeItem<TextNode> createTreeFromLuaTable(File file) throws IOException {
+        Globals globals = JsePlatform.standardGlobals();
+
+        Path input = file.toPath();
+        String script = new String(Files.readAllBytes(input));
+        LuaValue result = globals.load(script);
+        LuaTable table = result.checkfunction().call().checktable();
+
+        Map<String, TextNode> nodes = new HashMap<>();
+        return iterateOnTable(nodes, table);
+    }
+
+    private void setColorOtherNodes(TreeItem<TextNode> node, TreeItem<TextNode> nodeToSearch, String color, LastClickedItemContainer lastClickedItemContainer) {
         ObservableList<TreeItem<TextNode>> children = node.getChildren();
         for (TreeItem<TextNode> child : children) {
-            setColorOtherNodes(child, nodeToSearch, color);
-            if (child.getValue().equals(nodeToSearch.getValue())) {
-                foundSameNode = true;
+            if (!child.equals(lastClickedItemContainer.lastClickedItem)) {
+                if (!child.getChildren().isEmpty()) {
+                    setColorOtherNodes(child, nodeToSearch, color, lastClickedItemContainer);
+                }
+                if (child.getValue().equals(nodeToSearch.getValue())) {
+                    setColorParents(child, color);
+                }
             }
-        }
-        if (foundSameNode) {
-            setColorParents(node, color);
+
         }
     }
 
-    private void resetTree(TreeView<TextNode> tree) {
+    private static void resetTree(TreeView<TextNode> tree) {
         tree.getRoot().getValue().setColor("#ffffff");
         setColorChildren(tree.getRoot(), "#ffffff");
         setColorParents(tree.getRoot(), "#ffffff");
@@ -207,7 +221,7 @@ public class JLuaTableTree extends Application {
         return tree.getProperties().put(TreeViewSkin.RECREATE, Boolean.TRUE);
     }
 
-    private void setColorParents(TreeItem<TextNode> item, String color) {
+    private static void setColorParents(TreeItem<TextNode> item, String color) {
         if (item != null) {
             if (item.getParent() != null) {
                 item.getParent().getValue().setColor(color);
@@ -216,7 +230,7 @@ public class JLuaTableTree extends Application {
         }
     }
 
-    private void setColorChildren(TreeItem<TextNode> item, String color) {
+    private static void setColorChildren(TreeItem<TextNode> item, String color) {
         if (item != null) {
             if (item.getChildren() != null) {
                 for (TreeItem<TextNode> child : item.getChildren()) {
