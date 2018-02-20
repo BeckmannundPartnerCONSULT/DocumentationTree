@@ -49,7 +49,7 @@
                     <archive>
                         <manifest>
                             <mainClass>
-                                de.beckdev.JLuaTableTree
+                                de.beckdev.DocumentationTree
                             </mainClass></manifest>
                     </archive>
                     <descriptorRefs>

@@ -24,7 +24,7 @@ import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
-import static de.beckdev.JLuaTableTree.toggleButton;
+import static de.beckdev.DocumentationTree.toggleButton;
 import static de.beckdev.TreeUtil.refresh;
 import static de.beckdev.TreeUtil.resetTree;
 

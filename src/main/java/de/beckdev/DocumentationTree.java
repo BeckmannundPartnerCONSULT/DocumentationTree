@@ -30,7 +30,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Path;
 
-public class JLuaTableTree extends Application {
+public class DocumentationTree extends Application {
 
     public static void main(String[] args) {
         launch(args);
@@ -47,7 +47,11 @@ public class JLuaTableTree extends Application {
 
         if (file != null) {
             try {
-                treeLayout = createTreeLayout(new LuaTableDocumentation(file));
+                if (file.getFileName().toString().endsWith("lua")) {
+                    treeLayout = createTreeLayout(new LuaTableDocumentation(file));
+                } else {
+                    throw new RuntimeException("Es werden aktuell nur LuaTable-Dateien unterstützt.");
+                }
             } catch (RuntimeException | IOException e) {
                 String stackTrace = getStackTrace(e);
                 alert = getAlert(stackTrace, "Fehler", "Fehler beim Lesen der Datei");
@@ -139,7 +143,14 @@ public class JLuaTableTree extends Application {
     private Path chooseFile(Stage primaryStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("."));
-        return fileChooser.showOpenDialog(primaryStage).toPath();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Lua-Table", "*.lua"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML", "*.xml"));
+        File file = fileChooser.showOpenDialog(primaryStage);
+        if (file != null) {
+            return file.toPath();
+        } else {
+            return null;
+        }
     }
 
 

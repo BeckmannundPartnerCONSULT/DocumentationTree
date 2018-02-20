@@ -21,7 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 
-import static de.beckdev.JLuaTableTree.toggleButton;
+import static de.beckdev.DocumentationTree.toggleButton;
 import static de.beckdev.TreeUtil.*;
 
 public class EventHandlerToMarkNodes implements EventHandler<MouseEvent> {
