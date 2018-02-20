@@ -106,7 +106,7 @@ public class JLuaTableTree extends Application {
         return alert;
     }
 
-    private Pane createTreeLayout(DocumentationInformation documentation) throws IOException {
+    private Pane createTreeLayout(DocumentationInformation documentation) {
         BorderPane root = new BorderPane();
         final TreeItem<TextNode> rootItem = documentation.getTreeItem();
 
