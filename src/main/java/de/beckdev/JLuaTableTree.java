@@ -16,32 +16,19 @@
 
 package de.beckdev;
 
-import com.sun.javafx.scene.control.skin.TreeViewSkin;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaTable;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.Varargs;
-import org.luaj.vm2.lib.jse.JsePlatform;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
 public class JLuaTableTree extends Application {
 
@@ -53,14 +40,14 @@ public class JLuaTableTree extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("DocumentationTree");
 
-        File file = chooseFile(primaryStage);
+        Path file = chooseFile(primaryStage);
 
         Pane treeLayout = null;
         Alert alert = null;
 
         if (file != null) {
             try {
-                treeLayout = createTreeLayout(file);
+                treeLayout = createTreeLayout(new LuaTableDocumentation(file));
             } catch (RuntimeException | IOException e) {
                 String stackTrace = getStackTrace(e);
                 alert = getAlert(stackTrace, "Fehler", "Fehler beim Lesen der Datei");
@@ -91,7 +78,7 @@ public class JLuaTableTree extends Application {
     }
 
     private Alert getAlert(String message, String header, String title) {
-        Alert alert = null;
+        Alert alert;
         if (message.length() < 100) {
             alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText(message);
@@ -119,9 +106,9 @@ public class JLuaTableTree extends Application {
         return alert;
     }
 
-    private Pane createTreeLayout(File file) throws IOException {
+    private Pane createTreeLayout(DocumentationInformation documentation) throws IOException {
         BorderPane root = new BorderPane();
-        final TreeItem<TextNode> rootItem = createTreeFromLuaTable(file);
+        final TreeItem<TextNode> rootItem = documentation.getTreeItem();
 
         final TreeView<TextNode> tree = new TreeView<>();
         tree.setRoot(rootItem);
@@ -129,8 +116,8 @@ public class JLuaTableTree extends Application {
         mark.setDisable(true);
         final LastClickedItemContainer lastClickedItem = new LastClickedItemContainer();
         lastClickedItem.markedNodes = false;
-        tree.setCellFactory(getCellFactory(tree, mark, lastClickedItem));
-        mark.addEventHandler(MouseEvent.MOUSE_CLICKED, getEventHandlerToMarkNodes(tree, mark, lastClickedItem));
+        tree.setCellFactory(new TreeCellFactory(tree, mark, lastClickedItem));
+        mark.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerToMarkNodes(tree, mark, lastClickedItem));
         StackPane center = new StackPane();
         root.setCenter(center);
         center.getChildren().add(tree);
@@ -141,66 +128,7 @@ public class JLuaTableTree extends Application {
         return root;
     }
 
-    private EventHandler<MouseEvent> getEventHandlerToMarkNodes(final TreeView<TextNode> tree, final Button mark, final LastClickedItemContainer lastClickedItem) {
-        return new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (lastClickedItem.markedNodes) {
-                    lastClickedItem.markedNodes = false;
-                    toggleButton(mark, lastClickedItem.markedNodes);
-                    resetTree(tree);
-                    refresh(tree);
-                } else {
-                    lastClickedItem.markedNodes = true;
-                    toggleButton(mark, lastClickedItem.markedNodes);
-                    resetTree(tree);
-                    refresh(tree);
-                    setColorOtherNodes(tree.getRoot(), lastClickedItem.lastClickedItem, "grey", lastClickedItem);
-                    lastClickedItem.lastClickedItem.getValue().setColor("blue");
-                    setColorParents(lastClickedItem.lastClickedItem, "red");
-                    setColorChildren(lastClickedItem.lastClickedItem, "green");
-                    refresh(tree);
-                }
-            }
-        };
-    }
-
-    private Callback<TreeView<TextNode>, TreeCell<TextNode>> getCellFactory(final TreeView<TextNode> tree, final Button mark, final LastClickedItemContainer lastClickedItem) {
-        return new Callback<TreeView<TextNode>,TreeCell<TextNode>>() {
-            @Override
-            public TreeCell<TextNode> call(final TreeView<TextNode> p) {
-                final TextFieldTreeCell textFieldTreeCell = new TextFieldTreeCell() {
-                    @Override
-                    public void updateItem(Object item, boolean empty) {
-                        if (item != null) {
-                            TextNode textNode = (TextNode) item;
-                            setStyle("-fx-base: " + textNode.getColor() + ";");
-                        }
-                        super.updateItem(item, empty);
-                    }
-                };
-                textFieldTreeCell.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
-                        if (source.getTreeItem().equals(tree.getSelectionModel().getSelectedItem())) {
-                            mark.setDisable(false);
-                            lastClickedItem.markedNodes = false;
-                            resetTree(tree);
-                            refresh(tree);
-                            toggleButton(mark, lastClickedItem.markedNodes);
-
-                            refresh(tree);
-                            lastClickedItem.lastClickedItem = source.getTreeItem();
-                        }
-                    }
-                });
-                return textFieldTreeCell;
-            }
-        };
-    }
-
-    private void toggleButton(Button mark, boolean markedNodes) {
+    static void toggleButton(Button mark, boolean markedNodes) {
         if (markedNodes) {
             mark.setText("Markierungen löschen");
         } else {
@@ -208,127 +136,12 @@ public class JLuaTableTree extends Application {
         }
     }
 
-    private File chooseFile(Stage primaryStage) {
+    private Path chooseFile(Stage primaryStage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("."));
-        return fileChooser.showOpenDialog(primaryStage);
+        return fileChooser.showOpenDialog(primaryStage).toPath();
     }
 
-    private TreeItem<TextNode> createTreeFromLuaTable(File file) throws IOException {
-        Globals globals = JsePlatform.standardGlobals();
 
-        Path input = file.toPath();
-        String script = new String(Files.readAllBytes(input));
-        LuaValue result = globals.load(script);
-        LuaTable table = result.checkfunction().call().checktable();
 
-        Map<String, TextNode> nodes = new HashMap<>();
-        return iterateOverLuaTableEntriesRecursively(nodes, table);
-    }
-
-    private void setColorOtherNodes(TreeItem<TextNode> node, TreeItem<TextNode> nodeToSearch, String color, LastClickedItemContainer lastClickedItemContainer) {
-        ObservableList<TreeItem<TextNode>> children = node.getChildren();
-        for (TreeItem<TextNode> child : children) {
-            if (!child.equals(lastClickedItemContainer.lastClickedItem)) {
-                if (!child.getChildren().isEmpty()) {
-                    setColorOtherNodes(child, nodeToSearch, color, lastClickedItemContainer);
-                }
-                if (child.getValue().equals(nodeToSearch.getValue())) {
-                    setColorParents(child, color);
-                }
-            }
-
-        }
-    }
-
-    private static void resetTree(TreeView<TextNode> tree) {
-        tree.getRoot().getValue().setColor("#ffffff");
-        setColorChildren(tree.getRoot(), "#ffffff");
-        setColorParents(tree.getRoot(), "#ffffff");
-    }
-
-    private Object refresh(TreeView<TextNode> tree) {
-        return tree.getProperties().put(TreeViewSkin.RECREATE, Boolean.TRUE);
-    }
-
-    private static void setColorParents(TreeItem<TextNode> item, String color) {
-        if (item != null) {
-            if (item.getParent() != null) {
-                item.getParent().getValue().setColor(color);
-                setColorParents(item.getParent(), color);
-            }
-        }
-    }
-
-    private static void setColorChildren(TreeItem<TextNode> item, String color) {
-        if (item != null) {
-            if (item.getChildren() != null) {
-                for (TreeItem<TextNode> child : item.getChildren()) {
-                    child.getValue().setColor(color);
-                    setColorChildren(child, color);
-                }
-            }
-        }
-    }
-
-    private static TreeItem<TextNode> iterateOverLuaTableEntriesRecursively(Map<String, TextNode> textNodes, LuaTable table) {
-        String branchname = table.get("branchname").tojstring();
-        if (!textNodes.containsKey(branchname)) {
-            addTextNode(textNodes, branchname);
-        }
-        boolean collapsed = isBranchCollapsed(table);
-        TreeItem<TextNode> treeNode = new TreeItem(textNodes.get(branchname));
-        treeNode.setExpanded(!collapsed);
-        LuaValue lastKey = LuaValue.NIL; // start with first item of table
-        Varargs tableItem;
-        while (!(tableItem = getNextTableItem(table, lastKey)).arg1().isnil()) {
-            if (!(lastKey = tableItem.arg1()).isnil()) {
-                LuaValue value = tableItem.arg(2); // table or string
-                TreeItem<TextNode> newTreeItem = getTextNodeTreeItem(textNodes, lastKey, value);
-                if (newTreeItem != null) {
-                    treeNode.getChildren().add(newTreeItem);
-                }
-            }
-        }
-        return treeNode;
-    }
-
-    /**
-     * Either recursively iterates over a LuaTables entries and return a TreeItem with other TreeItems
-     * or return a single TreeItem (lowest level).
-     *
-     * @param textNodes
-     * @param key
-     * @param value
-     * @return TreeItem based on the entries of LuaTable
-     */
-    private static TreeItem<TextNode> getTextNodeTreeItem(Map<String, TextNode> textNodes, LuaValue key, LuaValue value) {
-        TreeItem<TextNode> newTreeItem = null;
-        if (value.istable()) {
-            LuaTable checktable = value.checktable();
-            newTreeItem = iterateOverLuaTableEntriesRecursively(textNodes, checktable);
-        } else if (value.isstring()) {
-            if (!key.checkstring().tojstring().equals("branchname") && !key.checkstring().tojstring().equals("state")) {
-                String text = value.checkstring().tojstring();
-                if (!textNodes.containsKey(text)) {
-                    addTextNode(textNodes, text);
-                }
-                newTreeItem = new TreeItem(textNodes.get(text));
-            }
-        }
-        return newTreeItem;
-    }
-
-    private static Varargs getNextTableItem(LuaTable table, LuaValue key) {
-        return table.next(key);
-    }
-
-    private static void addTextNode(Map<String, TextNode> nodes, String branchname) {
-        TextNode textNode = new TextNode(branchname);
-        nodes.put(branchname, textNode);
-    }
-
-    private static boolean isBranchCollapsed(LuaTable table) {
-        return table.get("state") != LuaValue.NIL ? "COLLAPSED".equals(table.get("state").tojstring()) : false;
-    }
 }
