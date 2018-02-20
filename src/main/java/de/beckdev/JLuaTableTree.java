@@ -59,10 +59,8 @@ public class JLuaTableTree extends Application {
         Alert alert = null;
 
         if (file != null) {
-            final Button mark = new Button("Markieren");
-            mark.setDisable(true);
             try {
-                treeLayout = createTreeLayout(file, mark);
+                treeLayout = createTreeLayout(file);
             } catch (RuntimeException | IOException e) {
                 String stackTrace = getStackTrace(e);
                 alert = getAlert(stackTrace, "Fehler", "Fehler beim Lesen der Datei");
@@ -121,19 +119,54 @@ public class JLuaTableTree extends Application {
         return alert;
     }
 
-    private Pane createTreeLayout(File file, final Button mark) throws IOException {
+    private Pane createTreeLayout(File file) throws IOException {
         BorderPane root = new BorderPane();
-        final TreeView<TextNode> tree = new TreeView<>();
         final TreeItem<TextNode> rootItem = createTreeFromLuaTable(file);
-//        rootItem.addEventHandler(TreeItem.childrenModificationEvent(), new EventHandler<TreeItem.TreeModificationEvent<Object>>() {
-//            @Override
-//            public void handle(TreeItem.TreeModificationEvent<Object> event) {
-//                resetTree(tree);
-//            }
-//        });
+
+        final TreeView<TextNode> tree = new TreeView<>();
         tree.setRoot(rootItem);
+        final Button mark = new Button("Markieren");
+        mark.setDisable(true);
         final LastClickedItemContainer lastClickedItem = new LastClickedItemContainer();
-        tree.setCellFactory(new Callback<TreeView<TextNode>,TreeCell<TextNode>>() {
+        lastClickedItem.markedNodes = false;
+        tree.setCellFactory(getCellFactory(tree, mark, lastClickedItem));
+        mark.addEventHandler(MouseEvent.MOUSE_CLICKED, getEventHandlerToMarkNodes(tree, mark, lastClickedItem));
+        StackPane center = new StackPane();
+        root.setCenter(center);
+        center.getChildren().add(tree);
+        HBox bottom = new HBox();
+        root.setBottom(bottom);
+        bottom.getChildren().add(mark);
+
+        return root;
+    }
+
+    private EventHandler<MouseEvent> getEventHandlerToMarkNodes(final TreeView<TextNode> tree, final Button mark, final LastClickedItemContainer lastClickedItem) {
+        return new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (lastClickedItem.markedNodes) {
+                    lastClickedItem.markedNodes = false;
+                    toggleButton(mark, lastClickedItem.markedNodes);
+                    resetTree(tree);
+                    refresh(tree);
+                } else {
+                    lastClickedItem.markedNodes = true;
+                    toggleButton(mark, lastClickedItem.markedNodes);
+                    resetTree(tree);
+                    refresh(tree);
+                    setColorOtherNodes(tree.getRoot(), lastClickedItem.lastClickedItem, "grey", lastClickedItem);
+                    lastClickedItem.lastClickedItem.getValue().setColor("blue");
+                    setColorParents(lastClickedItem.lastClickedItem, "red");
+                    setColorChildren(lastClickedItem.lastClickedItem, "green");
+                    refresh(tree);
+                }
+            }
+        };
+    }
+
+    private Callback<TreeView<TextNode>, TreeCell<TextNode>> getCellFactory(final TreeView<TextNode> tree, final Button mark, final LastClickedItemContainer lastClickedItem) {
+        return new Callback<TreeView<TextNode>,TreeCell<TextNode>>() {
             @Override
             public TreeCell<TextNode> call(final TreeView<TextNode> p) {
                 final TextFieldTreeCell textFieldTreeCell = new TextFieldTreeCell() {
@@ -152,10 +185,10 @@ public class JLuaTableTree extends Application {
                         TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
                         if (source.getTreeItem().equals(tree.getSelectionModel().getSelectedItem())) {
                             mark.setDisable(false);
-                            lastClickedItem.markNodes = true;
+                            lastClickedItem.markedNodes = false;
                             resetTree(tree);
                             refresh(tree);
-                            mark.setText("Markieren");
+                            toggleButton(mark, lastClickedItem.markedNodes);
 
                             refresh(tree);
                             lastClickedItem.lastClickedItem = source.getTreeItem();
@@ -164,36 +197,15 @@ public class JLuaTableTree extends Application {
                 });
                 return textFieldTreeCell;
             }
-        });
-        mark.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if (!lastClickedItem.markNodes) {
-                    lastClickedItem.markNodes = true;
-                    resetTree(tree);
-                    mark.setText("Markieren");
-                    refresh(tree);
-                } else {
-                    lastClickedItem.markNodes = false;
-                    resetTree(tree);
-                    refresh(tree);
-                    setColorOtherNodes(tree.getRoot(), lastClickedItem.lastClickedItem, "grey", lastClickedItem);
-                    lastClickedItem.lastClickedItem.getValue().setColor("blue");
-                    setColorParents(lastClickedItem.lastClickedItem, "red");
-                    setColorChildren(lastClickedItem.lastClickedItem, "green");
-                    mark.setText("Markierungen löschen");
-                    refresh(tree);
-                }
-            }
-        });
-        StackPane center = new StackPane();
-        root.setCenter(center);
-        center.getChildren().add(tree);
-        HBox bottom = new HBox();
-        root.setBottom(bottom);
-        bottom.getChildren().add(mark);
+        };
+    }
 
-        return root;
+    private void toggleButton(Button mark, boolean markedNodes) {
+        if (markedNodes) {
+            mark.setText("Markierungen löschen");
+        } else {
+            mark.setText("Markieren");
+        }
     }
 
     private File chooseFile(Stage primaryStage) {
