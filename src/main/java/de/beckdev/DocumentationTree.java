@@ -49,8 +49,8 @@ public class DocumentationTree extends Application {
             try {
                 if (file.getFileName().toString().endsWith("lua")) {
                     treeLayout = createTreeLayout(new LuaTableDocumentation(file));
-                } else {
-                    throw new RuntimeException("Es werden aktuell nur LuaTable-Dateien unterstützt.");
+                } else if (file.getFileName().toString().endsWith("xml")) {
+                    throw new RuntimeException("Es werden aktuell keine XML-Dateien unterstützt.");
                 }
             } catch (RuntimeException | IOException e) {
                 String stackTrace = getStackTrace(e);
