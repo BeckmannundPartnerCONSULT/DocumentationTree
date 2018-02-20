@@ -51,137 +51,155 @@ public class JLuaTableTree extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Lua Table Tree");
+        primaryStage.setTitle("DocumentationTree");
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File("."));
-        File file = fileChooser.showOpenDialog(primaryStage);
+        File file = chooseFile(primaryStage);
 
-        BorderPane root = new BorderPane();
-        String message = null;
-        String header = null;
-        String title = null;
+        Pane treeLayout = null;
+        Alert alert = null;
+
         if (file != null) {
             final Button mark = new Button("Markieren");
             mark.setDisable(true);
             try {
-                final TreeView<TextNode> tree = new TreeView<>();
-                final TreeItem<TextNode> rootItem = createTreeFromLuaTable(file);
-                rootItem.addEventHandler(TreeItem.childrenModificationEvent(), new EventHandler<TreeItem.TreeModificationEvent<Object>>() {
-                    @Override
-                    public void handle(TreeItem.TreeModificationEvent<Object> event) {
-                        System.out.println("Collapse!");
-                        resetTree(tree);
-                    }
-                });
-                tree.setRoot(rootItem);
-                final LastClickedItemContainer lastClickedItem = new LastClickedItemContainer();
-                tree.setCellFactory(new Callback<TreeView<TextNode>,TreeCell<TextNode>>() {
-                    @Override
-                    public TreeCell<TextNode> call(final TreeView<TextNode> p) {
-                        final TextFieldTreeCell textFieldTreeCell = new TextFieldTreeCell() {
-                            @Override
-                            public void updateItem(Object item, boolean empty) {
-                                if (item != null) {
-                                    TextNode textNode = (TextNode) item;
-                                    setStyle("-fx-base: " + textNode.getColor() + ";");
-                                }
-                                super.updateItem(item, empty);
-                            }
-                        };
-                        textFieldTreeCell.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                            @Override
-                            public void handle(MouseEvent event) {
-                                TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
-                                if (source.getTreeItem().equals(tree.getSelectionModel().getSelectedItem())) {
-                                    mark.setDisable(false);
-                                    lastClickedItem.markNodes = true;
-                                    resetTree(tree);
-                                    refresh(tree);
-                                    mark.setText("Markieren");
-
-                                    refresh(tree);
-                                    lastClickedItem.lastClickedItem = source.getTreeItem();
-                                }
-                            }
-                        });
-                        return textFieldTreeCell;
-                    }
-                });
-                mark.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        if (!lastClickedItem.markNodes) {
-                            lastClickedItem.markNodes = true;
-                            resetTree(tree);
-                            mark.setText("Markieren");
-                            refresh(tree);
-                        } else {
-                            lastClickedItem.markNodes = false;
-                            resetTree(tree);
-                            refresh(tree);
-                            setColorOtherNodes(tree.getRoot(), lastClickedItem.lastClickedItem, "grey", lastClickedItem);
-                            lastClickedItem.lastClickedItem.getValue().setColor("blue");
-                            setColorParents(lastClickedItem.lastClickedItem, "red");
-                            setColorChildren(lastClickedItem.lastClickedItem, "green");
-                            mark.setText("Markierungen löschen");
-                            refresh(tree);
-                        }
-                    }
-                });
-                StackPane center = new StackPane();
-                root.setCenter(center);
-                center.getChildren().add(tree);
-                HBox bottom = new HBox();
-                root.setBottom(bottom);
-                bottom.getChildren().add(mark);
+                treeLayout = createTreeLayout(file, mark);
             } catch (RuntimeException | IOException e) {
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
-                e.printStackTrace(pw);
-
-                title = "Fehler";
-                header = "Fehler beim Lesen der Datei";
-                message = sw.toString();
+                String stackTrace = getStackTrace(e);
+                alert = getAlert(stackTrace, "Fehler", "Fehler beim Lesen der Datei");
             }
         } else {
-            title = "Hinweis";
-            header = "Keine Datei";
-            message = "Es wurde keine Datei ausgewählt.";
+            alert = getAlert("Es wurde keine Datei ausgewählt.", "Hinweis", "Keine Datei");
         }
 
-        if (message != null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(title);
-            alert.setHeaderText(header);
-            if (message.length() < 100) {
-                alert.setContentText(message);
-            } else {
-                alert.setAlertType(Alert.AlertType.ERROR);
-                Label label = new Label("Eine Ausnahme ist aufgetreten:");
-                TextArea textArea = new TextArea(message);
-                textArea.setEditable(false);
-                textArea.setWrapText(true);
+        if (treeLayout == null) {
+            alert = getAlert("Tree konnte nicht erzeugt werden.", "Fehler beim Erzeugen des Tress", "Fehler");
+        }
 
-                textArea.setMaxWidth(Double.MAX_VALUE);
-                textArea.setMaxHeight(Double.MAX_VALUE);
-                GridPane.setVgrow(textArea, Priority.ALWAYS);
-                GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-                GridPane expContent = new GridPane();
-                expContent.setMaxWidth(Double.MAX_VALUE);
-                expContent.add(label, 0, 0);
-                expContent.add(textArea, 0, 1);
-
-                alert.getDialogPane().setExpandableContent(expContent);
-            }
+        if (alert != null) {
             alert.showAndWait();
-        } else {
-            Scene scene = new Scene(root, 300, 250);
+        } else if (treeLayout != null) {
+            Scene scene = new Scene(treeLayout, 300, 250);
             scene.getStylesheets().add("/tree.css");
             primaryStage.setScene(scene);
             primaryStage.show();
         }
+    }
+
+    private String getStackTrace(Exception e) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString();
+    }
+
+    private Alert getAlert(String message, String header, String title) {
+        Alert alert = null;
+        if (message.length() < 100) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText(message);
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            Label label = new Label("Eine Ausnahme ist aufgetreten:");
+            TextArea textArea = new TextArea(message);
+            textArea.setEditable(false);
+            textArea.setWrapText(true);
+
+            textArea.setMaxWidth(Double.MAX_VALUE);
+            textArea.setMaxHeight(Double.MAX_VALUE);
+            GridPane.setVgrow(textArea, Priority.ALWAYS);
+            GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+            GridPane expContent = new GridPane();
+            expContent.setMaxWidth(Double.MAX_VALUE);
+            expContent.add(label, 0, 0);
+            expContent.add(textArea, 0, 1);
+
+            alert.getDialogPane().setExpandableContent(expContent);
+        }
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        return alert;
+    }
+
+    private Pane createTreeLayout(File file, final Button mark) throws IOException {
+        BorderPane root = new BorderPane();
+        final TreeView<TextNode> tree = new TreeView<>();
+        final TreeItem<TextNode> rootItem = createTreeFromLuaTable(file);
+//        rootItem.addEventHandler(TreeItem.childrenModificationEvent(), new EventHandler<TreeItem.TreeModificationEvent<Object>>() {
+//            @Override
+//            public void handle(TreeItem.TreeModificationEvent<Object> event) {
+//                resetTree(tree);
+//            }
+//        });
+        tree.setRoot(rootItem);
+        final LastClickedItemContainer lastClickedItem = new LastClickedItemContainer();
+        tree.setCellFactory(new Callback<TreeView<TextNode>,TreeCell<TextNode>>() {
+            @Override
+            public TreeCell<TextNode> call(final TreeView<TextNode> p) {
+                final TextFieldTreeCell textFieldTreeCell = new TextFieldTreeCell() {
+                    @Override
+                    public void updateItem(Object item, boolean empty) {
+                        if (item != null) {
+                            TextNode textNode = (TextNode) item;
+                            setStyle("-fx-base: " + textNode.getColor() + ";");
+                        }
+                        super.updateItem(item, empty);
+                    }
+                };
+                textFieldTreeCell.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
+                        if (source.getTreeItem().equals(tree.getSelectionModel().getSelectedItem())) {
+                            mark.setDisable(false);
+                            lastClickedItem.markNodes = true;
+                            resetTree(tree);
+                            refresh(tree);
+                            mark.setText("Markieren");
+
+                            refresh(tree);
+                            lastClickedItem.lastClickedItem = source.getTreeItem();
+                        }
+                    }
+                });
+                return textFieldTreeCell;
+            }
+        });
+        mark.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (!lastClickedItem.markNodes) {
+                    lastClickedItem.markNodes = true;
+                    resetTree(tree);
+                    mark.setText("Markieren");
+                    refresh(tree);
+                } else {
+                    lastClickedItem.markNodes = false;
+                    resetTree(tree);
+                    refresh(tree);
+                    setColorOtherNodes(tree.getRoot(), lastClickedItem.lastClickedItem, "grey", lastClickedItem);
+                    lastClickedItem.lastClickedItem.getValue().setColor("blue");
+                    setColorParents(lastClickedItem.lastClickedItem, "red");
+                    setColorChildren(lastClickedItem.lastClickedItem, "green");
+                    mark.setText("Markierungen löschen");
+                    refresh(tree);
+                }
+            }
+        });
+        StackPane center = new StackPane();
+        root.setCenter(center);
+        center.getChildren().add(tree);
+        HBox bottom = new HBox();
+        root.setBottom(bottom);
+        bottom.getChildren().add(mark);
+
+        return root;
+    }
+
+    private File chooseFile(Stage primaryStage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(new File("."));
+        return fileChooser.showOpenDialog(primaryStage);
     }
 
     private TreeItem<TextNode> createTreeFromLuaTable(File file) throws IOException {
@@ -193,7 +211,7 @@ public class JLuaTableTree extends Application {
         LuaTable table = result.checkfunction().call().checktable();
 
         Map<String, TextNode> nodes = new HashMap<>();
-        return iterateOnTable(nodes, table);
+        return iterateOverLuaTableEntriesRecursively(nodes, table);
     }
 
     private void setColorOtherNodes(TreeItem<TextNode> node, TreeItem<TextNode> nodeToSearch, String color, LastClickedItemContainer lastClickedItemContainer) {
@@ -241,41 +259,64 @@ public class JLuaTableTree extends Application {
         }
     }
 
-    private static TreeItem<TextNode> iterateOnTable(Map<String, TextNode> nodes, LuaTable table) {
+    private static TreeItem<TextNode> iterateOverLuaTableEntriesRecursively(Map<String, TextNode> textNodes, LuaTable table) {
         String branchname = table.get("branchname").tojstring();
-        if (!nodes.containsKey(branchname)) {
-            TextNode textNode = new TextNode(branchname);
-            nodes.put(branchname, textNode);
+        if (!textNodes.containsKey(branchname)) {
+            addTextNode(textNodes, branchname);
         }
-        TreeItem<TextNode> treeNode = new TreeItem(nodes.get(branchname));
-        boolean collapsed = table.get("state") != LuaValue.NIL ? "COLLAPSED".equals(table.get("state").tojstring()) : false;
-        Varargs n;
-        LuaValue k = LuaValue.NIL;
-        while (!(n = table.next(k)).arg1().isnil()) {
-            if (!(k = n.arg1()).isnil()) {
-                LuaValue v = n.arg(2);
-
-                TreeItem<TextNode> newNode = null;
-                if (v.istable()) {
-                    LuaTable checktable = v.checktable();
-                    newNode = iterateOnTable(nodes, checktable);
-                } else if (v.isstring()) {
-                    if (!k.checkstring().tojstring().equals("branchname") && !k.checkstring().tojstring().equals("state")) {
-                        String text = v.checkstring().tojstring();
-                        if (!nodes.containsKey(text)) {
-                            System.out.println(text);
-                            TextNode textNode = new TextNode(text);
-                            nodes.put(text, textNode);
-                        }
-                        newNode = new TreeItem(nodes.get(text));
-                    }
-                }
-                if (newNode != null) {
-                    treeNode.getChildren().add(newNode);
+        boolean collapsed = isBranchCollapsed(table);
+        TreeItem<TextNode> treeNode = new TreeItem(textNodes.get(branchname));
+        treeNode.setExpanded(!collapsed);
+        LuaValue lastKey = LuaValue.NIL; // start with first item of table
+        Varargs tableItem;
+        while (!(tableItem = getNextTableItem(table, lastKey)).arg1().isnil()) {
+            if (!(lastKey = tableItem.arg1()).isnil()) {
+                LuaValue value = tableItem.arg(2); // table or string
+                TreeItem<TextNode> newTreeItem = getTextNodeTreeItem(textNodes, lastKey, value);
+                if (newTreeItem != null) {
+                    treeNode.getChildren().add(newTreeItem);
                 }
             }
         }
-        treeNode.setExpanded(!collapsed);
         return treeNode;
+    }
+
+    /**
+     * Either recursively iterates over a LuaTables entries and return a TreeItem with other TreeItems
+     * or return a single TreeItem (lowest level).
+     *
+     * @param textNodes
+     * @param key
+     * @param value
+     * @return TreeItem based on the entries of LuaTable
+     */
+    private static TreeItem<TextNode> getTextNodeTreeItem(Map<String, TextNode> textNodes, LuaValue key, LuaValue value) {
+        TreeItem<TextNode> newTreeItem = null;
+        if (value.istable()) {
+            LuaTable checktable = value.checktable();
+            newTreeItem = iterateOverLuaTableEntriesRecursively(textNodes, checktable);
+        } else if (value.isstring()) {
+            if (!key.checkstring().tojstring().equals("branchname") && !key.checkstring().tojstring().equals("state")) {
+                String text = value.checkstring().tojstring();
+                if (!textNodes.containsKey(text)) {
+                    addTextNode(textNodes, text);
+                }
+                newTreeItem = new TreeItem(textNodes.get(text));
+            }
+        }
+        return newTreeItem;
+    }
+
+    private static Varargs getNextTableItem(LuaTable table, LuaValue key) {
+        return table.next(key);
+    }
+
+    private static void addTextNode(Map<String, TextNode> nodes, String branchname) {
+        TextNode textNode = new TextNode(branchname);
+        nodes.put(branchname, textNode);
+    }
+
+    private static boolean isBranchCollapsed(LuaTable table) {
+        return table.get("state") != LuaValue.NIL ? "COLLAPSED".equals(table.get("state").tojstring()) : false;
     }
 }
