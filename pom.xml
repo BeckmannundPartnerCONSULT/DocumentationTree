@@ -21,7 +21,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.beckdev</groupId>
-    <artifactId>jluatree</artifactId>
+    <artifactId>documentationtree</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 

@@ -1,4 +1,4 @@
-= JLuaTree
+= JLuaTree - UserGuide
 Jens Kötterheinrich <jkh@beckmann-partner.de>
 2017-10-24
 :appversion: 1.0
@@ -8,16 +8,16 @@ Jens Kötterheinrich <jkh@beckmann-partner.de>
 :pdf-page-size: A4
 
 == Voraussetzung
-Um die Anwendung starten zu können, wird mindestens eine Java-Version 8 vorausgesetzt.
+Um die Anwendung starten zu können, wird mindestens Java-Version 7 vorausgesetzt.
 
 == Start
-Die Anwendung kann mit einem Doppelklick auf die Jar-Datei gestartet werden.
+Die Anwendung kann mit einem (Doppel-)Klick auf die Jar-Datei gestartet werden.
 
 Alternativ lässt sich die Anwendung auch über eine Konsoleneingabe starten:
 ----
-java -jar jluatree-<Version>-jar-with-dependencies.jar
+java -jar documentationtree-<Version>-jar-with-dependencies.jar
 ----
-Dazu muss jluatree-<Version>-jar-with-dependencies.jar im aktuellen Verzeichnis liegen.
+Dazu muss documentationtree-<Version>-jar-with-dependencies.jar im aktuellen Verzeichnis liegen.
 
 Beim Start erscheint folgender Dialog:
 
@@ -35,6 +35,6 @@ return <table>
 zurückgegeben wird.
 
 == Darstellung
-Wurde eine nach dem Schema valide XML-Datei geöffnet, wird der Inhalt der Datei wie folgt angezeigt:
+Kann die Datei gelesen und geöffnet werden, wird der Inhalt der Datei wie folgt angezeigt:
 
 image::VollerBaum.png[Anzeige der Daten aus einer Lua-Table-Datei]
