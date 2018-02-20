@@ -19,6 +19,6 @@ package de.beckdev;
 import javafx.scene.control.TreeItem;
 
 public class LastClickedItemContainer {
-    TreeItem<TextNode> lastClickedItem;
+    TreeItem<TextNode> item;
     boolean markedNodes;
 }

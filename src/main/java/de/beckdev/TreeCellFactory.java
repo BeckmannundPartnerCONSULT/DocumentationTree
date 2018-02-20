@@ -63,7 +63,7 @@ public class TreeCellFactory implements Callback<TreeView<TextNode>,TreeCell<Tex
                     toggleButton(mark, lastClickedItem.markedNodes);
 
                     refresh(tree);
-                    lastClickedItem.lastClickedItem = source.getTreeItem();
+                    lastClickedItem.item = source.getTreeItem();
                 }
             }
         });

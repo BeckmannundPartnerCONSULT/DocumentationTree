@@ -25,7 +25,7 @@ public class TreeUtil {
     public static void setColorOtherNodes(TreeItem<TextNode> node, TreeItem<TextNode> nodeToSearch, String color, LastClickedItemContainer lastClickedItemContainer) {
         ObservableList<TreeItem<TextNode>> children = node.getChildren();
         for (TreeItem<TextNode> child : children) {
-            if (!child.equals(lastClickedItemContainer.lastClickedItem)) {
+            if (!child.equals(lastClickedItemContainer.item)) {
                 if (!child.getChildren().isEmpty()) {
                     setColorOtherNodes(child, nodeToSearch, color, lastClickedItemContainer);
                 }

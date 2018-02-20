@@ -47,10 +47,10 @@ public class EventHandlerToMarkNodes implements EventHandler<MouseEvent> {
             toggleButton(mark, lastClickedItem.markedNodes);
             resetTree(tree);
             refresh(tree);
-            setColorOtherNodes(tree.getRoot(), lastClickedItem.lastClickedItem, "grey", lastClickedItem);
-            lastClickedItem.lastClickedItem.getValue().setColor("blue");
-            setColorParents(lastClickedItem.lastClickedItem, "red");
-            setColorChildren(lastClickedItem.lastClickedItem, "green");
+            setColorOtherNodes(tree.getRoot(), lastClickedItem.item, "grey", lastClickedItem);
+            lastClickedItem.item.getValue().setColor("blue");
+            setColorParents(lastClickedItem.item, "red");
+            setColorChildren(lastClickedItem.item, "green");
             refresh(tree);
         }
     }
