@@ -1,5 +1,21 @@
+= {appname}
+Jens Kötterheinrich <jkh@beckmann-partner.de>
+2018-02-20
+:appversion: 1.0
+:source-highlighter: coderay
+:pdf-page-size: A4
+:appname: DocumentationTree
+:lang: de
+:sectnums:
+
+== Beschreibung
+Die Dokumentation von temporären IDV-Datenbanken soll durch Tool-Unterstützung beschleunigt werden.
+{appname} soll dabei die Darstellung von bisher manuell erzeugter Dokumentation in Form von LuaTables (später auch XML) als Baumstruktur übernehmen.
+Auch zu Analysezwecken ist die Anwendung durch Markierung und Einfärbung von Knoten nutzbar.
+
+== Dokumentation
 Folgende Dokumente zur link:documentation[Dokumentation] stehen zur Verfügung:
 
-include::documentation/UserGuide.adoc[Benutzerhandbuch]
+link:documentation/UserGuide.adoc[Benutzerhandbuch]
 
-include::documentation/DV-Konzept.adoc[DV-Konzept]
+link:documentation/DV-Konzept.adoc[DV-Konzept]
