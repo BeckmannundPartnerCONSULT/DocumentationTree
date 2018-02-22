@@ -1,4 +1,5 @@
-link:documentation[Documentation]
+Folgende Dokumente zur link:documentation[Dokumentation] stehen zur Verfügung:
 
-include::documentation/UserGuide.adoc[]
-include::documentation/DV-Konzept.adoc[]
+include::documentation/UserGuide.adoc[Benutzerhandbuch]
+
+include::documentation/DV-Konzept.adoc[DV-Konzept]
