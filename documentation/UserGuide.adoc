@@ -1,11 +1,13 @@
-= JLuaTree - UserGuide
+= {appname} - UserGuide
 Jens Kötterheinrich <jkh@beckmann-partner.de>
-2017-10-24
+2018-02-20
 :appversion: 1.0
-:doctype: book
 :source-highlighter: coderay
 :listing-caption: Listing
 :pdf-page-size: A4
+:appname: DocumentationTree
+:lang: de
+:sectnums:
 
 == Voraussetzung
 Um die Anwendung starten zu können, wird mindestens Java-Version 7 vorausgesetzt.
