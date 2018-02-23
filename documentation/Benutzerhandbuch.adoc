@@ -1,4 +1,4 @@
-= {appname} - UserGuide
+= {appname} - Benutzerhandbuch
 Jens Kötterheinrich <jkh@beckmann-partner.de>
 2018-02-20
 :appversion: 1.0
