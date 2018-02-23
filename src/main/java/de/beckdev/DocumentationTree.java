@@ -60,8 +60,8 @@ public class DocumentationTree extends Application {
             alert = getAlert("Es wurde keine Datei ausgewählt.", "Hinweis", "Keine Datei");
         }
 
-        if (treeLayout == null) {
-            alert = getAlert("Tree konnte nicht erzeugt werden.", "Fehler beim Erzeugen des Tress", "Fehler");
+        if (treeLayout == null && alert == null) {
+            alert = getAlert("Tree konnte nicht erzeugt werden.", "Fehler beim Erzeugen des Trees", "Fehler");
         }
 
         if (alert != null) {
