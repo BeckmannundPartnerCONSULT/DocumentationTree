@@ -21,8 +21,7 @@ import java.util.Objects;
 public class TextNode {
     private String text;
     private String color;
-
-
+    
     public TextNode(String text) {
         this.text = text;
         this.color = "#ffffff";
@@ -65,7 +64,6 @@ public class TextNode {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(text, color);
     }
 }
