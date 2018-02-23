@@ -37,6 +37,19 @@ return <table>
 zurückgegeben wird.
 
 == Darstellung
+=== Datei öffnen
 Kann die Datei gelesen und geöffnet werden, wird der Inhalt der Datei wie folgt angezeigt:
 
 image::VollerBaum.png[Anzeige der Daten aus einer Lua-Table-Datei]
+
+=== Knoten markieren
+Beim Klick auf den Button "Markieren" werden Knoten nach folgenden Regeln gefärbt:name: value
+
+1. Der ausgewählte Knoten wird in blau gefärbt.
+2. Knoten, deren Text mit dem des ausgewählten Knoten identisch sind, werden blau gefärbt.
+3. Knoten über dem ausgewählten Knoten werden rot gefärbt; Knoten über den Knoten von 2. werden grau gefärbt.
+4. Knoten unter dem ausgewählten Knoten werden grün gefärbt.
+
+image::GefaerbteKnoten.png[Gefärbte Knoten]
+
+Durch einen Klick auf den Button "Markierungen löschen" werden alle gefärbten Knoten in ihren Ursprungszustand zurückgesetzt.
