@@ -50,7 +50,7 @@ public class LuaTableDocumentation implements DocumentationInformation {
         return items;
     }
 
-    private static TreeItem<TextNode> iterateOverLuaTableEntriesRecursively(Map<String, TextNode> textNodes, LuaTable table) {
+    private TreeItem<TextNode> iterateOverLuaTableEntriesRecursively(Map<String, TextNode> textNodes, LuaTable table) {
         String branchname = table.get("branchname").tojstring();
         if (!textNodes.containsKey(branchname)) {
             addTextNode(textNodes, branchname);
@@ -81,7 +81,7 @@ public class LuaTableDocumentation implements DocumentationInformation {
      * @param value
      * @return TreeItem based on the entries of LuaTable
      */
-    private static TreeItem<TextNode> getTextNodeTreeItem(Map<String, TextNode> textNodes, LuaValue key, LuaValue value) {
+    private TreeItem<TextNode> getTextNodeTreeItem(Map<String, TextNode> textNodes, LuaValue key, LuaValue value) {
         TreeItem<TextNode> newTreeItem = null;
         if (value.istable()) {
             LuaTable checktable = value.checktable();
@@ -98,16 +98,16 @@ public class LuaTableDocumentation implements DocumentationInformation {
         return newTreeItem;
     }
 
-    private static Varargs getNextTableItem(LuaTable table, LuaValue key) {
+    private Varargs getNextTableItem(LuaTable table, LuaValue key) {
         return table.next(key);
     }
 
-    private static void addTextNode(Map<String, TextNode> nodes, String branchname) {
+    private void addTextNode(Map<String, TextNode> nodes, String branchname) {
         TextNode textNode = new TextNode(branchname);
         nodes.put(branchname, textNode);
     }
 
-    private static boolean isBranchCollapsed(LuaTable table) {
+    private boolean isBranchCollapsed(LuaTable table) {
         return table.get("state") != LuaValue.NIL ? "COLLAPSED".equals(table.get("state").tojstring()) : false;
     }
 }
