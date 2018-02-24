@@ -51,20 +51,17 @@ public class TreeCellFactory implements Callback<TreeView<TextNode>,TreeCell<Tex
                 super.updateItem(item, empty);
             }
         };
-        textFieldTreeCell.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
-                if (source.getTreeItem().equals(tree.getSelectionModel().getSelectedItem())) {
-                    mark.setDisable(false);
-                    lastClickedItem.markedNodes = false;
-                    resetTree(tree);
-                    refresh(tree);
-                    toggleButton(mark, lastClickedItem.markedNodes);
+        textFieldTreeCell.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
+            TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
+            if (source.getTreeItem().equals(tree.getSelectionModel().getSelectedItem())) {
+                mark.setDisable(false);
+                lastClickedItem.markedNodes = false;
+                resetTree(tree);
+                refresh(tree);
+                toggleButton(mark, lastClickedItem.markedNodes);
 
-                    refresh(tree);
-                    lastClickedItem.item = source.getTreeItem();
-                }
+                refresh(tree);
+                lastClickedItem.item = source.getTreeItem();
             }
         });
         return textFieldTreeCell;

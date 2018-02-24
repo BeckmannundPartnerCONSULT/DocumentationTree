@@ -16,7 +16,6 @@
 
 package de.beckdev;
 
-import com.sun.javafx.scene.control.skin.TreeViewSkin;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -43,8 +42,8 @@ public class TreeUtil {
         setColorParents(tree.getRoot(), "#ffffff");
     }
 
-    public static Object refresh(TreeView<TextNode> tree) {
-        return tree.getProperties().put(TreeViewSkin.RECREATE, Boolean.TRUE);
+    public static void refresh(TreeView<TextNode> tree) {
+        tree.refresh();
     }
 
     public static void setColorParents(TreeItem<TextNode> item, String color) {
