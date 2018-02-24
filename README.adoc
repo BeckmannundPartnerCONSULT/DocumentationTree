@@ -16,6 +16,6 @@ Auch zu Analysezwecken ist die Anwendung durch Markierung und Einfärbung von Kn
 == Dokumentation
 Folgende Dokumente zur link:documentation[Dokumentation] stehen zur Verfügung:
 
-link:documentation/UserGuide.adoc[Benutzerhandbuch]
+link:documentation/Benutzerhandbuch.adoc[Benutzerhandbuch]
 
 link:documentation/DV-Konzept.adoc[DV-Konzept]
