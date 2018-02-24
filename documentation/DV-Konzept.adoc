@@ -26,9 +26,9 @@ Mit diesem Dokument soll der Leser in die Lage versetzt werden,
 
 == Übersicht
 Die Anwendung {appname} basiert auf der Java Standard Edition.
-Es wird mindestens die Version 7 vorausgesetzt.
+Es wird mindestens die Version 8 vorausgesetzt.
 Bei der Anwendung handelt es sich um eine JavaFX-Anwendung.
-Sie lässt sich mit einer Java Runtime (>= Version 7) starten.
+Sie lässt sich mit einer Java Runtime (>= Version 8u60) starten.
 
 == Funktionalität
 Die Anwendung stellt folgende Funktionalitäten bereit:
@@ -125,6 +125,10 @@ image::VollerBaum.png[Anzeige einer Datei als Baum]
 <<<
 === Gefärbte Knoten
 image::GefaerbteKnoten.png[Gefärbte Knoten]
+
+<<<
+=== Gefärbte Knoten mit Unterknoten
+image::GefaerbteKnotenMitUnterknoten.png[Gefärbte Knoten mit Unterknoten]
 
 <<<
 === Fehlermeldung

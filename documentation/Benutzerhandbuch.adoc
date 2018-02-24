@@ -10,7 +10,7 @@ Jens Kötterheinrich <jkh@beckmann-partner.de>
 :sectnums:
 
 == Voraussetzung
-Um die Anwendung starten zu können, wird mindestens Java-Version 7 vorausgesetzt.
+Um die Anwendung starten zu können, wird mindestens Java-Version 8 (>= 8u60) vorausgesetzt.
 
 == Start
 Die Anwendung kann mit einem (Doppel-)Klick auf die Jar-Datei gestartet werden.
