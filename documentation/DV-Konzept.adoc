@@ -29,11 +29,12 @@ Die Anwendung {appname} basiert auf der Java Standard Edition.
 Es wird mindestens die Version 8 vorausgesetzt.
 Bei der Anwendung handelt es sich um eine JavaFX-Anwendung.
 Sie lässt sich mit einer Java Runtime (>= Version 8u60) starten.
+Alle fachlichen Vorgaben wurden durch Dr. Bruno Kaiser definiert.
 
 == Funktionalität
 Die Anwendung stellt folgende Funktionalitäten bereit:
 
-- Öffnen und Parsen einer Datei mit LuaTable (später auch XML)
+- Öffnen und Parsen einer Datei mit LuaTable
 - Darstellung als Baumstruktur
 - Markieren von Knoten in unterschiedlichen Farben zur schnellen Übersicht und Analyse
 
@@ -59,7 +60,7 @@ return example
 === Ablauf
 ==== Auswahl einer Datei
 Nach dem Start der Anwendung wird ein Dialog angezeigt, um eine Datei auszuwählen.
-Die erlaubten Endungen der zu öffnenden Dateien sind _.lua_ und _.xml_.
+Die erlaubten Endung der zu öffnenden Dateien ist _.lua_.
 
 ==== Parsen einer ausgewählten Datei
 Mit Hilfe des Frameworks
@@ -108,6 +109,7 @@ Wenn ein Knoten ausgewählt wurde, sollen Knoten nach folgenden Regeln gefärbt 
 2. Knoten, deren Text mit dem des ausgewählten Knoten identisch sind, werden blau gefärbt.
 3. Knoten über dem ausgewählten Knoten werden rot gefärbt; Knoten über den Knoten von 2. werden grau gefärbt.
 4. Knoten unter dem ausgewählten Knoten werden grün gefärbt.
+5. Knoten, die mit den Knoten unter 4. identisch sind, werden ebenfalls grün markiert.
 
 ==== Fehlerbehandlung
 Beim Öffnen einer Datei werden mögliche Fehler abgefangen und in einem Fehlerdialog dargestellt.
