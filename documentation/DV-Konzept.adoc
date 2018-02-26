@@ -60,7 +60,7 @@ return example
 === Ablauf
 ==== Auswahl einer Datei
 Nach dem Start der Anwendung wird ein Dialog angezeigt, um eine Datei auszuwählen.
-Die erlaubten Endung der zu öffnenden Dateien ist _.lua_.
+Die erlaubte Endung der zu öffnenden Dateien ist _.lua_.
 
 ==== Parsen einer ausgewählten Datei
 Mit Hilfe des Frameworks

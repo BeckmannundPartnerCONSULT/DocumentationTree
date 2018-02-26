@@ -49,7 +49,9 @@ Beim Klick auf den Button "Markieren" werden Knoten nach folgenden Regeln gefär
 2. Knoten, deren Text mit dem des ausgewählten Knoten identisch sind, werden blau gefärbt.
 3. Knoten über dem ausgewählten Knoten werden rot gefärbt; Knoten über den Knoten von 2. werden grau gefärbt.
 4. Knoten unter dem ausgewählten Knoten werden grün gefärbt.
+5. Knoten, die mit den Knoten unter 4. identisch sind, werden ebenfalls grün markiert.
 
 image::GefaerbteKnoten.png[Gefärbte Knoten]
+image::GefaerbteKnotenMitUnterknoten.png[Gefärbte Knoten mit Unterknoten]
 
 Durch einen Klick auf den Button "Markierungen löschen" werden alle gefärbten Knoten in ihren Ursprungszustand zurückgesetzt.
