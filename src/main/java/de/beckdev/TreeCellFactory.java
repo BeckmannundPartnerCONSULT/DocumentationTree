@@ -16,7 +16,6 @@
 
 package de.beckdev;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
