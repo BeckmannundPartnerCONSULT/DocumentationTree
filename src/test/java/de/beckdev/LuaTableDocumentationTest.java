@@ -19,7 +19,8 @@ public class LuaTableDocumentationTest {
         TreeItem<TextNode> treeItem = documentation.getTreeItem();
 
         assertNotNull(treeItem);
-        assertEquals("Datenbankzusammenhänge objektorientiert", treeItem.getValue().getText());
-        assertEquals("#ffffff", treeItem.getValue().getColor());
+        TextNode node = treeItem.getValue();
+        assertEquals("Datenbankzusammenhänge objektorientiert", node.getText());
+        assertEquals("#ffffff", node.getColor());
     }
 }
