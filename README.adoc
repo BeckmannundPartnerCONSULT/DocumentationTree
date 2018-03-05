@@ -8,10 +8,15 @@ Jens Kötterheinrich <jkh@beckmann-partner.de>
 :lang: de
 :sectnums:
 
+
 == Beschreibung
 Die Dokumentation von temporären IDV-Datenbanken soll durch Tool-Unterstützung beschleunigt werden.
 {appname} soll dabei die Darstellung von bisher manuell erzeugter Dokumentation in Form von LuaTables (später auch XML) als Baumstruktur übernehmen.
 Auch zu Analysezwecken ist die Anwendung durch Markierung und Einfärbung von Knoten nutzbar.
+
+*Idee*: Dr. Bruno Kaiser
+
+*Umsetzung*: https://github.com/cybi[Jens Kötterheinrich]
 
 == Dokumentation
 Folgende Dokumente zur link:documentation[Dokumentation] stehen zur Verfügung:
