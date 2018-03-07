@@ -10,8 +10,8 @@ Jens Kötterheinrich <jkh@beckmann-partner.de>
 
 
 == Beschreibung
-Die Dokumentation von temporären IDV-Datenbanken soll durch Tool-Unterstützung beschleunigt werden.
-{appname} soll dabei die Darstellung von bisher manuell erzeugter Dokumentation in Form von LuaTables (später auch XML) als Baumstruktur übernehmen.
+Die Dokumentation von temporären IDV-Datenbanken soll durch Tool-Unterstützung beschleunigt werden.
+{appname} soll dabei die Darstellung von bisher manuell erzeugter Dokumentation in Form von LuaTables als Baumstruktur übernehmen.
 Auch zu Analysezwecken ist die Anwendung durch Markierung und Einfärbung von Knoten nutzbar.
 
 *Idee*: Dr. Bruno Kaiser
