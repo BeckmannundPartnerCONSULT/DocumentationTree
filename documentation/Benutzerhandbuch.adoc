@@ -55,3 +55,6 @@ image::GefaerbteKnoten.png[Gefärbte Knoten]
 image::GefaerbteKnotenMitUnterknoten.png[Gefärbte Knoten mit Unterknoten]
 
 Durch einen Klick auf den Button "Markierungen löschen" werden alle gefärbten Knoten in ihren Ursprungszustand zurückgesetzt.
+
+== Demo
+video::Demo DocumentationTree.mp4[]
