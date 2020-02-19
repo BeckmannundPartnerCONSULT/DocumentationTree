@@ -123,7 +123,7 @@ public class DocumentationTree extends Application {
         tree.setCellFactory(new TreeCellFactory(tree, mark, lastClickedItem));
         tree.addEventHandler(TreeItem.branchCollapsedEvent(), new TreeModificationEventHandlerToMarkNodes(tree, mark, lastClickedItem));
         tree.addEventHandler(TreeItem.branchExpandedEvent(), new TreeModificationEventHandlerToMarkNodes(tree, mark, lastClickedItem));
-        mark.addEventHandler(MouseEvent.MOUSE_CLICKED, new MouseEventHandlerToMarkNodes(tree, mark, lastClickedItem));
+        mark.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerToMarkNodes(tree, mark, lastClickedItem));
         StackPane center = new StackPane();
         root.setCenter(center);
         center.getChildren().add(tree);

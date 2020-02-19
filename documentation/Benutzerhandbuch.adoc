@@ -1,6 +1,6 @@
 = {appname} - Benutzerhandbuch
 Jens Kötterheinrich <jkh@beckmann-partner.de>
-2018-02-20
+2020-02-19
 :appversion: 1.0
 :source-highlighter: coderay
 :listing-caption: Listing
@@ -10,16 +10,15 @@ Jens Kötterheinrich <jkh@beckmann-partner.de>
 :sectnums:
 
 == Voraussetzung
-Um die Anwendung starten zu können, wird mindestens Java-Version 8 (>= 8u60) vorausgesetzt.
+Um die Anwendung starten zu können, wird mindestens Java-Version 13 vorausgesetzt.
+Da JavaFX seit Java-Version 9 nicht mehr Bestandteile des JREs ist, muss JavaFX zusätzlich https://gluonhq.com/products/javafx/[heruntergeladen] werden.
+Anschließend muss es entpackt werden und der Pfad muss im Skript _start.bat_ oder _start.sh_ angegeben werden.
 
 == Start
-Die Anwendung kann mit einem (Doppel-)Klick auf die Jar-Datei gestartet werden.
-
-Alternativ lässt sich die Anwendung auch über eine Konsoleneingabe starten:
 ----
-java -jar documentationtree-<Version>-jar-with-dependencies.jar
+include::../start.sh[]
 ----
-Dazu muss documentationtree-<Version>-jar-with-dependencies.jar im aktuellen Verzeichnis liegen.
+Die Anwendung kann mit einem (Doppel-)Klick auf das Skript gestartet werden.
 
 Beim Start erscheint folgender Dialog:
 
