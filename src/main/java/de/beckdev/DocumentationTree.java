@@ -17,6 +17,8 @@
 package de.beckdev;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -40,38 +42,47 @@ public class DocumentationTree extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setTitle("DocumentationTree");
 
-        Path file = chooseFile(primaryStage);
-
-        Pane treeLayout = null;
-        Alert alert = null;
-
-        if (file != null) {
-            try {
-                if (file.getFileName().toString().endsWith("lua")) {
-                    treeLayout = createTreeLayout(new LuaTableDocumentation(file));
-                } else if (file.getFileName().toString().endsWith("xml")) {
-                    throw new RuntimeException("Es werden aktuell keine XML-Dateien unterstützt.");
+        MenuBar menuBar = new MenuBar();
+        Menu menu = new Menu("Datei");
+        MenuItem menuItem = new MenuItem("Öffnen...");
+        menu.getItems().add(menuItem);
+        menuBar.getMenus().add(menu);
+        VBox vBox = new VBox(menuBar);
+        menuItem.setOnAction(e -> {
+            Path file = chooseFile(primaryStage);
+            if (file != null) {
+                try {
+                    Pane treeLayout = createTreeLayout(file);
+                    if (treeLayout != null) {
+                        ObservableList<Node> children = vBox.getChildren();
+                        if (children.size() > 1) {
+                            children.remove(1, children.size());
+                        }
+                        children.add(treeLayout);
+                    } else {
+                        getAlert("Tree konnte nicht erzeugt werden.", "Fehler beim Erzeugen des Trees", "Fehler").showAndWait();
+                    }
+                } catch (IOException ioException) {
+                    String stackTrace = getStackTrace(ioException);
+                    getAlert(stackTrace, "Fehler", "Fehler beim Lesen der Datei").showAndWait();
                 }
-            } catch (RuntimeException | IOException e) {
-                String stackTrace = getStackTrace(e);
-                alert = getAlert(stackTrace, "Fehler", "Fehler beim Lesen der Datei");
+            } else {
+                getAlert("Es wurde keine Datei ausgewählt.", "Hinweis", "Keine Datei").showAndWait();
             }
-        } else {
-            alert = getAlert("Es wurde keine Datei ausgewählt.", "Hinweis", "Keine Datei");
-        }
+        });
+        Scene scene = new Scene(vBox, 300, 250);
+        scene.getStylesheets().add("/tree.css");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
-        if (treeLayout == null && alert == null) {
-            alert = getAlert("Tree konnte nicht erzeugt werden.", "Fehler beim Erzeugen des Trees", "Fehler");
+    private Pane createTreeLayout(Path file) throws IOException {
+        if (file.getFileName().toString().endsWith("lua")) {
+            return createTreeLayout(new LuaTableDocumentation(file));
+        } else if (file.getFileName().toString().endsWith("xml")) {
+            throw new RuntimeException("Es werden aktuell keine XML-Dateien unterstützt.");
         }
-
-        if (alert != null) {
-            alert.showAndWait();
-        } else if (treeLayout != null) {
-            Scene scene = new Scene(treeLayout, 300, 250);
-            scene.getStylesheets().add("/tree.css");
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        }
+        return null;
     }
 
     private String getStackTrace(Exception e) {
