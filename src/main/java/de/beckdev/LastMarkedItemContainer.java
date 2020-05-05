@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-.tree-cell:filled:selected {
-    -fx-background-color: #ffff00;
-    -fx-text-fill: #000000;
+package de.beckdev;
+
+import javafx.scene.control.TreeItem;
+
+public class LastMarkedItemContainer {
+    TreeItem<TextNode> item;
 }

@@ -20,27 +20,21 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeView;
 
-import static de.beckdev.TreeUtil.*;
+import static de.beckdev.TreeUtil.refresh;
+import static de.beckdev.TreeUtil.reset;
 
-public class EventHandlerToMarkNodes<EVENT extends Event> implements EventHandler<EVENT> {
+public class EventHandlerToResetNodes<EVENT extends Event> implements EventHandler<EVENT> {
     final TreeView<TextNode> tree;
-    final LastMarkedItemContainer lastClickedItem;
+    final LastMarkedItemContainer lastMarkedItem;
 
-    public EventHandlerToMarkNodes(final TreeView<TextNode> tree, final LastMarkedItemContainer lastClickedItem) {
+    public EventHandlerToResetNodes(final TreeView<TextNode> tree, final LastMarkedItemContainer lastMarkedItem) {
         this.tree = tree;
-        this.lastClickedItem = lastClickedItem;
+        this.lastMarkedItem = lastMarkedItem;
     }
 
     @Override
     public void handle(EVENT event) {
-        if (lastClickedItem.item != null) {
-            TreeUtil.reset(tree);
-            refresh(tree);
-            setColorOtherNodes(tree.getRoot(), lastClickedItem.item, "grey", lastClickedItem);
-            lastClickedItem.item.getValue().setColor("blue");
-            setColorParents(lastClickedItem.item, "red");
-            setColorChildren(lastClickedItem.item, "green");
-            refresh(tree);
-        }
+        reset(tree);
+        refresh(tree);
     }
 }

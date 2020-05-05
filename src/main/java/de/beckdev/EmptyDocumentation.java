@@ -18,7 +18,12 @@ package de.beckdev;
 
 import javafx.scene.control.TreeItem;
 
-public class LastClickedItemContainer {
-    TreeItem<TextNode> item;
-    boolean markedNodes;
+public class EmptyDocumentation implements DocumentationInformation {
+
+    @Override
+    public TreeItem<TextNode> getTreeItem() {
+        TreeItem<TextNode> treeItem = new TreeItem<>();
+        treeItem.setValue(new TextNode("Keine gültige Datei geladen."));
+        return treeItem;
+    }
 }
