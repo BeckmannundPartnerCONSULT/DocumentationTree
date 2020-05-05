@@ -17,8 +17,6 @@
 package de.beckdev;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -40,25 +38,35 @@ public class DocumentationTree extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("DocumentationTree");
+        BorderPane content = new BorderPane();
+        LastMarkedItemContainer lastMarkedItem = new LastMarkedItemContainer();
+        TreeView<TextNode> tree = createTree(new EmptyDocumentation(), lastMarkedItem);
+        MenuBar menuBar = createMenuBar(primaryStage, tree, lastMarkedItem);
+        content.setTop(menuBar);
+        content.setCenter(createTreeLayout(tree));
 
+        primaryStage.setTitle("DocumentationTree");
+        Scene scene = createScene(primaryStage, new VBox(content));
+        primaryStage.setScene(scene);
+        content.prefHeightProperty().bind(scene.heightProperty());
+        content.prefWidthProperty().bind(scene.widthProperty());
+        primaryStage.show();
+    }
+
+    private MenuBar createMenuBar(Stage primaryStage, TreeView<TextNode> tree, LastMarkedItemContainer lastMarkedItem) {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Datei");
         MenuItem menuItem = new MenuItem("Öffnen...");
         menu.getItems().add(menuItem);
         menuBar.getMenus().add(menu);
-        VBox vBox = new VBox(menuBar);
         menuItem.setOnAction(e -> {
             Path file = chooseFile(primaryStage);
             if (file != null) {
                 try {
-                    Pane treeLayout = createTreeLayout(file);
-                    if (treeLayout != null) {
-                        ObservableList<Node> children = vBox.getChildren();
-                        if (children.size() > 1) {
-                            children.remove(1, children.size());
-                        }
-                        children.add(treeLayout);
+                    DocumentationInformation documentation = createDocumentation(file);
+                    if (documentation != null) {
+                        tree.setRoot(documentation.getTreeItem());
+                        lastMarkedItem.item = null;
                     } else {
                         getAlert("Tree konnte nicht erzeugt werden.", "Fehler beim Erzeugen des Trees", "Fehler").showAndWait();
                     }
@@ -70,19 +78,42 @@ public class DocumentationTree extends Application {
                 getAlert("Es wurde keine Datei ausgewählt.", "Hinweis", "Keine Datei").showAndWait();
             }
         });
-        Scene scene = new Scene(vBox, 300, 250);
-        scene.getStylesheets().add("/tree.css");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        Label mark = new Label("Markieren");
+        Menu markMenu = new Menu("", mark);
+        mark.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerToMarkNodes<>(tree, lastMarkedItem));
+        menuBar.getMenus().add(markMenu);
+        Label reset = new Label("Markierung zurücksetzen");
+        Menu resetMenu = new Menu("", reset);
+        reset.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerToResetNodes<>(tree, lastMarkedItem));
+        menuBar.getMenus().add(resetMenu);
+        return menuBar;
     }
 
-    private Pane createTreeLayout(Path file) throws IOException {
+    private DocumentationInformation createDocumentation(Path file) throws IOException {
         if (file.getFileName().toString().endsWith("lua")) {
-            return createTreeLayout(new LuaTableDocumentation(file));
+            return new LuaTableDocumentation(file);
         } else if (file.getFileName().toString().endsWith("xml")) {
             throw new RuntimeException("Es werden aktuell keine XML-Dateien unterstützt.");
         }
         return null;
+    }
+
+    private Scene createScene(Stage primaryStage, VBox vBox) {
+        Scene scene = new Scene(vBox, 300, 250);
+        scene.getStylesheets().add("/tree.css");
+        return scene;
+    }
+
+    private TreeView<TextNode> createTree(DocumentationInformation documentation, LastMarkedItemContainer lastMarkedItem) {
+        final TreeItem<TextNode> rootItem = documentation.getTreeItem();
+
+        final TreeView<TextNode> tree = new TreeView<>();
+        tree.setRoot(rootItem);
+        tree.setCellFactory(new TreeCellFactory(tree, lastMarkedItem));
+        tree.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandlerToMarkNodes<TreeItem.TreeModificationEvent>(tree, lastMarkedItem));
+        tree.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandlerToMarkNodes<TreeItem.TreeModificationEvent>(tree, lastMarkedItem));
+
+        return tree;
     }
 
     private String getStackTrace(Exception e) {
@@ -121,36 +152,13 @@ public class DocumentationTree extends Application {
         return alert;
     }
 
-    private Pane createTreeLayout(DocumentationInformation documentation) {
+    private Pane createTreeLayout(TreeView<TextNode> tree) {
         BorderPane root = new BorderPane();
-        final TreeItem<TextNode> rootItem = documentation.getTreeItem();
-
-        final TreeView<TextNode> tree = new TreeView<>();
-        tree.setRoot(rootItem);
-        final Button mark = new Button("Markieren");
-        mark.setDisable(true);
-        final LastClickedItemContainer lastClickedItem = new LastClickedItemContainer();
-        lastClickedItem.markedNodes = false;
-        tree.setCellFactory(new TreeCellFactory(tree, mark, lastClickedItem));
-        tree.addEventHandler(TreeItem.branchCollapsedEvent(), new TreeModificationEventHandlerToMarkNodes(tree, mark, lastClickedItem));
-        tree.addEventHandler(TreeItem.branchExpandedEvent(), new TreeModificationEventHandlerToMarkNodes(tree, mark, lastClickedItem));
-        mark.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandlerToMarkNodes(tree, mark, lastClickedItem));
         StackPane center = new StackPane();
         root.setCenter(center);
         center.getChildren().add(tree);
-        HBox bottom = new HBox();
-        root.setBottom(bottom);
-        bottom.getChildren().add(mark);
 
         return root;
-    }
-
-    static void toggleButton(Button mark, boolean markedNodes) {
-        if (markedNodes) {
-            mark.setText("Markierungen löschen");
-        } else {
-            mark.setText("Markieren");
-        }
     }
 
     private Path chooseFile(Stage primaryStage) {

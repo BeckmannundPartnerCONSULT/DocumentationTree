@@ -21,12 +21,12 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 
 public class TreeUtil {
-    public static void setColorOtherNodes(TreeItem<TextNode> node, TreeItem<TextNode> nodeToSearch, String color, LastClickedItemContainer lastClickedItemContainer) {
+    public static void setColorOtherNodes(TreeItem<TextNode> node, TreeItem<TextNode> nodeToSearch, String color, LastMarkedItemContainer lastMarkedItemContainer) {
         ObservableList<TreeItem<TextNode>> children = node.getChildren();
         for (TreeItem<TextNode> child : children) {
-            if (!child.equals(lastClickedItemContainer.item)) {
+            if (!child.equals(lastMarkedItemContainer.item)) {
                 if (!child.getChildren().isEmpty()) {
-                    setColorOtherNodes(child, nodeToSearch, color, lastClickedItemContainer);
+                    setColorOtherNodes(child, nodeToSearch, color, lastMarkedItemContainer);
                 }
                 if (child.getValue().equals(nodeToSearch.getValue())) {
                     setColorParents(child, color);
@@ -36,7 +36,7 @@ public class TreeUtil {
         }
     }
 
-    public static void resetTree(TreeView<TextNode> tree) {
+    public static void reset(TreeView<TextNode> tree) {
         tree.getRoot().getValue().setColor("#ffffff");
         setColorChildren(tree.getRoot(), "#ffffff");
         setColorParents(tree.getRoot(), "#ffffff");

@@ -16,25 +16,19 @@
 
 package de.beckdev;
 
-import javafx.scene.control.Button;
 import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.cell.TextFieldTreeCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 
-import static de.beckdev.DocumentationTree.toggleButton;
-import static de.beckdev.TreeUtil.refresh;
-import static de.beckdev.TreeUtil.resetTree;
-
-public class TreeCellFactory implements Callback<TreeView<TextNode>,TreeCell<TextNode>> {
+public class TreeCellFactory implements Callback<TreeView<TextNode>, TreeCell<TextNode>> {
     final TreeView<TextNode> tree;
-    final Button mark;
-    final LastClickedItemContainer lastClickedItem;
+    final LastMarkedItemContainer lastClickedItem;
 
-    public TreeCellFactory(final TreeView<TextNode> tree, final Button mark, final LastClickedItemContainer lastClickedItem) {
+    public TreeCellFactory(final TreeView<TextNode> tree, final LastMarkedItemContainer lastClickedItem) {
         this.tree = tree;
-        this.mark = mark;
         this.lastClickedItem = lastClickedItem;
     }
 
@@ -54,14 +48,8 @@ public class TreeCellFactory implements Callback<TreeView<TextNode>,TreeCell<Tex
         };
         textFieldTreeCell.addEventHandler(MouseEvent.MOUSE_CLICKED, (event) -> {
             TextFieldTreeCell source = (TextFieldTreeCell) event.getSource();
-            if (source.getTreeItem().equals(tree.getSelectionModel().getSelectedItem())) {
-                mark.setDisable(false);
-                lastClickedItem.markedNodes = false;
-                resetTree(tree);
-                refresh(tree);
-                toggleButton(mark, lastClickedItem.markedNodes);
-
-                refresh(tree);
+            TreeItem<TextNode> selectedItem = tree.getSelectionModel().getSelectedItem();
+            if (selectedItem != null && selectedItem.equals(source.getTreeItem())) {
                 lastClickedItem.item = source.getTreeItem();
             }
         });
