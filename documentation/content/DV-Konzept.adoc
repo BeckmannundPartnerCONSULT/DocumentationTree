@@ -1,6 +1,7 @@
 = {appname} - DV-Konzept
 Jens Kötterheinrich <jkh@beckmann-partner.de>
-2018-02-20
+2020-05-06
+ifndef::imagesdir[:imagesdir: images]
 :appversion: 1.0
 :source-highlighter: coderay
 :pdf-page-size: A4
@@ -12,15 +13,13 @@ Jens Kötterheinrich <jkh@beckmann-partner.de>
 :toc:
 
 ifdef::lang[include::../theme/attributes-{lang}.adoc[]]
-ifndef::imagesdir[:imagesdir: images]
 
 == Allgemeines
 === Zweck und Struktur des Dokuments
 Dieses Dokument beschreibt die Anwendung {appname}.
 Die Anwendung wird als Bestandteil von Dokumentation von Datenbanken verwendet.
 Mit diesem Dokument soll der Leser in die Lage versetzt werden,
-- den Aufbau der Anwendung zu verstehen,
-- die Aufgaben der Anwendung,
+- den Aufbau und die Aufgaben der Anwendung zu verstehen,
 - das System über die Benutzeroberfläche bedienen zu können,
 - die Schnittstellen zu anderen Systemen zu kennen,
 - im Falle eines Systemfehlers die geeigneten Maßnahmen ergreifen zu können.
@@ -118,27 +117,21 @@ Ein Knoten kann selektiert werden, ohne dass die Markierungen aufgehoben werden;
 Beim Öffnen einer Datei werden mögliche Fehler abgefangen und in einem Fehlerdialog dargestellt.
 Durch Bestätigen wird die Anwendung anschließend beendet.
 
-<<<
 === Benutzeroberfläche
 === Start
 image::Startbildschirm.png[Auswahl einer Datei]
 
-<<<
 === Datei als Baum anzeigen
 image::VollerBaum.png[Anzeige einer Datei als Baum]
 
-<<<
 === Gefärbte Knoten
 image::GefaerbteKnoten.png[Gefärbte Knoten]
 
-<<<
 === Gefärbte Knoten mit Unterknoten
 image::GefaerbteKnotenMitUnterknoten.png[Gefärbte Knoten mit Unterknoten]
 
-<<<
 === Fehlermeldung
 ==== Keine Datei ausgewählt
 image::FehlermeldungKeineDatei.png[Fehlermeldung bei nicht ausgewählter Datei]
-<<<
 ==== Fehler in Datei
 image::FehlermeldungSyntax.png[Fehlermeldung bei fehlerhafter Datei]
