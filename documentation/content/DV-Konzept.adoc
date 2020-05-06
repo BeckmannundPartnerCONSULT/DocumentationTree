@@ -14,6 +14,7 @@ Jens Kötterheinrich <jkh@beckmann-partner.de>
 ifdef::lang[include::../theme/attributes-{lang}.adoc[]]
 ifndef::imagesdir[:imagesdir: images]
 
+
 == Allgemeines
 === Zweck und Struktur des Dokuments
 Dieses Dokument beschreibt die Anwendung {appname}.
