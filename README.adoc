@@ -21,6 +21,8 @@ Auch zu Analysezwecken ist die Anwendung durch Markierung und Einfärbung von Kn
 == Dokumentation
 Folgende Dokumente zur link:documentation[Dokumentation] stehen zur Verfügung:
 
-link:documentation/Benutzerhandbuch.adoc[Benutzerhandbuch]
+link:documentation/content/Benutzerhandbuch.adoc[Benutzerhandbuch]
 
-link:documentation/DV-Konzept.adoc[DV-Konzept]
+link:documentation/content/DV-Konzept.adoc[DV-Konzept]
+
+PDF-Versionen der Dokumente werden zusammen mit den JAR-Dateien durch Maven generiert.

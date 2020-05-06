@@ -1,0 +1,62 @@
+= {appname} - Benutzerhandbuch
+Jens Kötterheinrich <jkh@beckmann-partner.de>
+2020-02-19
+:appversion: 1.0
+:source-highlighter: coderay
+:listing-caption: Listing
+:pdf-page-size: A4
+:appname: DocumentationTree
+:lang: de
+:sectnums:
+
+ifdef::lang[include::../theme/attributes-{lang}.adoc[]]
+ifndef::imagesdir[:imagesdir: images]
+
+== Voraussetzung
+Um die Anwendung starten zu können, wird mindestens Java-Version 13 vorausgesetzt.
+Da JavaFX seit Java-Version 9 nicht mehr Bestandteile des JREs ist, muss JavaFX zusätzlich https://gluonhq.com/products/javafx/[heruntergeladen] werden.
+Anschließend muss es entpackt werden und der Pfad muss im Skript _start.bat_ oder _start.sh_ angegeben werden.
+
+== Start
+----
+include::../../start.sh[]
+----
+Die Anwendung kann mit einem (Doppel-)Klick auf das Skript gestartet werden.
+
+Beim Start erscheint folgender Dialog:
+
+image::Startbildschirm.png[Startbildschirm]
+
+Über das Menü _Datei_ -> _Öffnen..._ kann eine Datei ausgewählt werden.
+Das Verzeichnis wird initial immer auf das Verzeichnis, in dem die Jar-Datei liegt, eingestellt.
+
+Es ist eine Datei auszuwählen, die eine Lua-Table enthält, die über
+
+[source,lua]
+----
+return <table>
+----
+
+zurückgegeben wird.
+
+== Darstellung
+=== Datei öffnen
+Kann die Datei gelesen und geöffnet werden, wird der Inhalt der Datei wie folgt angezeigt:
+
+image::VollerBaum.png[Anzeige der Daten aus einer Lua-Table-Datei]
+
+=== Knoten markieren
+Beim Klick auf den Button "Markieren" werden Knoten nach folgenden Regeln gefärbt:name: value
+
+1. Der ausgewählte Knoten wird in blau gefärbt.
+2. Knoten, deren Text mit dem des ausgewählten Knoten identisch sind, werden blau gefärbt.
+3. Knoten über dem ausgewählten Knoten werden rot gefärbt; Knoten über den Knoten von 2. werden grau gefärbt.
+4. Knoten unter dem ausgewählten Knoten werden grün gefärbt.
+5. Knoten, die mit den Knoten unter 4. identisch sind, werden ebenfalls grün markiert.
+
+Ein Knoten kann selektiert werden, ohne dass die Markierungen aufgehoben werden; dieser wird in gelb hervorgehoben.
+
+image::GefaerbteKnoten.png[Gefärbte Knoten]
+image::GefaerbteKnotenMitUnterknoten.png[Gefärbte Knoten mit Unterknoten]
+
+Durch einen Klick auf den Button "Markierung zurücksetzen" werden alle gefärbten Knoten in ihren Ursprungszustand zurückgesetzt.
