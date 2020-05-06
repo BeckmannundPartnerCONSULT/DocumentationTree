@@ -40,6 +40,8 @@ public class TreeCellFactory implements Callback<TreeView<TextNode>, TreeCell<Te
                 if (item != null) {
                     TextNode textNode = (TextNode) item;
                     setStyle("-fx-base: " + textNode.getColor() + ";");
+                } else {
+                    setStyle(null);
                 }
                 super.updateItem(item, empty);
             }
