@@ -1,16 +1,27 @@
 = {appname} - Benutzerhandbuch
 Jens Kötterheinrich <jkh@beckmann-partner.de>
-2020-02-19
+2020-05-06
+ifndef::imagesdir[:imagesdir: images]
 :appversion: 1.0
 :source-highlighter: coderay
-:listing-caption: Listing
 :pdf-page-size: A4
 :appname: DocumentationTree
+:project_root: ../..
+:sourcedir: {project_root}/src/main/java
 :lang: de
 :sectnums:
+:toc:
 
 ifdef::lang[include::../theme/attributes-{lang}.adoc[]]
-ifndef::imagesdir[:imagesdir: images]
+
+== Allgemeines
+=== Zweck und Struktur des Dokuments
+Dieses Dokument beschreibt die Anwendung {appname}.
+Die Anwendung wird als Bestandteil von Dokumentation von Datenbanken verwendet.
+Mit diesem Dokument soll der Leser in die Lage versetzt werden,
+- den Aufbau und die Aufgaben der Anwendung zu verstehen,
+- das System über die Benutzeroberfläche bedienen zu können,
+- im Falle eines Systemfehlers die geeigneten Maßnahmen ergreifen zu können.
 
 == Voraussetzung
 Um die Anwendung starten zu können, wird mindestens Java-Version 13 vorausgesetzt.
