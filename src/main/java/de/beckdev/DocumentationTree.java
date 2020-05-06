@@ -70,8 +70,8 @@ public class DocumentationTree extends Application {
                     } else {
                         getAlert("Tree konnte nicht erzeugt werden.", "Fehler beim Erzeugen des Trees", "Fehler").showAndWait();
                     }
-                } catch (IOException ioException) {
-                    String stackTrace = getStackTrace(ioException);
+                } catch (Exception exception) {
+                    String stackTrace = getStackTrace(exception);
                     getAlert(stackTrace, "Fehler", "Fehler beim Lesen der Datei").showAndWait();
                 }
             } else {
