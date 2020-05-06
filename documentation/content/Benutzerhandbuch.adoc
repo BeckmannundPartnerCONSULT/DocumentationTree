@@ -24,7 +24,7 @@ Mit diesem Dokument soll der Leser in die Lage versetzt werden,
 - im Falle eines Systemfehlers die geeigneten Maßnahmen ergreifen zu können.
 
 == Voraussetzung
-Um die Anwendung starten zu können, wird mindestens Java-Version 13 vorausgesetzt.
+Um die Anwendung starten zu können, wird mindestens Java-Version 8 (>= 8u60) vorausgesetzt.
 Da JavaFX seit Java-Version 9 nicht mehr Bestandteile des JREs ist, muss JavaFX zusätzlich https://gluonhq.com/products/javafx/[heruntergeladen] werden.
 Anschließend muss es entpackt werden und der Pfad muss im Skript _start.bat_ oder _start.sh_ angegeben werden.
 
