@@ -1,0 +1,1 @@
+java --module-path <Pfad zu JavaFX>/lib --add-modules javafx.controls -jar target/documentationtree-1.0-SNAPSHOT-jar-with-dependencies.jar
