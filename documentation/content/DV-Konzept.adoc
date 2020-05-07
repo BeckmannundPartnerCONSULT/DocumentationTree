@@ -59,7 +59,8 @@ return example
 == Programmdesign
 === Ablauf
 ==== Auswahl einer Datei
-Nach dem Start der Anwendung wird ein Dialog angezeigt, um eine Datei auszuwählen.
+Nach dem Start der Anwendung wird ein leeres Fenster mit einem Menü angezeigt.
+Im Menü kann über _Datei_ -> _Öffnen..._ eine Datei ausgewählt werden.
 Die erlaubte Endung der zu öffnenden Dateien ist _.lua_.
 
 ==== Parsen einer ausgewählten Datei
@@ -115,7 +116,6 @@ Ein Knoten kann selektiert werden, ohne dass die Markierungen aufgehoben werden;
 
 ==== Fehlerbehandlung
 Beim Öffnen einer Datei werden mögliche Fehler abgefangen und in einem Fehlerdialog dargestellt.
-Durch Bestätigen wird die Anwendung anschließend beendet.
 
 === Benutzeroberfläche
 === Start
