@@ -24,22 +24,23 @@ import static de.beckdev.TreeUtil.*;
 
 public class EventHandlerToMarkNodes<EVENT extends Event> implements EventHandler<EVENT> {
     final TreeView<TextNode> tree;
-    final LastMarkedItemContainer lastClickedItem;
+    final LastMarkedItemContainer lastMarkedItem;
 
-    public EventHandlerToMarkNodes(final TreeView<TextNode> tree, final LastMarkedItemContainer lastClickedItem) {
+    public EventHandlerToMarkNodes(final TreeView<TextNode> tree, final LastMarkedItemContainer lastMarkedItem) {
         this.tree = tree;
-        this.lastClickedItem = lastClickedItem;
+        this.lastMarkedItem = lastMarkedItem;
     }
 
     @Override
     public void handle(EVENT event) {
-        if (lastClickedItem.item != null) {
+        if (tree.getSelectionModel().getSelectedItem() != null) {
+            this.lastMarkedItem.item = tree.getSelectionModel().getSelectedItem();
             TreeUtil.reset(tree);
             refresh(tree);
-            setColorOtherNodes(tree.getRoot(), lastClickedItem.item, "grey", lastClickedItem);
-            lastClickedItem.item.getValue().setColor("blue");
-            setColorParents(lastClickedItem.item, "red");
-            setColorChildren(lastClickedItem.item, "green");
+            setColorOtherNodes(tree.getRoot(), lastMarkedItem.item, "grey", lastMarkedItem);
+            lastMarkedItem.item.getValue().setColor("blue");
+            setColorParents(lastMarkedItem.item, "red");
+            setColorChildren(lastMarkedItem.item, "green");
             refresh(tree);
         }
     }
