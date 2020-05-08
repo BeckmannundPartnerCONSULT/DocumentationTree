@@ -29,10 +29,19 @@ Da JavaFX seit Java-Version 9 nicht mehr Bestandteile des JREs ist, muss JavaFX 
 Anschließend muss es entpackt werden und der Pfad muss im Skript _start.bat_ oder _start.sh_ angegeben werden.
 
 == Start
+Die Anwendung kann mit einem (Doppel-)Klick auf eines der Skripte gestartet werden.
+
+Unix:
+[source]
 ----
-include::../../start.sh[]
+include::{project_root}/start.sh[Skript zum Starten der Anwendung]
 ----
-Die Anwendung kann mit einem (Doppel-)Klick auf das Skript gestartet werden.
+
+Windows:
+[source]
+----
+include::{project_root}/start.bat[Skript zum Starten der Anwendung]
+----
 
 Beim Start erscheint folgender Dialog:
 
