@@ -19,6 +19,7 @@ package de.beckdev;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
@@ -112,6 +113,7 @@ public class DocumentationTree extends Application {
         tree.setCellFactory(new TreeCellFactory(tree, lastMarkedItem));
         tree.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandlerToMarkNodes<TreeItem.TreeModificationEvent>(tree, lastMarkedItem));
         tree.addEventHandler(TreeItem.branchExpandedEvent(), new EventHandlerToMarkNodes<TreeItem.TreeModificationEvent>(tree, lastMarkedItem));
+        tree.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         return tree;
     }
