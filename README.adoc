@@ -14,7 +14,7 @@ Die Dokumentation von temporären IDV-Datenbanken soll durch Tool-Unterstützung
 {appname} soll dabei die Darstellung von bisher manuell erzeugter Dokumentation in Form von LuaTables als Baumstruktur übernehmen.
 Auch zu Analysezwecken ist die Anwendung durch Markierung und Einfärbung von Knoten nutzbar.
 
-*Idee*: Dr. Bruno Kaiser
+*Idee*: https://github.com/BrunoKaiser[Dr. Bruno Kaiser]
 
 *Umsetzung*: https://github.com/cybi[Jens Kötterheinrich]
 
