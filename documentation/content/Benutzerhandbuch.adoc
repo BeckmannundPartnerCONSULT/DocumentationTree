@@ -59,6 +59,80 @@ return <table>
 
 zurückgegeben wird.
 
+
+
+Die hier gelesenen und geöffneten Lua-Dateien enthalten für die Knoten Texte, die in die Variablen branchname geschrieben werden, z.B. branchname="Knoten", und für die Äste, Text, das in Anführungsstriche, Hochkommata oder eckigen Klammern geschrieben steht, z.B. "Ast", 'Ast' oder [[Ast]]. Die Verwendung der Textbegrenzungszeichen folgt der Logik in Lua. Variablen und Text werden durch Kommata "," abgegrenzt.
+
+Knoten werden in geschweifte Klammern geschrieben, also {branchname="Knoten"}. Wenn ein Knoten in der Ebene unterhalb eines anderen Knotens erscheinen soll, wird dieser innerhalb der anderen geschweiften Klammer mit Komma abgetrennt geschrieben, z.B. {branchname="Knoten 1",{branchname="Knoten .1"}}. Soll der Knoten nicht in der Ebene unter dem anderen hängen, sondern auf derselben Ebene sein, wird er nach der geschweiften Klammer geschrieben, also {branchname="Knoten 1"},{branchname="Knoten 2"}. 
+
+Ein Ast, das an einem Knoten hängt, wird auch in die geschweiften Klammer geschrieben, {branchname="Knoten",'Ast'}.
+
+Ein Knoten bzw. Ast muss mindestens in der obersten geschweiften Klammer erscheinen.
+
+Die Variable auf oberster Ebene muss mit return zurückgegeben werden, hat aber einen frei wählbaren Namen. 
+
+.Beispiel 1 LuaTable
+[source,lua]
+----
+example =
+{branchname="Knoten oberste Ebene",
+  {branchname="Knoten 1", 
+  {branchname="Knoten 1.1", 'Ast 1.1.1'},
+  'Ast 1.1'
+  },
+  {branchname="Knoten 2", 'Ast 2.1'}
+}
+
+return example
+----
+
+Wenn Knoten bzw. Äste unterhalb eines Knotens beim Öffnen nicht sichtbar sein sollen und erst durch den Anwender sichtbar gemacht werden sollen, wird eine Variable state="COLLAPSED" eingefügt. Das Beispiel sieht dann wie folgt aus:
+
+.Beispiel 2 LuaTable
+[source,lua]
+----
+example =
+{branchname="Knoten oberste Ebene",state="COLLAPSED",
+  {branchname="Knoten 1", 
+  {branchname="Knoten 1.1", 'Ast 1.1.1'},
+  'Ast 1.1'
+  },
+  {branchname="Knoten 2", 'Ast 2.1'}
+}
+
+return example
+----
+
+Kommentare können mit "--" eingefügt werden. Der Text bis zum Zeilenwechsel ist damit Kommentar. Es ist hilfreich die schließenden geschweiften Klammern mit Kommentaren der öffnenden geschweiften Klammern zu erklären. Man darf ein Komma auch nach der letzten Variable bzw. Text setzen.
+
+.Beispiel 3 LuaTable
+[source,lua]
+----
+example =
+{branchname="Knoten oberste Ebene",state="COLLAPSED",
+{branchname="Knoten 1", 
+{branchname="Knoten 1.1", 
+'Ast 1.1.1',
+}, --{branchname="Knoten 1.1",
+'Ast 1.1',
+'Ast 1.2',
+'Ast 1.3',
+}, --{branchname="Knoten 1", 
+{branchname="Knoten 2", 
+'Ast 2.1',
+}, --{branchname="Knoten 2", 
+{branchname="Knoten 3", 
+'Ast 3.1',
+}, --{branchname="Knoten 3", 
+}
+
+return example
+----
+
+Durch diese Darstellung ist es möglich, leicht Zeilen zu kopieren und den Überblick über die Verschachtelung zu behalten, ohne Einrückungen machen zu müssen.
+
+
+
 == Darstellung
 === Datei öffnen
 Kann die Datei gelesen und geöffnet werden, wird der Inhalt der Datei wie folgt angezeigt:
