@@ -31,16 +31,20 @@ Anschließend muss es entpackt werden und der Pfad muss im Skript _start.bat_ od
 == Start
 Die Anwendung kann mit einem (Doppel-)Klick auf eines der Skripte gestartet werden.
 
-Unix:
+=== Unix
+
+.Skript zum Starten der Anwendung
 [source]
 ----
-include::{project_root}/start.sh[Skript zum Starten der Anwendung]
+include::{project_root}/start.sh[]
 ----
 
-Windows:
+=== Windows
+
+.Skript zum Starten der Anwendung
 [source]
 ----
-include::{project_root}/start.bat[Skript zum Starten der Anwendung]
+include::{project_root}/start.bat[]
 ----
 
 Beim Start erscheint folgender Dialog:
