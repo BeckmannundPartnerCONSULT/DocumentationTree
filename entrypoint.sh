@@ -33,3 +33,6 @@ git diff-index --quiet HEAD || echo "Commit changes." && git commit -m 'Maven bu
 
 echo "#################################################"
 echo "Published"
+
+
+echo "WOW!"
