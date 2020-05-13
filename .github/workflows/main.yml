@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
         with:
-          ref: master
+          ref: develop
       - uses: ./
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_PAT }}
