@@ -4,8 +4,8 @@ RUN apk add --no-cache maven
 RUN apk add --no-cache git
 RUN apk add --no-cache asciidoctor
 
-RUN ls -ltr
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
+RUN ls -ltr
 
 ENTRYPOINT ["/entrypoint.sh"]
