@@ -1,5 +1,7 @@
 on:
   push:
+    branches:
+      - develop
 name: publish on push
 
 jobs:
