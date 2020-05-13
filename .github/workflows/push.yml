@@ -1,0 +1,17 @@
+on:
+  push:
+    branches:
+      - master
+name: publish on push
+
+jobs:
+  build:
+    name: generate and push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          ref: master
+      - uses: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUSH_PAT }}
