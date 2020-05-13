@@ -23,7 +23,7 @@ git config user.name "${USER_NAME}"
 git config user.email "${MAIL}"
 
 FILE=release
-if [ -d "$FILE" ]; then
+if [ ! -d "$FILE" ]; then
     mkdir $FILE
 fi
 
