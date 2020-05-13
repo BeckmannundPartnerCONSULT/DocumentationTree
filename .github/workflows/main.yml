@@ -1,5 +1,7 @@
 on:
   push:
+    branches: 
+      - java8
 name: publish on push
 
 jobs:
