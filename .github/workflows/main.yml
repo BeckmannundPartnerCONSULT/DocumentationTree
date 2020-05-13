@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
         with:
-          ref: develop
+          ref: java8
       - uses: ./
         env:
           GITHUB_TOKEN: ${{ secrets.PUSH_PAT }}
