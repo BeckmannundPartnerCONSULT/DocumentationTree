@@ -1,7 +1,5 @@
 on:
   push:
-    branches:
-      - master
 name: publish on push
 
 jobs:
