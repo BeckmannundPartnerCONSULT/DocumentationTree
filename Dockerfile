@@ -1,4 +1,4 @@
-FROM openjdk:15-alpine
+FROM openjdk:8-slim
 
 RUN apk add --no-cache maven
 RUN apk add --no-cache git
