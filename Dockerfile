@@ -6,6 +6,5 @@ RUN apk add --no-cache asciidoctor
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
-RUN ls -ltr
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["sh", "/entrypoint.sh"]

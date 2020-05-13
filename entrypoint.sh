@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-ls -ltar
+cd $GITHUB_WORKSPACE
 
 echo "#################################################"
 echo "Starting the Maven Action"
