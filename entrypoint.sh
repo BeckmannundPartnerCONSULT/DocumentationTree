@@ -22,7 +22,11 @@ echo "Set user data."
 git config user.name "${USER_NAME}"
 git config user.email "${MAIL}"
 
-mkdir release
+FILE=release
+if [ -d "$FILE" ]; then
+    mkdir $FILE
+fi
+
 cp target/documentationtree-*-jar-with-dependencies.jar release
 
 echo "Add all files."
