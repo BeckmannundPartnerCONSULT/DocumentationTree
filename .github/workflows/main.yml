@@ -14,4 +14,4 @@ jobs:
           ref: develop
       - uses: ./
         env:
-          GITHUB_TOKEN: ${{ secrets.PUSH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.PACKAGE_PAT }}
