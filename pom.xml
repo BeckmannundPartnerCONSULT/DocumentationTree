@@ -33,6 +33,12 @@
         </repository>
     </distributionManagement>
 
+    <scm>
+        <url>https://github.com/BeckmannundPartnerCONSULT/DocumentationTree.git</url>
+        <connection>scm:git:git://github.com/BeckmannundPartnerCONSULT/DocumentationTree.git</connection>
+        <developerConnection>scm:git:git@github.com:BeckmannundPartnerCONSULT/DocumentationTree.git</developerConnection>
+    </scm>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
