@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+java -version
+
 cd $GITHUB_WORKSPACE
 
 echo "#################################################"
