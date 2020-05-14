@@ -1,13 +1,7 @@
 #!/bin/bash
 set -e
 
-
-DIRECTORY=~/.m2
-if [ ! -d "$DIRECTORY"]; then
-  mkdir $DIRECTORY
-fi
-
-ls -ltr ~
+cd $GITHUB_WORKSPACE
 
 echo "#################################################"
 echo "Create Maven settings"
@@ -63,14 +57,12 @@ echo "<!--
             <password>${GITHUB_TOKEN}</password>
         </server>
     </servers>
-</settings>" > ~/.m2/settings.xml
-
-cd $GITHUB_WORKSPACE
+</settings>" > settings.xml
 
 echo "#################################################"
 echo "Starting the Maven Action"
 
-sh -c "mvn deploy"
+sh -c "mvn deploy --settings settings.xml"
 
 echo "#################################################"
 echo "Published"
