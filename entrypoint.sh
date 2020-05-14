@@ -6,7 +6,8 @@ cd $GITHUB_WORKSPACE
 echo "#################################################"
 echo "Create Maven settings"
 
-echo "<!--
+cat > settings.xml <<EOF
+<!--
   ~ Copyright 2020 Beckmann & Partner CONSULT
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,7 +58,8 @@ echo "<!--
             <password>${GITHUB_TOKEN}</password>
         </server>
     </servers>
-</settings>" > settings.xml
+</settings>
+EOF
 
 echo "#################################################"
 echo "Starting the Maven Action"
