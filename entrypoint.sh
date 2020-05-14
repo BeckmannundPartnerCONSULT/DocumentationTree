@@ -7,7 +7,7 @@ if [ ! -d "$DIRECTORY"]; then
   mkdir $DIRECTORY
 fi
 
-ls -ltr
+ls -ltr ~
 
 echo "#################################################"
 echo "Create Maven settings"
