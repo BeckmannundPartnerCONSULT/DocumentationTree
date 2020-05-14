@@ -1,6 +1,12 @@
 #!/bin/bash
 set -e
 
+
+DIRECTORY=~/.m2
+if [ ! -d "$DIRECTORY"]; then
+  mkdir $DIRECTORY
+fi
+
 echo "#################################################"
 echo "Create Maven settings"
 
