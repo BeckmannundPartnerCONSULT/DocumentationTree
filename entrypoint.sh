@@ -6,6 +6,8 @@ mvn -v
 
 cd $GITHUB_WORKSPACE
 
+ls -ltr
+
 echo "#################################################"
 echo "Create Maven settings"
 
