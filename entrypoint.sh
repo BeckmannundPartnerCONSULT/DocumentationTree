@@ -6,6 +6,13 @@ mvn -v
 
 cd $GITHUB_WORKSPACE
 
+USER_NAME="${GITHUB_ACTOR}"
+MAIL="${GITHUB_ACTOR}@users.noreply.github.com"
+
+echo "Set user data."
+git config --global user.name "${USER_NAME}"
+git config --global user.email "${MAIL}"
+
 echo "#################################################"
 echo "Create Maven settings"
 
