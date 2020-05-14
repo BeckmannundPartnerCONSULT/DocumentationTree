@@ -35,8 +35,7 @@
 
     <scm>
         <url>https://github.com/BeckmannundPartnerCONSULT/DocumentationTree.git</url>
-        <connection>scm:git:git://github.com/BeckmannundPartnerCONSULT/DocumentationTree.git</connection>
-        <developerConnection>scm:git:git@github.com:BeckmannundPartnerCONSULT/DocumentationTree.git</developerConnection>
+        <connection>scm:git:https://github.com/BeckmannundPartnerCONSULT/DocumentationTree.git</connection>
     </scm>
 
     <properties>
