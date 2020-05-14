@@ -22,8 +22,16 @@
 
     <groupId>de.beckdev</groupId>
     <artifactId>documentationtree</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-java8-SNAPSHOT</version>
     <packaging>jar</packaging>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub BeckmannundPartnerCONSULT Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/BeckmannundPartnerCONSULT/DocumentationTree</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
