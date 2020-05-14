@@ -2,6 +2,7 @@
 set -e
 
 java -version
+mvn -v
 
 cd $GITHUB_WORKSPACE
 
