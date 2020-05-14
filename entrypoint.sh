@@ -67,7 +67,8 @@ EOF
 echo "#################################################"
 echo "Starting the Maven Action"
 
-sh -c "mvn deploy --settings settings.xml"
+sh -c "mvn release:prepare --settings settings.xml"
+sh -c "mvn release:perform --settings settings.xml"
 
 echo "#################################################"
 echo "Published"
