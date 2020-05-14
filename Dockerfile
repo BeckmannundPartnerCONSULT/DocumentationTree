@@ -1,8 +1,9 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jdk
 
-RUN apk add --no-cache maven
-RUN apk add --no-cache git
-RUN apk add --no-cache asciidoctor
+RUN apt update
+RUN apt install maven
+
+RUN apt-get update && apt-get install -y --no-install-recommends openjfx && rm -rf /var/lib/apt/lists/*
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
