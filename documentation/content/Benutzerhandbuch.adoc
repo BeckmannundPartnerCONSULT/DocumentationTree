@@ -64,6 +64,8 @@ return <table>
 zurückgegeben wird.
 
 
+=== Erläuterungen zum Aufbau einer Lua-Table für die Baumstruktur
+
 
 Die hier gelesenen und geöffneten Lua-Dateien enthalten für die Knoten Texte, die in die Variablen branchname geschrieben werden, z.B. branchname="Knoten", und für die Äste, Text, das in Anführungsstriche, Hochkommata oder eckigen Klammern geschrieben steht, z.B. "Ast", 'Ast' oder [[Ast]]. Die Verwendung der Textbegrenzungszeichen folgt der Logik in Lua. Variablen und Text werden durch Kommata "," abgegrenzt.
 
@@ -134,6 +136,162 @@ return example
 ----
 
 Durch diese Darstellung ist es möglich, leicht Zeilen zu kopieren und den Überblick über die Verschachtelung zu behalten, ohne Einrückungen machen zu müssen.
+
+
+=== Automatische Herstellung einer Lua-Table
+
+Hier wird ein einfaches Beispiel anhand eines SAS-Skriptes dargestellt. Der Vorteil ist, dass die Informationen in Textdateien und nicht binär zur Verfügung stehen. Sie können damit mit einer Skriptsprache ausgewertet werten. Weil Lua eine sehr einfache Skriptsprache ist, wird hier ein Beispiel in Lua vorgestellt.
+
+Ein Programm C:\Temp\githubPGM.sas mit folgendem Inhalt wird in SAS ausgeführt.
+
+.Beispiel 4.1 C:\Temp\githubPGM.sas
+[source,sas]
+----
+Proc Lua; submit;
+DocumentationTree='{branchname="Ein Beispiel-Programm", state ="COLLAPSED",'
+endsubmit;
+run;
+
+Data Test;
+Input Zahl1 Zahl2 Text1 $ Text2 $;
+Datalines;
+1 2 a b
+2 3 c d
+;
+run;
+
+Data Test1;
+set Test;
+where Zahl1=1;
+run;
+
+Proc Lua; submit;
+DocumentationTree='}, --{branchname="Ein Beispiel-Programm",'
+endsubmit;
+run;
+
+----
+
+
+Das Ergebnis sind die SAS-Tabellen Test und Test1. Die Information über die Verarbeitung, die im Documentation Tree als Baum dargestellt werden kann, ist in dem SAS-Log enthalten. Die Proc Lua-Schritte werden benutzt, um zusätzliche Informationen zu den normalen SAS-Log-Informationen zu schreiben. Insbesondere, wenn eine Serververarbeitung erfolgt, können damit zusätzliche Rückmeldungen erzeugt werden.
+
+Das SAS-Log speichere man in eine Textdatei, z.B. C:\Temp\githubPGM_SAS_Log.txt.
+
+
+.Beispiel 4.2 C:\Temp\githubPGM_SAS_Log.txt
+[source,sas]
+----
+
+23
+24
+25   Proc Lua; submit;
+26   DocumentationTree='{branchname="Ein Beispiel-Programm", state ="COLLAPSED",'
+27   endsubmit;
+28   run;
+
+NOTE: Lua initialized.
+NOTE: PROCEDURE LUA used (Total process time):
+      real time           0.32 seconds
+      cpu time            0.06 seconds
+
+
+29
+30   Data Test;
+31   Input Zahl1 Zahl2 Text1 $ Text2 $;
+32   Datalines;
+
+NOTE: The data set WORK.TEST has 2 observations and 4 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.01 seconds
+
+
+35   ;
+36   run;
+37
+38   Data Test1;
+39   set Test;
+40   where Zahl1=1;
+41   run;
+
+NOTE: There were 1 observations read from the data set WORK.TEST.
+      WHERE Zahl1=1;
+NOTE: The data set WORK.TEST1 has 1 observations and 4 variables.
+NOTE: DATA statement used (Total process time):
+      real time           0.02 seconds
+      cpu time            0.03 seconds
+
+
+42
+43   Proc Lua; submit;
+44   DocumentationTree='}, --{branchname="Ein Beispiel-Programm",'
+45   endsubmit;
+46   run;
+
+NOTE: Resuming Lua state from previous PROC LUA invocation.
+NOTE: PROCEDURE LUA used (Total process time):
+      real time           0.00 seconds
+      cpu time            0.00 seconds
+
+----
+
+Mit einem Lua-Skript (C:\Temp\githubPGM_Lua_Skript.lua) kann der Inhalt des SAS-Logs ausgewertet und ein Ergebnis ausgegeben werden, das die Lua-Table für den Baum im Documentation Tree liefert.
+
+
+.Beispiel 4.3 C:\Temp\githubPGM_Lua_Skript.lua
+[source,lua]
+----
+for Zeile in io.lines("C:\\Temp\\githubPGM_SAS_Log.txt") do
+if Zeile:match("DocumentationTree='.*'") then
+print(Zeile:match("DocumentationTree='(.*)'"))
+elseif Zeile:match("Input .*;") then
+print('{branchname="' .. Zeile:match("Input .*;") .. '",')
+elseif Zeile:match("There were %d+ observations read from the data set .*%..*.") then
+print('{branchname="' .. Zeile:match("There were %d+ observations read from the data set .*%..*.") .. '",')
+elseif Zeile:match("The data set .*%..* has %d+ observations and %d+ variables.") then
+print("'" .. Zeile:match("The data set .*%..* has %d+ observations and %d+ variables.") .. "'},")
+end --if Zeile:match("DocumentationTree='.*'") then
+end --for Zeile in io.lines("c:\\temp\\githubPGM_SAS_Log.txt") do
+
+----
+
+Das Ergebnis wird hier in der Konsole ausgegeben.
+
+.Beispiel 4.4 Konsole
+[source,lua]
+----
+{branchname="Ein Beispiel-Programm", state ="COLLAPSED",
+{branchname="Input Zahl1 Zahl2 Text1 $ Text2 $;",
+'The data set WORK.TEST has 2 observations and 4 variables.'},
+{branchname="There were 1 observations read from the data set WORK.TEST.",
+'The data set WORK.TEST1 has 1 observations and 4 variables.'},
+}, --{branchname="Ein Beispiel-Programm",
+
+----
+
+Kopiert man dieses in eine Datei C:\Temp\githubPGM_Lua_Skript_Baum.lua, kann man diesen Baum mit der Jar-Datei des Documentation Tree starten und darstellen.
+
+.Beispiel 4.5 C:\Temp\githubPGM_Lua_Skript_Baum.lua
+[source,lua]
+----
+
+example={branchname= "Baumstruktur für Input-Output-Beziehungen in SAS", 
+
+{branchname="Ein Beispiel-Programm", state ="COLLAPSED",
+{branchname="Input Zahl1 Zahl2 Text1 $ Text2 $;",
+'The data set WORK.TEST has 2 observations and 4 variables.'},
+{branchname="There were 1 observations read from the data set WORK.TEST.",
+'The data set WORK.TEST1 has 1 observations and 4 variables.'},
+}, --{branchname="Ein Beispiel-Programm",
+
+} --{branchname= "Baumstruktur für Input-Output-Beziehungen in SAS", 
+return example
+
+----
+
+Eine Mischung von automatisch und manuell erstellen Baumteilen ist jederzeit möglich, so dass der Anwender die volle Kontrolle über die Darstellung hat.
+
+
 
 
 
