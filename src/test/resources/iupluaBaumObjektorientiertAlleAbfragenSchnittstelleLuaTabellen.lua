@@ -48,8 +48,8 @@ Haircut100Prozent__Makro3_Auswahl_mit_Referenz_fuer_CoPS_branchname =
 --Tabellen Create Table suchen und anpassen in SQLite
 
 Haircut100Prozent_branchname ={branchname="Haircut100Prozent", state = 'COLLAPSED',
-'valDate',
-'aggMode',
+{'valDate', prefix="Präfix: "},
+{prefix="Präfix: ", 'aggMode'},
 'RM',
 'confidenceLevel',
 'originalTradeID',

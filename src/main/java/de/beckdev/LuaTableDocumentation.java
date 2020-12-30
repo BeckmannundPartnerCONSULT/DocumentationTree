@@ -53,7 +53,7 @@ public class LuaTableDocumentation implements DocumentationInformation {
     private TreeItem<TextNode> iterateOverLuaTableEntriesRecursively(Map<String, TextNode> textNodes, LuaTable table) {
         String branchname = table.get("branchname").tojstring();
         if (!textNodes.containsKey(branchname)) {
-            addTextNode(textNodes, branchname);
+            addTextNode(textNodes, null, branchname);
         }
         boolean collapsed = isBranchCollapsed(table);
         TreeItem<TextNode> treeNode = new TreeItem(textNodes.get(branchname));
@@ -85,26 +85,64 @@ public class LuaTableDocumentation implements DocumentationInformation {
         TreeItem<TextNode> newTreeItem = null;
         if (value.istable()) {
             LuaTable checktable = value.checktable();
-            newTreeItem = iterateOverLuaTableEntriesRecursively(textNodes, checktable);
-        } else if (value.isstring()) {
-            if (!key.checkstring().tojstring().equals("branchname") && !key.checkstring().tojstring().equals("state")) {
-                String text = value.checkstring().tojstring();
-                if (!textNodes.containsKey(text)) {
-                    addTextNode(textNodes, text);
+            if (!checkTableForPrefix(checktable)) {
+                newTreeItem = iterateOverLuaTableEntriesRecursively(textNodes, checktable);
+            } else {
+                LuaValue luaValue = value.checktable().get(1);
+                if (!luaValue.isnil()) {
+                    String prefix = getPrefix(checktable);
+                    String text = luaValue.tojstring();
+                    newTreeItem = createTextNodeTreeItem(textNodes, prefix, text);
                 }
-                newTreeItem = new TreeItem(textNodes.get(text));
+            }
+        } else if (value.isstring()) {
+            String text = value.checkstring().tojstring();
+            if (!key.checkstring().tojstring().equals("branchname") && !key.checkstring().tojstring().equals("state")) {
+                newTreeItem = createTextNodeTreeItem(textNodes, null, text);
             }
         }
         return newTreeItem;
+    }
+
+    private boolean checkTableForPrefix(LuaTable table) {
+        return getPrefix(table) != null;
+    }
+
+    private String getPrefix(LuaTable table) {
+        LuaValue lastKey = LuaValue.NIL;
+        Varargs tableItem;
+        while (!(tableItem = getNextTableItem(table, lastKey)).arg1().isnil()) {
+            if (!(lastKey = tableItem.arg1()).isnil()) {
+                String key = lastKey.checkstring().tojstring();
+                if (key.equals("prefix")) {
+                    return table.get("prefix").tojstring();
+                }
+            }
+        }
+        return null;
+    }
+
+    private TreeItem<TextNode> createTextNodeTreeItem(Map<String, TextNode> textNodes, String prefix, String text) {
+        if (!textNodes.containsKey(text)) {
+            addTextNode(textNodes, prefix, text);
+        }
+        if (prefix == null) {
+            return new TreeItem(textNodes.get(text));
+        } else {
+            return new TreeItem(textNodes.get(text));
+        }
     }
 
     private Varargs getNextTableItem(LuaTable table, LuaValue key) {
         return table.next(key);
     }
 
-    private void addTextNode(Map<String, TextNode> nodes, String branchname) {
-        TextNode textNode = new TextNode(branchname);
-        nodes.put(branchname, textNode);
+    private void addTextNode(Map<String, TextNode> nodes, String prefix, String text) {
+        TextNode textNode = new TextNode(text);
+        if (prefix != null) {
+            textNode.setPrefix(prefix);
+        }
+        nodes.put(text, textNode);
     }
 
     private boolean isBranchCollapsed(LuaTable table) {

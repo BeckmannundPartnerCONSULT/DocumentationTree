@@ -19,6 +19,7 @@ package de.beckdev;
 import java.util.Objects;
 
 public class TextNode {
+    private String prefix;
     private String text;
     private String color;
     
@@ -48,9 +49,21 @@ public class TextNode {
         this.color = color;
     }
 
+    public String getPrefix() {
+        return prefix;
+    }
+
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
     @Override
     public String toString() {
-        return text;
+        if (prefix != null) {
+            return prefix + text;
+        } else {
+            return text;
+        }
     }
 
     @Override
@@ -58,8 +71,7 @@ public class TextNode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TextNode textNode = (TextNode) o;
-        return Objects.equals(text, textNode.text) &&
-                Objects.equals(color, textNode.color);
+        return Objects.equals(text, textNode.text);
     }
 
     @Override
