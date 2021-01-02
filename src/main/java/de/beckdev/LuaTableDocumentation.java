@@ -123,13 +123,13 @@ public class LuaTableDocumentation implements DocumentationInformation {
     }
 
     private TreeItem<TextNode> createTextNodeTreeItem(Map<String, TextNode> textNodes, String prefix, String text) {
-        if (!textNodes.containsKey(text)) {
+        if (!textNodes.containsKey((prefix == null ? text : prefix.concat(text)))) {
             addTextNode(textNodes, prefix, text);
         }
         if (prefix == null) {
             return new TreeItem(textNodes.get(text));
         } else {
-            return new TreeItem(textNodes.get(text));
+            return new TreeItem(textNodes.get(prefix.concat(text)));
         }
     }
 
@@ -142,7 +142,7 @@ public class LuaTableDocumentation implements DocumentationInformation {
         if (prefix != null) {
             textNode.setPrefix(prefix);
         }
-        nodes.put(text, textNode);
+        nodes.put((prefix == null ? text : prefix.concat(text)), textNode);
     }
 
     private boolean isBranchCollapsed(LuaTable table) {
