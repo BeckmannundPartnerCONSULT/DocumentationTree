@@ -14,6 +14,8 @@ Die Dokumentation von temporären IDV-Datenbanken soll durch Tool-Unterstützung
 {appname} soll dabei die Darstellung von bisher manuell erzeugter Dokumentation in Form von LuaTables als Baumstruktur übernehmen.
 Auch zu Analysezwecken ist die Anwendung durch Markierung und Einfärbung von Knoten nutzbar.
 
+Der Artikel https://www.it-finanzmagazin.de/individuelle-datenverarbeitung-idv-bafin-84667/ beschreibt die Idee hinter DocumentationTree als Tool zur Dokumentation.
+
 *Idee*: https://github.com/BrunoKaiser[Dr. Bruno Kaiser]
 
 *Umsetzung*: https://github.com/cybi[Jens Kötterheinrich]
