@@ -15,14 +15,14 @@ Alle Extrahieren auf den eigenen Rechner auf das C:-Laufwerk
  
 Pfad ändern auf: C:\Lua
  
-Die Datei im Teams "Dateien" ansicht_documentation_tree.lua herunterladen.
+Die Datei ansicht_documentation_tree.lua herunterladen.
  
 Im Download-Ordner Doppelklicken, "Wie soll diese Datei geöffnet werden?" -> "Weitere Apps" blättern nach unten
 "Andere App auf diesem PC suchen" -> C:\Lua Lua54.exe anklicken.
  
 2. Tree.jar
 Herunterladen und Starten der LuaJ-Version als Jar-Archiv
-Das Jar-Archiv im Teams "Dateien" Tree.jar wird heruntergeladen und in einen Ordner der Wahl des Anwenders verschoben.
+Das Jar-Archiv Tree.jar wird heruntergeladen und in einen Ordner der Wahl des Anwenders verschoben.
  
 Das Jar-Archiv wird mit einer Starter-Datei als Tree oder als Lua-Konsole gestartet. Ein Beispiel für Bash-Dateien für Linux oder Mac (.sh-Dateien) ist zum Downloaden bereit. Die Windows-Versionen sind Batch-Dateien (.bat). Die Dateien sind im Ordner Tree_jar_Starter zu finden.
  
