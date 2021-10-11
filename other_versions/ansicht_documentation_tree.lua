@@ -1224,7 +1224,7 @@ function button_copy_title:flat_action()
 	delete_nodes_2nd_arg(tree,tree2)
 
 	for i=0, tree.count-1 do
-		if file_exists(tree["TITLE" .. i]) then --compare relativ with absolut paths
+		if file_exists(tree["TITLE" .. i]) then --existing files in black
 			iup.TreeSetNodeAttributes(tree,i,{color="0 0 0",})
 		elseif tree["TITLE" .. i]:match("\\[^\\]+%.[^\\]+$") then    --mark not existing files in grey
 			iup.TreeSetNodeAttributes(tree,i,{color="200 200 150",})
@@ -1512,8 +1512,15 @@ maindlg = iup.dialog{
 --7.5.1 show the dialog
 maindlg:show()
 
---7.5.2 delete nodes in tree2 that are in tree (is only possible after having the GUI shown) 
+--7.5.2 delete nodes in tree2 that are in tree and mark not existing files in grey (is possible only after having the GUI shown)
 delete_nodes_2nd_arg(tree,tree2)
+for i=0, tree.count-1 do
+	if file_exists(tree["TITLE" .. i]) then --existing files in black
+		iup.TreeSetNodeAttributes(tree,i,{color="0 0 0",})
+	elseif tree["TITLE" .. i]:match("\\[^\\]+%.[^\\]+$") then    --mark not existing files in grey
+		iup.TreeSetNodeAttributes(tree,i,{color="200 200 150",})
+	end --if file_exists(tree["TITLE" .. i]) then
+end --for i=0, tree.count-1 do
 
 --7.5.3 go to the main dialog
 iup.NextField(maindlg)
