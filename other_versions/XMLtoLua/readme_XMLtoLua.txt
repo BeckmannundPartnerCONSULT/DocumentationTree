@@ -6,13 +6,15 @@ This is an example file for XML to be converted to a Lua table with a conversion
 
 2. XMLtoLua_Linux.lua
 
-Version for Linux.
+Version for Linux for instance with the Tree.jar-GUI.
 
 3.1 XMLtoLua_Windows.lua 
 
-Version fo Windows.
+Version fo Windows for instance with the Tree.jar-GUI.
 
 3.2 XMLtoLua_Windows_ANSI_german.lua
+
+This version is written for the use with the IUP-Lua-GUI ansicht_documentation_tree.lua.
 
 A special case to be adapted for different languages. Here there is the german version.
 
