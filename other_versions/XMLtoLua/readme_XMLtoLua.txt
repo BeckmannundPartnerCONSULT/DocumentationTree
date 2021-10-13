@@ -2,7 +2,7 @@ In this directory there are conversion scripts for taking a XML file to write th
 
 1. example_XML.txt
 
-This is an example file for XML to be converted to a Lua table with a conversion script.
+This is an example file for XML to be converted to a Lua table with a conversion script. The file extension is here not .xml but .txt because it shows that it is a simple text file treatment. These Lua scripts do not need a XML parser, but treat the information in the file to build a new Lua script. The use of a file with extension .xml is the same. Only the file name must be adapted.
 
 2. XMLtoLua_Linux.lua
 
