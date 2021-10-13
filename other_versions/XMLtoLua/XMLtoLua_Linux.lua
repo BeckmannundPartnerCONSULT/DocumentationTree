@@ -1,5 +1,5 @@
 --read XML-File
-inputfile1=io.open("/home/pi/Tree/XML_Lua_Kompatibilitaet/Beispiel_XML.txt","r")
+inputfile1=io.open("/home/pi/Tree/example_XML.txt","r")
 inputText=inputfile1:read("*a")
 inputfile1:close()
 
@@ -20,7 +20,7 @@ inputText=inputText
 :gsub("&apos;","'"):gsub("&#39;","'"):gsub("&#x27;","'")
 
 --write Lua script
-outputfile1=io.open("/home/pi/Tree/XML_Lua_Kompatibilitaet/Beispiel_XML_Linux.lua","w")
+outputfile1=io.open("/home/pi/Tree/example_XML_Linux.lua","w")
 outputfile1:write(inputText ..  "\n}")
 outputfile1:close()
 
