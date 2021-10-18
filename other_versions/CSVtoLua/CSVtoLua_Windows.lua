@@ -6,7 +6,7 @@ outputLuaTable="C:\\Tree\\CSVtoLua_build\\dependencies_to_tree.lua"
 --this script takes dependencies and builds a tree out of them. 
 
 --the definition of the columns is as follows:
---1. child, for database query
+--1. child, for database query or insert table or build table
 --2. parent, for database table or query
 
 
