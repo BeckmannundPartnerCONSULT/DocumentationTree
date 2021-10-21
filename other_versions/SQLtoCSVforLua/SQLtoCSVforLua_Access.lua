@@ -1,7 +1,7 @@
 --This script reads the query-SQL statements of an Access database and their name (queries are views in access) and build dependencies from query to table and table to query and from query to the parts of the SQL statements
 
 --The script ist written for Access, but the part 3. and 4. can be used for the treatment of other databases with appropriate textfile with names of views and SQL statements
---The script reads also the forms and put them in dependency to the record source
+--The script reads also the forms and reports. It puts them in dependency to the record source.
 
 --1. input and outputfiles
 accessDatabase="C:\\Tree\\SQLtoCSVforLua\\test.accdb"
@@ -72,6 +72,15 @@ for i=0,rs2.Count-1 do
 	access.DoCmd:OpenForm(rs2(i).Name)
 	local outputText=tostring("Form: " .. access.Forms(i).Name .. ";" .. access.Forms(i).RecordSource) io.write(outputText .. "\n") 
 	access.DoCmd:Close(1,rs2(i).Name)
+end --for i=0,rs2.Count-1 do 
+--open all reports and read the record source
+rs3=access.Application.CurrentProject.AllReports
+for i=0,rs3.Count-1 do  
+	--test with: 
+print("Report: " .. rs3(i).Name)
+	access.DoCmd:OpenReport(rs3(i).Name,1)
+	local outputText=tostring("Report: " .. access.Reports(i).Name .. ";" .. access.Reports(i).RecordSource) io.write(outputText .. "\n") 
+	access.DoCmd:Close(1,rs3(i).Name)
 end --for i=0,rs2.Count-1 do 
 io.close()
 
