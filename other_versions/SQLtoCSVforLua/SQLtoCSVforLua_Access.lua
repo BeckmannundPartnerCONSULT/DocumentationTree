@@ -76,8 +76,7 @@ end --for i=0,rs2.Count-1 do
 --open all reports and read the record source
 rs3=access.Application.CurrentProject.AllReports
 for i=0,rs3.Count-1 do  
-	--test with: 
-print("Report: " .. rs3(i).Name)
+	--test with: print("Report: " .. rs3(i).Name)
 	access.DoCmd:OpenReport(rs3(i).Name,1)
 	local outputText=tostring("Report: " .. access.Reports(i).Name .. ";" .. access.Reports(i).RecordSource) io.write(outputText .. "\n") 
 	access.DoCmd:Close(1,rs3(i).Name)
