@@ -20,7 +20,7 @@
 
     <groupId>de.beckdev</groupId>
     <artifactId>documentationtree</artifactId>
-    <version>13.36</version>
+    <version>13.37-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <distributionManagement>
@@ -34,7 +34,7 @@
     <scm>
         <url>https://github.com/BeckmannundPartnerCONSULT/DocumentationTree.git</url>
         <connection>scm:git:https://github.com/BeckmannundPartnerCONSULT/DocumentationTree.git</connection>
-      <tag>documentationtree-13.36</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <properties>
