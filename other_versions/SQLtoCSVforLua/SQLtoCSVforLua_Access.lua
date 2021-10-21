@@ -67,5 +67,6 @@ end --for k,v in pairs(SQLtable) do
 io.close()
 
 --5. shut all access processes to be able to reopen the database
+access:Quit()
 os.execute('taskkill /IM MSACCESS.EXE /F')
 
