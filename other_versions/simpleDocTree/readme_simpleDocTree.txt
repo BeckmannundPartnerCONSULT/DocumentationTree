@@ -4,3 +4,6 @@ This repository has a simple version of a documentation tree with only one tree 
 
 The special functionalities are expand/collapse nodes and sort in alphabetic order.
 
+2.  SQLtoCSVforLua_dependencies_tree.lua
+
+The file SQLtoCSVforLua_dependencies_tree.lua is an example file as input for simple_documentation_tree.lua
