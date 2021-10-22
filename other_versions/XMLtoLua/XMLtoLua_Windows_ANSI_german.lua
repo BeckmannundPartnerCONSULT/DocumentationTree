@@ -1,9 +1,9 @@
---read XML-File
+--1. read XML-File
 inputfile1=io.open("C:\\Tree\\example_XML.txt","r")
 inputText=inputfile1:read("*a")
 inputfile1:close()
 
---transfer XML to Lua table
+--2. transfer XML to Lua table
 inputText=inputText
 :gsub("<%?(xml[^>]*)>",'Tree_XML={branchname=[====[%1]====],') --take xml definition as root branch
 :gsub("<([^/]*)/>","[====[%1]====],")                          --simple tags as leafs
@@ -13,13 +13,13 @@ inputText=inputText
 :gsub(",([^,}]*)}",",[====[%1]====]}")                         --simple texts as leafs
 :gsub("}","},")                                                --set comma after curly bracket
 --translate UTF-8 caracters to ANSI (here only german caracters)
-:gsub("ä","�")
-:gsub("ö","�")
-:gsub("ü","�")
-:gsub("Ä","�")
-:gsub("Ö","�")
-:gsub("Ü","�")
-:gsub("ß","�")
+:gsub("Ã¤","ä")
+:gsub("Ã¶","ö")
+:gsub("Ã¼","ü")
+:gsub("Ã„","Ä")
+:gsub("Ã–","Ö")
+:gsub("Ãœ","Ü")
+:gsub("ÃŸ","ß")
 --translate XML special caracters
 :gsub("&lt;","<"):gsub("&#60;","<"):gsub("&#x3C;","<")
 :gsub("&gt;",">"):gsub("&#62;",">"):gsub("&#x3E;",">")
@@ -27,7 +27,7 @@ inputText=inputText
 :gsub("&quot;",'"'):gsub("&#34;",'"'):gsub("&#x22;",'"')
 :gsub("&apos;","'"):gsub("&#39;","'"):gsub("&#x27;","'")
 
---write Lua script
+--3. write Lua script
 outputfile1=io.open("C:\\Tree\\example_XML.lua","w")
 outputfile1:write(inputText ..  "\n}")
 outputfile1:close()
