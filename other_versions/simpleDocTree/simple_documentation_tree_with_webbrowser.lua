@@ -16,7 +16,7 @@ textbox1=iup.text{value="1",size="400x10",alignment="ACENTER"}
 
 --1.1.2 webbrowser
 dofile(textHTML_file)
-webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1]}
+webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1],MAXSIZE="630x730"}
 actualPage=1
 
 --1.1.3 initalize clipboard
