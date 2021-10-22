@@ -13,27 +13,27 @@ state="COLLAPSED",
 require('iuplua')           --require iuplua for GUIs
 
 
---1.3 initalize clipboard
+--1.2 initalize clipboard
 clipboard=iup.clipboard{}
 
---1.2 color section
---1.2.1 color of the console associated with the graphical user interface if started with lua54.exe and not wlua54.exe
+--2.1 color section
+--2.1.1 color of the console associated with the graphical user interface if started with lua54.exe and not wlua54.exe
 os.execute('color 71')
 
---1.2.2 Beckmann und Partner colors
+--2.1.2 Beckmann und Partner colors
 color_red_bpc="135 31 28"
 color_light_color_grey_bpc="196 197 199"
 color_grey_bpc="162 163 165"
 color_blue_bpc="18 32 86"
 
---1.2.3 color definitions
+--2.1.3 color definitions
 color_background=color_light_color_grey_bpc
 color_buttons=color_blue_bpc -- works only for flat buttons, "18 32 86" is the blue of BPC
 color_button_text="255 255 255"
 color_background_tree="246 246 246"
 
 
---1.3 path of the graphical user interface and filename of this script
+--2.2 path of the graphical user interface and filename of this script
 path=arg[0]:match("(.*)\\")
 --test with: print(path)
 thisfilename=arg[0]:match("\\([^\\]+)$")
@@ -41,7 +41,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 --test with: print(thisfilename)
 
 
---3 functions
+--3. functions
 
 --3.1 general lua-functions
 
@@ -76,7 +76,7 @@ end --function printluatabletree(luatable)
 
 
 
---3.2.4 function which saves the current iup tree as a lua table.
+--3.2.3 function which saves the current iup tree as a lua table.
 function save_tree_to_lua(tree, outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
@@ -461,13 +461,13 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.11 start the file or repository of the node of tree 
+--5.1.8 start the file or repository of the node of tree 
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
 end --function startnode:action()
 
---5.1.12 put the buttons together in the menu for tree
+--5.1.9 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -550,7 +550,7 @@ function button_replace:flat_action()
 	dlg_search_replace:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_replace:flat_action()
 
---6.10 button with second logo
+--6.5 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -607,7 +607,7 @@ function tree:k_any(c)
 end --function tree:k_any(c)
 
 
---7.5 building the dialog and put buttons, trees and preview together
+--7.2 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog{
 	--simply show a box with buttons
 	iup.vbox{
@@ -636,13 +636,13 @@ maindlg = iup.dialog{
 	BACKGROUND=color_background
 }
 
---7.5.1 show the dialog
+--7.2.1 show the dialog
 maindlg:show()
 
---7.5.3 go to the main dialog
+--7.2.3 go to the main dialog
 iup.NextField(maindlg)
 
---7.6 callback on close of the main dialog
+--7.3 callback on close of the main dialog
 function maindlg:close_cb()
 	EndeAlarm=iup.Alarm("Alarm","Wollen Sie den Baum speichern?","Speichern","Nein")
 	if EndeAlarm==1 then 
@@ -653,7 +653,7 @@ function maindlg:close_cb()
 	end --if EndeAlarm==1 then 
 end --function maindlg:close_cb()
 
---7.7 Timer for autosave of tree
+--7.4 Timer for autosave of tree
 timer1=iup.timer{time=10000}
 function timer1:action_cb()
 	--test with: textfield1.value="Timer"
@@ -662,7 +662,7 @@ end --function timer1:action_cb()
 --turn timer on
 timer1.run="YES"
 
---7.8 Main Loop
+--7.5 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
