@@ -1,9 +1,9 @@
---read XML-File
+--1. read XML-File
 inputfile1=io.open("C:\\Tree\\example_XML.txt","r")
 inputText=inputfile1:read("*a")
 inputfile1:close()
 
---transfer XML to Lua table
+--2. transfer XML to Lua table
 inputText=inputText
 :gsub("<%?(xml[^>]*)>",'Tree_XML={branchname=[====[%1]====],') --take xml definition as root branch
 :gsub("<([^/]*)/>","[====[%1]====],")                          --simple tags as leafs
@@ -19,7 +19,7 @@ inputText=inputText
 :gsub("&quot;",'"'):gsub("&#34;",'"'):gsub("&#x22;",'"')
 :gsub("&apos;","'"):gsub("&#39;","'"):gsub("&#x27;","'")
 
---write Lua script
+--3. write Lua script
 outputfile1=io.open("C:\\Tree\\example_XML_UTF8.lua","w")
 outputfile1:write(inputText ..  "\n}")
 outputfile1:close()
