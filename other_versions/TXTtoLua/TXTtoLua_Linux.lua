@@ -3,7 +3,7 @@
 inputTextFile='/home/pi/Tree/TXTtoLua_build/TXTtoLua_Linux.lua'
 outputLuaScript='/home/pi/Tree/TXTtoLua_build/TXTtoLua_Tree.lua'
 
---function for splittings strings
+--1. function for splittings strings
 function string:split( inSplitPattern )
 	local outResults = {}
 	local theStart = 1
@@ -19,7 +19,7 @@ function string:split( inSplitPattern )
 	return outResults
 end --function string:split( inSplitPattern )
 
---read data from textfile
+--2. read data from textfile
 io.output(outputLuaScript)
 io.write('treefromtabtext=\n')
 io.write('{branchname=[====[Tree: ' .. inputTextFile .. ' (' .. os.date("%d.%m.%Y %H:%M:%S") .. ')]====]')
@@ -57,11 +57,11 @@ for line in io.lines(inputTextFile) do
 	end --if line:match('%S')~=nil then
 end --for line in io.lines(inputTextFile) do
 
---write end curly brackets
+--3. write end curly brackets
 for i=1, pos_curline+1 do
 	io.write('}')
 end --for i=1, pos_curline+1 do
 
---write end of file
+--4. write end of file
 io.write('\n\nreturn treefromtabtext')
 io.close()
