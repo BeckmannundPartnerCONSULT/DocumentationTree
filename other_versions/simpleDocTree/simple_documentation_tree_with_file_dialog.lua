@@ -10,27 +10,27 @@ arg[0]}
 require('iuplua')           --require iuplua for GUIs
 
 
---1.3 initalize clipboard
+--1.2 initalize clipboard
 clipboard=iup.clipboard{}
 
---1.2 color section
---1.2.1 color of the console associated with the graphical user interface if started with lua54.exe and not wlua54.exe
+--2.1 color section
+--2.1.1 color of the console associated with the graphical user interface if started with lua54.exe and not wlua54.exe
 os.execute('color 71')
 
---1.2.2 Beckmann und Partner colors
+--2.1.2 Beckmann und Partner colors
 color_red_bpc="135 31 28"
 color_light_color_grey_bpc="196 197 199"
 color_grey_bpc="162 163 165"
 color_blue_bpc="18 32 86"
 
---1.2.3 color definitions
+--2.1.3 color definitions
 color_background=color_light_color_grey_bpc
 color_buttons=color_blue_bpc -- works only for flat buttons, "18 32 86" is the blue of BPC
 color_button_text="255 255 255"
 color_background_tree="246 246 246"
 
 
---1.3 path of the graphical user interface and filename of this script
+--2.2 path of the graphical user interface and filename of this script
 path=arg[0]:match("(.*)\\")
 --test with: print(path)
 thisfilename=arg[0]:match("\\([^\\]+)$")
@@ -57,12 +57,12 @@ end --function string.escape_forbidden_char(insertstring)
 
 
 
---3.3 functions for writing text files
+--3.2 functions for writing text files
 
---3.3.1 function for writing tree in a text file (function for printing tree)
+--3.2.1 function for writing tree in a text file (function for printing tree)
 function printtree()
 	--open a filedialog
-	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.txt",filterinfo="Text Files", directory="c:\\temp"}
+	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswÃ¤hlen",filter="*.txt",filterinfo="Text Files", directory="c:\\temp"}
 	filedlg2:popup(iup.ANYWHERE,iup.ANYWHERE)
 	if filedlg2.status=="1" or filedlg2.status=="0" then
 		local outputfile=io.output(filedlg2.value) --setting the outputfile
@@ -75,13 +75,13 @@ function printtree()
 		end --for i=0,tree.totalchildcount0 do
 		outputfile:close() --close the outputfile
 	else --no outputfile was choosen
-		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.Message("SchlieÃŸen","Keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
 
 
---3.4 function to change expand/collapse relying on depth
+--3.3 function to change expand/collapse relying on depth
 --This function is needed in the expand/collapsed dialog. This function relies on the depth of the given level.
 function change_state_level(new_state,level,descendants_also)
 	if descendants_also=="YES" then
@@ -101,7 +101,7 @@ function change_state_level(new_state,level,descendants_also)
 end --function change_state_level(new_state,level,descendants_also)
 
 
---3.5 function to change expand/collapse relying on keyword
+--3.4 function to change expand/collapse relying on keyword
 --This function is needed in the expand/collapsed dialog. This function changes the state for all nodes, which match a keyword. Otherwise it works like change_stat_level.
 function change_state_keyword(new_state,keyword,descendants_also)
 	if descendants_also=="YES" then
@@ -121,8 +121,8 @@ function change_state_keyword(new_state,keyword,descendants_also)
 end --function change_state_keyword(new_state,level,descendants_also)
 
 
---3.6 function for sorting the tree alphabetically
---3.6.1 first a recursive function for the performed insertion sort
+--3.5 function for sorting the tree alphabetically
+--3.5.1 first a recursive function for the performed insertion sort
 function insertion_sort_recursive(tree,node_value)
 	tree.value=node_value
 	change_state_level("COLLAPSED",tree.depth,"YES") --collapse all nodes below current one
@@ -132,11 +132,11 @@ function insertion_sort_recursive(tree,node_value)
 			if tree.PREVIOUS~=nil then
 				insertion_sort_recursive(tree,tree.PREVIOUS)
 			end --if tree.PREVIOUS~=nil then
-		end --if tree.title:lower() > tree[¨title" .. tree.NEXT]:lower() then 
+		end --if tree.title:lower() > tree[Â¨title" .. tree.NEXT]:lower() then 
 	end --if tree.NEXT~=nil then
 end --function insertion_sort_recursive(tree,node_value)
 
---3.6.2 function that sorts effectively
+--3.5.2 function that sorts effectively
 function alphabetic_tree_sort(tree)
 	local total_depth_of_tree="0" --determine total depth of tree, as this sorting has to be iterated for this depth in order to reach all levels.
 	for i=1,tree.count-1 do
@@ -157,11 +157,11 @@ end --function alphabetic_tree_sort(tree)
 --4. dialogs
 
 
---4.2 search dialog
+--4.1 search dialog
 searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
 
 --search in downward direction
-searchdown    = iup.flatbutton{title = "Abwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchdown    = iup.flatbutton{title = "AbwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchdown:flat_action()
 	local help=false
 	--downward search
@@ -220,7 +220,7 @@ end --for i=0, tree.count - 1 do
 end --function unmark:flat_action()
 
 --search in upward direction
-searchup   = iup.flatbutton{title = "Aufwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchup   = iup.flatbutton{title = "AufwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchup:flat_action()
 	local help=false
 	--upward search
@@ -249,7 +249,7 @@ function searchup:flat_action()
 	end --if help==false then
 end --	function searchup:flat_action()
 
-checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
+checkboxforcasesensitive = iup.toggle{title="GroÃŸ-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
 search_label=iup.label{title="Suchfeld:"} --label for textfield
 
@@ -257,12 +257,12 @@ search_label=iup.label{title="Suchfeld:"} --label for textfield
 dlg_search =iup.dialog{
 			iup.vbox{iup.hbox{search_label,searchtext,}, 
 
-			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+			iup.label{title="Sonderzeichen: %. fÃ¼r ., %- fÃ¼r -, %+ fÃ¼r +, %% fÃ¼r %, %[ fÃ¼r [, %] fÃ¼r ], %( fÃ¼r (, %) fÃ¼r ), %^ fÃ¼r ^, %$ fÃ¼r $, %? fÃ¼r ?",},
 			iup.hbox{searchmark,unmark,checkboxforsearchinfiles,
 			}, 
-			iup.label{title="rot: übergeordnete Knoten",fgcolor = "255 0 0", },
+			iup.label{title="rot: Ã¼bergeordnete Knoten",fgcolor = "255 0 0", },
 			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
-			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
+			iup.label{title="grÃ¼n: untergeordnete Knoten",fgcolor = "90 195 0", },
 
 			iup.hbox{searchdown, searchup, 
 
@@ -276,9 +276,9 @@ dlg_search =iup.dialog{
 		startfocus=searchtext
 		}
 
---4.2 search dialog end
+--4.1 search dialog end
 
---4.3 expand and collapse dialog
+--4.2 expand and collapse dialog
 
 --function needed for the expand and collapse dialog
 function button_expand_collapse(new_state)
@@ -352,7 +352,7 @@ dlg_expand_collapse=iup.dialog{
 
 }
 
---4.3 expand and collapse dialog end
+--4.2 expand and collapse dialog end
 
 --4. dialogs end
 
@@ -368,7 +368,7 @@ end --function startcopy:action()
 
 
 
---5.1.12 put the buttons together in the menu for tree
+--5.1.2 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		}
@@ -378,7 +378,7 @@ menu = iup.menu{
 --5. context menus (menus for right mouse click) end
 
 
---6 buttons
+--6. buttons
 --6.1 logo image definition and button wiht logo 
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
@@ -419,14 +419,14 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
---6.1a button for loading tree
+--6.2 button for loading tree
 button_loading_lua_table=iup.flatbutton{title="Baum aus Lua Tabelle laden\n(Strg+O)", size="95x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_lua_table:flat_action()
 	--build file dialog for reading lua file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=arg[0]:match("(.*)\\")}
+	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei Ã¶ffnen",filter="*.lua",filterinfo="Lua Files",directory=arg[0]:match("(.*)\\")}
 	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 	if filedlg.status=="1" then
 		iup.Message("Neue Datei",filedlg.value)
@@ -448,19 +448,19 @@ function button_loading_lua_table:flat_action()
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree,actualtree)
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
+		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg.status=="1" then
 
 end --function button_loading_lua_table:flat_action()
 
---6.2 button for saving tree
+--6.3 button for saving tree
 button_save_lua_table=iup.flatbutton{title="Baum als Text speichern \n(Strg+P)", size="95x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	printtree()
 end --function button_save_lua_table:flat_action()
 
---6.3 button for search in tree, tree2 and tree3
+--6.4 button for search in tree, tree2 and tree3
 button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_search:flat_action()
 	searchtext.value=tree.title
@@ -468,31 +468,31 @@ function button_search:flat_action()
 	dlg_search:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_search:flat_action()
 
---6.4 button for expand and collapse
+--6.5 button for expand and collapse
 button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen\n(Strg+R)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_expand_collapse_dialog:flat_action()
 	text_expand_collapse.value=tree.title
 	dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_expand_collapse_dialog:flat_action()
 
---6.5 button for alphabetic sort of the tree
+--6.6 button for alphabetic sort of the tree
 button_alphabetic_sort=iup.flatbutton{title="Alphabetisch sortieren\n(Strg+T)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_alphabetic_sort:flat_action()
 	alphabetic_tree_sort(tree)
 end --function button_alphabetic_sort:flat_action()
 
---6.10 button with second logo
+--6.7 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
---6 buttons end
+--6. buttons end
 
 
---7 Main Dialog
+--7. Main Dialog
 
---build tree
+--7.1 build tree
 tree=iup.tree{
 map_cb=function(self)
 self:AddNodes(actualtree)
@@ -540,7 +540,7 @@ function tree:k_any(c)
 end --function tree:k_any(c)
 
 
---7.5 building the dialog and put buttons, trees and preview together
+--7.2 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog{
 	--simply show a box with buttons
 	iup.vbox{
@@ -569,16 +569,16 @@ maindlg = iup.dialog{
 	BACKGROUND=color_background
 }
 
---7.5.1 show the dialog
+--7.2.1 show the dialog
 maindlg:show()
 
---7.5.3 go to the main dialog
+--7.2.3 go to the main dialog
 iup.NextField(maindlg)
 
 
 
 
---7.8 Main Loop
+--7.3 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
