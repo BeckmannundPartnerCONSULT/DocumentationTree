@@ -2,11 +2,12 @@
 
 --1. basic data
 
---1.1 libraries
+--1.1 libraries and clipboard
+--1.1.1 libraries
 require('iuplua')           --require iuplua for GUIs
 require("iuplua_scintilla") --for Scintilla-editor
 
---1.3 initalize clipboard
+--1.1.2 initalize clipboard
 clipboard=iup.clipboard{}
 
 --1.2 color section
