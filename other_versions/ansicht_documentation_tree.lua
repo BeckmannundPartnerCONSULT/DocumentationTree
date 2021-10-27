@@ -1016,7 +1016,11 @@ end --function starteditor:action()
 --5.1.11 start the file or repository of the node of tree 
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
-	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
+	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
+		os.execute('start "D" "' .. tree['title'] .. '"') 
+	elseif tree['title']:match("sftp .*") then
+		os.execute(tree['title'])
+	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then
 end --function startnode:action()
 
 --5.1.12 put the buttons together in the menu for tree
@@ -1295,7 +1299,8 @@ showdragdrop="YES",
 droptarget="YES",--for Drag & Drop 
 droptypes="TEXT",--for Drag & Drop 
 }
-tree.BGCOLOR=color_background_tree --set the background color of the tree
+--set the background color of the tree
+tree.BGCOLOR=color_background_tree 
 -- Callback of the right mouse button click
 function tree:rightclick_cb(id)
 	tree.value = id
@@ -1367,6 +1372,7 @@ markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 dragsource="YES", --for Drag & Drop
 dragtypes="TEXT", --for Drag & Drop
 }
+--set the background color of the tree
 tree2.BGCOLOR=color_background_tree
 -- Callback of the right mouse button click
 function tree2:rightclick_cb(id)
