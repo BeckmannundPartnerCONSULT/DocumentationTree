@@ -1,4 +1,4 @@
---This script converts a PDF file in a text file (TXT) by using luacom
+--This script converts a PDF file in a text file (TXT) by using luacom and Word
 
 --1. library
 require("luacom")
@@ -24,7 +24,7 @@ for PDFFile in p:lines() do
 ActiveDocumentText=PDFFile:match("\\([^\\]+)$")
 if secureFileTable[ActiveDocumentText:gsub(".pdf","_pdf2") .. ".txt"]==nil or
 wordFileTable[ActiveDocumentText]>secureFileTable[ActiveDocumentText:gsub(".pdf","_pdf2") .. ".txt"] then
-print("Sichern von " .. ActiveDocumentText)
+print("securisation of " .. ActiveDocumentText)
 os.execute('copy "C:\\Temp\\Archiv\\' .. ActiveDocumentText:gsub(".pdf","_pdf2") .. '.txt" "C:\\Temp\\Archiv\\' .. ActiveDocumentText:gsub(".pdf","_pdf1") .. '.txt"')
 word=luacom.CreateObject("Word.Application")
 word.Documents:Open(PDFFile)
