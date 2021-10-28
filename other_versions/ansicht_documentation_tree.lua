@@ -10,6 +10,10 @@ require("iuplua_scintilla") --for Scintilla-editor
 --1.1.2 initalize clipboard
 clipboard=iup.clipboard{}
 
+--1.1.3 empty temporary tree needed to copy node with all its child nodes
+tree_temp={} --An Zuordnung senden, Dublizieren
+
+
 --1.2 color section
 --1.2.1 color of the console associated with the graphical user interface if started with lua54.exe and not wlua54.exe
 os.execute('color 71')
@@ -870,6 +874,89 @@ function startcopy:action() --copy node
 	 clipboard.text = tree['title']
 end --function startcopy:action()
 
+--5.1.1.1 copy node of tree with all children
+startcopy_doubling = iup.item {title = "Dublizieren"}
+function startcopy_doubling:action() --copy first node with same text as selected node with all its child nodes
+	local TreeText=""
+	local takeNode="yes"
+	local depthOfNode
+	local actualDepth=1
+	local numberOfNode=tree.count-1
+	local kindEndNode=""
+	for i=0, tree.count-1 do
+		if tree["TITLE" .. i]==tree["TITLE"] then 
+			depthOfNode=tree["DEPTH" .. i]
+			numberOfNode=i
+			break
+			--test with: print(tree["DEPTH" .. i],tree["TITLE" .. i])
+		end --if tree["TITLE" .. i]==tree["TITLE"] then 
+	end --for i=0, tree.count-1 do
+	for i=0, tree.count-1 do
+		if i==numberOfNode then
+			kindEndNode=tree["KIND" .. i ]
+			--test with: print(tree["TITLE" .. i])
+			TreeText='{branchname="' .. string.escape_forbidden_char(tree["TITLE"]) .. '",'
+		elseif i>numberOfNode and tree["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree["DEPTH" .. i])>actualDepth then
+			kindEndNode=tree["KIND" .. i ]
+			actualDepth=tonumber(tree["DEPTH" .. i])
+			if tree["KIND" .. i ]=="LEAF" then
+				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			else
+				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			end --if tree["KIND" .. i ]=="LEAF" then
+		elseif i>numberOfNode and tree["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree["DEPTH" .. i])<actualDepth then
+			if tree["KIND" .. i-1 ]=="BRANCH" then
+				TreeText=TreeText .. '},\n'
+			end -- if tree["KIND" .. i ]=="BRANCH" and tree["KIND" .. i ]=="BRANCH" then
+			kindEndNode=tree["KIND" .. i ]
+			local numberOfcurlybrakets=math.tointeger(actualDepth-tonumber(tree["DEPTH" .. i]))
+			actualDepth=tonumber(tree["DEPTH" .. i])
+			for i=1,numberOfcurlybrakets do
+				TreeText=TreeText .. '},\n'
+			end --for i=1,numberOfcurlybrakets do
+			if tree["KIND" .. i ]=="LEAF" then
+				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			else
+				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			end --if tree["KIND" .. i ]=="LEAF" then
+		elseif i>numberOfNode and tree["DEPTH" .. i]>depthOfNode and takeNode=="yes" then
+			--tonumber(tree["DEPTH" .. i])==actualDepth
+			if tree["KIND" .. i-1 ]=="BRANCH" then
+				TreeText=TreeText .. '},\n'
+			end -- if tree["KIND" .. i ]=="BRANCH" and tree["KIND" .. i ]=="BRANCH" then
+			kindEndNode=tree["KIND" .. i ]
+			--test with: print(tree["DEPTH" .. i],tree.title0:match(".:\\.*") .. tree["TITLE" .. i])
+			if tree["KIND" .. i ]=="LEAF" then
+				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			else
+				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			end --if tree["KIND" .. i ]=="LEAF" then
+		elseif i>numberOfNode then
+			takeNode="no"
+		end --if takeNode=="yes" then
+	end --for i=0, tree.count-1 do
+	--test with: print(kindEndNode)
+	if kindEndNode=="BRANCH" then
+		TreeText=TreeText .. '},\n'
+	end -- if kindEndNode=="BRANCH" then
+	endnumberOfcurlybrakets=math.max(math.tointeger(actualDepth-depthOfNode-1),0)
+	for i=1,endnumberOfcurlybrakets do
+	TreeText=TreeText .. '},'
+	end --for i=1,endnumberOfcurlybrakets do
+	TreeText=TreeText .. '}'
+	--test with: print(TreeText)
+	--load TreeText as tree_temp
+	if _VERSION=='Lua 5.1' then
+		loadstring('tree_temp='..TreeText)()
+	else
+		load('tree_temp='..TreeText)() --now tree_temp is filled
+	end --if _VERSION=='Lua 5.1' then
+	--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+	tree_temp={branchname=tree["title0"],tree_temp}
+	iup.TreeAddNodes(tree,tree_temp)
+end --function startcopy_doubling:action() 
+
+
 --5.1.2 rename node and rename action for other needs of tree
 renamenode = iup.item {title = "Knoten bearbeiten"}
 function renamenode:action()
@@ -928,7 +1015,7 @@ function startversion:action()
 end --function startversion:action()
 
 --5.1.8 start node of tree as a tree GUI or save a new one if not existing
-startastree = iup.item {title = "Als Tree Starten"}
+startastree = iup.item {title = "Als Tree starten"}
 function startastree:action()
 	--look for a tree GUI in the repositories in the path
 	--copy the GUI to have the GUI update to the last version used by the GUI from which it starts
@@ -957,7 +1044,7 @@ function startastree:action()
 end --function startastree:action()
 
 --5.1.9 start file of node of tree in IUP Lua scripter or start empty file in notepad or start empty scripter
-startnodescripter = iup.item {title = "Skripter Starten"}
+startnodescripter = iup.item {title = "Skripter starten"}
 function startnodescripter:action()
 	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
 	if file_exists(tree['title']) then inputfile=io.open(tree['title'],"r") ErsteZeile=inputfile:read() inputfile:close() end
@@ -1018,14 +1105,15 @@ startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
 		os.execute('start "D" "' .. tree['title'] .. '"') 
-	elseif tree['title']:match("sftp .*") then
-		os.execute(tree['title'])
-	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then
+	elseif tree['title']:match("sftp .*") then 
+		os.execute(tree['title']) 
+	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
 end --function startnode:action()
 
 --5.1.12 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
+		startcopy_doubling,
 		renamenode, 
 		addbranch, 
 		addbranch_fromclipboard, 
@@ -1043,12 +1131,78 @@ menu = iup.menu{
 --5.2 menu of tree2
 --5.2.1 copy node of tree2
 startcopy2 = iup.item {title = "Knoten kopieren"}
-function startcopy2:action() --Knoten kopieren
+function startcopy2:action() --copy node
 		clipboard.text=tree2.title0:match(".:\\.*") .. tree2['title']
 end --function startcopy2:action() 
 
+--5.2.1.1 copy node of tree2 with all children
+startcopy_withchilds2 = iup.item {title = "An Zuordnung senden"}
+function startcopy_withchilds2:action() --copy first node with same text as selected node with all its child nodes
+	local TreeText=""
+	local takeNode="yes"
+	local depthOfNode
+	local actualDepth=1
+	local numberOfNode=tree2.count-1
+	for i=0, tree2.count-1 do
+		if tree2["TITLE" .. i]==tree2["TITLE"] then 
+			depthOfNode=tree2["DEPTH" .. i]
+			numberOfNode=i
+			break
+			--test with: print(tree2["DEPTH" .. i],tree2["TITLE" .. i])
+		end --if tree2["TITLE" .. i]==tree2["TITLE"] then 
+	end --for i=0, tree2.count-1 do
+	for i=0, tree2.count-1 do
+		if i==numberOfNode then
+			--test with: print(tree2["DEPTH" .. i],tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i])
+			TreeText='{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE"]) .. '",'
+		elseif i>numberOfNode and tree2["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])>actualDepth then
+			actualDepth=tonumber(tree2["DEPTH" .. i])
+			if tree2["KIND" .. i ]=="LEAF" then
+				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+			else
+				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+			end --if tree2["KIND" .. i ]=="LEAF" then
+		elseif i>numberOfNode and tree2["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])<actualDepth then
+			local numberOfcurlybrakets=math.tointeger(actualDepth-tonumber(tree2["DEPTH" .. i]))
+			actualDepth=tonumber(tree2["DEPTH" .. i])
+			for i=1,numberOfcurlybrakets do
+				TreeText=TreeText .. '},\n'
+			end --for i=1,numberOfcurlybrakets do
+			if tree2["KIND" .. i ]=="LEAF" then
+				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+			else
+				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+			end --if tree2["KIND" .. i ]=="LEAF" then
+		elseif i>numberOfNode and tree2["DEPTH" .. i]>depthOfNode and takeNode=="yes" then
+			--test with: print(tree2["DEPTH" .. i],tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i])
+			if tree2["KIND" .. i ]=="LEAF" then
+				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+			else
+				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+			end --if tree2["KIND" .. i ]=="LEAF" then
+		elseif i>numberOfNode then
+			takeNode="no"
+		end --if takeNode=="yes" then
+	end --for i=0, tree2.count-1 do
+	endnumberOfcurlybrakets=math.max(math.tointeger(actualDepth-depthOfNode-1),0)
+	for i=1,endnumberOfcurlybrakets do
+	TreeText=TreeText .. '},'
+	end --for i=1,endnumberOfcurlybrakets do
+	TreeText=TreeText .. '}'
+	--test with: print(TreeText)
+	--load TreeText as tree_temp
+	if _VERSION=='Lua 5.1' then
+		loadstring('tree_temp='..TreeText)()
+	else
+		load('tree_temp='..TreeText)() --now tree_temp is filled
+	end --if _VERSION=='Lua 5.1' then
+	--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+	tree_temp={branchname=tree["title0"],tree_temp}
+	iup.TreeAddNodes(tree,tree_temp)
+end --function startcopy_withchilds2:action() 
+
 --5.2.2 start file of node of tree2 in IUP Lua scripter or start empty file in notepad or start empty scripter
-startnodescripter2 = iup.item {title = "Skripter Starten"}
+startnodescripter2 = iup.item {title = "Skripter starten"}
 function startnodescripter2:action()
 	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
 	if file_exists(tree2.title0:match(".:\\.*") .. tree2['title']) then inputfile=io.open(tree2.title0:match(".:\\.*") .. tree2['title'],"r") ErsteZeile=inputfile:read() inputfile:close() end
@@ -1117,6 +1271,7 @@ end --function startnode2:action()
 --5.2.5 put the buttons together in the menu for tree2
 menu2 = iup.menu{
 		startcopy2,
+		startcopy_withchilds2,
 		startnodescripter2, 
 		starteditor2,
 		startnode2, 
@@ -1300,7 +1455,7 @@ droptarget="YES",--for Drag & Drop
 droptypes="TEXT",--for Drag & Drop 
 }
 --set the background color of the tree
-tree.BGCOLOR=color_background_tree 
+tree.BGCOLOR=color_background_tree
 -- Callback of the right mouse button click
 function tree:rightclick_cb(id)
 	tree.value = id
@@ -1519,6 +1674,7 @@ maindlg = iup.dialog{
 --7.5.1 show the dialog
 maindlg:show()
 
+
 --7.5.2 delete nodes in tree2 that are in tree and mark not existing files in grey (is possible only after having the GUI shown)
 delete_nodes_2nd_arg(tree,tree2)
 for i=0, tree.count-1 do
@@ -1528,6 +1684,7 @@ for i=0, tree.count-1 do
 		iup.TreeSetNodeAttributes(tree,i,{color="200 200 150",})
 	end --if file_exists(tree["TITLE" .. i]) then
 end --for i=0, tree.count-1 do
+
 
 --7.5.3 go to the main dialog
 iup.NextField(maindlg)
