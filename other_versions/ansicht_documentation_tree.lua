@@ -1462,8 +1462,6 @@ SIZE="400x200",
 showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
-droptarget="YES",--for Drag & Drop 
-droptypes="TEXT",--for Drag & Drop 
 }
 --set the background color of the tree
 tree.BGCOLOR=color_background_tree
@@ -1509,9 +1507,6 @@ function tree:k_any(c)
 		menu:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
---callback for Drag & Drop
-function tree:dropdata_cb(typeString,userData,sizeNumber,x,y) end
-
 
 
 --7.2 load tree2 from file
@@ -1534,9 +1529,7 @@ map_cb=function(self)
 self:AddNodes(tree_script)
 end, --function(self)
 showrename="YES",--F2 key active
-markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
-dragsource="YES", --for Drag & Drop
-dragtypes="TEXT", --for Drag & Drop
+markmode="MULTIPLE",--for Drag & Drop SINGLE not MULTIPLE
 }
 --set the background color of the tree
 tree2.BGCOLOR=color_background_tree
@@ -1567,29 +1560,6 @@ function tree2:k_any(c)
 		menu2:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
 	end --if c == iup.K_cF then
 end --function tree2:k_any(c)
---callback for Drag & Drop
-function tree2:dragbegin_cb(x,y) end
-function tree2:dragdatasize_cb(typeString)
---test with: iup.Message("Drag","Drop" .. typeString)
-	if tree2.kind=="LEAF" then
-		if tree2.title:match("^\\") then
-			tree.addleaf = tree2.title0:match(".:\\.*") .. tree2.title
-			tree.value=tree.value+1
-		else
-			tree.addleaf = tree2.title
-			tree.value=tree.value+1
-		end --if tree2.title:match("^\\") then
-	else
-		if tree2.title:match("^\\") then
-		tree.addbranch = tree2.title0:match(".:\\.*") .. tree2.title
-		tree.value=tree.value+1
-		else
-		tree.addbranch = tree2.title
-		tree.value=tree.value+1
-		end --if tree2.title:match("^\\") then
-	end --if tree2.kind=="LEAF" then
-end --function tree2:dragdatasize_cb(typeString)
-function tree2:dragdata_cb(typeString,userData,sizeNumber) end
 
 --7.3 load tree3 from file
 dofile(path .. "\\documentation_tree_statistics.lua")
