@@ -883,6 +883,7 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 	local actualDepth=1
 	local numberOfNode=tree.count-1
 	local kindEndNode=""
+	local countNodeandChildren=0
 	for i=0, tree.count-1 do
 		if tree["TITLE" .. i]==tree["TITLE"] then 
 			depthOfNode=tree["DEPTH" .. i]
@@ -896,6 +897,7 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 			kindEndNode=tree["KIND" .. i ]
 			--test with: print(tree["TITLE" .. i])
 			TreeText='{branchname="' .. string.escape_forbidden_char(tree["TITLE"]) .. '",'
+			countNodeandChildren=countNodeandChildren+1
 		elseif i>numberOfNode and tree["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree["DEPTH" .. i])>actualDepth then
 			kindEndNode=tree["KIND" .. i ]
 			actualDepth=tonumber(tree["DEPTH" .. i])
@@ -904,6 +906,7 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 			else
 				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
 			end --if tree["KIND" .. i ]=="LEAF" then
+			countNodeandChildren=countNodeandChildren+1
 		elseif i>numberOfNode and tree["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree["DEPTH" .. i])<actualDepth then
 			if tree["KIND" .. i-1 ]=="BRANCH" then
 				TreeText=TreeText .. '},\n'
@@ -919,6 +922,7 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 			else
 				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
 			end --if tree["KIND" .. i ]=="LEAF" then
+			countNodeandChildren=countNodeandChildren+1
 		elseif i>numberOfNode and tree["DEPTH" .. i]>depthOfNode and takeNode=="yes" then
 			--tonumber(tree["DEPTH" .. i])==actualDepth
 			if tree["KIND" .. i-1 ]=="BRANCH" then
@@ -931,14 +935,17 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 			else
 				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
 			end --if tree["KIND" .. i ]=="LEAF" then
+			countNodeandChildren=countNodeandChildren+1
 		elseif i>numberOfNode then
 			takeNode="no"
 		end --if takeNode=="yes" then
 	end --for i=0, tree.count-1 do
 	--test with: print(kindEndNode)
-	if kindEndNode=="BRANCH" then
+	--test with: print("countNodeandChildren: " .. countNodeandChildren)
+	--with countNodeandChildren==1 the curly braket is set by the last one
+	if kindEndNode=="BRANCH" and countNodeandChildren>1 then
 		TreeText=TreeText .. '},\n'
-	end -- if kindEndNode=="BRANCH" then
+	end -- if kindEndNode=="BRANCH" and countNodeandChildren>1 then
 	endnumberOfcurlybrakets=math.max(math.tointeger(actualDepth-depthOfNode-1),0)
 	for i=1,endnumberOfcurlybrakets do
 	TreeText=TreeText .. '},'
@@ -946,11 +953,13 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 	TreeText=TreeText .. '}'
 	--test with: print(TreeText)
 	--load TreeText as tree_temp
-	if _VERSION=='Lua 5.1' then
+	if TreeText and _VERSION=='Lua 5.1' then
 		loadstring('tree_temp='..TreeText)()
-	else
+	elseif TreeText then
 		load('tree_temp='..TreeText)() --now tree_temp is filled
-	end --if _VERSION=='Lua 5.1' then
+	else
+		iup.Message("Der Knoten kann nicht dubliziert werden.","Der Knoten kann nicht dubliziert werden.")
+	end --if TreeText and _VERSION=='Lua 5.1' then
 	--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
 	tree_temp={branchname=tree["title0"],tree_temp}
 	iup.TreeAddNodes(tree,tree_temp)
@@ -996,7 +1005,7 @@ function addleaf_fromclipboard:action()
 end --function addleaf_fromclipboard:action()
 
 --5.1.7 copy a version of the file selected in the tree and give it the next version number
-startversion = iup.item {title = "Version Archivieren"}
+startversion = iup.item {title = "Version archivieren"}
 function startversion:action()
 	--get the version of the file
 	if tree['title']:match(".:\\.*%.[^\\]+") then
@@ -1191,11 +1200,13 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 	TreeText=TreeText .. '}'
 	--test with: print(TreeText)
 	--load TreeText as tree_temp
-	if _VERSION=='Lua 5.1' then
+	if TreeText and _VERSION=='Lua 5.1' then
 		loadstring('tree_temp='..TreeText)()
-	else
+	elseif TreeText then
 		load('tree_temp='..TreeText)() --now tree_temp is filled
-	end --if _VERSION=='Lua 5.1' then
+	else
+		iup.Message("Der Knoten kann nicht gesendet werden.","Der Knoten kann nicht gesendet werden.")
+	end --if TreeText and _VERSION=='Lua 5.1' then
 	--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
 	tree_temp={branchname=tree["title0"],tree_temp}
 	iup.TreeAddNodes(tree,tree_temp)
