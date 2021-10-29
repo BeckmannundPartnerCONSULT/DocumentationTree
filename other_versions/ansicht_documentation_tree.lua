@@ -13,6 +13,12 @@ clipboard=iup.clipboard{}
 --1.1.3 empty temporary tree needed to copy node with all its child nodes
 tree_temp={} --An Zuordnung senden, Dublizieren
 
+--1.1.4 math.integer for Lua 5.1 and Lua 5.2
+if _VERSION=='Lua 5.1' then
+	function math.tointeger(a) return a end
+elseif _VERSION=='Lua 5.2' then
+	function math.tointeger(a) return a end
+end --if _VERSION=='Lua 5.1' then
 
 --1.2 color section
 --1.2.1 color of the console associated with the graphical user interface if started with lua54.exe and not wlua54.exe
@@ -884,7 +890,7 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 	local countNodeandChildren=0
 	local numberOfNode=math.tointeger(tonumber(tree.value))
 	local depthOfNode=tree["DEPTH" .. numberOfNode]
-	for i=0, tree.count-1 do
+	for i=numberOfNode, tree.count-1 do
 		if i==numberOfNode then
 			kindEndNode=tree["KIND" .. i ]
 			--test with: print(tree["TITLE" .. i])
@@ -959,7 +965,7 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 		iup.TreeAddNodes(tree,tree_temp)
 	else
 		iup.Message("Der Knoten kann nicht dubliziert werden.","Der Knoten kann nicht dubliziert werden.")
-	end --if TreeText and _VERSION=='Lua 5.1' then
+	end --if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 end --function startcopy_doubling:action() 
 
 
@@ -1138,7 +1144,11 @@ menu = iup.menu{
 --5.2.1 copy node of tree2
 startcopy2 = iup.item {title = "Knoten kopieren"}
 function startcopy2:action() --copy node
+	if tree2['title']:match("^\\.*") then
 		clipboard.text=tree2.title0:match(".:\\.*") .. tree2['title']
+	else
+		clipboard.text=tree2['title']
+	end --if tree2['title']:match("^\\.*") then
 end --function startcopy2:action() 
 
 --5.2.1.1 copy node of tree2 with all children
@@ -1149,38 +1159,85 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 	local actualDepth=1
 	local numberOfNode=math.tointeger(tonumber(tree2.value))
 	local depthOfNode=tree2["DEPTH" .. numberOfNode]
-	for i=0, tree2.count-1 do
-		if i==numberOfNode then
-			--test with: print(tree2["DEPTH" .. i],tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i])
-			TreeText='{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE"]) .. '",'
-		elseif i>numberOfNode and tonumber(tree2["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])>actualDepth then
-			actualDepth=tonumber(tree2["DEPTH" .. i])
-			if tree2["KIND" .. i ]=="LEAF" then
-				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
-			else
-				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
-			end --if tree2["KIND" .. i ]=="LEAF" then
-		elseif i>numberOfNode and tonumber(tree2["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])<actualDepth then
-			local numberOfcurlybrakets=math.tointeger(actualDepth-tonumber(tree2["DEPTH" .. i]))
-			actualDepth=tonumber(tree2["DEPTH" .. i])
-			for i=1,numberOfcurlybrakets do
-				TreeText=TreeText .. '},\n'
-			end --for i=1,numberOfcurlybrakets do
-			if tree2["KIND" .. i ]=="LEAF" then
-				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
-			else
-				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
-			end --if tree2["KIND" .. i ]=="LEAF" then
-		elseif i>numberOfNode and tonumber(tree2["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" then
-			--test with: print(tree2["DEPTH" .. i],tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i])
-			if tree2["KIND" .. i ]=="LEAF" then
-				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
-			else
-				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
-			end --if tree2["KIND" .. i ]=="LEAF" then
-		elseif i>numberOfNode then
-			takeNode="no"
-		end --if takeNode=="yes" then
+	for i=numberOfNode, tree2.count-1 do
+		if tree2["KIND" .. numberOfNode ]=="LEAF" then
+			--test with: print(tree2["KIND" .. i],tree2["MARKED" .. i])
+			if tree2["KIND" .. i]=="LEAF" and tree2["MARKED" .. i]=="YES" then
+				if tree2["TITLE" .. i]:match("^\\.*") then
+					tree.addleaf = tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]
+				else
+					tree.addleaf = tree2["TITLE" .. i]
+				end --if tree2["TITLE" .. i]:match("^\\.*") then
+					tree.value=tree.value+1
+			elseif tree2["KIND" .. i]=="BRANCH" and tree2["MARKED" .. i]=="YES" then
+				if tree2["TITLE" .. i]:match("^\\.*") then
+					tree.addbranch = tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]
+				else
+					tree.addbranch = tree2["TITLE" .. i]
+				end --if tree2["TITLE" .. i]:match("^\\.*") then
+				tree.value=tree.value+1
+			end --if tree2["KIND" .. i]=="LEAF" and tree2["MARKED" .. i] then
+		else
+			if i==numberOfNode then
+				--test with: print(tree2["DEPTH" .. i],tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i])
+				if tree2["TITLE" .. i]:match("^\\.*") then
+					TreeText='{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+				else
+					TreeText='{branchname="' .. string.escape_forbidden_char(tree2["TITLE" .. i]) .. '",'
+				end --if tree2["TITLE" .. i]:match("^\\.*") then
+			elseif i>numberOfNode and tonumber(tree2["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])>actualDepth then
+				actualDepth=tonumber(tree2["DEPTH" .. i])
+				if tree2["KIND" .. i ]=="LEAF" then
+					if tree2["TITLE" .. i]:match("^\\.*") then
+						TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+					else
+						TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2["TITLE" .. i]) .. '",'
+					end --if tree2["TITLE" .. i]:match("^\\.*") then
+				else
+					if tree2["TITLE" .. i]:match("^\\.*") then
+						TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+					else
+						TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2["TITLE" .. i]) .. '",'
+					end --if tree2["TITLE" .. i]:match("^\\.*") then
+				end --if tree2["KIND" .. i ]=="LEAF" then
+			elseif i>numberOfNode and tonumber(tree2["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])<actualDepth then
+				local numberOfcurlybrakets=math.tointeger(actualDepth-tonumber(tree2["DEPTH" .. i]))
+				actualDepth=tonumber(tree2["DEPTH" .. i])
+				for i=1,numberOfcurlybrakets do
+					TreeText=TreeText .. '},\n'
+				end --for i=1,numberOfcurlybrakets do
+				if tree2["KIND" .. i ]=="LEAF" then
+					if tree2["TITLE" .. i]:match("^\\.*") then
+						TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+					else
+						TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2["TITLE" .. i]) .. '",'
+					end --if tree2["TITLE" .. i]:match("^\\.*") then
+				else
+					if tree2["TITLE" .. i]:match("^\\.*") then
+						TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+					else
+						TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2["TITLE" .. i]) .. '",'
+					end --if tree2["TITLE" .. i]:match("^\\.*") then
+				end --if tree2["KIND" .. i ]=="LEAF" then
+			elseif i>numberOfNode and tonumber(tree2["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" then
+				--test with: print(tree2["DEPTH" .. i],tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i])
+				if tree2["KIND" .. i ]=="LEAF" then
+					if tree2["TITLE" .. i]:match("^\\.*") then
+						TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+					else
+						TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2["TITLE" .. i]) .. '",'
+					end --if tree2["TITLE" .. i]:match("^\\.*") then
+				else
+					if tree2["TITLE" .. i]:match("^\\.*") then
+						TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
+					else
+						TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2["TITLE" .. i]) .. '",'
+					end --if tree2["TITLE" .. i]:match("^\\.*") then
+				end --if tree2["KIND" .. i ]=="LEAF" then
+			elseif i>numberOfNode then
+				takeNode="no"
+			end --if i==numberOfNode then
+		end --if tree2["KIND" .. numberOfNode ]=="LEAF" then
 	end --for i=0, tree2.count-1 do
 	endnumberOfcurlybrakets=math.max(math.tointeger(actualDepth-depthOfNode-1),0)
 	for i=1,endnumberOfcurlybrakets do
@@ -1203,7 +1260,7 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 		iup.TreeAddNodes(tree,tree_temp)
 	else
 		iup.Message("Der Knoten kann nicht gesendet werden.","Der Knoten kann nicht gesendet werden.")
-	end --if TreeText and _VERSION=='Lua 5.1' then
+	end --if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 end --function startcopy_withchilds2:action() 
 
 --5.2.2 start file of node of tree2 in IUP Lua scripter or start empty file in notepad or start empty scripter
