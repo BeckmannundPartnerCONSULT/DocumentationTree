@@ -1661,9 +1661,18 @@ maindlg = iup.dialog{
 	BACKGROUND=color_background
 }
 
---7.5.1 show the dialog
-maindlg:show()
+--7.5.1 read plugins directory
+p=io.popen('dir "' .. path .. '\\documentation_tree_plugins\\*.lua" /b/o/s')
+--test with: print(p)
+print("Documentation Tree Plugins")
+print(path .. "\\documentation_tree_plugins\\*.lua") 
+for pluginFile in p:lines() do
+	print(pluginFile)
+	dofile(pluginFile)
+end --for pluginFile in p:lines() do
 
+--7.5.1.1 show the dialog
+maindlg:show()
 
 --7.5.2 delete nodes in tree2 that are in tree and mark not existing files in grey (is possible only after having the GUI shown)
 delete_nodes_2nd_arg(tree,tree2)
