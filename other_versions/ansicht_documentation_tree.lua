@@ -879,26 +879,18 @@ startcopy_doubling = iup.item {title = "Dublizieren"}
 function startcopy_doubling:action() --copy first node with same text as selected node with all its child nodes
 	local TreeText=""
 	local takeNode="yes"
-	local depthOfNode
 	local actualDepth=1
-	local numberOfNode=tree.count-1
 	local kindEndNode=""
 	local countNodeandChildren=0
-	for i=0, tree.count-1 do
-		if tree["TITLE" .. i]==tree["TITLE"] then 
-			depthOfNode=tree["DEPTH" .. i]
-			numberOfNode=i
-			break
-			--test with: print(tree["DEPTH" .. i],tree["TITLE" .. i])
-		end --if tree["TITLE" .. i]==tree["TITLE"] then 
-	end --for i=0, tree.count-1 do
+	local numberOfNode=math.tointeger(tonumber(tree.value))
+	local depthOfNode=tree["DEPTH" .. numberOfNode]
 	for i=0, tree.count-1 do
 		if i==numberOfNode then
 			kindEndNode=tree["KIND" .. i ]
 			--test with: print(tree["TITLE" .. i])
 			TreeText='{branchname="' .. string.escape_forbidden_char(tree["TITLE"]) .. '",'
 			countNodeandChildren=countNodeandChildren+1
-		elseif i>numberOfNode and tree["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree["DEPTH" .. i])>actualDepth then
+		elseif i>numberOfNode and tonumber(tree["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree["DEPTH" .. i])>actualDepth then
 			kindEndNode=tree["KIND" .. i ]
 			actualDepth=tonumber(tree["DEPTH" .. i])
 			if tree["KIND" .. i ]=="LEAF" then
@@ -907,7 +899,7 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
 			end --if tree["KIND" .. i ]=="LEAF" then
 			countNodeandChildren=countNodeandChildren+1
-		elseif i>numberOfNode and tree["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree["DEPTH" .. i])<actualDepth then
+		elseif i>numberOfNode and tonumber(tree["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree["DEPTH" .. i])<actualDepth then
 			if tree["KIND" .. i-1 ]=="BRANCH" then
 				TreeText=TreeText .. '},\n'
 			end -- if tree["KIND" .. i ]=="BRANCH" and tree["KIND" .. i ]=="BRANCH" then
@@ -923,7 +915,7 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
 			end --if tree["KIND" .. i ]=="LEAF" then
 			countNodeandChildren=countNodeandChildren+1
-		elseif i>numberOfNode and tree["DEPTH" .. i]>depthOfNode and takeNode=="yes" then
+		elseif i>numberOfNode and tonumber(tree["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" then
 			--tonumber(tree["DEPTH" .. i])==actualDepth
 			if tree["KIND" .. i-1 ]=="BRANCH" then
 				TreeText=TreeText .. '},\n'
@@ -1154,29 +1146,21 @@ startcopy_withchilds2 = iup.item {title = "An Zuordnung senden"}
 function startcopy_withchilds2:action() --copy first node with same text as selected node with all its child nodes
 	local TreeText=""
 	local takeNode="yes"
-	local depthOfNode
 	local actualDepth=1
-	local numberOfNode=tree2.count-1
-	for i=0, tree2.count-1 do
-		if tree2["TITLE" .. i]==tree2["TITLE"] then 
-			depthOfNode=tree2["DEPTH" .. i]
-			numberOfNode=i
-			break
-			--test with: print(tree2["DEPTH" .. i],tree2["TITLE" .. i])
-		end --if tree2["TITLE" .. i]==tree2["TITLE"] then 
-	end --for i=0, tree2.count-1 do
+	local numberOfNode=math.tointeger(tonumber(tree2.value))
+	local depthOfNode=tree2["DEPTH" .. numberOfNode]
 	for i=0, tree2.count-1 do
 		if i==numberOfNode then
 			--test with: print(tree2["DEPTH" .. i],tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i])
 			TreeText='{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE"]) .. '",'
-		elseif i>numberOfNode and tree2["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])>actualDepth then
+		elseif i>numberOfNode and tonumber(tree2["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])>actualDepth then
 			actualDepth=tonumber(tree2["DEPTH" .. i])
 			if tree2["KIND" .. i ]=="LEAF" then
 				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
 			else
 				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
 			end --if tree2["KIND" .. i ]=="LEAF" then
-		elseif i>numberOfNode and tree2["DEPTH" .. i]>depthOfNode and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])<actualDepth then
+		elseif i>numberOfNode and tonumber(tree2["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree2["DEPTH" .. i])<actualDepth then
 			local numberOfcurlybrakets=math.tointeger(actualDepth-tonumber(tree2["DEPTH" .. i]))
 			actualDepth=tonumber(tree2["DEPTH" .. i])
 			for i=1,numberOfcurlybrakets do
@@ -1187,7 +1171,7 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 			else
 				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
 			end --if tree2["KIND" .. i ]=="LEAF" then
-		elseif i>numberOfNode and tree2["DEPTH" .. i]>depthOfNode and takeNode=="yes" then
+		elseif i>numberOfNode and tonumber(tree2["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" then
 			--test with: print(tree2["DEPTH" .. i],tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i])
 			if tree2["KIND" .. i ]=="LEAF" then
 				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree2.title0:match(".:\\.*") .. tree2["TITLE" .. i]) .. '",'
