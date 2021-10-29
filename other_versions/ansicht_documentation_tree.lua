@@ -481,7 +481,7 @@ function printtree()
 	if filedlg2.status=="1" or filedlg2.status=="0" then
 		local outputfile=io.output(filedlg2.value) --setting the outputfile
 		for i=0,tree.totalchildcount0 do
-			local helper=tree['title' .. i]
+			local helper=tree['title' .. i]:gsub("\n","\\n")
 			for j=1,tree['depth' .. i] do
 				helper='\t' ..  helper
 			end --for j=1,tree['depth' .. i] do
@@ -796,22 +796,33 @@ checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
 search_label=iup.label{title="Suchfeld:"} --label for textfield
 
+
+--search searchtext.value in textfield1
+search_in_textfield1   = iup.flatbutton{title = "Suche in der Vorschau",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchPosition=1
+function search_in_textfield1:flat_action()
+from,to=textfield1.value:find(searchtext.value,searchPosition)
+searchPosition=to
+if from==nil then 
+searchPosition=1 
+iup.Message("Suchtext in der Vorschau nicht gefunden","Suchtext in der Vorschau nicht gefunden")
+else
+textfield1.SELECTIONPOS=from-1 .. ":" .. to
+end --if from==nil then 
+end --	function search_in_textfield1:flat_action()
+
+
 --put above together in a search dialog
 dlg_search =iup.dialog{
 			iup.vbox{iup.hbox{search_label,searchtext,}, 
 
 			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
-			iup.hbox{searchmark,unmark,checkboxforsearchinfiles,
-			}, 
+			iup.hbox{searchmark,unmark,checkboxforsearchinfiles,}, 
 			iup.label{title="rot: übergeordnete Knoten",fgcolor = "255 0 0", },
 			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
 			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
-
-			iup.hbox{searchdown, searchup, 
-
-			iup.vbox{
-			checkboxforcasesensitive,},
-			},
+			iup.hbox{searchdown, searchup,checkboxforcasesensitive,},
+			iup.hbox{search_in_textfield1,},
 
 			}; 
 		title="Suchen",
