@@ -953,16 +953,21 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 	TreeText=TreeText .. '}'
 	--test with: print(TreeText)
 	--load TreeText as tree_temp
-	if TreeText and _VERSION=='Lua 5.1' then
+	local _,numberCurlyBraketsBegin=TreeText:gsub("{","")
+	local _,numberCurlyBraketsEnd=TreeText:gsub("}","")
+	if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 		loadstring('tree_temp='..TreeText)()
-	elseif TreeText then
+		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		tree_temp={branchname=tree["title0"],tree_temp}
+		iup.TreeAddNodes(tree,tree_temp)
+	elseif numberCurlyBraketsBegin==numberCurlyBraketsEnd then
 		load('tree_temp='..TreeText)() --now tree_temp is filled
+		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		tree_temp={branchname=tree["title0"],tree_temp}
+		iup.TreeAddNodes(tree,tree_temp)
 	else
 		iup.Message("Der Knoten kann nicht dubliziert werden.","Der Knoten kann nicht dubliziert werden.")
 	end --if TreeText and _VERSION=='Lua 5.1' then
-	--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
-	tree_temp={branchname=tree["title0"],tree_temp}
-	iup.TreeAddNodes(tree,tree_temp)
 end --function startcopy_doubling:action() 
 
 
@@ -1200,16 +1205,21 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 	TreeText=TreeText .. '}'
 	--test with: print(TreeText)
 	--load TreeText as tree_temp
-	if TreeText and _VERSION=='Lua 5.1' then
+	local _,numberCurlyBraketsBegin=TreeText:gsub("{","")
+	local _,numberCurlyBraketsEnd=TreeText:gsub("}","")
+	if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 		loadstring('tree_temp='..TreeText)()
-	elseif TreeText then
+		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		tree_temp={branchname=tree["title0"],tree_temp}
+		iup.TreeAddNodes(tree,tree_temp)
+	elseif numberCurlyBraketsBegin==numberCurlyBraketsEnd then
 		load('tree_temp='..TreeText)() --now tree_temp is filled
+		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		tree_temp={branchname=tree["title0"],tree_temp}
+		iup.TreeAddNodes(tree,tree_temp)
 	else
 		iup.Message("Der Knoten kann nicht gesendet werden.","Der Knoten kann nicht gesendet werden.")
 	end --if TreeText and _VERSION=='Lua 5.1' then
-	--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
-	tree_temp={branchname=tree["title0"],tree_temp}
-	iup.TreeAddNodes(tree,tree_temp)
 end --function startcopy_withchilds2:action() 
 
 --5.2.2 start file of node of tree2 in IUP Lua scripter or start empty file in notepad or start empty scripter
@@ -1507,7 +1517,6 @@ function tree:k_any(c)
 		menu:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
-
 
 --7.2 load tree2 from file
 if file_exists(path .. "\\documentation_tree_script.lua") then
