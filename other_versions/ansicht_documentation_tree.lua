@@ -1258,6 +1258,8 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
+	elseif tree2["KIND" .. numberOfNode ]=="LEAF" then
+		--do nothing because marked leafs sent
 	else
 		iup.Message("Der Knoten kann nicht gesendet werden.","Der Knoten kann nicht gesendet werden.")
 	end --if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
