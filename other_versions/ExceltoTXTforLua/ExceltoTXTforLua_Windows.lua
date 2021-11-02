@@ -5,7 +5,7 @@ require("luacom")
 
 --2.1 read excel file names of the directory in a Lua table
 excelFileTable={}
-p=io.popen('dir C:\\Users\\RK\\Documents\\Bruno\\*xlsx /o')
+p=io.popen('dir C:\\Temp\\*xlsx /o')
 for file in p:lines() do
 	local DayText,MonthText,YearText,HourText,MinuteText,FileText=file:match("(%d%d).(%d%d).(%d%d%d%d).*(%d%d):(%d%d).*%d+ (.*)")
 	if DayText then
@@ -15,7 +15,7 @@ end --for file in p:lines() do
 
 --2.2 read names of excel file exports as txt in a Lua table
 secureFileTable={}
-p=io.popen('dir C:\\Users\\RK\\Documents\\Bruno\\Archiv\\*xlsx2.txt /o')
+p=io.popen('dir C:\\Temp\\Archiv\\*xlsx2.txt /o')
 for file in p:lines() do
 	local DayText,MonthText,YearText,HourText,MinuteText,FileText=file:match("(%d%d).(%d%d).(%d%d%d%d).*(%d%d):(%d%d).*%d+ (.*)")
 	if DayText then
@@ -25,7 +25,7 @@ end --for file in p:lines() do
 --test with: for k,v in pairs(excelFileTable) do print(secureFileTable[k:gsub(".xlsx","_xlsx2") .. ".txt"], v) end
 
 --2.3 collect file names from tree
-dofile("C:\\Tree\\GUI_Dokumentation_Verzeichnis\\documentation_tree.lua")
+dofile("C:\\Tree\\documentation_tree.lua")
 function treeCollectFileNamesRecursive(TreeTable)
 	collectFileNamesTable[TreeTable.branchname]=true
 	for k,v in pairs(TreeTable) do
@@ -63,7 +63,7 @@ end --for k,v in pairs(collectFileNamesTable) do
 --3. export excel files to txt if there is no export or if the date of the export to txt is older than the date of the excel file
 --and make a copy of the previous version of the text file
 fileTable={}
-p=io.popen('dir C:\\Users\\RK\\Documents\\Bruno\\*.xlsx /b/o/s')
+p=io.popen('dir C:\\Temp\\*.xlsx /b/o/s')
 for ExcelFile in p:lines() do 
 	fileTable[ExcelFile]=true
 end --for ExcelFile in p:lines() do 
