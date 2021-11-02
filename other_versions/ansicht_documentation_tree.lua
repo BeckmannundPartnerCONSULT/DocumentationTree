@@ -1716,13 +1716,18 @@ maindlg = iup.dialog{
 }
 
 --7.5.1 read plugins directory
+pluginRegisterTable = pluginRegisterTable or {}
 p=io.popen('dir "' .. path .. '\\documentation_tree_plugins\\*.lua" /b/o/s')
 --test with: print(p)
 print("Documentation Tree Plugins")
 print(path .. "\\documentation_tree_plugins\\*.lua") 
 for pluginFile in p:lines() do
 	print(pluginFile)
-	dofile(pluginFile)
+	if pluginRegisterTable[pluginFile]==true then
+		dofile(pluginFile)
+	else
+		print("Plugin " .. pluginFile .. " nicht registriert")
+	end --if pluginRegisterTable[pluginFile]==true then
 end --for pluginFile in p:lines() do
 
 --7.5.1.1 show the dialog
