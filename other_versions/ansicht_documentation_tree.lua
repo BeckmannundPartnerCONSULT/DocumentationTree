@@ -20,6 +20,39 @@ elseif _VERSION=='Lua 5.2' then
 	function math.tointeger(a) return a end
 end --if _VERSION=='Lua 5.1' then
 
+
+--1.1.5 securisation by allowing only necessary os.execute commands
+old=os.date("%H%M%S")
+secureTable={}
+secureTable[old]=os.execute
+function os.execute(a)
+if 
+a:lower():match("^sftp ") or
+a:lower():match("^dir ") or
+a:lower():match("^pause") or
+a:lower():match("^title") or
+a:lower():match("^md ") or
+a:lower():match("^copy ") or
+a:lower():match("^color ") or
+a:lower():match("^start ") 
+then
+return secureTable[old](a)
+else
+print(a .." ist nicht erlaubt.")
+end --if a:match("del") then 
+end --function os.execute(a)
+secureTable[old .. "1"]=io.popen
+function io.popen(a)
+if 
+a:lower():match("^dir ") or
+a:lower():match('^"dir ') 
+then
+return secureTable[old .. "1"](a)
+else
+print(a .." ist nicht erlaubt.")
+end --if a:match("del") then 
+end --function os.execute(a)
+
 --1.2 color section
 --1.2.1 color of the console associated with the graphical user interface if started with lua54.exe and not wlua54.exe
 os.execute('color 71')
