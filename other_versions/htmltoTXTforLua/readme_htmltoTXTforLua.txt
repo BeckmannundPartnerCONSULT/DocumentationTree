@@ -1,0 +1,5 @@
+--This is the respositorty for scripts to convert html sites to text files with luacom and word
+
+1. htmltoTXTforLua_Windows.lua
+
+The internet sites with https:// are collected from the tree and if they are not existent as a text file they are converted by luacom and word to text files.
