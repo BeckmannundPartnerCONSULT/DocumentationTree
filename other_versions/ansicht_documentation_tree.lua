@@ -11,7 +11,7 @@ require("iuplua_scintilla") --for Scintilla-editor
 clipboard=iup.clipboard{}
 
 --1.1.3 empty temporary tree needed to copy node with all its child nodes
-tree_temp={} --An Zuordnung senden, Dublizieren
+tree_temp={} --An Zuordnung senden, Verdoppeln
 
 --1.1.4 math.integer for Lua 5.1 and Lua 5.2
 if _VERSION=='Lua 5.1' then
@@ -892,7 +892,7 @@ function startcopy:action() --copy node
 end --function startcopy:action()
 
 --5.1.1.1 copy node of tree with all children
-startcopy_doubling = iup.item {title = "Dublizieren"}
+startcopy_doubling = iup.item {title = "Verdoppeln"}
 function startcopy_doubling:action() --copy first node with same text as selected node with all its child nodes
 	local TreeText=""
 	local takeNode="yes"
@@ -975,7 +975,7 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	else
-		iup.Message("Der Knoten kann nicht dubliziert werden.","Der Knoten kann nicht dubliziert werden.")
+		iup.Message("Der Knoten kann nicht verdoppelt werden.","Der Knoten kann nicht verdoppelt werden.")
 	end --if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 end --function startcopy_doubling:action() 
 
