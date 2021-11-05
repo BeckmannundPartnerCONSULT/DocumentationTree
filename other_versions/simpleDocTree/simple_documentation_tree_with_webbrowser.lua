@@ -11,7 +11,7 @@ require('iuplua')           --require iuplua for GUIs
 require('iupluaweb')        --require iupluaweb for webbrowser
 
 --1.1.1 text box
-textbox1=iup.text{value="1",size="400x10",alignment="ACENTER"}
+textbox1=iup.text{value="1",size="90x20",alignment="ACENTER"}
 
 
 --1.1.2 webbrowser
@@ -571,10 +571,6 @@ function tree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
 
-
---7.4 textboxes 
-textbox1 = iup.text{value="1",size="90x20",WORDWRAP="NO",alignment="ACENTER"}
-
 --7.2 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog{
 	--simply show a box with buttons
@@ -591,6 +587,7 @@ maindlg = iup.dialog{
 			button_previous_page,
 			button_next_page,
 			button_goto_page,
+			textbox1,
 			iup.label{size="10x",},
 			iup.fill{},
 			button_logo2,
