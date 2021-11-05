@@ -572,6 +572,9 @@ function tree:k_any(c)
 end --function tree:k_any(c)
 
 
+--7.4 textboxes 
+textbox1 = iup.text{value="1",size="90x20",WORDWRAP="NO",alignment="ACENTER"}
+
 --7.2 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog{
 	--simply show a box with buttons
