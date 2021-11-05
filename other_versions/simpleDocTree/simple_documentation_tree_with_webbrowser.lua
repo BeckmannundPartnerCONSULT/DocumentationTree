@@ -595,7 +595,7 @@ maindlg = iup.dialog{
 		
 		iup.hbox{
 			iup.frame{title="Manuelle Zuordnung als Baum",tree,},
-			iup.frame{title="Webbrowser Inhalte",iup.vbox{webbrowser1,textbox1,}},
+			iup.frame{title="Webbrowser Inhalte",iup.vbox{webbrowser1,}},
 			},
 
 	},
