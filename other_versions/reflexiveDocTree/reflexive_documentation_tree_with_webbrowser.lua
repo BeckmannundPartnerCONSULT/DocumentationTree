@@ -24,12 +24,12 @@ TextHTMLtable={
 
 </li></ul>
 
-<ul><li>Herunterladen der Oberfläche
+<ul><li>Herunterladen der OberflÃ¤che
 <ul><li>ansicht_documentation_tree.lua</li></ul>
 <ul><li>simple_webbrowser.lua</li></ul>
 </li></ul>
 
-<ul><li>Verwendungen im Büroalltag
+<ul><li>Verwendungen im BÃ¼roalltag
 </li></ul>
 
 </li></ul>
@@ -38,13 +38,13 @@ TextHTMLtable={
 
 </body></html> ]====],
 [====[<!DOCTYPE html> <head></head><html> <body leftmargin="150">
-<br><h1><font size="32">Präsentation </font></h1>
+<br><h1><font size="32">PrÃ¤sentation </font></h1>
 
 <font size="25">
 
 <ul><li>Einleitung</li></ul>
 
-<ul><li>Kompatibilität mit Office-Produkten
+<ul><li>KompatibilitÃ¤t mit Office-Produkten
 <ul><li>Word</li></ul>
 <ul><li>Excel</li></ul>
 <ul><li>Powerpoint</li></ul>
@@ -70,7 +70,7 @@ TextHTMLtable={
 ["Neuer Ast"]=[====[<!DOCTYPE html> <head></head><html> <body>
 <h1>Neue Seite </h1>
 
-Diese wird jetzt verändert.
+Diese wird jetzt verÃ¤ndert.
 
 </body></html> ]====],
 }--TextHTMLtable<!--
@@ -268,7 +268,7 @@ dlg_rename = iup.dialog{
 
 --4.2 change page dialog
 --ok_change_page button
-ok_change_page = iup.flatbutton{title = "Seite verändern",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+ok_change_page = iup.flatbutton{title = "Seite verÃ¤ndern",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function ok_change_page:flat_action()
 	webbrowser1.HTML= text1.value
 	if tonumber(textbox1.value) then
@@ -330,7 +330,7 @@ function renamenode:action()
 end --function renamenode:action()
 
 --5.1.3 add branch to tree
-addbranch = iup.item {title = "Ast hinzufügen"}
+addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function addbranch:action()
 	tree.addbranch = ""
 	tree.value=tree.value+1
@@ -345,7 +345,7 @@ function addbranch_fromclipboard:action()
 end --function addbranch_fromclipboard:action()
 
 --5.1.5 add leaf of tree
-addleaf = iup.item {title = "Blatt hinzufügen"}
+addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function addleaf:action()
 	tree.addleaf = ""
 	tree.value=tree.value+1
@@ -382,13 +382,22 @@ end --function startversion:action()
 menu_new_page = iup.item {title = "Neue Seite"}
 function menu_new_page:action()
 local newText=[====[<!DOCTYPE html> <head></head><html> <body>
-<h1>Neue Seite </h1>
+<h1>]====] .. tree['title'] .. [====[</h1>
 
 </body></html> ]====]
 	if TextHTMLtable[tree['title']]==nil then
 		webbrowser1.HTML=newText
 		TextHTMLtable[tree['title']]= newText
 	end --if TextHTMLtable[tree['title']]==nil then
+	if tonumber(tree['title']) then 
+		actualPage=math.tointeger(tonumber(tree['title'])) 
+		webbrowser1.HTML=TextHTMLtable[actualPage]
+		textbox1.value=tree['title']
+		actualPage=tonumber(tree['title'])
+	else
+		webbrowser1.HTML=TextHTMLtable[tree['title']]
+		textbox1.value=tree['title']
+	end --if tonumber(tree['title']) then 
 end --function menu_new_page:action()
 
 
@@ -407,8 +416,9 @@ function menu_goto_page:action()
 			textbox1.value=tree['title']
 		else
 			textbox1.value=tree['title'] .. " hat keine Webpage"
+			webbrowser1.HTML=tree['title'] .. " hat keine Webpage"
 		end --if TextHTMLtable[tree['title']] then
-	end --if tonumber(textbox1.value) then 
+	end --if tonumber(tree['title']) then 
 end --function menu_goto_page:flat_action()
 
 --5.1.9 start the file or repository of the node of tree 
@@ -417,7 +427,15 @@ function startnode:action()
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
 end --function startnode:action()
 
---5.1.10 put the buttons together in the menu for tree
+--5.1.10 start the url in webbrowser
+startnode_url = iup.item {title = "Starten URL"}
+function startnode_url:action() 
+	if tree['title']:match("http") then
+		webbrowser1.value=tree['title'] --for instance: "https://www.lua.org"
+	end --if tree['title']:match("http") then
+end --function startnode_url:action()
+
+--5.1.11 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -428,6 +446,7 @@ menu = iup.menu{
 		startversion,
 		menu_new_page, 
 		menu_goto_page, 
+		startnode_url, 
 		startnode, 
 		}
 --5.1 menu of tree end
@@ -476,7 +495,7 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for saving TextHTMLtable
@@ -494,7 +513,7 @@ function button_go_to_first_page:flat_action()
 end --function button_go_to_first_page:action()
 
 --6.4 button for going one page back
-button_go_back = iup.flatbutton{title = "Eine Seite zurück",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_go_back = iup.flatbutton{title = "Eine Seite zurÃ¼ck",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_back:flat_action()
 	if aktuelleSeite>1 then aktuelleSeite=aktuelleSeite-1 end
 	webbrowser1.HTML=TextHTMLtable[aktuelleSeite]
@@ -530,18 +549,18 @@ function button_go_to_page:flat_action()
 end --function button_go_to_page:action()
 
 --6.7 button for deleting the page
-button_delete = iup.flatbutton{title = "Löschen der Seite",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_delete = iup.flatbutton{title = "LÃ¶schen der Seite",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_delete:flat_action()
-	LoeschAlarm=iup.Alarm("Soll die Seite " .. tonumber(textbox1.value) .. " wirklich gelöscht werden?","Soll die Seite " .. tonumber(textbox1.value) .. " wirklich gelöscht werden?","Löschen","Nicht Löschen")
+	LoeschAlarm=iup.Alarm("Soll die Seite " .. tonumber(textbox1.value) .. " wirklich gelÃ¶scht werden?","Soll die Seite " .. tonumber(textbox1.value) .. " wirklich gelÃ¶scht werden?","LÃ¶schen","Nicht LÃ¶schen")
 	if LoeschAlarm==1 then 
 		if tonumber(textbox1.value) and tonumber(textbox1.value)<=#TextHTMLtable then
 			aktuelleSeite=math.tointeger(tonumber(textbox1.value))
 			table.move(TextHTMLtable,aktuelleSeite+1,#TextHTMLtable,aktuelleSeite)--move following elements to begin with index from aktuelleSeite
 			TextHTMLtable[#TextHTMLtable]=nil --delete last element
 			--test with: iup.Message(aktuelleSeite, tostring(math.floor(aktuelleSeite/2)*2==aktuelleSeite))
-			webbrowser1.HTML="Seite gelöscht"
+			webbrowser1.HTML="Seite gelÃ¶scht"
 		else
-			iup.Message("Keine Seite zum Löschen","Keine Seite zum Löschen")
+			iup.Message("Keine Seite zum LÃ¶schen","Keine Seite zum LÃ¶schen")
 		end --if tonumber(textbox1.value) and tonumber(textbox1.value)<=#TextHTMLtable then
 	end --if LoeschAlarm==1 then 
 end --function button_delete:flat_action()
@@ -597,7 +616,7 @@ end --function button_new_page:action()
 --6.12 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --7 Main Dialog
@@ -607,7 +626,7 @@ textbox1 = iup.text{value="1",size="20x20",WORDWRAP="NO",alignment="ACENTER"}
 textbox2 = iup.multiline{value="",size="90x20",WORDWRAP="YES"}
 
 --7.2 webbrowser
-webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1]}
+webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1],MAXSIZE="750x750"}
 
 --7.3 load tree from self file
 actualtree=lua_tree_output
@@ -643,13 +662,13 @@ function tree:k_any(c)
 	elseif c == iup.K_cP then -- added output of current table to a text file
 		printtree()
 	elseif c == iup.K_cF then
-			searchtext.value=tree.title
-			searchtext.SELECTION="ALL"
-			dlg_search:popup(iup.ANYWHERE, iup.ANYWHERE)
+		searchtext.value=tree.title
+		searchtext.SELECTION="ALL"
+		dlg_search:popup(iup.ANYWHERE, iup.ANYWHERE)
 	elseif c == iup.K_cH then
-			searchtext_replace.value=tree.title
-			replacetext_replace.SELECTION="ALL"
-			dlg_search_replace:popup(iup.ANYWHERE, iup.ANYWHERE)
+		searchtext_replace.value=tree.title
+		replacetext_replace.SELECTION="ALL"
+		dlg_search_replace:popup(iup.ANYWHERE, iup.ANYWHERE)
 	elseif c == iup.K_Menu then
 		menu:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
 	end --if c == iup.K_DEL then
