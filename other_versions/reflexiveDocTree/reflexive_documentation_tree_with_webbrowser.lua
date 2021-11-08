@@ -378,7 +378,7 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.7 button for building new page
+--5.1.8 button for building new page
 menu_new_page = iup.item {title = "Neue Seite"}
 function menu_new_page:action()
 local newText=[====[<!DOCTYPE html> <head></head><html> <body>
@@ -401,7 +401,7 @@ local newText=[====[<!DOCTYPE html> <head></head><html> <body>
 end --function menu_new_page:action()
 
 
---5.1.8 button for go to webbrowser page
+--5.1.9 button for go to webbrowser page
 menu_goto_page=iup.item {title="Gehe zu Seite vom Knoten", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function menu_goto_page:action()
 	if tonumber(tree['title']) then 
@@ -421,13 +421,13 @@ function menu_goto_page:action()
 	end --if tonumber(tree['title']) then 
 end --function menu_goto_page:flat_action()
 
---5.1.9 start the file or repository of the node of tree 
+--5.1.10 start the file or repository of the node of tree 
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
 end --function startnode:action()
 
---5.1.10 start the url in webbrowser
+--5.1.11 start the url in webbrowser
 startnode_url = iup.item {title = "Starten URL"}
 function startnode_url:action() 
 	if tree['title']:match("http") then
@@ -435,7 +435,7 @@ function startnode_url:action()
 	end --if tree['title']:match("http") then
 end --function startnode_url:action()
 
---5.1.11 put the buttons together in the menu for tree
+--5.1.12 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
