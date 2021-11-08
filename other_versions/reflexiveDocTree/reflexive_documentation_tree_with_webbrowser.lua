@@ -337,12 +337,37 @@ function addbranch:action()
 	renamenode:action()
 end --function addbranch:action()
 
+--5.1.3.1 add branch to tree by insertbranch
+addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+function addbranchbottom:action()
+	tree["insertbranch" .. tree.value] = ""
+	for i=tree.value+1,tree.count-1 do
+		if tree["depth" .. i]==tree["depth" .. tree.value] then
+			tree.value=i
+			renamenode:action()
+			break
+		end --if tree["depth" .. i]==tree["depth" .. tree.value] then
+	end --for i=tree.value+1,tree.count-1 do
+end --function addbranchbottom:action()
+
 --5.1.4 add branch of tree from clipboard
 addbranch_fromclipboard = iup.item {title = "Ast aus Zwischenablage"}
 function addbranch_fromclipboard:action()
 	tree.addbranch = clipboard.text
 	tree.value=tree.value+1
 end --function addbranch_fromclipboard:action()
+
+--5.1.4.1 add branch of tree from clipboard by insertbranch
+addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
+function addbranch_fromclipboardbottom:action()
+	tree["insertbranch" .. tree.value]= clipboard.text
+	for i=tree.value+1,tree.count-1 do
+		if tree["depth" .. i]==tree["depth" .. tree.value] then
+			tree.value=i
+			break
+		end --if tree["depth" .. i]==tree["depth" .. tree.value] then
+	end --for i=tree.value+1,tree.count-1 do
+end --function addbranch_fromclipboardbottom:action()
 
 --5.1.5 add leaf of tree
 addleaf = iup.item {title = "Blatt hinzufügen"}
@@ -440,7 +465,9 @@ menu = iup.menu{
 		startcopy,
 		renamenode, 
 		addbranch, 
+		addbranchbottom, 
 		addbranch_fromclipboard, 
+		addbranch_fromclipboardbottom, 
 		addleaf,
 		addleaf_fromclipboard,
 		startversion,
@@ -635,7 +662,7 @@ tree=iup.tree{
 map_cb=function(self)
 self:AddNodes(actualtree)
 end, --function(self)
-SIZE="400x200",
+SIZE="10x200",
 showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
