@@ -61,17 +61,18 @@ end --for k,v in pairs(SQLrawtable) do
 --4. build dependencies in a csv file
 --the different Name-SQL relations must be written with child in first column and parent in second column
 io.output(outputFile)
+uniqueTable={}
 for k,v in pairs(SQLtable) do 
 	for field in (v .. "~"):gmatch("([^~]+)~") do 
 		if field:match("FROM")       then
 			field=field:gsub("FROM ",""):gsub(", ",",") .. ","
 			for subfield in field:gmatch("([^,]+),") do
-				local outputText=tostring(k .. ";" .. subfield .. ";"):gsub(" ;",";"):gsub(";$","")     io.write(outputText .. "\n")
+				local outputText=tostring(k .. ";" .. subfield .. ";"):gsub(" ;",";"):gsub(";$","")     if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
 			end --for subfield in field:gmatch("[^,]+,") do
-		elseif field:match("JOIN")   then local outputText=tostring(k .. ";" .. field:gsub(".*JOIN ","") .. ";"):gsub(" ;",";"):gsub(";$","")   io.write(outputText .. "\n") 
-		elseif field:match("UPDATE") then local outputText=tostring(k .. ";" .. field:gsub(".*UPDATE ","") .. ";"):gsub(" ;",";"):gsub(";$","") io.write(outputText .. "\n") 
-		elseif field:match("INTO")   then local outputText=tostring(field:gsub(".*INTO ","") .. ";" .. k .. ";"):gsub(" ;",";"):gsub(";$","")   io.write(outputText .. "\n") 
-		elseif field~=";"            then local outputText=tostring(field .. ";" .. k .. ";"):gsub(" ;",";"):gsub(";$","")                      io.write(outputText .. "\n") 
+		elseif field:match("JOIN")   then local outputText=tostring(k .. ";" .. field:gsub(".*JOIN ","") .. ";"):gsub(" ;",";"):gsub(";$","")   if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
+		elseif field:match("UPDATE") then local outputText=tostring(k .. ";" .. field:gsub(".*UPDATE ","") .. ";"):gsub(" ;",";"):gsub(";$","") if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
+		elseif field:match("INTO")   then local outputText=tostring(field:gsub(".*INTO ","") .. ";" .. k .. ";"):gsub(" ;",";"):gsub(";$","")   if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
+		elseif field~=";"            then local outputText=tostring(field .. ";" .. k .. ";"):gsub(" ;",";"):gsub(";$","")                      if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
 		end --if field:match("FROM") then
 	end --for field in (v .. "~"):gmatch("([^~]+)~") do 
 end --for k,v in pairs(SQLtable) do 
