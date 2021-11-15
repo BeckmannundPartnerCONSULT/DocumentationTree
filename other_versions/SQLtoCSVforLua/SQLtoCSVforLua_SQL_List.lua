@@ -63,7 +63,11 @@ end --for k,v in pairs(SQLrawtable) do
 io.output(outputFile)
 for k,v in pairs(SQLtable) do 
 	for field in (v .. "~"):gmatch("([^~]+)~") do 
-		if field:match("FROM")       then local outputText=tostring(k .. ";" .. field:gsub("FROM ","") .. ";"):gsub(" ;",";"):gsub(";$","")     io.write(outputText .. "\n") 
+		if field:match("FROM")       then
+			field=field:gsub("FROM ",""):gsub(", ",",") .. ","
+			for subfield in field:gmatch("([^,]+),") do
+				local outputText=tostring(k .. ";" .. subfield .. ";"):gsub(" ;",";"):gsub(";$","")     io.write(outputText .. "\n")
+			end --for subfield in field:gmatch("[^,]+,") do
 		elseif field:match("JOIN")   then local outputText=tostring(k .. ";" .. field:gsub(".*JOIN ","") .. ";"):gsub(" ;",";"):gsub(";$","")   io.write(outputText .. "\n") 
 		elseif field:match("UPDATE") then local outputText=tostring(k .. ";" .. field:gsub(".*UPDATE ","") .. ";"):gsub(" ;",";"):gsub(";$","") io.write(outputText .. "\n") 
 		elseif field:match("INTO")   then local outputText=tostring(field:gsub(".*INTO ","") .. ";" .. k .. ";"):gsub(" ;",";"):gsub(";$","")   io.write(outputText .. "\n") 
