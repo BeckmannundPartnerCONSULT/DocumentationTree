@@ -21,54 +21,62 @@ rs1=access:CurrentDB().QueryDefs
 --3. get standardised sections in SQL-statements by reserved words
 --With ~ the reserved words can be analysed by the gmatch-command in Lua. 
 --AS is an exception because it is part of a definition
+--temporary tables named with beginning ~ are not analysed
 SQLtable={} 
 for i=0,rs1.Count-1 do 
-	SQLtable[rs1(i).Name]=rs1(i).SQL
-		:gsub("\r\n","")
-		:gsub("\n","")
-		:gsub("\r","")
-		:gsub(";$","~;")
-		:gsub('"',"'")
-		:gsub("%(SELECT","~SUBLECT")
-		:gsub("SELECT","~SELECT")
-		:gsub("~SUBLECT","~SUB_SELECT")
-		:gsub("INSERT INTO ([^%(]+)%(([^%)]+)%)","~INSERT_INTO %1~INSERT_FIELD(%2)")
-		:gsub("INSERT INTO","~INSERT_INTO")
-		:gsub(" INTO"," ~INTO")
-		:gsub("UNION","~UNION")
-		:gsub("UPDATE","~UPDATE")
-		:gsub("DELETE","~DELETE")
-		:gsub("SET","~SET")
-		:gsub("FROM","~FROM")
-		:gsub("INNER JOIN","~INNER JOIN")
-		:gsub("RIGHT JOIN","~RIGHT JOIN")
-		:gsub("LEFT JOIN","~LEFT JOIN")
-		:gsub(" ON"," ~ON")
-		:gsub("WHERE","~WHERE")
-		:gsub("HAVING","~HAVING")
-		:gsub("GROUP BY","~GROUP_BY")
-		:gsub("ORDER BY","~ORDER_BY")
-		:gsub("TRANSFORM","~TRANSFORM")
-		:gsub("PIVOT","~PIVOT")
+	if rs1(i).Name:match("^~")==nil then
+		SQLtable[rs1(i).Name]=rs1(i).SQL
+			:gsub("\r\n","")
+			:gsub("\n","")
+			:gsub("\r","")
+			:gsub(";$","~;")
+			:gsub('"',"'")
+			:gsub("%(SELECT","~SUBLECT")
+			:gsub("SELECT","~SELECT")
+			:gsub("~SUBLECT","~SUB_SELECT")
+			:gsub("INSERT INTO ([^%(]+)%(([^%)]+)%)","~INSERT_INTO %1~INSERT_FIELD(%2)")
+			:gsub("INSERT INTO","~INSERT_INTO")
+			:gsub(" INTO"," ~INTO")
+			:gsub("UNION","~UNION")
+			:gsub("UPDATE","~UPDATE")
+			:gsub("DELETE","~DELETE")
+			:gsub("SET","~SET")
+			:gsub("FROM","~FROM")
+			:gsub("INNER JOIN","~INNER JOIN")
+			:gsub("RIGHT JOIN","~RIGHT JOIN")
+			:gsub("LEFT JOIN","~LEFT JOIN")
+			:gsub(" ON"," ~ON")
+			:gsub("WHERE","~WHERE")
+			:gsub("HAVING","~HAVING")
+			:gsub("GROUP BY","~GROUP_BY")
+			:gsub("ORDER BY","~ORDER_BY")
+			:gsub("TRANSFORM","~TRANSFORM")
+			:gsub("PIVOT","~PIVOT")
+	end --if rs1(i).Name:match("^~")==nil then
 end --for i=0,rs1.Count-1 do
 
 --4. build dependencies in a csv file
 --the different Name-SQL relations must be written with child in first column and parent in second column
 io.output(outputFile)
+uniqueTable={}
 for k,v in pairs(SQLtable) do 
 	for field in (v .. "~"):gmatch("([^~]+)~") do 
-		if field:match("FROM")       then local outputText=tostring(k .. ";" .. field:gsub("FROM ","") .. ";"):gsub(" ;",";"):gsub(";$","")     io.write(outputText .. "\n") 
-		elseif field:match("JOIN")   then local outputText=tostring(k .. ";" .. field:gsub(".*JOIN ","") .. ";"):gsub(" ;",";"):gsub(";$","")   io.write(outputText .. "\n") 
-		elseif field:match("UPDATE") then local outputText=tostring(k .. ";" .. field:gsub(".*UPDATE ","") .. ";"):gsub(" ;",";"):gsub(";$","") io.write(outputText .. "\n") 
-		elseif field:match("INTO")   then local outputText=tostring(field:gsub(".*INTO ","") .. ";" .. k .. ";"):gsub(" ;",";"):gsub(";$","")   io.write(outputText .. "\n") 
-		elseif field~=";"            then local outputText=tostring(field .. ";" .. k .. ";"):gsub(" ;",";"):gsub(";$","")                      io.write(outputText .. "\n") 
+		if field:match("FROM")       then
+			field=field:gsub("FROM ",""):gsub(", ",",") .. ","
+			for subfield in field:gmatch("([^,]+),") do
+				local outputText=tostring(k .. ";" .. subfield .. ";"):gsub(" ;",";"):gsub(";$","")     if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
+			end --for subfield in field:gmatch("[^,]+,") do
+		elseif field:match("JOIN")   then local outputText=tostring(k .. ";" .. field:gsub(".*JOIN ","") .. ";"):gsub(" ;",";"):gsub(";$","")   if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
+		elseif field:match("UPDATE") then local outputText=tostring(k .. ";" .. field:gsub(".*UPDATE ","") .. ";"):gsub(" ;",";"):gsub(";$","") if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
+		elseif field:match("INTO")   then local outputText=tostring(field:gsub(".*INTO ","") .. ";" .. k .. ";"):gsub(" ;",";"):gsub(";$","")   if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
+		elseif field~=";"            then local outputText=tostring(field .. ";" .. k .. ";"):gsub(" ;",";"):gsub(";$","")                      if uniqueTable[outputText]==nil then io.write(outputText .. "\n") uniqueTable[outputText]=true end
 		end --if field:match("FROM") then
 	end --for field in (v .. "~"):gmatch("([^~]+)~") do 
 end --for k,v in pairs(SQLtable) do 
 --open all forms and read the record source
 rs2=access.Application.CurrentProject.AllForms
 for i=0,rs2.Count-1 do  
-	--test with: print(rs2(i).Name)
+	--test with: print("Form: " .. rs2(i).Name)
 	access.DoCmd:OpenForm(rs2(i).Name)
 	local outputText=tostring("Form: " .. access.Forms(i).Name .. ";" .. access.Forms(i).RecordSource) io.write(outputText .. "\n") 
 	access.DoCmd:Close(1,rs2(i).Name)
@@ -84,6 +92,6 @@ end --for i=0,rs2.Count-1 do
 io.close()
 
 --5. shut all access processes to be able to reopen the database
-access:Quit()
+access:Quit() 
 os.execute('taskkill /IM MSACCESS.EXE /F')
 
