@@ -89,6 +89,14 @@ for i=0,rs3.Count-1 do
 	local outputText=tostring("Report: " .. access.Reports(i).Name .. ";" .. access.Reports(i).RecordSource) io.write(outputText .. "\n") 
 	access.DoCmd:Close(1,rs3(i).Name)
 end --for i=0,rs2.Count-1 do 
+--collect linked table names
+rs4=access:CurrentDB().TableDefs
+for i=0,rs4.Count-1 do 
+	if rs4:Item(i).Connect~="" then
+		--test with: print(rs4:Item(i).Name,rs4:Item(i).Connect .. "\\" .. rs4:Item(i).SourceTableName)
+		local outputText=tostring(rs4:Item(i).Name .. ";" .. "Link: " .. rs4:Item(i).Connect:gsub(";",","):gsub("\\","\\\\") .. "\\\\" .. rs4:Item(i).SourceTableName) io.write(outputText .. "\n") 
+	end --if rs4:Item(i).Connect~="" then 
+end --for i=0,rs4.Count-1 do 
 io.close()
 
 --5. shut all access processes to be able to reopen the database
