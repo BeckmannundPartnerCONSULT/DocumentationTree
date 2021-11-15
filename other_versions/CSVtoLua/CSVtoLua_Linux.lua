@@ -63,7 +63,7 @@ looptest={}-- a table which we want to use in order to detect cyclic dependencie
 function searchfortable (starttable)-- the function takes a starttable, which is the position, where the recursion searches in the substree
 	for k=1, #maintable do --outer loop for number of dependencies
 		if maintable[k][2]==starttable then --if the current position in the tree is detected as the source of an dependency
-			outputstring=outputstring .. '{branchname="' .. maintable[k][1] .. '",'
+			outputstring=outputstring .. '\n{branchname="' .. maintable[k][1] .. '",'
 			--check in the global variable looptest, if the current table has occured already, i. e. is a parent of the actual node.
 			if looptest[maintable[k][1]]==nil then --added looptest for the queries, not only for the tables
 				--check if there is another query depending on the current one
@@ -90,7 +90,7 @@ for k=1,#maintable do QueryNameTable[maintable[k][1]]=true end
 --BEGINNING OF THE COMPOSITION PROCESS
 
 outputstring=outputstring .. 'tree_from_csv='
-outputstring=outputstring .. '{branchname="Baum erstellt am: ' .. os.date() .. '",'
+outputstring=outputstring .. '{branchname="Baum erstellt am: ' .. os.date() .. '",\n'
 
 
 -- loop for writing down all tables in 1st place
