@@ -20,4 +20,6 @@ The first page is an automatically generated tree as a table of contents of the 
 
 This script has a tree and a lua table with pages with html format. It can display pages corresponding to the nodes of the tree.
 
+5. reflexive_documentation_tree_with_directory.lua
 
+This script contains a tree on the left side. The tree can have nodes with Windows-Directories. These are displayed in the tree on the right side with the command dir.
