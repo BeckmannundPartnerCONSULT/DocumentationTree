@@ -1,6 +1,6 @@
 This repository contains different versions of the documentation tree.
 
-1. ansicht_documentation_tree.lua
+1. ansicht_documentation_tree.lua and nachschlagen_documentation_tree.lua
 
 Download the IUP Lua framework and the documentation tree. Build a directory C:\Lua
 
