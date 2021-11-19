@@ -1,0 +1,6 @@
+Oberster Knoten->
+Oberster Knoten->C:\Tree\Luajava_Tree->
+Oberster Knoten->C:\Tree\Luajava_Tree->C:\Tree\Luajava_Tree\Tree_Luajava_start.bat->
+Oberster Knoten->C:\Tree\Luajava_Tree->C:\Tree\Luajava_Tree\Tree_Luajava_start.bat->C:\Tree\Luajava_Tree\Tree_Luajava_Windows.lua->
+Oberster Knoten->C:\Tree\Luajava_Tree->C:\Tree\Luajava_Tree\Tree_Luajava_start.bat->C:\Tree\Luajava_Tree\Tree_Luajava_Windows.lua->C:\Tree\Luajava_Tree\Tree_Luajava_output.txt
+Oberster Knoten->C:\Tree\Luajava_Tree->C:\Tree\Luajava_Tree\Tree_Luajava_start.bat->C:\Tree\Luajava_Tree\Tree_Luajava_Windows.lua->C:\Tree\Luajava_Tree\Tree_Luajava_output_Tree.lua
