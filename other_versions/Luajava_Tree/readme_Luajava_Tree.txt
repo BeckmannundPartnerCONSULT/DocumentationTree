@@ -2,7 +2,7 @@ This repository contains scripts and used files for documentation trees written 
 
 1. Tree_Luajava_Windows.lua
 
-This script builds a tree with the input file Tree_Luajava_output_Tree.lua, which is also the output file for saving of a changed tree. Therefore it is called output_Tree.
+This script builds a tree with the input file Tree_Luajava_output_Tree.lua, which is also the output file for saving of a changed tree. Therefore it is called output_Tree. This script is only for Windows.
 
 2. Tree_Luajava_output_Tree.lua
 
