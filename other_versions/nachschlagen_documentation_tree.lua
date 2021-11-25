@@ -1376,6 +1376,23 @@ end --function button_logo:flat_action()
 --7.1 textboxes 
 textbox1 = iup.multiline{value="",size="350x20",WORDWRAP="YES"}
 
+--7.1.1 drag & drop text area branch
+textbox_branch = iup.text{value="Ast bilden",size="45x10", readonly="YES", dragdrop = "Yes",BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+textbox_branch.tip = "Drop files here to build a branch"
+--7.1.1a callback to add branch with drag & drop         
+function textbox_branch:dropfiles_cb(filename)
+	tree['addbranch']=tostring(filename)
+end --function textbox_branch:dropfiles_cb(filename)
+
+--7.1.2 drag & drop text area leaf
+textbox_leaf = iup.text{value="Blatt bilden",size="45x10", readonly="YES", dragdrop = "Yes",BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+textbox_leaf.tip = "Drop files here to build a leaf"
+--7.1.1a callback to add leaf with drag & drop 
+function textbox_leaf:dropfiles_cb(filename)
+	tree['addleaf']=tostring(filename)
+end --function textbox_leaf:dropfiles_cb(filename)
+
+
 --7.2.1 load tree from file (this ensures that tree and tree2 are compared contentwise)
 if file_exists(path_documentation_tree) then
 	dofile(path_documentation_tree) --initialize the tree, read from the lua file
@@ -1639,12 +1656,13 @@ maindlg = iup.dialog{
 			button_save_lua_table,
 			button_search,
 			button_replace,
-			iup.label{size="10x",},
+			iup.label{size="5x",},
+			iup.vbox{textbox_branch, textbox_leaf,},
 			button_compare,
-			iup.label{size="10x",},
+			iup.label{size="5x",},
 			iup.fill{},
 			textbox1,
-			iup.label{size="10x",},
+			iup.label{size="5x",},
 			button_logo2,
 		},
 		
