@@ -1579,6 +1579,7 @@ end --function tree3:executeleaf_cb(id)
 -- Callback of the right mouse button click
 function tree3:rightclick_cb(id)
 	tree3.value = id
+	--test with: iup.Message("id: ",id)
 	tree3['delnode' .. id]= "CHILDREN"
 	--only one level: new_directory=tree3['title' .. tree3["PARENT" .. id]] .. ":\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
 	idSearched=id
