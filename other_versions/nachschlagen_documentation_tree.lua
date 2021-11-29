@@ -1587,7 +1587,7 @@ function tree3:rightclick_cb(id)
 		idSearched=tree3["PARENT" .. idSearched]
 		--test with: print(idSearched)
 		pathTable[#pathTable+1]=tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1")
-		if idSearched=="1" then break end
+		if tree3["PARENT" .. idSearched]=="0"  then break end
 	end --while true do
 		testText=pathTable[#pathTable] .. ":"
 	for i=#pathTable-1,1,-1 do testText=testText .. "\\" .. pathTable[i] end
