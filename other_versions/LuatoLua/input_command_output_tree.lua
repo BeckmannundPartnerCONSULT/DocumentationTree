@@ -40,7 +40,8 @@ console = {}
 
 --2.1 prompt text area
 console.prompt = iup.text{expand="Horizontal", dragdrop = "Yes"}
-console.prompt.tip = "Enter - executes a Lua command\n"..
+console.prompt.tip = "Filter leaf with pattern: Alle BlÃ¤tter darunter filtern\n"..
+                     "Enter - executes a Lua command\n"..
                      "Esc - clears the command\n"..
                      "Ctrl+Del - clears the output\n"..
                      "Ctrl+O - selects a file and execute it\n"..
@@ -383,13 +384,17 @@ function readVariablesInTreeRecursive(TreeTable)
 		loadstring(TreeTable.branchname)()
 	end --if TreeTable.branchname:match("=") then
 	for i,v in ipairs(TreeTable) do
-		if type(v)=="table" then
+		if type(v)=="table" and TreeTable.branchname:match("(.*)={")==nil then
+			readVariablesInTreeRecursive(v,"")
+		elseif type(v)=="table" and v.branchname:match("(.*)={")==nil then
+			loadstring(TreeTable.branchname:match("(.*)={") .. '["' .. v.branchname .. '"]="' .. v[1] .. '"')()
+		elseif type(v)=="table" and v.branchname:match("(.*)={") then
 			readVariablesInTreeRecursive(v,"")
 		else
 			if TreeTable.branchname:match("(.*)={") then
 				loadstring(TreeTable.branchname:match("(.*)={") .. "[" .. i .. ']="' .. v .. '"')()
 			end --if TreeTable.branchname:match("(.*)={") then
-		end --if type(v)=="table" then
+		end --if type(v)=="table" and TreeTable.branchname:match("(.*)={")==nil then
 	end --for i,v in ipairs(TreeTable) do
 end --function readVariablesInTreeRecursive(TreeTable)
 
@@ -499,7 +504,7 @@ function renamenode:action()
 end --function renamenode:action()
 
 --5.1.3 add branch to console.inputTree
-addbranch = iup.item {title = "Ast hinzufügen"}
+addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function addbranch:action()
 	console.inputTree.addbranch = ""
 	console.inputTree.value=console.inputTree.value+1
@@ -507,7 +512,7 @@ function addbranch:action()
 end --function addbranch:action()
 
 --5.1.3.1 add branch to console.inputTree by insertbranch
-addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+addbranchbottom = iup.item {title = "Ast darunter hinzufÃ¼gen"}
 function addbranchbottom:action()
 	console.inputTree["insertbranch" .. console.inputTree.value] = ""
 	for i=console.inputTree.value+1,console.inputTree.count-1 do
@@ -520,7 +525,7 @@ function addbranchbottom:action()
 end --function addbranchbottom:action()
 
 --5.1.3.2 add leaf to console.inputTree by insertleaf
-addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
+addleafbottom = iup.item {title = "Blatt darunter hinzufÃ¼gen"}
 function addleafbottom:action()
 	console.inputTree["insertleaf" .. console.inputTree.value] = ""
 	for i=console.inputTree.value+1,console.inputTree.count-1 do
@@ -533,7 +538,7 @@ function addleafbottom:action()
 end --function addleafbottom:action()
 
 --5.1.3.3 add leaf to console.inputTree by insertleaf after the last leaf of the branch chosen
-addleafbottomlevel = iup.item {title = "Blatt unter letztem Blatt hinzufügen"}
+addleafbottomlevel = iup.item {title = "Blatt unter letztem Blatt hinzufÃ¼gen"}
 function addleafbottomlevel:action()
 	if console.inputTree["KIND"]=="BRANCH" then
 		console.inputTree["insertleaf" .. console.inputTree.value+console.inputTree.totalchildcount] = ""
@@ -590,7 +595,7 @@ function addleaf_fromclipboardbottom:action()
 end --function addleaf_fromclipboardbottom:action()
 
 --5.1.5 add leaf of console.inputTree
-addleaf = iup.item {title = "Blatt hinzufügen"}
+addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function addleaf:action()
 	console.inputTree.addleaf = ""
 	console.inputTree.value=console.inputTree.value+1
@@ -683,7 +688,7 @@ function command_renamenode:action()
 end --function command_renamenode:action()
 
 --5.2.3 add branch to console.commandTree
-command_addbranch = iup.item {title = "Ast hinzufügen"}
+command_addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function command_addbranch:action()
 	console.commandTree.addbranch = ""
 	console.commandTree.value=console.commandTree.value+1
@@ -691,7 +696,7 @@ function command_addbranch:action()
 end --function command_addbranch:action()
 
 --5.2.3.1 add branch to console.commandTree by insertbranch
-command_addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+command_addbranchbottom = iup.item {title = "Ast darunter hinzufÃ¼gen"}
 function command_addbranchbottom:action()
 	console.commandTree["insertbranch" .. console.commandTree.value] = ""
 	for i=console.commandTree.value+1,console.commandTree.count-1 do
@@ -704,7 +709,7 @@ function command_addbranchbottom:action()
 end --function command_addbranchbottom:action()
 
 --5.2.3.2 add leaf to console.commandTree by insertleaf
-command_addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
+command_addleafbottom = iup.item {title = "Blatt darunter hinzufÃ¼gen"}
 function command_addleafbottom:action()
 	console.commandTree["insertleaf" .. console.commandTree.value] = ""
 	for i=console.commandTree.value+1,console.commandTree.count-1 do
@@ -748,7 +753,7 @@ function command_addleaf_fromclipboardbottom:action()
 end --function command_addleaf_fromclipboardbottom:action()
 
 --5.2.5 add leaf of console.commandTree
-command_addleaf = iup.item {title = "Blatt hinzufügen"}
+command_addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function command_addleaf:action()
 	console.commandTree.addleaf = ""
 	console.commandTree.value=console.commandTree.value+1
@@ -806,7 +811,7 @@ function command_startnode:action()
 end --function command_startnode:action()
 
 --5.2.10 execute Lua script with Lua chunk of the node of console.commandTree and write result under the node
-command_startnode_script = iup.item {title = "Knoten ausführen"}
+command_startnode_script = iup.item {title = "Knoten ausfÃ¼hren"}
 function command_startnode_script:action()
 	if console.commandTree["KIND"]=="BRANCH" then 
 		if console.commandTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.commandTree['title']:match("^.:\\.*[^\\]+$") or console.commandTree['title']:match("^.:\\$") or console.commandTree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -889,7 +894,7 @@ function output_renamenode:action()
 end --function output_renamenode:action()
 
 --5.3.3 add branch to console.outputTree
-output_addbranch = iup.item {title = "Ast hinzufügen"}
+output_addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function output_addbranch:action()
 	console.outputTree.addbranch = ""
 	console.outputTree.value=console.outputTree.value+1
@@ -897,7 +902,7 @@ function output_addbranch:action()
 end --function output_addbranch:action()
 
 --5.3.3.1 add branch to console.outputTree by insertbranch
-output_addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+output_addbranchbottom = iup.item {title = "Ast darunter hinzufÃ¼gen"}
 function output_addbranchbottom:action()
 	console.outputTree["insertbranch" .. console.outputTree.value] = ""
 	for i=console.outputTree.value+1,console.outputTree.count-1 do
@@ -910,7 +915,7 @@ function output_addbranchbottom:action()
 end --function output_addbranchbottom:action()
 
 --5.3.3.2 add leaf to console.outputTree by insertleaf
-output_addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
+output_addleafbottom = iup.item {title = "Blatt darunter hinzufÃ¼gen"}
 function output_addleafbottom:action()
 	console.outputTree["insertleaf" .. console.outputTree.value] = ""
 	for i=console.outputTree.value+1,console.outputTree.count-1 do
@@ -923,7 +928,7 @@ function output_addleafbottom:action()
 end --function output_addleafbottom:action()
 
 --5.3.3.3 add leaf to console.outputTree by insertleaf after the last leaf of the branch chosen
-output_addleafbottomlevel = iup.item {title = "Blatt unter letztem Blatt hinzufügen"}
+output_addleafbottomlevel = iup.item {title = "Blatt unter letztem Blatt hinzufÃ¼gen"}
 function output_addleafbottomlevel:action()
 	if console.outputTree["KIND"]=="BRANCH" then
 		console.outputTree["insertleaf" .. console.outputTree.value+console.outputTree.totalchildcount] = ""
@@ -980,7 +985,7 @@ function output_addleaf_fromclipboardbottom:action()
 end --function output_addleaf_fromclipboardbottom:action()
 
 --5.3.5 add leaf of console.outputTree
-output_addleaf = iup.item {title = "Blatt hinzufügen"}
+output_addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function output_addleaf:action()
 	console.outputTree.addleaf = ""
 	console.outputTree.value=console.outputTree.value+1
@@ -1015,13 +1020,13 @@ end --function output_startversion:action()
 
 
 --5.3.7.1 deletes all children nodes
-output_delnode_children = iup.item {title = "Alle Knoten darunter löschen"}
+output_delnode_children = iup.item {title = "Alle Knoten darunter lÃ¶schen"}
 function output_delnode_children:action()
 	console.outputTree.delnode = "CHILDREN"
 end --function output_delnode_children:action()
 
 --5.3.7.2 start file of node of console.outputTree in IUP Lua scripter or start empty file in notepad or start empty scripter
-output_delnode_children_leafs = iup.item {title = "Alle Blätter darunter löschen"}
+output_delnode_children_leafs = iup.item {title = "Alle BlÃ¤tter darunter lÃ¶schen"}
 function output_delnode_children_leafs:action()
 	local startNodeNumber=console.outputTree.value
 	local endNodeNumber=console.outputTree.value+console.outputTree.totalchildcount
@@ -1033,6 +1038,20 @@ function output_delnode_children_leafs:action()
 		end --if console.outputTree['KIND']=="LEAF" then
 	end --for i=endNodeNumber,startNodeNumber,-1 do
 end --function output_delnode_children_leafs:action()
+
+--5.3.7.3 start file of node of console.outputTree in IUP Lua scripter or start empty file in notepad or start empty scripter
+output_delnode_children_leafs_filter = iup.item {title = "Alle BlÃ¤tter darunter filtern"}
+function output_delnode_children_leafs_filter:action()
+	local startNodeNumber=console.outputTree.value
+	local endNodeNumber=console.outputTree.value+console.outputTree.totalchildcount
+	local levelStartNode=console.outputTree['depth']
+	for i=endNodeNumber,startNodeNumber+1,-1 do
+		console.outputTree.value=i
+		if console.outputTree['title']:match(console.prompt.value)==nil and console.outputTree['KIND']=="LEAF" and console.outputTree['depth']==tostring(levelStartNode+1) then
+			console.outputTree.delnode = "SELECTED"
+		end --if console.outputTree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+end --function output_delnode_children_leafs_filter:action()
 
 --5.3.8 start file of node of console.outputTree in IUP Lua scripter or start empty file in notepad or start empty scripter
 output_startnodescripter = iup.item {title = "Skripter starten"}
@@ -1073,6 +1092,7 @@ output_menu = iup.menu{
 		output_addleaf_fromclipboardbottom,
 		output_delnode_children, 
 		output_delnode_children_leafs,
+		output_delnode_children_leafs_filter,
 		output_startversion, 
 		output_startnodescripter, 
 		output_startnode, 
@@ -1121,7 +1141,7 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for saving tree
