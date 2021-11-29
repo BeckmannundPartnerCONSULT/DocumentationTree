@@ -253,18 +253,18 @@ function save_tree_to_lua(tree, outputfile_path)
 			end --if (i > 0 and (tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) ) ) or i==0 then
 		elseif tree["KIND" .. i ]=="LEAF" then --or if actual node is a leaf
 			if (i > 0 and tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) )  or i==0 then
-				output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",' --we add the leaf
+				output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' --we add the leaf
 			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) < tonumber(tree["DEPTH" .. i-1 ]) then
 				if tree["KIND" .. i-1 ] == "LEAF" then --in the same manner as above, depending if the predecessor node was a leaf or branch, we have to close a different number of brackets
 					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
 						output_tree_text = output_tree_text .. '},\n'
 					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
-					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",' --and in each case we add the new leaf
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' --and in each case we add the new leaf
 				else
 					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
 						output_tree_text = output_tree_text .. '},\n'
 					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
-					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",'
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
 				end --if tree["KIND" .. i-1 ] == "LEAF" then
 			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) == tonumber(tree["DEPTH" .. i-1 ]) then
 				if tree["KIND" .. i-1 ] == "LEAF" then
@@ -1522,7 +1522,7 @@ function tree2:k_any(c)
 end --function tree2:k_any(c)
 
 --7.2.3 tree3 to explore thé computer
-tree_statistics={branchname="Exploration der Daten",}
+tree_statistics={branchname="Laufwerke",}
 caracterCollection="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 --list of directories in .:\\
 for caracterText in caracterCollection:gmatch(".") do
@@ -1668,11 +1668,11 @@ maindlg = iup.dialog{
 		
 		iup.hbox{
 			iup.frame{title="Manuelle Zuordnung als Baum",tree,},
-			iup.frame{title="Arbeitsvorrat als Baum",tree2,},
+			iup.frame{title="Ordnerinhalt als Baum",tree2,},
 			},
 		iup.hbox{
 			iup.frame{title="Vorschau und Text-Dateivergleich",textfield1,},
-			iup.frame{title="Ordnerstatistik als Baum",tree3,},
+			iup.frame{title="Übersicht der Laufwerke als Baum",tree3,},
 			},
 
 	},
