@@ -18,3 +18,7 @@ This scripts contains three trees:
 1. input tree with variables defined as variable=value or variabletable={} and leafs with values corresponding to their indices in the table
 2. command tree with complex commands as they are used in scripts
 3. output tree with the possibility of design the results driven by the commands
+
+5. Tree_calculator_with_interests.lua
+
+This script is a GUI with the calculation of interests according to different methods in a tree.
