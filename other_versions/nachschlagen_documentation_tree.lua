@@ -1557,15 +1557,21 @@ function tree3:executebranch_cb(id)
 	while true do
 		idSearched=tree3["PARENT" .. idSearched]
 		--test with: print(idSearched)
+		if idSearched=="0" then break end
 		pathTable[#pathTable+1]=tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1")
+		--test with: print(tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1"))
 		if tree3["PARENT" .. idSearched]=="0" then break end
 	end --while true do
-	testText=pathTable[#pathTable] .. ":"
-	for i=#pathTable-1,1,-1 do testText=testText .. "\\" .. pathTable[i] end
+	if #pathTable>0 then
+		testText=pathTable[#pathTable] .. ":"
+		for i=#pathTable-1,1,-1 do testText=testText .. "\\" .. pathTable[i] end
 		--test with: print(testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)"))
 		new_directory=testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
-		tree_script={branchname="Ordnerinhalt von " .. new_directory,}
-		--content of directory
+	else
+		new_directory=tree3['title' .. id] .. ":\\"
+	end --if #pathTable>0 then
+	tree_script={branchname="Ordnerinhalt von " .. new_directory,}
+	--content of directory
 	p=io.popen('dir "' .. new_directory .. '" /b ') 
 	for line in p:lines() do 
 		--test with: print(line)
@@ -1587,14 +1593,19 @@ function tree3:rightclick_cb(id)
 	while true do
 		idSearched=tree3["PARENT" .. idSearched]
 		--test with: print(idSearched)
+		if idSearched=="0" then break end
 		pathTable[#pathTable+1]=tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1")
 		if tree3["PARENT" .. idSearched]=="0"  then break end
 	end --while true do
+	if #pathTable>0 then
 		testText=pathTable[#pathTable] .. ":"
-	for i=#pathTable-1,1,-1 do testText=testText .. "\\" .. pathTable[i] end
-	--test with: print(testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)"))
-	new_directory=testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
-	--test with: iup.Message("tree3","tree3" .. new_directory)
+		for i=#pathTable-1,1,-1 do testText=testText .. "\\" .. pathTable[i] end
+		--test with: print(testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)"))
+		new_directory=testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
+		--test with: iup.Message("tree3","tree3" .. new_directory)
+	else
+		new_directory=tree3['title' .. id] .. ":\\"
+	end --if #pathTable>0 then
 	p=io.popen('dir "' .. new_directory .. '" /o-N') 
 	numberDirectories=0
 	for line in p:lines() do 
