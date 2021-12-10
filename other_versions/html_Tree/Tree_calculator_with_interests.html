@@ -5,7 +5,7 @@ function Schaltjahr () {var Jahr = document.Formular1.Eingabe3.value;var Tage = 
 <!--if(Tage==28)  alert( Jahr + " ist kein Schaltjahr");if(Tage==29)  alert( Jahr + " ist ein Schaltjahr");-->
 if(Tage==28)  document.Formular1.ErgebnisSchaltjahr.value = Jahr + " ist kein Schaltjahr" ;if(Tage==29)  document.Formular1.ErgebnisSchaltjahr.value =Jahr + " ist ein Schaltjahr" ;
 }//function Schaltjahr() { Ende
-function Rechner() {var Ergebnis = eval(document.Formular.Eingabe.value.replace('×','*').replace('÷','/').replace(',','.').replace('×','*').replace('÷','/').replace(',','.').replace('×','*').replace('÷','/').replace(',','.'));
+function Rechner() {var Ergebnis = eval(document.Formular.Eingabe.value.replace('Ã—','*').replace('Ã·','/').replace(',','.').replace('Ã—','*').replace('Ã·','/').replace(',','.').replace('Ã—','*').replace('Ã·','/').replace(',','.'));
 document.Formular.Ergebnis.value =  Ergebnis;
 }//function Rechner() { Ende
 //Zinsrechner
@@ -62,12 +62,13 @@ function Anzahltagezaehler() {var Startdatum= new Date(2016,1,1);Endedatum = new
 Startdatum.setFullYear(document.FormularZins.Startjahr.value);Startdatum.setMonth(document.FormularZins.Startmonat.value -1);Startdatum.setDate(document.FormularZins.Starttag.value);
 Endedatum.setFullYear(document.FormularZins.Endejahr.value);Endedatum.setMonth(document.FormularZins.Endemonat.value -1);Endedatum.setDate(document.FormularZins.Endetag.value);
 var Ergebnis = Math.round((Endedatum - Startdatum)/1000/60/60/24);
-//alert("Der Zähler ist Anzahl Tage actual = " + Ergebnis);
+//alert("Der ZÃ¤hler ist Anzahl Tage actual = " + Ergebnis);
 document.FormularZins.AnzahlTageZaehler.value = Ergebnis - document.FormularZins.AnzahltageNoLeap.value;
 document.FormularZins.Anzahltageactual.value = Ergebnis;
 }//function Anzahltagezaehler() { Ende
 //
 function Nenneractual36525() {
+Anzahltagezaehler()
 document.FormularZins.Nenner36525.value = 365.25;
 document.FormularZins.Methode.value = "act365Komma25bzw1durch1";
 document.FormularZins.Jahre.value =  document.FormularZins.AnzahlTageZaehler.value / 365.25;
@@ -75,6 +76,7 @@ document.FormularZins.AnzahlTageNenner.value = 365.25;
 }//function Nenneractual36525() { Ende
 //
 function Nenneractual366() {
+Anzahltagezaehler()
 document.FormularZins.Nenner366.value = 366;
 document.FormularZins.Methode.value = "act366";
 document.FormularZins.Jahre.value =  document.FormularZins.AnzahlTageZaehler.value / 366;
@@ -82,6 +84,7 @@ document.FormularZins.AnzahlTageNenner.value = 366;
 }//function Nenneractual366() { Ende
 //
 function Nenneractual365() {
+Anzahltagezaehler()
 document.FormularZins.Nenner365.value = 365;
 document.FormularZins.Methode.value = "act365";
 document.FormularZins.Jahre.value =  document.FormularZins.AnzahlTageZaehler.value / 365;
@@ -89,6 +92,7 @@ document.FormularZins.AnzahlTageNenner.value = 365;
 }//function Nenneractual365() { Ende
 //
 function Nenneractual364() {
+Anzahltagezaehler()
 document.FormularZins.Nenner364.value = 364;
 document.FormularZins.Methode.value = "act364";
 document.FormularZins.Jahre.value =  document.FormularZins.AnzahlTageZaehler.value / 364;
@@ -96,6 +100,7 @@ document.FormularZins.AnzahlTageNenner.value = 364;
 }//function Nenneractual364() { Ende
 //
 function Nenneractual360() {
+Anzahltagezaehler()
 document.FormularZins.Nenner360.value = 360;
 document.FormularZins.Methode.value = "act360";
 document.FormularZins.Jahre.value =  document.FormularZins.AnzahlTageZaehler.value / 360;
@@ -171,10 +176,10 @@ var M2Plus = -(-document.FormularZins.EndemonatPlus.value);
 var Y1 = -(-document.FormularZins.Startjahr.value);
 var Y2 = -(-document.FormularZins.Endejahr.value);
 var Y2Plus = -(-document.FormularZins.EndejahrPlus.value);
-var veraendert = "unverändert: ";
+var veraendert = "unverÃ¤ndert: ";
 if (D1==31){D1 = 30;}//Regel 1: If D1 is 31, then change D1 to 30.
-if (D2==31){D2 = D2Plus; M2 = M2Plus; Y2 = Y2Plus; veraendert = "verändert: ";}//Regel 2: If D2 is 31, then set D2.M2.Y2 to 1st day of the next month.
-//Die Umrechnung in den ersten des nächsten Monats entspricht der Beibehaltung des 31. des Endemonats in der Formel. Es wird eh nur ein Tag hinzugerechnet.
+if (D2==31){D2 = D2Plus; M2 = M2Plus; Y2 = Y2Plus; veraendert = "verÃ¤ndert: ";}//Regel 2: If D2 is 31, then set D2.M2.Y2 to 1st day of the next month.
+//Die Umrechnung in den ersten des nÃ¤chsten Monats entspricht der Beibehaltung des 31. des Endemonats in der Formel. Es wird eh nur ein Tag hinzugerechnet.
 var Ergebnis = 360 * ( Y2 -  Y1 ) + 30 * ( M2 - M1 ) + (D2 - D1);
 document.FormularZins.Anzahltage30EPlus.value = Ergebnis + " Endedatum " + veraendert + D2 + "." + M2 + "." + Y2;
 document.FormularZins.AnzahlTageZaehler.value = Ergebnis;
@@ -195,7 +200,7 @@ var D1LetzterFebruar ="";
 var D2LetzterFebruar ="";
 if (D1==31){D1 = 30;}//Regel 1: If D1 is 31, then change D1 to 30.
 if (D2==31){D2 = 30;}//Regel 1: If D2 is 31, then change D2 to 30.
-//nämlich Regel 1: If D1 and/or D2 is 31, then change D1 to 30 and/or D2 to. 
+//nÃ¤mlich Regel 1: If D1 and/or D2 is 31, then change D1 to 30 and/or D2 to. 
 if (document.FormularZins.ManuellLastDayFebruary1.value=="ja"){D1=30;D1LetzterFebruar=" Startdatum letzter vom Februar ";}
 if (document.FormularZins.ManuellLastDayFebruary2.value=="ja"){D2=30;D2LetzterFebruar=" Endedatum letzter vom Februar ";}
 // Regel 2 If D1.M1.Y1 and/or D2.M2.Y2 = last day of february =1.3.-1 Tag then change D1 to 30 and/or D2 to 30. 
@@ -241,14 +246,17 @@ document.FormularZins.AnzahlTageNenner.value = 360;
 //Zinsrechner Ende
 //--></script><!--- type="text/javascript9" Schaltjahr() Rechner()Ende-->
 </head><!--- Berechnung des Schaltjahres Ende --->
-<body><!--- Funktionen sind Anweisungsblöcke, die erst dann ausgeführt, wenn diese im body-Bereich direkt, oder durch anklicken von ((a href...)) bzw. eines Buttons ((input...)) aufgerufen wird.--->
+<body><!--- Funktionen sind AnweisungsblÃ¶cke, die erst dann ausgefÃ¼hrt, wenn diese im body-Bereich direkt, oder durch anklicken von ((a href...)) bzw. eines Buttons ((input...)) aufgerufen wird.--->
 
 <h4>1. Allgemeiner Rechner</h4>
 <ul><li>
 Geben Sie eine Rechenaufgabe ein (z.B. 5+7):
-<br><!---var Ergebnis = eval(document.Formular.Eingabe.value);--->
-<!---document.---><form name="Formular"><!---.---><input value="10000*0.03" name="Eingabe" type="text"><!---.---><br><ul><li>
-<input value="Berechnen" onclick="Rechner()" type="button"><ul><li>
+<br>
+<!---var Ergebnis = eval(document.Formular.Eingabe.value);--->
+<!---document.---><form name="Formular"><!---.---><input value="10000*0.03" name="Eingabe" type="text"><!---.---><br>
+<ul><li>
+<input value="Berechnen" onclick="Rechner()" type="button">
+<ul><li>
   <input value="" name="Ergebnis" size="34" type="text">
 
 </li></ul>
@@ -264,7 +272,7 @@ Geben Sie eine Rechenaufgabe ein (z.B. 5+7):
 Geben Sie ein Jahr zwischen 1900 und 2999 ein:
 <br>
 <!--- s.o. im Head: var Jahr = document.Formular1.Eingabe3.value;--->
-<!---document.---><form name="Formular1" action=""><!---.---><input value="2015" name="Eingabe3" size="14" type="text"><!---.---><!--- value="2015" als Default möglich ---><br>
+<!---document.---><form name="Formular1" action=""><!---.---><input value="2015" name="Eingabe3" size="14" type="text"><!---.---><!--- value="2015" als Default mÃ¶glich ---><br>
 <ul><li>
 <input value="Ausgabe" onclick="Schaltjahr()" type="button">
 <ul><li>
@@ -282,7 +290,8 @@ Geben Sie ein Jahr zwischen 1900 und 2999 ein:
 <ul><li>
 
 Geben Sie Kapital und Zinssatz ein:
-<br><!---var Ergebnis = eval(document.Formular.Eingabe.value);--->
+<br>
+<!---var Ergebnis = eval(document.Formular.Eingabe.value);--->
 <!---document.---><form name="FormularZins"><!---.---><input value="134557" name="Kapital" type="double"><!---.---><input value="0.0156" name="Zinssatz" type="double"><!---.--->
 <br>
 <ul><li>
@@ -304,12 +313,12 @@ Endedatum ist Last day of February<input value="nein" name="ManuellLastDayFebrua
 <br>
 
 <ul><li>
-Anzahl Tage im Zähler bestimmen und soweit schon möglich im Nenner, sonst weitere Knoten verwenden
+Anzahl Tage im ZÃ¤hler bestimmen und soweit schon mÃ¶glich im Nenner, sonst weitere Knoten verwenden
 <br>
 <ul><li>
-<b>Tageskonventionen für <input value="360" name="Nenner360" type="text" size="5"> Tage mit der Formel</b>
+<b>Tageskonventionen fÃ¼r <input value="360" name="Nenner360" type="text" size="5"> Tage mit der Formel</b>
 <br><i>Tage = 360 * ( Y2 -  Y1 ) + 30 * ( M2 - M1 ) + (D2 - D1)</i>
-<br>   <input value="Anzahl Tage Zähler 30 und Nenner 360" onclick="Anzahltage30zaehler()" type="button">
+<br>   <input value="Anzahl Tage ZÃ¤hler 30 und Nenner 360" onclick="Anzahltage30zaehler()" type="button">
  30/360 Bond Basis, 30A/360: 
  This convention is exactly as 30U/360 below, except for the first two rules. Note that the order of calculations is important:
  D1 = MIN (D1, 30).If D1 = 30 Then D2 = MIN (D2,30)
@@ -319,7 +328,7 @@ Anzahl Tage im Zähler bestimmen und soweit schon möglich im Nenner, sonst weiter
 <input value="" name="Anzahltage30" type="text"> 
 </li></ul>
 
-<br>   <input value="Anzahl Tage Zähler 30ISDA und Nenner 360" onclick="Anzahltage30ISDAzaehler()" type="button">
+<br>   <input value="Anzahl Tage ZÃ¤hler 30ISDA und Nenner 360" onclick="Anzahltage30ISDAzaehler()" type="button">
  30/360 ISDA: 
  Regel 1: If D1 is 31, then change D1 to 30. 
  Regel 2 If D1 = 30 after applying Regel 1 and D2 =31 then change D2 to 30. 
@@ -329,17 +338,17 @@ Anzahl Tage im Zähler bestimmen und soweit schon möglich im Nenner, sonst weiter
 <input value="" name="Anzahltage30ISDA" type="text" size="100">
 </li></ul>
 
-<br>   <input value="Anzahl Tage Zähler 30E und Nenner 360" onclick="Anzahltage30Ezaehler()" type="button">
+<br>   <input value="Anzahl Tage ZÃ¤hler 30E und Nenner 360" onclick="Anzahltage30Ezaehler()" type="button">
  30E/360, 30/360 ICMA, 30S/360, Eurobond basis (ISDA 2006), Special German (spezielle deutsche Zinsmethode): 
  Regel 1: If D1 is 31, then change D1 to 30. 
  Regel 2 If D2 is 31, then change D2 to 30. 
- Sources: "ICMA Rule Book, Rule 251". Retrieved 2014-09-18. ICMA Rule 251.1(ii), 251.2. "ISDA Definitions, Section 4.16". 2006. Retrieved 2014-09-18. ISDA 2006 Section 4.16(g).
+ Sources: "ICMA Rule Book, Rule 251". RetrievedÂ 2014-09-18. ICMA Rule 251.1(ii), 251.2. "ISDA Definitions, Section 4.16". 2006. Retrieved 2014-09-18. ISDA 2006 Section 4.16(g).
 <br>
 <ul><li>
 <input value="" name="Anzahltage30E" type="text">
 </li></ul>
 
-<br>   <input value="Anzahl Tage Zähler 30E+ und Nenner 360" onclick="Anzahltage30EPluszaehler()" type="button">
+<br>   <input value="Anzahl Tage ZÃ¤hler 30E+ und Nenner 360" onclick="Anzahltage30EPluszaehler()" type="button">
  30E+/360: 
  Regel 1: If D1 is 31, then change D1 to 30. 
  Regel 2 If D2 is 31, set D2.M2.Y2 to 1st day of the next month. 
@@ -350,11 +359,11 @@ Anzahl Tage im Zähler bestimmen und soweit schon möglich im Nenner, sonst weiter
 </li></ul>
 
 <ul><li>
-Zum Endedatum 1. des Folgemonats für Regel 30E+: <input value="2013" name="EndejahrPlus" type="text" size="5"> <input value="5" name="EndemonatPlus" type="text" size="5"> <input value="31" name="EndetagPlus" type="text" size="5">
+Zum Endedatum 1. des Folgemonats fÃ¼r Regel 30E+: <input value="2013" name="EndejahrPlus" type="text" size="5"> <input value="5" name="EndemonatPlus" type="text" size="5"> <input value="31" name="EndetagPlus" type="text" size="5">
 </li></ul>
 
 
-<br>   <input value="Anzahl Tage Zähler 30German und Nenner 360" onclick="Anzahltage30Germanzaehler()" type="button">
+<br>   <input value="Anzahl Tage ZÃ¤hler 30German und Nenner 360" onclick="Anzahltage30Germanzaehler()" type="button">
  30/360 German (spezielle deutsche Zinsmethode siehe oben): 
  Regel 1: If D1 and/or D2 is 31, then change D1 to 30 and/or D2 to 30. 
  Regel 2 If D1.M1.Y1 and/or D2.M2.Y2 = last day of february =1.3.-1 Tag then change D1 to 30 and/or D2 to 30. 
@@ -365,7 +374,7 @@ Zum Endedatum 1. des Folgemonats für Regel 30E+: <input value="2013" name="Endej
 </li></ul>
  
  
-<br>   <input value="Anzahl Tage Zähler 30US und Nenner 360" onclick="Anzahltage30USzaehler()" type="button">
+<br>   <input value="Anzahl Tage ZÃ¤hler 30US und Nenner 360" onclick="Anzahltage30USzaehler()" type="button">
  30/360 US: 
  Regel 1: If D2.M2.Y2 ist the last day of February (28 ohne Schaltjahr und 29 im Schaltjahr) and D1.M1.Y1 ist the last day of February then D2 = 30
  Regel 2: If D1.M1.Y1 ist the last day of February (28 ohne Schaltjahr und 29 im Schaltjahr) then D1 = 30
@@ -381,9 +390,9 @@ Zum Endedatum 1. des Folgemonats für Regel 30E+: <input value="2013" name="Endej
  
 <br>
 <ul><li>
-<b>Tageskonventionen actual mit der exakten Anzahl Tage im Zähler und Nenner für actual im Weiteren Knoten bestimmen</b>
+<b>Tageskonventionen actual mit der exakten Anzahl Tage im ZÃ¤hler und Nenner fÃ¼r actual im Weiteren Knoten bestimmen</b>
 <br>
-<input value="Anzahl Tage Zähler actual und Nenner für actual im Weiteren Knoten bestimmen" onclick="Anzahltagezaehler()" type="button">
+<input value="Anzahl Tage ZÃ¤hler actual und Nenner fÃ¼r actual im Weiteren Knoten bestimmen" onclick="Anzahltagezaehler()" type="button">
 <ul><li>
 <input value="" name="Anzahltageactual" type="text">  
 </li></ul>   
@@ -391,7 +400,7 @@ Zum Endedatum 1. des Folgemonats für Regel 30E+: <input value="2013" name="Endej
 
 <br>
 <ul><li>
-<b>Für die no leap year abgezogene Tage im Zähler bei der Methode NL/365 </b>
+<b>FÃ¼r die no leap year abgezogene Tage im ZÃ¤hler bei der Methode NL/365 </b>
 <ul><li>
 <input value="0" name="AnzahltageNoLeap" type="text">  
 </li></ul>   
@@ -401,7 +410,7 @@ Zum Endedatum 1. des Folgemonats für Regel 30E+: <input value="2013" name="Endej
 <br>
  
 <ul><li>
-<b>Für die Rechnung benutzte Tage im Zähler</b>
+<b>FÃ¼r die Rechnung benutzte Tage im ZÃ¤hler</b>
 <ul><li>
 <input value="" name="AnzahlTageZaehler" type="text"> 
 </li></ul>   
@@ -410,13 +419,13 @@ Zum Endedatum 1. des Folgemonats für Regel 30E+: <input value="2013" name="Endej
 <br>
  
 <ul><li>
-<b>Nenner bestimmen für Tageskonventionen actual mit der exakten Anzahl Tage</b>
+<b>Nenner bestimmen fÃ¼r Tageskonventionen actual mit der exakten Anzahl Tage</b>
 <br>
 
 <br><input value="Nenner actual 365.25 1/1" onclick="Nenneractual36525()" type="button">
 This is used for inflation instruments and divides the overall 4 year period distributing the additional day across all 4 years i.e. giving 365.25 days to each year.
 <br>
-Sources: "ISDA Definitions, Section 4.16". 2006. Retrieved2014-09-18. ISDA 2006 Section 4.16(a). "FBF Master Agreement for Financial Transactions, Supplement to the Derivatives Annex, Edition 2004". 2004. Retrieved 2014-09-18. FBF Master Agreement for Financial Transactions, Supplement to the Derivatives Annex, Edition 2004, section 7a.
+Sources: "ISDA Definitions, Section 4.16". 2006. Retrieved2014-09-18. ISDA 2006 Section 4.16(a). "FBF Master Agreement for Financial Transactions, Supplement to the Derivatives Annex, Edition 2004". 2004. RetrievedÂ 2014-09-18. FBF Master Agreement for Financial Transactions, Supplement to the Derivatives Annex, Edition 2004, section 7a.
 <ul><li>
 <input value="365.25" name="Nenner36525" type="text">
 </li></ul> 
@@ -425,7 +434,7 @@ Sources: "ISDA Definitions, Section 4.16". 2006. Retrieved2014-09-18. ISDA 2006 
 
 
 <br><input value="Nenner actual 366" onclick="Nenneractual366()" type="button">
-Für Schaltjahre oder Act/365A für gesamte Periode, falls Schalttag vorhanden oder Act/365L falls Endedatum im Schaltjahr.
+FÃ¼r Schaltjahre oder Act/365A fÃ¼r gesamte Periode, falls Schalttag vorhanden oder Act/365L falls Endedatum im Schaltjahr.
 <ul><li>
 <input value="366" name="Nenner366" type="text">
 </li></ul> 
@@ -449,19 +458,19 @@ Each month is treated normally and the year is assumed to be 364 days. For examp
 </li></ul> 
   
 <br><input value="Nenner actual 360" onclick="Nenneractual360()" type="button">
-This convention is used in money markets for short-term lending of currencies, including the US dollar and Euro, and is applied in ESCBmonetary policy operations. It is the convention used withRepurchase agreements. Each month is treated normally and the year is assumed to be 360 days. For example, in a period from February 1, 2005 to April 1, 2005, the Factor is 59 days divided by 360 days.
+This convention is used inÂ money marketsÂ for short-term lending of currencies, including the US dollar and Euro, and is applied inÂ ESCBmonetary policy operations. It is the convention used withRepurchase agreements. Each month is treated normally and the year is assumed to be 360 days. For example, in a period from February 1, 2005 to April 1, 2005, the Factor is 59 days divided by 360 days.
  The CouponFactor uses the same formula, replacing Date2 by Date3. In general, coupon payments will vary from period to period, due to the differing number of days in the periods. The formula applies to both regular and irregular coupon periods.
 <br>
-Other names: Act/360, A/360, French (französische Methode)
+Other names: Act/360, A/360, French (franzÃ¶sische Methode)
 <br>
-Sources: "ICMA Rule Book, Rule 251". Retrieved 2014-09-18. ICMA Rule 251.1(i) (not sterling). "ISDA Definitions, Section 4.16". 2006. Retrieved2014-09-18. ISDA 2006 Section 4.16(e). (Mayle 1993)
+Sources: "ICMA Rule Book, Rule 251". RetrievedÂ 2014-09-18. ICMA Rule 251.1(i) (not sterling). "ISDA Definitions, Section 4.16". 2006. Retrieved2014-09-18. ISDA 2006 Section 4.16(e). (Mayle 1993)
 <ul><li>
 <input value="360" name="Nenner360" type="text">
 </li></ul> 
 
 <br>
 <ul><li>
-<b>Für die Rechnung benutzte Tage im Nenner</b>
+<b>FÃ¼r die Rechnung benutzte Tage im Nenner</b>
 <ul><li>
 <input value="" name="AnzahlTageNenner" type="text">
 </li></ul> 
@@ -469,17 +478,24 @@ Sources: "ICMA Rule Book, Rule 251". Retrieved 2014-09-18. ICMA Rule 251.1(i) (n
 <br>  
 
 
+
+<ul><li>
+
+<b>FÃ¼r die Rechnung benutzte Jahre mit Nachkommastellen</b>
+
+<input value="1" name="Jahre" type="text"><!---.--->
+
+<ul><li>
+
+<!--.-->Option manuelles Ãœberschreiben der Jahre.
 <ul><li>
 
 <!--.-->Geben Sie die Anzahl Jahre mit Nachkommastellen manuell ein:
 <br><input value="1" name="JahreManuelleEingabe" type="text"><!---.--->
 <br><input value="Jahre manuell setzen" onclick="JahreManuellSetzen()" type="button">    
 
-<ul><li>
-
-<b>Für die Rechnung benutzte Jahre mit Nachkommastellen</b>
-
-<input value="1" name="Jahre" type="text"><!---.--->
+</li></ul>
+</li></ul>
 
 <br>
 <br>
@@ -493,7 +509,7 @@ Methode: <input value="manuell" name="Methode" type="text">
 <ul><li>
 <br>Zinsberechnung
 <br><input value="Kapital und Zinssatz eintragen" onclick="KapitalZinssatzSchreiben()" type="button"> 
-<input value="Zurücksetzen" onclick="KapitalZinssatzZuruecksetzen()" type="button">
+<input value="ZurÃ¼cksetzen" onclick="KapitalZinssatzZuruecksetzen()" type="button">
 <ul><li>
 <input value="Alle Zinsen mit Titel ausgeben" onclick="ZinsenTitelAlle()" type="button">
 </li></ul>
@@ -517,7 +533,6 @@ Methode: <input value="manuell" name="Methode" type="text">
 <br>
 <textarea name="ZinsErgebnisAlleZeilen" id="ZinsErgebnisAlleZeilen" rows="4" cols="70">
 </textarea>  
-</li></ul>
 
 
 </li></ul>
@@ -750,25 +765,22 @@ zeitZeitstempelKW();
 
 <h4>5. Quellen</h4>
 <ul><li>
-<a href="http://html-php.de/index.php?seite=j_mathe">Rechner</a>
+<a href="https://html-php.de/index.php?seite=j_mathe">Rechner</a>
 </li></ul>
 <ul><li>
-<a href="http://html-php.de/index.php?seite=j_index">Schaltjahr</a>
+<a href="https://html-php.de/index.php?seite=j_index">Schaltjahr</a>
 </li></ul>
 <ul><li>
-<a href="http://en.m.wikipedia.org/wiki/Day_count_convention">Zinsrechnung</a>
+<a href="https://en.m.wikipedia.org/wiki/Day_count_convention">Zinsrechnung</a>
 </li></ul>
 <ul><li>
-<a href="http://zinsmethoden.de/">Zinsmethoden</a>
+<a href="https://zinsen-berechnen.de/zinsmethoden/">Zinsmethoden</a>
 </li></ul>
 <ul><li>
-<a href="http://de.selfhtml.org/javascript/objekte/date.htm">Datumsberechnungen</a>
+<a href="https://de.selfhtml.org/javascript/objekte/date.htm">Datumsberechnungen</a>
 </li></ul>
 <ul><li>
-<a href="http://www.it-academy.cc/article/1210/JavaScript:+Datum+und+Uhrzeit+benutzen.html">Datum</a>
-</li></ul>
-<ul><li>
-<a href="http://dcljs.de/faq/antwort.php?Antwort=rechnen_runden">Runden</a>
+<a href="https://de.m.wikipedia.org/wiki/Rundung">Runden</a>
 </li></ul>
 
 </body></html>
