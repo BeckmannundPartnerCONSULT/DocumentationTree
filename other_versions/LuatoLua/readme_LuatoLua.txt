@@ -22,3 +22,11 @@ This scripts contains three trees:
 5. Tree_calculator_with_interests.lua
 
 This script is a GUI with the calculation of interests according to different methods in a tree.
+
+6. reflexive_Tree_calculator_with_interests.lua
+
+This script is a Lua to Lua script but also a reflexive one. Therefore here we see the need for a tree describing github. In a tree we can have this file stored only in one place but referenced in two categories.
+
+This script is a GUI with the calculation of interests according to different methods in a tree.
+
+This tree can be changed easily by GUI application functionalities.
