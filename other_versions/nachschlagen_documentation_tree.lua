@@ -1553,34 +1553,57 @@ function tree3:executebranch_cb(id)
 	--test with: iup.Message(tree3['title' .. id] , tree3['title' .. tree3["PARENT" .. id]] .. ":\\" .. tree3['title' .. id]:match("<DIR>          (.*)") ) --iup.GetParent(tree3) parent is the frame
 	--only one level: new_directory=tree3['title' .. tree3["PARENT" .. id]] .. ":\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
 	idSearched=id
-	pathTable={}
-	while true do
-		idSearched=tree3["PARENT" .. idSearched]
-		--test with: print(idSearched)
-		if idSearched=="0" then break end
-		pathTable[#pathTable+1]=tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1")
-		--test with: print(tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1"))
-		if tree3["PARENT" .. idSearched]=="0" then break end
-	end --while true do
-	if #pathTable>0 then
-		testText=pathTable[#pathTable] .. ":"
-		for i=#pathTable-1,1,-1 do testText=testText .. "\\" .. pathTable[i] end
-		--test with: print(testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)"))
-		new_directory=testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
+	--test with: print(type(id))
+	if id==0 then 
+		tree_statistics={branchname="Laufwerke",}
+		caracterCollection="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		--list of directories in .:\\
+		for caracterText in caracterCollection:gmatch(".") do
+			--test with: print(#tree_statistics+1)
+			p=io.popen('dir ' .. caracterText .. ':\\ ') 
+			numberDirectories=0
+			for line in p:lines() do 
+				if line:match("<DIR>") then
+					numberDirectories=numberDirectories+1
+					if numberDirectories==1 then tree_statistics[#tree_statistics+1]={branchname=caracterText} end
+					--test with: print(line)
+					tree_statistics[#tree_statistics][#tree_statistics[#tree_statistics]+1]={branchname=line}
+				end --if line:match("<DIR>") then
+			end --for line in p:lines() do 
+		end --for caracterText in caracterCollection:gmatch(".") do
+		tree3.delnode0 = "CHILDREN"
+			tree3.title=''
+		iup.TreeAddNodes(tree3, tree_statistics)
 	else
-		new_directory=tree3['title' .. id] .. ":\\"
-	end --if #pathTable>0 then
-	tree_script={branchname="Ordnerinhalt von " .. new_directory,}
-	--content of directory
-	p=io.popen('dir "' .. new_directory .. '" /b ') 
-	for line in p:lines() do 
-		--test with: print(line)
-		tree_script[#tree_script+1]="\\" .. line
-	end --for line in p:lines() do 
-	tree2.delnode0 = "CHILDREN"
-	tree2.title=''
-	iup.TreeAddNodes(tree2, tree_script)
-	textbox1.value=new_directory
+		local pathTable={}
+		while true do
+			idSearched=tree3["PARENT" .. idSearched]
+			--test with: print(idSearched)
+			if idSearched=="0" then break end
+			pathTable[#pathTable+1]=tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1")
+			--test with: print(tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1"))
+			if tree3["PARENT" .. idSearched]=="0" then break end
+		end --while true do
+		if #pathTable>0 then
+			testText=pathTable[#pathTable] .. ":"
+			for i=#pathTable-1,1,-1 do testText=testText .. "\\" .. pathTable[i] end
+			--test with: print(testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)"))
+			new_directory=testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
+		else
+			new_directory=tree3['title' .. id] .. ":\\"
+		end --if #pathTable>0 then
+		tree_script={branchname="Ordnerinhalt von " .. new_directory,}
+		--content of directory
+		p=io.popen('dir "' .. new_directory .. '" /b ') 
+		for line in p:lines() do 
+			--test with: print(line)
+			tree_script[#tree_script+1]="\\" .. line
+		end --for line in p:lines() do 
+		tree2.delnode0 = "CHILDREN"
+		tree2.title=''
+		iup.TreeAddNodes(tree2, tree_script)
+		textbox1.value=new_directory
+	end --if id==0 then
 end --function tree3:executeleaf_cb(id)
 -- Callback of the right mouse button click
 function tree3:rightclick_cb(id)
@@ -1589,32 +1612,54 @@ function tree3:rightclick_cb(id)
 	tree3['delnode' .. id]= "CHILDREN"
 	--only one level: new_directory=tree3['title' .. tree3["PARENT" .. id]] .. ":\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
 	idSearched=id
-	pathTable={}
-	while true do
-		idSearched=tree3["PARENT" .. idSearched]
-		--test with: print(idSearched)
-		if idSearched=="0" then break end
-		pathTable[#pathTable+1]=tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1")
-		if tree3["PARENT" .. idSearched]=="0"  then break end
-	end --while true do
-	if #pathTable>0 then
-		testText=pathTable[#pathTable] .. ":"
-		for i=#pathTable-1,1,-1 do testText=testText .. "\\" .. pathTable[i] end
-		--test with: print(testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)"))
-		new_directory=testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
-		--test with: iup.Message("tree3","tree3" .. new_directory)
+	if id==0 then 
+		tree_statistics={branchname="Laufwerke",}
+		caracterCollection="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		--list of directories in .:\\
+		for caracterText in caracterCollection:gmatch(".") do
+			--test with: print(#tree_statistics+1)
+			p=io.popen('dir ' .. caracterText .. ':\\ ') 
+			numberDirectories=0
+			for line in p:lines() do 
+				if line:match("<DIR>") then
+					numberDirectories=numberDirectories+1
+					if numberDirectories==1 then tree_statistics[#tree_statistics+1]={branchname=caracterText} end
+					--test with: print(line)
+					tree_statistics[#tree_statistics][#tree_statistics[#tree_statistics]+1]={branchname=line}
+				end --if line:match("<DIR>") then
+			end --for line in p:lines() do 
+		end --for caracterText in caracterCollection:gmatch(".") do
+		tree3.delnode0 = "CHILDREN"
+			tree3.title=''
+		iup.TreeAddNodes(tree3, tree_statistics)
 	else
-		new_directory=tree3['title' .. id] .. ":\\"
-	end --if #pathTable>0 then
-	p=io.popen('dir "' .. new_directory .. '" /o-N') 
-	numberDirectories=0
-	for line in p:lines() do 
-		if line:match("<DIR>") and line:match("<DIR> +%.")==nil then
-			numberDirectories=numberDirectories+1
-			tree3["addbranch" .. tree3.value] =line
-			--test with: iup.Message("tree3","tree3" .. line)
-		end --if line:match("<DIR>") and line:match("<DIR> +%.")==nil then
-	end --for line in p:lines() do 
+		local pathTable={}
+		while true do
+			idSearched=tree3["PARENT" .. idSearched]
+			--test with: print(idSearched)
+			if idSearched=="0" then break end
+			pathTable[#pathTable+1]=tree3['title' .. idSearched]:gsub(".*<DIR>          (.*)","%1")
+			if tree3["PARENT" .. idSearched]=="0"  then break end
+		end --while true do
+		if #pathTable>0 then
+			testText=pathTable[#pathTable] .. ":"
+			for i=#pathTable-1,1,-1 do testText=testText .. "\\" .. pathTable[i] end
+			--test with: print(testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)"))
+			new_directory=testText .. "\\" .. tree3['title' .. id]:match("<DIR>          (.*)")
+			--test with: iup.Message("tree3","tree3" .. new_directory)
+		else
+			new_directory=tree3['title' .. id] .. ":\\"
+		end --if #pathTable>0 then
+		p=io.popen('dir "' .. new_directory .. '" /o-N') 
+		numberDirectories=0
+		for line in p:lines() do 
+			if line:match("<DIR>") and line:match("<DIR> +%.")==nil then
+				numberDirectories=numberDirectories+1
+				tree3["addbranch" .. tree3.value] =line
+				--test with: iup.Message("tree3","tree3" .. line)
+			end --if line:match("<DIR>") and line:match("<DIR> +%.")==nil then
+		end --for line in p:lines() do 
+	end --if id==0 then 
 end --function tree3:rightclick_cb(id)
 -- Callback for pressed keys
 function tree3:k_any(c)
@@ -1697,7 +1742,7 @@ maindlg = iup.dialog{
 
 --7.5 read plugins directory
 pluginRegisterTable = pluginRegisterTable or {}
-pluginRegisterTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\documentation_tree_plugins\\config_IDIV.lua"]=true
+--pluginRegisterTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\documentation_tree_plugins\\config_IDIV.lua"]=true
 p=io.popen('dir "' .. path .. '\\documentation_tree_plugins\\*.lua" /b/o/s')
 --test with: print(p)
 print("Documentation Tree Plugins")
