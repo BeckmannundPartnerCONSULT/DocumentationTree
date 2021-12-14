@@ -18,6 +18,34 @@ scrollpaneconstants=luajava.bindClass("javax.swing.ScrollPaneConstants")
 v = scrollpaneconstants.VERTICAL_SCROLLBAR_AS_NEEDED
 h = scrollpaneconstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
 
+--3.3 functions in functionTable
+functionTable={
+["Berechnen"]=function()
+model= tree1:getModel()
+--test with: print(model)
+load("ErgebnisText=" .. tostring(javaTree[7][1]))()
+--test with: ErgebnisText= javaTree[7][1]
+newNode = luajava.newInstance("javax.swing.tree.DefaultMutableTreeNode",tostring(ErgebnisText))
+nodeKnoten=javaTree[7][2].branchname
+model:insertNodeInto(newNode, nodeKnoten, 0)
+textArea1:setText(tostring(ErgebnisText))
+print("Ergebnis: " .. tostring(ErgebnisText))
+textArea2:setText([[
+Tree[7]={branchname="Formel","]] .. tostring(javaTree[7][1]) .. [[",
+{branchname="Berechnen","]] .. tostring(ErgebnisText) .. [[",}}
+]])
+end,
+["Baumprogramme"]=function() ErgebnisText ="" p=io.popen('ls /Tree') for line in p:lines() do print(line) if ErgebnisText=="" then ErgebnisText= "/Tree/" .. tostring(line) else ErgebnisText= ErgebnisText .. "\n/Tree/" .. tostring(line) end end 
+textArea1:setText("p=io.popen('ls /Tree')")
+textArea2:setText(ErgebnisText) 
+end,
+["Oberster Knoten"]=function()
+textArea1:setText('Tree[#Tree+1]={branchname="","",}')
+textArea2:setText('Tree[#Tree+1]={branchname="","",}\nTree[][]=""\nTree[]=nil\nfor i=3,#Tree do Tree[i-1]=Tree[i] end Tree[#Tree]=nil\ntable.insert(Tree,3,{branchname="Neu","neues Blatt"})')
+end,
+} --functionTable={
+
+
 --4. text areas
 --4.1 text area for search text and to change the tree with
 textArea1=luajava.newInstance("javax.swing.JTextArea",'Tree[#Tree+1]={branchname="","",}',10,12)
@@ -152,6 +180,11 @@ tree1:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 			elseif tree1:getLastSelectedPathComponent() and tostring(tree1:getLastSelectedPathComponent()):match("^java %-classpath /Tree/luaj%-jse%-3.0.1.jar lua ") then
 				os.execute(tostring(tree1:getLastSelectedPathComponent()))
 				textArea1:setText(tostring(tree1:getLastSelectedPathComponent()))
+			elseif tree1:getLastSelectedPathComponent() and functionTable[tostring(tree1:getLastSelectedPathComponent())] then
+				textArea1:setText('execute function ' .. tostring(tree1:getLastSelectedPathComponent()))
+				--execute stored function
+				functionTable[tostring(tree1:getLastSelectedPathComponent())]() 
+				--test with: functionTable["Externe Speicher"]()
 			elseif tree1:getLastSelectedPathComponent() then
 				textArea1:setText('do not open ' .. tostring(tree1:getLastSelectedPathComponent()))
 			end --if tree1:getLastSelectedPathComponent() then
@@ -189,6 +222,8 @@ outputfile1:close()
 --7. tree in scrollpane added to content
 jsp1 = luajava.newInstance("javax.swing.JScrollPane",tree1,v,h)
 content:add(jsp1,borderLayout.CENTER);
+
+
 
 --8. show the frame
 frame:setDefaultCloseOperation(jframe.EXIT_ON_CLOSE)
