@@ -3,6 +3,7 @@
 --1.1 libraries and clipboard
 --1.1.1 libraries
 require ("iuplua")
+require("iuplua_scintilla") --for Scintilla-editor
 
 --1.1.2 initalize clipboard
 clipboard=iup.clipboard{}
@@ -40,6 +41,34 @@ console = {}
 
 --2.1 prompt text area
 console.prompt = iup.text{expand="Horizontal", dragdrop = "Yes"}
+--
+--[[
+--alternatively as scintilla without dropfiles_cb
+console.prompt=iup.scintilla{dragdrop = "Yes"}
+console.prompt.SIZE="200x120" --I think this is not optimal! (since the size is so appears to be fixed)
+--
+console.prompt.wordwrap="WORD" --enable wordwarp
+console.prompt.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
+console.prompt.FONT="Courier New, 8" --font of shown code
+console.prompt.LEXERLANGUAGE="lua" --set the programming language to lua for syntax higlighting
+console.prompt.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false function true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
+--colors for syntax highlighting
+console.prompt.STYLEFGCOLOR0="0 0 0"      -- 0-Default
+console.prompt.STYLEFGCOLOR1="0 128 0"    -- 1-Lua comment
+console.prompt.STYLEFGCOLOR2="0 128 0"    -- 2-Lua comment line
+console.prompt.STYLEFGCOLOR3="0 128 0"    -- 3-JavaDoc/ Doxygen style Lua commen
+console.prompt.STYLEFGCOLOR4="180 0 0"    -- 4-Number 
+console.prompt.STYLEFGCOLOR5="0 0 255"    -- 5-Keywords (id=0) 
+console.prompt.STYLEFGCOLOR6="160 20 180"  -- 6-String 
+console.prompt.STYLEFGCOLOR7="128 0 0"    -- 7-Character
+console.prompt.STYLEFGCOLOR8="160 20 180"  -- 8-Literal string
+console.prompt.STYLEFGCOLOR9="0 0 255"    -- 9-Old preprocessor block (obsolete)
+console.prompt.STYLEFGCOLOR10="128 0 0" -- 10-Operator 
+--console.prompt.STYLEBOLD10="YES"
+--console.prompt.STYLEFGCOLOR11="255 0 255" -- 11-Identifier (this overwrites the default color)
+--console.prompt.STYLEITALIC10="YES"
+console.prompt.MARGINWIDTH0="40"
+--]]
 console.prompt.tip = "Filter leaf with pattern: Alle Blätter darunter filtern\n"..
                      "Enter - executes a Lua command\n"..
                      "Esc - clears the command\n"..
@@ -445,14 +474,38 @@ function command_cancel:flat_action()
 	return iup.CLOSE
 end --function command_cancel:flat_action()
 
-command_text = iup.multiline{size="120x50",border="YES",expand="YES",wordwrap="YES"} --textfield
+command_text=iup.scintilla{}
+command_text.SIZE="200x120" --I think this is not optimal! (since the size is so appears to be fixed)
+--
+command_text.wordwrap="WORD" --enable wordwarp
+command_text.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
+command_text.FONT="Courier New, 8" --font of shown code
+command_text.LEXERLANGUAGE="lua" --set the programming language to lua for syntax higlighting
+command_text.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false function true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
+--colors for syntax highlighting
+command_text.STYLEFGCOLOR0="0 0 0"      -- 0-Default
+command_text.STYLEFGCOLOR1="0 128 0"    -- 1-Lua comment
+command_text.STYLEFGCOLOR2="0 128 0"    -- 2-Lua comment line
+command_text.STYLEFGCOLOR3="0 128 0"    -- 3-JavaDoc/ Doxygen style Lua commen
+command_text.STYLEFGCOLOR4="180 0 0"    -- 4-Number 
+command_text.STYLEFGCOLOR5="0 0 255"    -- 5-Keywords (id=0) 
+command_text.STYLEFGCOLOR6="160 20 180"  -- 6-String 
+command_text.STYLEFGCOLOR7="128 0 0"    -- 7-Character
+command_text.STYLEFGCOLOR8="160 20 180"  -- 8-Literal string
+command_text.STYLEFGCOLOR9="0 0 255"    -- 9-Old preprocessor block (obsolete)
+command_text.STYLEFGCOLOR10="128 0 0" -- 10-Operator 
+--command_text.STYLEBOLD10="YES"
+--command_text.STYLEFGCOLOR11="255 0 255" -- 11-Identifier (this overwrites the default color)
+--command_text.STYLEITALIC10="YES"
+command_text.MARGINWIDTH0="40"
+
 command_label1 = iup.label{title="Name:"}--label for textfield
 
 --open the dialog for renaming branch/leaf
 command_dlg_rename = iup.dialog{
 	iup.vbox{command_label1, command_text, iup.hbox{command_ok,command_cancel}}; 
 	title="Knoten bearbeiten",
-	size="QUARTER",
+	size="250x150",
 	startfocus=command_text,
 	}
 
