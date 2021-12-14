@@ -1147,15 +1147,15 @@ end --function button_logo:flat_action()
 --6.2 button for saving tree
 button_save_lua_table_input=iup.flatbutton{title="Eingabe-Baum\nspeichern", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table_input:flat_action()
-	save_tree_to_lua(console.inputTree, path .. "\\input_command_output_tree_input.lua","lua_tree_input")
+	save_tree_to_lua(console.inputTree, path .. "\\" .. thisfilename:gsub("%.lua","_input.lua"),"lua_tree_input")
 end --function button_save_lua_table_input:flat_action()
 
 --6.2.1 button for loading tree
 button_load_lua_table_input=iup.flatbutton{title="Eingabe-Baum\nneu laden", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_load_lua_table_input:flat_action()
-	if file_exists(path .. "\\input_command_output_tree_input.lua") then
-		dofile(path .. "\\input_command_output_tree_input.lua")
-	end --if file_exists(path .. "\\input_command_output_tree_input.lua") then
+	if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_input.lua")) then
+		dofile(path .. "\\" .. thisfilename:gsub("%.lua","_input.lua"))
+	end --if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_input.lua")) then
 	--use recursive function to build variable inputs from tree as Lua variables
 	readVariablesInTreeRecursive(lua_tree_input)
 end --function button_load_lua_table_input:flat_action()
@@ -1163,20 +1163,20 @@ end --function button_load_lua_table_input:flat_action()
 --6.3 button for saving tree
 button_save_lua_table_command=iup.flatbutton{title="Command-Baum\nspeichern", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table_command:flat_action()
-	save_tree_to_lua(console.commandTree, path .. "\\input_command_output_tree_command.lua","lua_tree_command")
+	save_tree_to_lua(console.commandTree, path .. "\\" .. thisfilename:gsub("%.lua","_command.lua"),"lua_tree_command")
 end --function button_save_lua_table_command:flat_action()
 
 --6.4 button for saving tree
 button_save_lua_table_output=iup.flatbutton{title="Ausgabe-Baum\nspeichern", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table_output:flat_action()
-	save_tree_to_lua(console.outputTree, path .. "\\input_command_output_tree_output.lua","lua_tree_output")
+	save_tree_to_lua(console.outputTree, path .. "\\" .. thisfilename:gsub("%.lua","_output.lua"),"lua_tree_output")
 end --function button_save_lua_table_output:flat_action()
 
 --7. GUI
 --7.1.1 build the tree with console input
-if file_exists(path .. "\\input_command_output_tree_input.lua") then
-	dofile(path .. "\\input_command_output_tree_input.lua")
-end --if file_exists(path .. "\\input_command_output_tree_input.lua") then
+if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_input.lua")) then
+	dofile(path .. "\\" .. thisfilename:gsub("%.lua","_input.lua"))
+end --if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_input.lua")) then
 console.inputTree = iup.tree{
 	map_cb=function(self)
 		if lua_tree_input then
@@ -1212,9 +1212,9 @@ function console.inputTree:k_any(c)
 end --function console.inputTree:k_any(c)
 
 --7.1.2 build the command tree
-if file_exists(path .. "\\input_command_output_tree_command.lua") then
-	dofile(path .. "\\input_command_output_tree_command.lua")
-end --if file_exists(path .. "\\input_command_output_tree_command.lua") then
+if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_command.lua")) then
+	dofile(path .. "\\" .. thisfilename:gsub("%.lua","_command.lua"))
+end --if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_command.lua")) then
 console.commandTree = iup.tree{
 	map_cb=function(self)
 		if lua_tree_command then
@@ -1250,9 +1250,9 @@ function console.commandTree:k_any(c)
 end --function console.commandTree:k_any(c)
 
 --7.1.3 build the output tree
-if file_exists(path .. "\\input_command_output_tree_output.lua") then
-	dofile(path .. "\\input_command_output_tree_output.lua")
-end --if file_exists(path .. "\\input_command_output_tree_output.lua") then
+if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_output.lua")) then
+	dofile(path .. "\\" .. thisfilename:gsub("%.lua","_output.lua"))
+end --if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_output.lua")) then
 console.outputTree = iup.tree{
 	map_cb=function(self)
 		if lua_tree_output then
