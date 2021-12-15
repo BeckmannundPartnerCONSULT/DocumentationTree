@@ -53,7 +53,11 @@ function console.prompt:dropfiles_cb(filename)
 	-- will execute all dropped files, can drop more than one at once
 	-- works in Windows and in Linux
 	--test with: print(filename)
-	console.do_file(filename)
+	if filename:match("%.lua") then
+		console.do_file(filename)
+	else
+		os.execute('start "D" "' .. filename .. '"')
+	end --if filename:match("%.lua") then
 end --function console.prompt:dropfiles_cb(filename)
 --key pressed function
 function console.prompt:k_any(key)
