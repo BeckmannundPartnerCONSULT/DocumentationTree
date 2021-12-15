@@ -42,8 +42,8 @@ state="COLLAPSED",
 { branchname="Schalttage im Zins-Intervall bestimmen",  --tree['title23']
  "",  --tree['title24']
 },
-{ branchname="Anzahl Tage im Zähler bestimmen und soweit schon möglich im Nenner, sonst weitere Knoten verwenden",  --tree['title25']
-{ branchname="Tageskonventionen für 360 Tage mit der Formel",  --tree['title26']
+{ branchname="Anzahl Tage im ZÃ¤hler bestimmen und soweit schon mÃ¶glich im Nenner, sonst weitere Knoten verwenden",  --tree['title25']
+{ branchname="Tageskonventionen fÃ¼r 360 Tage mit der Formel",  --tree['title26']
 state="COLLAPSED",
 { branchname="Tage = 360 * ( Y2 -  Y1 ) + 30 * ( M2 - M1 ) + (D2 - D1)",  --tree['title27']
 { branchname="30/360 Bond Basis, 30A/360:",  --tree['title28']
@@ -52,7 +52,7 @@ state="COLLAPSED",
  "D1 = MIN (D1, 30).If D1 = 30 Then D2 = MIN (D2,30)",  --tree['title30']
  "Sources: ISDA 2006 Section 4.16(f), though the first two rules are not included. \'ISDA Definitions, Section 4.16\'. 2006. Retrieved2014-09-18.",  --tree['title31']
 },
-{ branchname="Anzahl Tage Zähler 30 und Nenner 360",  --tree['title32']
+{ branchname="Anzahl Tage ZÃ¤hler 30 und Nenner 360",  --tree['title32']
  "",  --tree['title33']
 },
 { branchname="30/360 ISDA:",  --tree['title34']
@@ -61,16 +61,16 @@ state="COLLAPSED",
  "Regel 2 If D1 = 30 after applying Regel 1 and D2 =31 then change D2 to 30.",  --tree['title36']
  "Sources: alternate names of day conventions.",  --tree['title37']
 },
-{ branchname="Anzahl Tage Zähler 30ISDA und Nenner 360",  --tree['title38']
+{ branchname="Anzahl Tage ZÃ¤hler 30ISDA und Nenner 360",  --tree['title38']
  "",  --tree['title39']
 },
 { branchname="30E/360, 30/360 ICMA, 30S/360, Eurobond basis (ISDA 2006), Special German (spezielle deutsche Zinsmethode):",  --tree['title40']
 state="COLLAPSED",
  "Regel 1: If D1 is 31, then change D1 to 30.",  --tree['title41']
  "Regel 2 If D2 is 31, then change D2 to 30.",  --tree['title42']
- "Sources: \'ICMA Rule Book, Rule 251\'. Retrieved 2014-09-18. ICMA Rule 251.1(ii), 251.2. \'ISDA Definitions, Section 4.16\'. 2006. Retrieved 2014-09-18. ISDA 2006 Section 4.16(g).",  --tree['title43']
+ "Sources: \'ICMA Rule Book, Rule 251\'. RetrievedÂ 2014-09-18. ICMA Rule 251.1(ii), 251.2. \'ISDA Definitions, Section 4.16\'. 2006. Retrieved 2014-09-18. ISDA 2006 Section 4.16(g).",  --tree['title43']
 },
-{ branchname="Anzahl Tage Zähler 30E und Nenner 360",  --tree['title44']
+{ branchname="Anzahl Tage ZÃ¤hler 30E und Nenner 360",  --tree['title44']
  "",  --tree['title45']
 },
 { branchname="30E+/360:",  --tree['title46']
@@ -79,12 +79,12 @@ state="COLLAPSED",
  "Regel 2 If D2 is 31, set D2.M2.Y2 to 1st day of the next month.",  --tree['title48']
  "Sources: alternate names of day conventions.",  --tree['title49']
 },
-{ branchname="Zum Endedatum 1. des Folgemonats für Regel 30E+:",  --tree['title50']
+{ branchname="Zum Endedatum 1. des Folgemonats fÃ¼r Regel 30E+:",  --tree['title50']
  "2013",  --tree['title51']
  "6",  --tree['title52']
  "1",  --tree['title53']
 },
-{ branchname="Anzahl Tage Zähler 30E+ und Nenner 360",  --tree['title54']
+{ branchname="Anzahl Tage ZÃ¤hler 30E+ und Nenner 360",  --tree['title54']
  "",  --tree['title55']
 },
 { branchname="30/360 German (spezielle deutsche Zinsmethode siehe oben):",  --tree['title56']
@@ -93,7 +93,7 @@ state="COLLAPSED",
  "Regel 2 If D1.M1.Y1 and/or D2.M2.Y2 = last day of february =1.3.-1 Tag then change D1 to 30 and/or D2 to 30.",  --tree['title58']
  "Sources: alternate names of day conventions.",  --tree['title59']
 },
-{ branchname="Anzahl Tage Zähler 30German und Nenner 360",  --tree['title60']
+{ branchname="Anzahl Tage ZÃ¤hler 30German und Nenner 360",  --tree['title60']
  "",  --tree['title61']
 },
 { branchname="30/360 US:",  --tree['title62']
@@ -104,37 +104,37 @@ state="COLLAPSED",
  "Regel 4: If D1 is 31, then change D1 to 30.",  --tree['title66']
  "Sources: alternate names of day conventions.",  --tree['title67']
 },
-{ branchname="Anzahl Tage Zähler 30US und Nenner 360",  --tree['title68']
+{ branchname="Anzahl Tage ZÃ¤hler 30US und Nenner 360",  --tree['title68']
  "",  --tree['title69']
 },
 },
 },
-{ branchname="Tageskonventionen actual mit der exakten Anzahl Tage im Zähler und Nenner für actual im Weiteren Knoten bestimmen",  --tree['title70']
+{ branchname="Tageskonventionen actual mit der exakten Anzahl Tage im ZÃ¤hler und Nenner fÃ¼r actual im Weiteren Knoten bestimmen",  --tree['title70']
 state="COLLAPSED",
-{ branchname="Anzahl Tage Zähler actual und Nenner für actual im Weiteren Knoten bestimmen",  --tree['title71']
+{ branchname="Anzahl Tage ZÃ¤hler actual und Nenner fÃ¼r actual im Weiteren Knoten bestimmen",  --tree['title71']
  "",  --tree['title72']
 
-{ branchname="Für die no leap year abgezogene Tage im Zähler bei der Methode NL/365",  --tree['title73']
+{ branchname="FÃ¼r die no leap year abgezogene Tage im ZÃ¤hler bei der Methode NL/365",  --tree['title73']
  "0",  --tree['title74']
 },
 },
 },
-{ branchname="Für die Rechnung benutzte Tage im Zähler",  --tree['title75']
+{ branchname="FÃ¼r die Rechnung benutzte Tage im ZÃ¤hler",  --tree['title75']
  "",  --tree['title76']
 
-{ branchname="Nenner für Tageskonventionen actual mit der exakten Anzahl Tage bestimmen",  --tree['title77']
+{ branchname="Nenner fÃ¼r Tageskonventionen actual mit der exakten Anzahl Tage bestimmen",  --tree['title77']
 state="COLLAPSED",
 { branchname="actual 365.25 1/1:",  --tree['title78']
 state="COLLAPSED",
  "This is used for inflation instruments and divides the overall 4 year period distributing the additional day across all 4 years i.e. giving 365.25 days to each year.",  --tree['title79']
- "Sources: \'ISDA Definitions, Section 4.16\'. 2006. Retrieved2014-09-18. ISDA 2006 Section 4.16(a). \'FBF Master Agreement for Financial Transactions, Supplement to the Derivatives Annex, Edition 2004\'. 2004. Retrieved 2014-09-18. FBF Master Agreement for Financi",  --tree['title80']
+ "Sources: \'ISDA Definitions, Section 4.16\'. 2006. Retrieved2014-09-18. ISDA 2006 Section 4.16(a). \'FBF Master Agreement for Financial Transactions, Supplement to the Derivatives Annex, Edition 2004\'. 2004. RetrievedÂ 2014-09-18. FBF Master Agreement for Financi",  --tree['title80']
 },
 { branchname="Nenner actual 365.25 1/1",  --tree['title81']
  "",  --tree['title82']
 },
 { branchname="actual 366:",  --tree['title83']
 state="COLLAPSED",
- "Für Schaltjahre oder Act/365A für gesamte Periode, falls Schalttag vorhanden oder Act/365L falls Endedatum im Schaltjahr",  --tree['title84']
+ "FÃ¼r Schaltjahre oder Act/365A fÃ¼r gesamte Periode, falls Schalttag vorhanden oder Act/365L falls Endedatum im Schaltjahr",  --tree['title84']
 },
 { branchname="Nenner actual 366",  --tree['title85']
  "",  --tree['title86']
@@ -156,17 +156,17 @@ state="COLLAPSED",
 { branchname="Nenner actual 364",  --tree['title96']
  "",  --tree['title97']
 },
-{ branchname="Actual 360, Act/360, A/360, French (französische Methode):",  --tree['title98']
+{ branchname="Actual 360, Act/360, A/360, French (franzÃ¶sische Methode):",  --tree['title98']
 state="COLLAPSED",
- "This convention is used in money markets for short-term lending of currencies, including the US dollar and Euro, and is applied in ESCBmonetary policy operations. It is the convention used withRepurchase agreements. Each month is treated normally and the year",  --tree['title99']
+ "This convention is used inÂ money marketsÂ for short-term lending of currencies, including the US dollar and Euro, and is applied inÂ ESCBmonetary policy operations. It is the convention used withRepurchase agreements. Each month is treated normally and the year",  --tree['title99']
  "The CouponFactor uses the same formula, replacing Date2 by Date3. In general, coupon payments will vary from period to period, due to the differing number of days in the periods. The formula applies to both regular and irregular coupon periods.",  --tree['title100']
- "Sources: \'ICMA Rule Book, Rule 251\'. Retrieved 2014-09-18. ICMA Rule 251.1(i) (not sterling). \'ISDA Definitions, Section 4.16\'. 2006. Retrieved2014-09-18. ISDA 2006 Section 4.16(e). (Mayle 1993)",  --tree['title101']
+ "Sources: \'ICMA Rule Book, Rule 251\'. RetrievedÂ 2014-09-18. ICMA Rule 251.1(i) (not sterling). \'ISDA Definitions, Section 4.16\'. 2006. Retrieved2014-09-18. ISDA 2006 Section 4.16(e). (Mayle 1993)",  --tree['title101']
 },
 { branchname="Nenner actual 360",  --tree['title102']
  "",  --tree['title103']
 },
 },
-{ branchname="Für die Rechnung benutzte Tage im Nenner",  --tree['title104']
+{ branchname="FÃ¼r die Rechnung benutzte Tage im Nenner",  --tree['title104']
  "",  --tree['title105']
 },
 { branchname="Geben Sie die Anzahl Jahre mit Nachkommastellen manuell ein:",  --tree['title106']
@@ -177,10 +177,10 @@ state="COLLAPSED",
 state="COLLAPSED",
 },
 },
-{ branchname="Für die Rechnung benutzte Jahre mit Nachkommastellen",  --tree['title109']
+{ branchname="FÃ¼r die Rechnung benutzte Jahre mit Nachkommastellen",  --tree['title109']
  "",  --tree['title110']
 },
-{ branchname="Für die Rechnung benutzte Zinsberechnungsmethode:",  --tree['title111']
+{ branchname="FÃ¼r die Rechnung benutzte Zinsberechnungsmethode:",  --tree['title111']
  "",  --tree['title112']
 },
 { branchname="Zinsberechnung",  --tree['title113']
@@ -203,7 +203,7 @@ state="COLLAPSED",
 },
 },
 },
-{ branchname="Zurücksetzen",  --tree['title126']
+{ branchname="ZurÃ¼cksetzen",  --tree['title126']
 state="COLLAPSED",
 }}}}},
 
@@ -425,7 +425,7 @@ tree['title24']=LastOfFebruaryCollection
 end --functionTable["Schalttage im Zins-Intervall bestimmen"]=function()
 
 functionTable["Berechnen"]=function() 
-load("Ergebnis = " .. tree['title' .. 3]:gsub('×','*'):gsub('÷','/'):gsub(',','.'))()
+load("Ergebnis = " .. tree['title' .. 3]:gsub('Ã—','*'):gsub('Ã·','/'):gsub(',','.'))()
 tree['title' .. 5]=Ergebnis
 end --functionTable["Berechnen"]=function() 
 
@@ -514,10 +514,10 @@ M2Plus = -(-tree['title52'])
 Y1 = tonumber(tree['title16']:match("^%d%d.%d%d.(%d%d%d%d)"))
 Y2 = tonumber(tree['title20']:match("^%d%d.%d%d.(%d%d%d%d)"))
 Y2Plus = -(-tree['title51'])
-veraendert = "unverändert: "
+veraendert = "unverÃ¤ndert: "
 if (D1==31) then D1 = 30 end --Regel 1: If D1 is 31, then change D1 to 30.
-if (D2==31) then D2 = D2Plus; M2 = M2Plus; Y2 = Y2Plus; veraendert = "verändert: " end --Regel 2: If D2 is 31, then set D2.M2.Y2 to 1st day of the next month.
---Die Umrechnung in den ersten des nächsten Monats entspricht der Beibehaltung des 31. des Endemonats in der Formel. Es wird eh nur ein Tag hinzugerechnet.
+if (D2==31) then D2 = D2Plus; M2 = M2Plus; Y2 = Y2Plus; veraendert = "verÃ¤ndert: " end --Regel 2: If D2 is 31, then set D2.M2.Y2 to 1st day of the next month.
+--Die Umrechnung in den ersten des nÃ¤chsten Monats entspricht der Beibehaltung des 31. des Endemonats in der Formel. Es wird eh nur ein Tag hinzugerechnet.
 Ergebnis = 360 * ( Y2 -  Y1 ) + 30 * ( M2 - M1 ) + (D2 - D1) 
 tree['title55'] = Ergebnis .. " Endedatum " .. veraendert .. D2 .. "." .. M2 .. "." .. Y2;
 tree['title76'] = Ergebnis
@@ -539,7 +539,7 @@ D1LetzterFebruar =""
 D2LetzterFebruar =""
 if (D1==31) then D1 = 30 end --Regel 1: If D1 is 31, then change D1 to 30.
 if (D2==31) then D2 = 30 end --Regel 1: If D2 is 31, then change D2 to 30.
---nämlich Regel 1: If D1 and/or D2 is 31, then change D1 to 30 and/or D2 to. 
+--nÃ¤mlich Regel 1: If D1 and/or D2 is 31, then change D1 to 30 and/or D2 to. 
 if (tree['title18']=="ja") then D1=30; D1LetzterFebruar=" Startdatum letzter vom Februar " end
 if (tree['title22']=="ja") then D2=30; D2LetzterFebruar=" Endedatum letzter vom Februar "  end
 -- Regel 2 If D1.M1.Y1 and/or D2.M2.Y2 = last day of february =1.3.-1 Tag then change D1 to 30 and/or D2 to 30. 
@@ -713,7 +713,7 @@ end --function ZinsErgebnisAlleZeilenAusgabe()
 
 --4.1 rename dialog
 --ok button
-ok = iup.flatbutton{title = "Speichern und neu Öffnen. Zusätzliche Zeilen:",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+ok = iup.flatbutton{title = "Speichern und neu Ã–ffnen. ZusÃ¤tzliche Zeilen:",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function ok:flat_action()
 	--test with: print(tostring(math.tointeger(text_NumberOfNodesMore.value)==1))
 	local treeValue=tree.value
@@ -757,7 +757,7 @@ function ok:flat_action()
 	end --for i,v in ipairs(outputfile1Table) do
 	outputfile1:close()
 	os.execute('start "Neu" "' .. path .. "\\" .. thisfilename .. '"')
---	return iup.CLOSE
+	return iup.CLOSE
 end --function ok:flat_action()
 
 
@@ -777,7 +777,7 @@ dlg_rename = iup.dialog{
 
 --4.2 icon dialog
 --ok button
-icon_ok = iup.flatbutton{title = "Speichern und neu öffnen",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+icon_ok = iup.flatbutton{title = "Speichern und neu Ã¶ffnen",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function icon_ok:flat_action()
 	--save copy of program
 	os.execute('copy "' .. path .. "\\" .. thisfilename .. '" "' .. path .. "\\" .. thisfilename:gsub("%.lua","_Sicherung.lua") .. '"')
@@ -873,7 +873,7 @@ dlg_icon_rename = iup.dialog{
 
 --4.3 node_function dialog
 --ok button
-node_function_ok = iup.flatbutton{title = "Speichern zu markiertem Knoten und neu öffnen",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+node_function_ok = iup.flatbutton{title = "Speichern zu markiertem Knoten und neu Ã¶ffnen",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function node_function_ok:flat_action()
 	if tree['title']==nodeChosen then
 		--save copy of program
@@ -940,7 +940,7 @@ function node_function_ok:flat_action()
 		os.execute('start "Neu" "' .. path .. "\\" .. thisfilename .. '"')
 		return iup.CLOSE
 	else
-		iup.Message("Der ausgewählte Knoten entspricht nicht der Funktionsdefinition","Der ausgewählte Knoten entspricht nicht der Funktionsdefinition")
+		iup.Message("Der ausgewÃ¤hlte Knoten entspricht nicht der Funktionsdefinition","Der ausgewÃ¤hlte Knoten entspricht nicht der Funktionsdefinition")
 	end --if tree['title']==nodeChosen then
 end --function node_function_ok:flat_action()
 
@@ -986,7 +986,7 @@ node_function_text.STYLEFGCOLOR10="128 0 0" -- 10-Operator
 --node_function_text.STYLEITALIC10="YES"
 node_function_text.MARGINWIDTH0="40"
 node_function_text.value=""
-node_function_label1 = iup.label{title='Funktion des Knotens: (Zum Löschen bitte Funktion auskommentieren und mindestens den Funktionsnamen lassen z.B. --functionTable["Test"] wurde gelöscht)'}--label for textfield
+node_function_label1 = iup.label{title='Funktion des Knotens: (Zum LÃ¶schen bitte Funktion auskommentieren und mindestens den Funktionsnamen lassen z.B. --functionTable["Test"] wurde gelÃ¶scht)'}--label for textfield
 
 
 
@@ -1007,7 +1007,7 @@ dlg_node_function_rename = iup.dialog{
 
 --4.4 nodeFunctionTable dialog
 --ok button
-nodeFunctionTable_ok = iup.flatbutton{title = "Speichern und neu öffnen",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+nodeFunctionTable_ok = iup.flatbutton{title = "Speichern und neu Ã¶ffnen",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function nodeFunctionTable_ok:flat_action()
 	--save copy of program
 	os.execute('copy "' .. path .. "\\" .. thisfilename .. '" "' .. path .. "\\" .. thisfilename:gsub("%.lua","_Sicherung.lua") .. '"')
@@ -1123,13 +1123,13 @@ function number_of_node:action()
 end --function number_of_node:action()
 
 --5.1.1.2 copy node input image definition
-copy_for_image_input = iup.item {title = "Eingabefeld für Symbol kopieren"}
+copy_for_image_input = iup.item {title = "Eingabefeld fÃ¼r Symbol kopieren"}
 function copy_for_image_input:action()
 	 clipboard.text = "tree" .. "['image" .. tree.value .. "']=img_inputarrow --" .. tree['title' .. tree.value-1]
 end --function copy_for_image_input:action()
 
 --5.1.1.3 copy node function image definition
-copy_for_image_function = iup.item {title = "Funktionsfeld für Symbol kopieren"}
+copy_for_image_function = iup.item {title = "Funktionsfeld fÃ¼r Symbol kopieren"}
 function copy_for_image_function:action()
 	 clipboard.text = "tree" .. "['imageexpanded" .. tree.value .. "']=img_functionarrow tree" .. "['image" .. tree.value .. "']=img_functionarrow --" .. tree['title']
 end --function copy_for_image_function:action()
@@ -1165,7 +1165,7 @@ function define_function_of_node:action()
 end --function define_function_of_node:action()
 
 --5.1.1.5 copy node output image definition
-copy_for_image_output = iup.item {title = "Ausgabefeld für Symbol kopieren"}
+copy_for_image_output = iup.item {title = "Ausgabefeld fÃ¼r Symbol kopieren"}
 function copy_for_image_output:action() --copy node
 	 clipboard.text = "tree" .. "['image" .. tree.value .. "']=img_rightarrow --" .. tree['title' .. tree.value-1] 
 end --function copy_for_image_output:action()
@@ -1180,7 +1180,7 @@ function renamenode:action()
 end --function renamenode:action()
 
 --5.1.3 add branch to tree
-addbranch = iup.item {title = "Ast hinzufügen"}
+addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function addbranch:action()
 	tree.addbranch = ""
 	tree.value=tree.value+1
@@ -1189,7 +1189,7 @@ function addbranch:action()
 end --function addbranch:action()
 
 --5.1.3.1 add branch to tree by insertbranch
-addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+addbranchbottom = iup.item {title = "Ast darunter hinzufÃ¼gen"}
 function addbranchbottom:action()
 	tree["insertbranch" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -1203,7 +1203,7 @@ function addbranchbottom:action()
 end --function addbranchbottom:action()
 
 --5.1.3.2 add leaf to tree by insertleaf
-addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
+addleafbottom = iup.item {title = "Blatt darunter hinzufÃ¼gen"}
 function addleafbottom:action()
 	tree["insertleaf" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -1217,7 +1217,7 @@ function addleafbottom:action()
 end --function addleafbottom:action()
 
 --5.1.4 add leaf of tree
-addleaf = iup.item {title = "Blatt hinzufügen"}
+addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function addleaf:action()
 	tree.addleaf = ""
 	tree.value=tree.value+1
@@ -1332,7 +1332,7 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button to edit in IUP Lua scripter the script for tree2
@@ -1483,7 +1483,7 @@ function tree:k_any(c)
 			outputfile1:close()
 		end --if tree.childcount=="0" then
 		os.execute('start "Neu" "' .. path .. "\\" .. thisfilename .. '"')
---		return iup.CLOSE
+		return iup.CLOSE
 	elseif c == iup.K_cC then
 		--copy node of tree
 		clipboard.text = tree['title']
@@ -1495,13 +1495,13 @@ end --function tree:k_any(c)
 --nodeFunctionTablefunction table --nodeFunctionTable["node name"]="name_of_the_function()"
 nodeFunctionTable={} --nodeFunctionTable["Knotentext eingeben"]="Name_der_Funktion()"
 nodeFunctionTable["Ausgabe"]="Schaltjahr()"
-nodeFunctionTable["Anzahl Tage Zähler 30 und Nenner 360"]="Anzahltage30zaehler()"
-nodeFunctionTable["Anzahl Tage Zähler 30ISDA und Nenner 360"]="Anzahltage30ISDAzaehler()"
-nodeFunctionTable["Anzahl Tage Zähler 30E und Nenner 360"]="Anzahltage30Ezaehler()"
-nodeFunctionTable["Anzahl Tage Zähler 30E+ und Nenner 360"]="Anzahltage30EPluszaehler()"
-nodeFunctionTable["Anzahl Tage Zähler 30German und Nenner 360"]="Anzahltage30Germanzaehler()"
-nodeFunctionTable["Anzahl Tage Zähler 30US und Nenner 360"]="Anzahltage30USzaehler()"
-nodeFunctionTable["Anzahl Tage Zähler actual und Nenner für actual im Weiteren Knoten bestimmen"]="Anzahltagezaehler()"
+nodeFunctionTable["Anzahl Tage ZÃ¤hler 30 und Nenner 360"]="Anzahltage30zaehler()"
+nodeFunctionTable["Anzahl Tage ZÃ¤hler 30ISDA und Nenner 360"]="Anzahltage30ISDAzaehler()"
+nodeFunctionTable["Anzahl Tage ZÃ¤hler 30E und Nenner 360"]="Anzahltage30Ezaehler()"
+nodeFunctionTable["Anzahl Tage ZÃ¤hler 30E+ und Nenner 360"]="Anzahltage30EPluszaehler()"
+nodeFunctionTable["Anzahl Tage ZÃ¤hler 30German und Nenner 360"]="Anzahltage30Germanzaehler()"
+nodeFunctionTable["Anzahl Tage ZÃ¤hler 30US und Nenner 360"]="Anzahltage30USzaehler()"
+nodeFunctionTable["Anzahl Tage ZÃ¤hler actual und Nenner fÃ¼r actual im Weiteren Knoten bestimmen"]="Anzahltagezaehler()"
 nodeFunctionTable["Nenner actual 365.25 1/1"]="Nenneractual36525()"
 nodeFunctionTable["Nenner actual 366"]="Nenneractual366()"
 nodeFunctionTable["Nenner actual 365"]="Nenneractual365()"
@@ -1515,7 +1515,7 @@ nodeFunctionTable["Zinsen linear = Kapital * Zinssatz * Anzahl_Tage_Zaehler / An
 nodeFunctionTable["Zinsen mit Zinseszinsen = Kapital * ((Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner)^(1+Zinssatz)-1)"]="Zinseszinsen()"
 nodeFunctionTable["Zinsen stetig verzinst = Kapital * (e^(Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner) -1)"]="Zinsenstetig()"
 nodeFunctionTable["Alle Zinsen mit Titel in eine Datei ausgeben"]="ZinsErgebnisAlleZeilenAusgabe()"
-nodeFunctionTable["Zurücksetzen"]="KapitalZinssatzZuruecksetzen()"
+nodeFunctionTable["ZurÃ¼cksetzen"]="KapitalZinssatzZuruecksetzen()"
 --end nodeFunctionTable["node name"]="name_of_the_function()"
 --Callback for right click
 function tree:rightclick_cb(id)
@@ -1553,13 +1553,13 @@ maindlg:showxy(iup.LEFT,iup.CENTER)
 tree['imageexpanded4']=img_functionarrow   --Berechnen                                                                      Rechner()
 tree['imageexpanded9']=img_functionarrow   --Ausgabe                                                                        Schaltjahr()
 tree['imageexpanded23']=img_functionarrow tree['image23']=img_functionarrow --Schalttage im Zins-Intervall bestimmen
-tree['imageexpanded32']=img_functionarrow  --Anzahl Tage Zähler 30 und Nenner 360                                           Anzahltage30zaehler()
-tree['imageexpanded38']=img_functionarrow  --Anzahl Tage Zähler 30ISDA und Nenner 360                                       Anzahltage30ISDAzaehler()
-tree['imageexpanded44']=img_functionarrow  --Anzahl Tage Zähler 30E und Nenner 360                                          Anzahltage30Ezaehler()
-tree['imageexpanded54']=img_functionarrow  --Anzahl Tage Zähler 30E+ und Nenner 360                                         Anzahltage30EPluszaehler()
-tree['imageexpanded60']=img_functionarrow  --Anzahl Tage Zähler 30German und Nenner 360                                     Anzahltage30Germanzaehler()
-tree['imageexpanded68']=img_functionarrow  --Anzahl Tage Zähler 30US und Nenner 360                                         Anzahltage30USzaehler()
-tree['imageexpanded71']=img_functionarrow  --Anzahl Tage Zähler actual und Nenner für actual im Weiteren Knoten bestimmen   Anzahltagezaehler()
+tree['imageexpanded32']=img_functionarrow  --Anzahl Tage ZÃ¤hler 30 und Nenner 360                                           Anzahltage30zaehler()
+tree['imageexpanded38']=img_functionarrow  --Anzahl Tage ZÃ¤hler 30ISDA und Nenner 360                                       Anzahltage30ISDAzaehler()
+tree['imageexpanded44']=img_functionarrow  --Anzahl Tage ZÃ¤hler 30E und Nenner 360                                          Anzahltage30Ezaehler()
+tree['imageexpanded54']=img_functionarrow  --Anzahl Tage ZÃ¤hler 30E+ und Nenner 360                                         Anzahltage30EPluszaehler()
+tree['imageexpanded60']=img_functionarrow  --Anzahl Tage ZÃ¤hler 30German und Nenner 360                                     Anzahltage30Germanzaehler()
+tree['imageexpanded68']=img_functionarrow  --Anzahl Tage ZÃ¤hler 30US und Nenner 360                                         Anzahltage30USzaehler()
+tree['imageexpanded71']=img_functionarrow  --Anzahl Tage ZÃ¤hler actual und Nenner fÃ¼r actual im Weiteren Knoten bestimmen   Anzahltagezaehler()
 tree['imageexpanded81']=img_functionarrow  --Nenner actual 365.25 1/1                                                       Nenneractual36525()
 tree['imageexpanded85']=img_functionarrow  --Nenner actual 366                                                              Nenneractual366()
 tree['imageexpanded91']=img_functionarrow  --Nenner actual 365                                                              Nenneractual365()
@@ -1574,8 +1574,8 @@ tree['imageexpanded118']=img_functionarrow --Zinsen linear = Kapital * Zinssatz 
 tree['imageexpanded120']=img_functionarrow --Zinsen mit Zinseszinsen = Kapital * ((Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner)^(1+Zinssatz)-1)                                                        Zinseszinsen()
 tree['imageexpanded122']=img_functionarrow --Zinsen stetig verzinst = Kapital * (e^(Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner) -1)                                                         Zinsenstetig()
 tree['imageexpanded124']=img_functionarrow --Alle Zinsen mit Titel in eine Datei ausgeben                                   ZinsErgebnisAlleZeilenAusgabe()
-tree['imageexpanded126']=img_functionarrow --Zurücksetzen                                                                   KapitalZinssatzZuruecksetzen()
-tree['image126']=img_functionarrow --Zurücksetzen                                                                           KapitalZinssatzZuruecksetzen()
+tree['imageexpanded126']=img_functionarrow --ZurÃ¼cksetzen                                                                   KapitalZinssatzZuruecksetzen()
+tree['image126']=img_functionarrow --ZurÃ¼cksetzen                                                                           KapitalZinssatzZuruecksetzen()
 --tree['image... input and output nodes
 tree['image3']=img_inputarrow   --document.Formular.Eingabe.value
 tree['image5']=img_rightarrow   --document.Formular.Ergebnis.value
