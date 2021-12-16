@@ -29,4 +29,13 @@ Das Jar-Archiv wird mit einer Starter-Datei als Tree oder als Lua-Konsole gestar
 Beim ersten Starten werden die erforderlichen Lua-Skripte im Startordner angelegt. Die Bäume in der Oberfläche bleiben leer. Beim zweiten Öffnen sind die Bäume gefüllt, und die Verwendung kann starten.
 
 3. html_build.lua
+
+Dieses Skript verwandelt einen Lua tree in eine html Seite mit Baumansicht. Das ist insbesonders auf mobilen Geräten hilfreich.
+
 Starten des Lua-Skriptes mit den richtigen Pfadangaben der Input- und Outputdateien.
+
+4. html_Tree_relative.lua
+
+Dieses Skript verwandelt einen Lua tree in eine html Seite mit Baumansicht mit relativen Pfadangaben. Das ist insbesonders auf mobilen Geräten wie dem iPhone hilfreich, wo Dateien z.B. mit der App Touch Lua nicht direkt gespeichert werden können. Das Ergebnis ist eine Datei mit der Endung .lua, die in eine html-Datei mit copy and paste eingefügt werden kann.
+
+
