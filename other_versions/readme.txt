@@ -28,7 +28,13 @@ At the first start the needed Lua scripts are written in the start directory. Th
 
 3. html_build.lua
 
+This skript converts a Lua tree in a html page with tree. This is especially helpful on mobile devices.
+
 Start of the Lua script with the right informations for path of input and output data.
+
+4. html_Tree_relative.lua
+
+This skript converts a Lua tree in a html page with tree with relative paths. This is especially helpful on mobile devices as the iPhone where such apps as Touch Lua cannot save directly on the target path. The result is stored in a file with extension .lua which can be transfered by copy and paste in a html file on the target path.
 
 
 
