@@ -16,8 +16,17 @@ This script containns a Lua console with a tree output. In this tree Lua chunks 
 
 This scripts contains three trees:
 1. input tree with variables defined as variable=value or variabletable={} and leafs with values corresponding to their indices in the table
+     Examples for these trees are: 
+     input_command_output_tree_input.lua
+     input_command_output_tree_internal_interest_rate_input.lua
 2. command tree with complex commands as they are used in scripts
+     Examples for these trees are: 
+     input_command_output_tree_command.lua
+     input_command_output_tree_internal_interest_rate_command.lua
 3. output tree with the possibility of design the results driven by the commands
+     Examples for these trees are: 
+     input_command_output_tree_output.lua
+     input_command_output_tree_internal_interest_rate_output.lua
 
 5. Tree_calculator_with_interests.lua
 
