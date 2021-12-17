@@ -14,6 +14,8 @@ This script containns a Lua console with a tree output. In this tree Lua chunks 
 
 4. input_command_output_tree.lua
 
+This script is a calculation GUI for input data in a tree. The commands are organized as a tree and the output is also a tree.
+
 This scripts contains three trees:
 1. input tree with variables defined as variable=value or variabletable={} and leafs with values corresponding to their indices in the table
      Examples for these trees are: 
@@ -28,6 +30,8 @@ This scripts contains three trees:
      input_command_output_tree_output.lua
      input_command_output_tree_internal_interest_rate_output.lua
 
+Annotation: to use easily the input_command_output_tree_internal_interest_rate_.....lua files please copy input_command_output_tree.lua as input_command_output_tree_internal_interest_rate.lua.
+
 5. Tree_calculator_with_interests.lua
 
 This script is a GUI with the calculation of interests according to different methods in a tree.
@@ -39,3 +43,18 @@ This script is a Lua to Lua script but also a reflexive one. Therefore here we s
 This script is a GUI with the calculation of interests according to different methods in a tree.
 
 This tree can be changed easily by GUI application functionalities.
+
+4. input_command_output_tree_MDI_graphics.lua
+
+This script is a calculation and graphics GUI for input data in a tree. The commands are organized as a tree and the output is also a tree. The difference to input_command_output_tree.lua is an output designed as an multiple document interface (MDI), i.e. multiple windows output. This allows to build different windows with graphical output driven by the command tree.
+
+This scripts contains three trees:
+1. input tree with variables defined as variable=value or variabletable={} and leafs with values corresponding to their indices in the table
+     An example for this tree is: 
+     input_command_output_tree_MDI_graphics_input.lua
+2. command tree with complex commands as they are used in scripts
+     An example for this tree is: 
+     input_command_output_tree_MDI_graphics_command.lua
+3. output tree with the possibility of design the results driven by the commands
+     An example for this tree is: 
+     input_command_output_tree__MDI_graphics_output.lua
