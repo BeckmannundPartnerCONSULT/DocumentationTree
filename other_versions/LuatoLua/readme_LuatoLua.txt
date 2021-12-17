@@ -46,7 +46,7 @@ This tree can be changed easily by GUI application functionalities.
 
 4. input_command_output_tree_MDI_graphics.lua
 
-This script is a calculation and graphics GUI for input data in a tree. The commands are organized as a tree and the output is also a tree. The difference to input_command_output_tree.lua is an output designed as an multiple document interface (MDI), i.e. multiple windows output. This allows to build different windows with graphical output driven by the command tree.
+This script is a calculation and graphics GUI for input data in a tree. The graphical outputs are plots in IUP Lua and matrices in IUP Lua. The commands are organized as a tree and the output is also a tree. The difference to input_command_output_tree.lua is an output designed as an multiple document interface (MDI), i.e. multiple windows output. This allows to build different windows with graphical output driven by the command tree.
 
 This scripts contains three trees:
 1. input tree with variables defined as variable=value or variabletable={} and leafs with values corresponding to their indices in the table
