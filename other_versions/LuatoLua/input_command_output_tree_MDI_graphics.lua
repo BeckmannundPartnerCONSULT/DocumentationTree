@@ -79,6 +79,7 @@ console = {}
 --2.1 prompt text area
 console.prompt = iup.text{expand="Horizontal", dragdrop = "Yes"}
 console.prompt.tip = "Filter leaf with pattern: Alle Blätter darunter filtern\n"..
+                     "Result of os.execute and luacom.DumpTypeInfo in console, not in GUI\n"..
                      "Enter - executes a Lua command\n"..
                      "Esc - clears the command\n"..
                      "Ctrl+Del - clears the output\n"..
