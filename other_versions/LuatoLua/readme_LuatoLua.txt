@@ -12,6 +12,10 @@ This Lua script writes the Lua tree contained in this script as a file with a Lu
 
 This script containns a Lua console with a tree output. In this tree Lua chunks and Lua sripts can be executed. The tree can be updated by executing branch nodes.
 
+3.1 Tree_console_output.lua
+
+This script contains the tree of the Tree_console.lua script. This is an example for LuaCOM with Office files.
+
 4. input_command_output_tree.lua
 
 This script is a calculation GUI for input data in a tree. The commands are organized as a tree and the output is also a tree.
