@@ -105,6 +105,7 @@ console.prompt.STYLEFGCOLOR10="128 0 0" -- 10-Operator
 console.prompt.MARGINWIDTH0="40"
 --]]
 console.prompt.tip = "Filter leaf with pattern: Alle Blätter darunter filtern\n"..
+                     "Result of os.execute and luacom.DumpTypeInfo in console, not in GUI\n"..
                      "Enter - executes a Lua command\n"..
                      "Esc - clears the command\n"..
                      "Ctrl+Del - clears the output\n"..
