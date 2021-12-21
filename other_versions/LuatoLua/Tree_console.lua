@@ -76,6 +76,7 @@ console = {}
 --2.1 prompt text area
 console.prompt = iup.text{expand="Horizontal", dragdrop = "Yes"}
 console.prompt.tip = "Enter - executes a Lua command\n"..
+                     "Result of os.execute and luacom.DumpTypeInfo in console, not in GUI\n"..
                      "Esc - clears the command\n"..
                      "Ctrl+Del - clears the output\n"..
                      "Ctrl+O - selects a file and execute it\n"..
