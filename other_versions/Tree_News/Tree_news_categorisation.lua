@@ -51,13 +51,14 @@ path_documentation_tree= path .. "\\documentation_tree_News.lua"
 
 --2.4 load the data needed
 TextHTMLtable={}
-NewsTree={branchname="Neue Nachrichten vom " .. os.date("%d.%m.%Y"),}
+NewsTree={branchname="Neue Nachrichten am " .. os.date("%d.%m.%Y") .. " auf C:\\Tree\\Tree_News\\PDF_News_inputs",}
 
 --2.4.1 example 1: load Welt Nachrichten
-NewsTree[1]={branchname="Welt-Nachrichten",state="COLLAPSED",}
 p=io.popen('dir "C:\\tree\\Tree_News\\Lua_News_outputs\\Welt_*.lua" /b/o-N')
 FileNewNews=p:read()
 print(FileNewNews)
+timeStamp_Welt_aktuell=FileNewNews:lower():match("(%d%d%d%d%d%d%d%d).lua")
+NewsTree[1]={branchname="Welt-Nachrichten vom " .. timeStamp_Welt_aktuell,state="COLLAPSED",}
 FileOldNews=p:read()
 if FileNewNews and FileOldNews then
 	dofile("C:\\tree\\Tree_News\\Lua_News_outputs\\" .. FileOldNews)
@@ -74,9 +75,11 @@ if FileNewNews and FileOldNews then
 end --if FileNewNews and FileOldNews then
 
 --2.4.2 example 2: Domradio Nachrichten
-NewsTree[2]={branchname="Domradio-Nachrichten",state="COLLAPSED",}
 p=io.popen('dir "C:\\tree\\Tree_News\\Lua_News_outputs\\Domradio_*.lua" /b/o-N')
 FileNewNews=p:read()
+print(FileNewNews)
+timeStamp_Domradio_aktuell=FileNewNews:lower():match("(%d%d%d%d%d%d%d%d).lua")
+NewsTree[2]={branchname="Domradio-Nachrichten vom " .. timeStamp_Domradio_aktuell,state="COLLAPSED",}
 FileOldNews=p:read()
 if FileNewNews and FileOldNews then
 	dofile("C:\\tree\\Tree_News\\Lua_News_outputs\\" .. FileOldNews)
@@ -117,7 +120,7 @@ end --function string.escape_forbidden_char(insertstring)
 --3.2.1 function for writing tree2 in a text file (function for printing tree2)
 function printtree()
 	--open a filedialog
-	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.txt",filterinfo="Text Files", directory="c:\\temp"}
+	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswÃ¤hlen",filter="*.txt",filterinfo="Text Files", directory="c:\\temp"}
 	filedlg2:popup(iup.ANYWHERE,iup.ANYWHERE)
 	if filedlg2.status=="1" or filedlg2.status=="0" then
 		local outputfile=io.output(filedlg2.value) --setting the outputfile
@@ -130,7 +133,7 @@ function printtree()
 		end --for i=0,tree2.totalchildcount0 do
 		outputfile:close() --close the outputfile
 	else --no outputfile was choosen
-		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.Message("SchlieÃŸen","Keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
@@ -294,7 +297,7 @@ dlg_rename = iup.dialog{
 searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
 
 --search in downward direction
-searchdown    = iup.flatbutton{title = "Abwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchdown    = iup.flatbutton{title = "AbwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchdown:flat_action()
 	local help=false
 	--downward search
@@ -409,7 +412,7 @@ function unmark:flat_action()
 end --function unmark:flat_action()
 
 --search in upward direction
-searchup   = iup.flatbutton{title = "Aufwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchup   = iup.flatbutton{title = "AufwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchup:flat_action()
 	local help=false
 	--upward search
@@ -438,7 +441,7 @@ function searchup:flat_action()
 	end --if help==false then
 end --	function searchup:flat_action()
 
-checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
+checkboxforcasesensitive = iup.toggle{title="GroÃŸ-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
 search_label=iup.label{title="Suchfeld:"} --label for textfield
 
@@ -476,12 +479,12 @@ end --	function search_in_texts:flat_action()
 dlg_search =iup.dialog{
 			iup.vbox{iup.hbox{search_label,searchtext,}, 
 
-			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+			iup.label{title="Sonderzeichen: %. fÃ¼r ., %- fÃ¼r -, %+ fÃ¼r +, %% fÃ¼r %, %[ fÃ¼r [, %] fÃ¼r ], %( fÃ¼r (, %) fÃ¼r ), %^ fÃ¼r ^, %$ fÃ¼r $, %? fÃ¼r ?",},
 			iup.hbox{searchmark,unmark,checkboxforsearchinfiles,}, 
 
-			iup.label{title="rot: übergeordnete Knoten",fgcolor = "255 0 0", },
+			iup.label{title="rot: Ã¼bergeordnete Knoten",fgcolor = "255 0 0", },
 			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
-			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
+			iup.label{title="grÃ¼n: untergeordnete Knoten",fgcolor = "90 195 0", },
 
 			iup.hbox{searchdown, searchup,checkboxforcasesensitive,},
 
@@ -683,7 +686,7 @@ function renamenode:action()
 end --function renamenode:action()
 
 --5.1.3 add branch to tree
-addbranch = iup.item {title = "Ast hinzufügen"}
+addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function addbranch:action()
 	tree.addbranch = ""
 	tree.value=tree.value+1
@@ -691,7 +694,7 @@ function addbranch:action()
 end --function addbranch:action()
 
 --5.1.3.1 add branch to tree by insertbranch
-addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+addbranchbottom = iup.item {title = "Ast darunter hinzufÃ¼gen"}
 function addbranchbottom:action()
 	tree["insertbranch" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -704,7 +707,7 @@ function addbranchbottom:action()
 end --function addbranchbottom:action()
 
 --5.1.3.2 add leaf to tree by insertleaf
-addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
+addleafbottom = iup.item {title = "Blatt darunter hinzufÃ¼gen"}
 function addleafbottom:action()
 	tree["insertleaf" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -748,7 +751,7 @@ function addleaf_fromclipboardbottom:action()
 end --function addleaf_fromclipboardbottom:action()
 
 --5.1.5 add leaf of tree
-addleaf = iup.item {title = "Blatt hinzufügen"}
+addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function addleaf:action()
 	tree.addleaf = ""
 	tree.value=tree.value+1
@@ -789,19 +792,19 @@ function startastree:action()
 	if file_exists(tree['title'] .. '\\' .. thisfilename ) then
 	--g:match(".:\\[^\\]+")
 		os.execute('copy "' .. path .. '\\' .. thisfilename .. '" "' .. tree['title'] .. '\\' .. thisfilename .. '"')
-		--test with: iup.Message("Benutzeroberfläche kopiert",tree['title'] .. '\\' .. thisfilename)
+		--test with: iup.Message("BenutzeroberflÃ¤che kopiert",tree['title'] .. '\\' .. thisfilename)
 		os.execute('start "D" "' .. tree['title'] .. '\\' .. thisfilename .. '"')
 	elseif tree['title']:lower():match("\\archiv")==nil and tree['title']:match("\\[^\\%.]+$") then
 		BenutzeroberflaechenText=""
 		p=io.popen('dir "' .. tree['title']:match(".:\\[^\\]+") .. '\\' .. thisfilename .. '" /b/o/s')
 		for Ordner in p:lines() do BenutzeroberflaechenText=BenutzeroberflaechenText .. Ordner .. "\n" end
 		--tree GUI only if user want it
-		AnlegeAlarm=iup.Alarm("Benutzeroberfläche angelegen?","Es gibt folgende Benutzeroberflächen:\n" .. BenutzeroberflaechenText .. "\nWas möchten Sie für das Verzeichnis mit der neuen Benutzeroberfläche tun??","Anlegen","Nicht anlegen")
+		AnlegeAlarm=iup.Alarm("BenutzeroberflÃ¤che angelegen?","Es gibt folgende BenutzeroberflÃ¤chen:\n" .. BenutzeroberflaechenText .. "\nWas mÃ¶chten Sie fÃ¼r das Verzeichnis mit der neuen BenutzeroberflÃ¤che tun??","Anlegen","Nicht anlegen")
 		if AnlegeAlarm==1 then 
 			os.execute('copy "' .. path .. '\\' .. thisfilename .. '" "' .. tree['title'] .. '\\' .. thisfilename .. '"')
-			iup.Message("Benutzeroberfläche angelegt",tree['title'] .. '\\' .. thisfilename)
+			iup.Message("BenutzeroberflÃ¤che angelegt",tree['title'] .. '\\' .. thisfilename)
 		elseif AnlegeAlarm==2 then
-			iup.Message("Benutzeroberfläche wird nicht angelegt","Danke, nicht zu viele Benutzeroberflächen anzulegen.")
+			iup.Message("BenutzeroberflÃ¤che wird nicht angelegt","Danke, nicht zu viele BenutzeroberflÃ¤chen anzulegen.")
 		end --if AnlegeAlarm==1 then 
 	elseif tree['title']:lower():match("\\archiv") then
 		iup.Message("Kein Tree bei einem Archiv","Bei einem Archiv (" .. tree['title'] .. ") wird kein Tree angelegt.")
@@ -859,7 +862,7 @@ function starteditor:action() --start preview
 		p=io.popen('dir "' .. tree['title'] .. '"')
 		Verzeichnisliste=""
 		for Datei in p:lines() do
-			Verzeichnisliste=Verzeichnisliste .. Datei:gsub("ÿ",".") .. "\n"
+			Verzeichnisliste=Verzeichnisliste .. Datei:gsub("Ã¿",".") .. "\n"
 		end --for Datei in p:lines() do
 		textfield1.value=Verzeichnisliste
 	else --substitute line break in preview
@@ -1098,7 +1101,7 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for saving tree
@@ -1133,23 +1136,29 @@ end --function button_search:flat_action()
 button_convert_PDF_to_text_via_word=iup.flatbutton{title="Nachrichten vom Tag\nladen", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_convert_PDF_to_text_via_word:flat_action()
 	--example 1: treat Welt news
-	print("Verarbeitung der Nachrichten der Welt")
+	p=io.popen('dir "C:\\tree\\Tree_News\\PDF_News_inputs\\Welt_*.pdf" /b/o-N')
+	local FileNewNewsPDF_Welt=p:read()
+	local timeStamp_Welt=FileNewNewsPDF_Welt:lower():match("(%d%d%d%d%d%d%d%d).pdf")
+	print("Verarbeitung der Nachrichten der Welt vom " .. timeStamp_Welt)
 	word=luacom.CreateObject("Word.Application")
-	word.Documents:Open("C:\\Tree\\Tree_News\\PDF_News_inputs\\Welt_" .. os.date("%Y%m%d") .. ".PDF")
-	word.ActiveDocument:SaveAs2("C:\\Tree\\Tree_News\\Text_News_outputs\\Welt_" .. os.date("%Y%m%d") .. ".txt",2)
+	word.Documents:Open("C:\\Tree\\Tree_News\\PDF_News_inputs\\Welt_" .. timeStamp_Welt .. ".PDF")
+	word.ActiveDocument:SaveAs2("C:\\Tree\\Tree_News\\Text_News_outputs\\Welt_" .. timeStamp_Welt .. ".txt",2)
 	word:Quit()
 	--example 2: treat Domradio news
-	print("Verarbeitung der Nachrichten von Domradio")
+	p=io.popen('dir "C:\\tree\\Tree_News\\PDF_News_inputs\\Welt_*.pdf" /b/o-N')
+	local FileNewNewsPDF_Domradio=p:read()
+	local timeStamp_Domradio=FileNewNewsPDF_Domradio:lower():match("(%d%d%d%d%d%d%d%d).pdf")
+	print("Verarbeitung der Nachrichten von Domradio vom " .. timeStamp_Domradio)
 	word=luacom.CreateObject("Word.Application")
-	word.Documents:Open("C:\\Tree\\Tree_News\\PDF_News_inputs\\Domradio_" .. os.date("%Y%m%d") .. ".PDF")
-	word.ActiveDocument:SaveAs2("C:\\Tree\\Tree_News\\Text_News_outputs\\Domradio_" .. os.date("%Y%m%d") .. ".txt",2)
+	word.Documents:Open("C:\\Tree\\Tree_News\\PDF_News_inputs\\Domradio_" .. timeStamp_Domradio .. ".PDF")
+	word.ActiveDocument:SaveAs2("C:\\Tree\\Tree_News\\Text_News_outputs\\Domradio_" .. timeStamp_Domradio .. ".txt",2)
 	word:Quit()
 	--example 1: convert Welt news in Lua table 
 	--Write news as Title and Text in a Lua table
 	Title=""
 	Text=""
 	TitleTextTable={}
-	for line in io.lines("C:\\Tree\\Tree_News\\Text_News_outputs\\Welt_" .. os.date("%Y%m%d") .. ".txt") do
+	for line in io.lines("C:\\Tree\\Tree_News\\Text_News_outputs\\Welt_" .. timeStamp_Welt .. ".txt") do
 		if line:upper()==line then line="" end
 		if line~="" and Title=="" then
 			Title=line
@@ -1167,10 +1176,10 @@ function button_convert_PDF_to_text_via_word:flat_action()
 			Title=""
 			Text=""
 		end --if line~="" and Title=="" then
-	end --for line in io.lines("C:\\Tree\\Tree_News\\Text_News_outputs\\Welt_" .. os.date("%Y%m%d") .. ".txt") do
+	end --for line in io.lines("C:\\Tree\\Tree_News\\Text_News_outputs\\Welt_" .. timeStamp_Welt .. ".txt") do
 	--write the Title Text combinations in a file and a Title Lua table
 	TitleTable={}
-	outputfile1=io.open("C:\\Tree\\Tree_News\\Lua_News_outputs\\Welt_" .. os.date("%Y%m%d") .. ".lua","w")
+	outputfile1=io.open("C:\\Tree\\Tree_News\\Lua_News_outputs\\Welt_" .. timeStamp_Welt .. ".lua","w")
 	outputfile1:write('TitleTextTable={\n')
 	for k,v in pairs(TitleTextTable) do
 	outputfile1:write('["' .. string.escape_forbidden_char(k) .. '"]="' .. string.escape_forbidden_char(v) .. '",\n')
@@ -1194,7 +1203,7 @@ function button_convert_PDF_to_text_via_word:flat_action()
 	Text=""
 	TitleTextTable={}
 	i=0
-	inputfile1=io.open("C:\\Tree\\Tree_News\\Text_News_outputs\\Domradio_" .. os.date("%Y%m%d") .. ".txt","r")
+	inputfile1=io.open("C:\\Tree\\Tree_News\\Text_News_outputs\\Domradio_" .. timeStamp_Domradio .. ".txt","r")
 	inputText=inputfile1:read("*a"):gsub("?\r"," ")
 				       :gsub("\r","\n")
 				       :gsub(' +',' ')
@@ -1235,10 +1244,10 @@ function button_convert_PDF_to_text_via_word:flat_action()
 			Title=""
 			Text=""
 		end --if line~="" and Title=="" then
-	end --for line in io.lines("C:\\Tree\\Tree_News\\Text_News_outputs\\Domradio_" .. os.date("%Y%m%d") .. ".txt") do
+	end --for line in io.lines("C:\\Tree\\Tree_News\\Text_News_outputs\\Domradio_" .. timeStamp_Domradio .. ".txt") do
 	--write the Title Text combinations in a file and a Title Lua table
 	TitleTable={}
-	outputfile1=io.open("C:\\Tree\\Tree_News\\Lua_News_outputs\\Domradio_" .. os.date("%Y%m%d") .. ".lua","w")
+	outputfile1=io.open("C:\\Tree\\Tree_News\\Lua_News_outputs\\Domradio_" .. timeStamp_Domradio .. ".lua","w")
 	outputfile1:write('TitleTextTable={\n')
 	for k,v in pairs(TitleTextTable) do
 		outputfile1:write('["' .. string.escape_forbidden_char(k) .. '"]="' .. string.escape_forbidden_char(v) .. '",\n')
@@ -1288,7 +1297,7 @@ end --function button_goto_page:flat_action()
 --6.7 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6 buttons end
