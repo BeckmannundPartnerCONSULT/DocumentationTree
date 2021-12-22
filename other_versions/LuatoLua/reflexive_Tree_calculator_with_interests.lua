@@ -1272,20 +1272,19 @@ end --function startnode:action()
 
 --5.1.8 put the buttons together in the menu for tree
 menu = iup.menu{
-		startcopy,
-		number_of_node,
-		copy_for_image_input,
-		copy_for_image_function,
-		define_function_of_node,
-		copy_for_image_output,
-		renamenode, 
-		addbranch,
-		addbranchbottom,  
-		addleaf,
-		addleafbottom,
+		startcopy,  --to be deactivated
+		number_of_node,  --to be deactivated
+		copy_for_image_input,  --to be deactivated
+		copy_for_image_function,  --to be deactivated
+		define_function_of_node,  --to be deactivated
+		copy_for_image_output,  --to be deactivated
+		renamenode,   --to be deactivated
+		addbranch,  --to be deactivated
+		addbranchbottom,    --to be deactivated
+		addleaf,  --to be deactivated
+		addleafbottom,  --to be deactivated
 		startversion,
-		startnodescripter, 
-		starteditor,
+		startnodescripter,
 		startnode, 
 		}
 --5.1 menu of tree end
@@ -1336,13 +1335,13 @@ function button_logo:action()
 end --function button_logo:flat_action()
 
 --6.2 button to edit in IUP Lua scripter the script for tree2
-button_edit_treescript=iup.flatbutton{title="Programmieren des \ngesamten Programms", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_edit_treescript=iup.flatbutton{title="Programmieren des \ngesamten Programms", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_edit_treescript:flat_action()
 	os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. path .. '\\' .. thisfilename .. '"')
 end --function button_edit_treescript:flat_action()
 
 --6.3 button to edit the icon definition list
-button_edit_icon_list=iup.flatbutton{title="Programmieren der \nSymbole", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_edit_icon_list=iup.flatbutton{title="Programmieren der \nSymbole", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_edit_icon_list:flat_action()
 	dlg_icon_rename:showxy(iup.RIGHT, iup.CENTER) --show rename dialog
 end --function button_edit_icon_list:flat_action()
@@ -1353,6 +1352,32 @@ button_edit_nodeFunctionTable=iup.flatbutton{title="Programmieren der \nFunktion
 function button_edit_nodeFunctionTable:flat_action()
 	dlg_nodeFunctionTable_rename:showxy(iup.RIGHT, iup.CENTER) --show rename dialog
 end --function button_edit_nodeFunctionTable:flat_action()
+
+--6.5 button to save version without buttons and menus to be fixed calculation
+button_save_fixed_calculation=iup.flatbutton{title="Speichern einer\nfixierten Version", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_save_fixed_calculation:flat_action()
+	--open a filedialog
+	filedlg1=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.lua",filterinfo="Lua Files", directory=path}
+	filedlg1:popup(iup.ANYWHERE,iup.ANYWHERE)
+	if filedlg1.status=="1" or filedlg1.status=="0" then
+		local outputfile=io.output(filedlg1.value) --setting the outputfile
+		for line in io.lines(path .. "\\" .. thisfilename) do
+			if line:match("%-%-to be deactivated") then
+				outputfile:write("--deactivated: " .. line .. "\n")
+			elseif line:match("%-%-%[%[to be deactivated%]%]") then
+				outputfile:write("--[====[deactivated: " .. line .. "\n")
+			elseif line:match("%-%-%[%[to be deactivated end%]%]") then
+				outputfile:write(line .. "\n--deactivated end]====]\n")
+			else
+				outputfile:write(line .. "\n")
+			end --if line:match("%-%-to be deactivated") then
+		end --for line in io.lines(path .. "\\" .. thisfilename) do
+		outputfile:close() --close the outputfile
+	else --no outputfile was choosen
+		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.NextField(maindlg)
+	end --if filedlg1.status=="1" or filedlg1.status=="0" then
+end --function button_save_fixed_calculation:flat_action()
 
 
 --7 Main Dialog
@@ -1434,6 +1459,7 @@ markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 -- Callback for pressed keys
 function tree:k_any(c)
 	if c == iup.K_DEL then
+--[[to be deactivated]]
 		if tree.childcount=="0" then
 			local treeValue=tree.value
 			--test with: print(tree.value)
@@ -1484,6 +1510,7 @@ function tree:k_any(c)
 		end --if tree.childcount=="0" then
 		os.execute('start "Neu" "' .. path .. "\\" .. thisfilename .. '"')
 		return iup.CLOSE
+--[[to be deactivated end]]
 	elseif c == iup.K_cC then
 		--copy node of tree
 		clipboard.text = tree['title']
@@ -1529,7 +1556,13 @@ end --function tree:rightclick_cb(id)
 --7.3 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog {
 		iup.scrollbox{iup.vbox{
-			iup.hbox{button_logo,button_edit_treescript,button_edit_icon_list,button_edit_nodeFunctionTable,},
+			iup.hbox{
+				button_logo,
+				button_edit_treescript,        --to be deactivated
+				button_edit_icon_list,         --to be deactivated
+				button_edit_nodeFunctionTable, --to be deactivated
+				button_save_fixed_calculation, --to be deactivated
+				},
 			iup.frame{title="Zinsrechner",
 			tree,
 			size="FULLxFULL"},
