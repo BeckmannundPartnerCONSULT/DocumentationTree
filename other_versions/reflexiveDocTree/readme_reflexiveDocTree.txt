@@ -23,3 +23,12 @@ This script has a tree and a lua table with pages with html format. It can displ
 5. reflexive_documentation_tree_with_directory.lua
 
 This script contains a tree on the left side. The tree can have nodes with Windows-Directories. These are displayed in the tree on the right side with the command dir.
+
+6. reflexive_documentation_tree_with_images.lua
+
+This script contains a tree with images with extensions .png that are shown in the canvas on the right side of the graphical user interface.
+
+6.1 reflexive_documentation_tree_with_images.png
+
+This image file is needed to load the first image of reflexive_documentation_tree_with_images.lua.
+
