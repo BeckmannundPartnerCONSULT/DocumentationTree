@@ -49,7 +49,7 @@ for line in io.lines("/mnt/sdcard/Tree/dir_Temp.txt") do
       end --if line:match("/Android")== nil then      
       Verzeichnis=line:match("(.*):$")
    elseif Verzeichnis:match("/Android")== nil and AusgabeTabelle[Verzeichnis .. "/" .. line] == nil then
-      outputfile:write("<ul><li>" .. Verzeichnis .. "/" .. line .. "</li></ul>" .. "\n")
+      outputfile1:write("<ul><li>" .. Verzeichnis .. "/" .. line .. "</li></ul>" .. "\n")
       AnzahlDateien=AnzahlDateien+1
    end --if line:match("/mnt/.*:") then
 end --for line in io.lines("/mnt/sdcard/Tree/dir_Temp.txt") do
