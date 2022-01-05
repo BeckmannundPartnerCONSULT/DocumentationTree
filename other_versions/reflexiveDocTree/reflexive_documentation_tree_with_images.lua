@@ -1,6 +1,6 @@
 lua_tree_output={ branchname="example of a reflexive tree", 
 { branchname="Ergebnisse", 
-{ branchname="Tägliche Neuinfektionen", 
+{ branchname="TÃ¤gliche Neuinfektionen", 
 { branchname="C:\\Tree\\reflexiveDocTree\\results\\2021\\Beispiel_NI2.png", 
 state="COLLAPSED",
 },
@@ -16,7 +16,7 @@ state="COLLAPSED",
 state="COLLAPSED",
 },
 },
-{ branchname="Schätzung", 
+{ branchname="SchÃ¤tzung", 
 { branchname="C:\\Tree\\reflexiveDocTree\\results\\2021\\Beispiel_NI3.png", 
 state="COLLAPSED",
 },
@@ -38,6 +38,7 @@ require"imlua"
 require"cdlua"
 require"cdluaim"
 require"iupluacd"
+require"imlua_process" --for rotation
 
 --1.1.2 initalize clipboard
 clipboard=iup.clipboard{}
@@ -265,7 +266,7 @@ function renamenode:action()
 end --function renamenode:action()
 
 --5.1.3 add branch to tree
-addbranch = iup.item {title = "Ast hinzufügen"}
+addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function addbranch:action()
 	tree.addbranch = ""
 	tree.value=tree.value+1
@@ -273,7 +274,7 @@ function addbranch:action()
 end --function addbranch:action()
 
 --5.1.3.1 add branch to tree by insertbranch
-addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+addbranchbottom = iup.item {title = "Ast darunter hinzufÃ¼gen"}
 function addbranchbottom:action()
 	tree["insertbranch" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -286,7 +287,7 @@ function addbranchbottom:action()
 end --function addbranchbottom:action()
 
 --5.1.3.2 add leaf to tree by insertleaf
-addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
+addleafbottom = iup.item {title = "Blatt darunter hinzufÃ¼gen"}
 function addleafbottom:action()
 	tree["insertleaf" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -330,7 +331,7 @@ function addleaf_fromclipboardbottom:action()
 end --function addleaf_fromclipboardbottom:action()
 
 --5.1.5 add leaf of tree
-addleaf = iup.item {title = "Blatt hinzufügen"}
+addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function addleaf:action()
 	tree.addleaf = ""
 	tree.value=tree.value+1
@@ -372,11 +373,11 @@ function menu_new_page:action()
 		cnv3.canvas:Activate()
 		cnv3.image=im.FileImageLoad(textbox1.value)
 		if cnv3.image:Width()<=xWidth and cnv3.image:Height()<=yHeight then
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
 		elseif math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=yHeight then
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
 		else
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
 		end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
 	end --if textbox1.value:upper():match("JPG") or textbox1.value:upper():match("PNG") then 
 end --function menu_new_page:action()
@@ -452,13 +453,13 @@ function button_logo:action()
 end --function button_logo:flat_action()
 
 --6.2 button for saving tree reflexive with the programm
-button_save_lua_table=iup.flatbutton{title="Datei speichern", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_save_lua_table=iup.flatbutton{title="Datei \nspeichern", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	save_reflexive_tree_to_lua(path .. "\\" .. thisfilename)
 end --function button_save_lua_table:flat_action()
 
 --6.3 button for building new page
-button_new_page = iup.flatbutton{title = "Bild laden",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_new_page = iup.flatbutton{title = "Bild laden",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_new_page:flat_action()
 	textbox1.value=tree['title']
 	if textbox1.value:upper():match("JPG") or textbox1.value:upper():match("PNG") then 
@@ -466,17 +467,17 @@ function button_new_page:flat_action()
 		cnv3.canvas:Activate()
 		cnv3.image=im.FileImageLoad(textbox1.value)
 		if cnv3.image:Width()<=xWidth and cnv3.image:Height()<=yHeight then
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
 		elseif math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=yHeight then
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
 		else
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
 		end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
 	end --if textbox1.value:upper():match("JPG") or textbox1.value:upper():match("PNG") then 
 end --function button_new_page:action()
 
 --6.4 button to show next image
-button_show_previous_image=iup.flatbutton{title="Voheriges Bild zeigen",size="140x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_show_previous_image=iup.flatbutton{title="Voheriges Bild \nzeigen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_previous_image:flat_action()
 	p=io.popen('dir "' .. textbox1.value:match("(.*)\\[^\\]*") .. '\\*.PNG" /b /o-N /s')
 	local fileToTake="no"
@@ -490,33 +491,40 @@ print("  C: " .. fileText,textbox1.value,fileToTake)
 	cnv3.canvas:Activate()
 	cnv3.image=im.FileImageLoad(textbox1.value)
 	if cnv3.image:Width()<=xWidth and cnv3.image:Height()<=yHeight then
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
 	elseif math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=yHeight then
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
 	else
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
 	end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
 end --function button_show_previous_image:flat_action()
 
 
 
 --6.5 add branch of tree from filename of image
-button_addbranch_image=iup.flatbutton{title="Ast aus Bilddateinamen",size="140x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_addbranch_image=iup.flatbutton{title="Ast aus \nBilddateinamen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_addbranch_image:flat_action()
 	tree.addbranch = textbox1.value
 	tree.value=tree.value+1
 end --function button_addbranch_image:flat_action()
 
---6.5 add leaf of tree from filename of image
-button_addleaf_image=iup.flatbutton{title="Blatt aus Bilddateinamen",size="140x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+--6.6 add leaf of tree from filename of image
+button_addleaf_image=iup.flatbutton{title="Blatt aus \nBilddateinamen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_addleaf_image:flat_action()
 	tree.addleaf = textbox1.value
 	tree.value=tree.value+1
 end --function button_addleaf_image:flat_action()
 
 
---6.7 button to show next image
-button_show_next_image=iup.flatbutton{title="Nächstes Bild zeigen",size="140x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+--6.7 button to copy filename
+button_copy_title=iup.flatbutton{title="Dateipfad in \nZwischenablage", size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_copy_title:flat_action()
+	clipboard.text=textbox1.value
+end --function button_copy_title:flat_action()
+
+
+--6.8 button to show next image
+button_show_next_image=iup.flatbutton{title="NÃ¤chstes Bild \nzeigen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_next_image:flat_action()
 	p=io.popen('dir "' .. textbox1.value:match("(.*)\\[^\\]*") .. '\\*.PNG" /b /o /s')
 	local fileToTake="no"
@@ -531,16 +539,36 @@ function button_show_next_image:flat_action()
 	cnv3.canvas:Activate()
 	cnv3.image=im.FileImageLoad(textbox1.value)
 	if cnv3.image:Width()<=xWidth and cnv3.image:Height()<=yHeight then
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
 	elseif math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=yHeight then
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
 	else
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.floor((xWidth-cnv3.image:Width())/2),math.floor((yHeight-cnv3.image:Height())/2),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
 	end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
 end --function button_show_next_image:flat_action()
 
+--6.9 button to rotate image
+button_rotate=iup.flatbutton{title="Bild drehen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_rotate:flat_action()
+	--Rotation Test image1->cnv3.image
+	cnv3.image:AddAlpha() -- option 1: to avoid a black background
+	cnv3.image:SetAlpha(255)
+	local w,h=im.ProcessCalcRotateSize(cnv3.image:Width(),cnv3.image:Height(),math.cos(math.pi/2),math.sin(math.pi/2))
+	image2=im.ImageCreateBased(cnv3.image,w,h)
+	im.ProcessRotate(cnv3.image,image2,math.cos(math.pi/2),math.sin(math.pi/2),1)
+	cnv3.canvas:Activate()
+	cnv3.canvas:Clear()
+	--processed:
+	if image2:Width()<=xWidth and image2:Height()<=yHeight then
+		image2:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-image2:Width())/2),0),math.max(math.floor((yHeight-image2:Height())/2),0),math.floor(image2:Width()),math.floor(image2:Height()),0,0,0,0)
+	elseif math.floor(xWidth*image2:Height()/image2:Width())<=yHeight then
+		image2:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-image2:Width())/2),0),math.max(math.floor((yHeight-image2:Height())/2),0),xWidth,math.floor(xWidth*image2:Height()/image2:Width()),0,0,0,0)
+	else
+		image2:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-image2:Width())/2),0),math.max(math.floor((yHeight-image2:Height())/2),0),math.floor(yHeight*image2:Width()/image2:Height()),yHeight,0,0,0,0)
+	end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
+end --function button_rotate:flat_action()
 
---6.8 button with second logo
+--6.10 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -554,8 +582,8 @@ textbox1 = iup.multiline{value="",size="360x20",WORDWRAP="YES"}
 --7.2 canvas for images
 image1 = im.FileImageLoad(path .. "\\" .. thisfilename:gsub("%.lua",".png"))
 textbox1.value=path .. "\\" .. thisfilename:gsub("%.lua",".png")
-xWidth=900 --width of the canvas
-yHeight=900 --height of the canvas
+xWidth=700 --width of the canvas
+yHeight=700 --height of the canvas
 cnv3 = iup.canvas{image =  image1 , rastersize = xWidth .. "xWidth" .. yHeight,
 --scrollbar="YES",
 } 
@@ -563,11 +591,11 @@ function cnv3:action()          -- called everytime the IUP canvas needs to be r
 	self.canvas:Activate()
 	--0= use default values
 	if self.image:Width()<=xWidth and self.image:Height()<=yHeight then
-		self.image:cdCanvasPutImageRect(self.canvas,math.floor((xWidth-self.image:Width())/2),math.floor((yHeight-self.image:Height())/2),math.floor(self.image:Width()),math.floor(self.image:Height()),0,0,0,0)
+		self.image:cdCanvasPutImageRect(self.canvas,math.max(math.floor((xWidth-self.image:Width())/2),0),math.max(math.floor((yHeight-self.image:Height())/2),0),math.floor(self.image:Width()),math.floor(self.image:Height()),0,0,0,0)
 	elseif math.floor(xWidth*self.image:Height()/self.image:Width())<=yHeight then
-		self.image:cdCanvasPutImageRect(self.canvas,math.floor((xWidth-self.image:Width())/2),math.floor((yHeight-self.image:Height())/2),xWidth,math.floor(xWidth*self.image:Height()/self.image:Width()),0,0,0,0)
+		self.image:cdCanvasPutImageRect(self.canvas,math.max(math.floor((xWidth-self.image:Width())/2),0),math.max(math.floor((yHeight-self.image:Height())/2),0),xWidth,math.floor(xWidth*self.image:Height()/self.image:Width()),0,0,0,0)
 	else
-		self.image:cdCanvasPutImageRect(self.canvas,math.floor((xWidth-self.image:Width())/2),math.floor((yHeight-self.image:Height())/2),math.floor(yHeight*self.image:Width()/self.image:Height()),yHeight,0,0,0,0)
+		self.image:cdCanvasPutImageRect(self.canvas,math.max(math.floor((xWidth-self.image:Width())/2),0),math.max(math.floor((yHeight-self.image:Height())/2),0),math.floor(yHeight*self.image:Width()/self.image:Height()),yHeight,0,0,0,0)
 	end --if math.floor(xWidth*self.image:Height()/self.image:Width())<=340 then
 end --function cnv:action()          -- called everytime the IUP canvas needs to be repainted
 function cnv3:map_cb()       -- the CD canvas can only be created when the IUP canvas is mapped
@@ -634,9 +662,11 @@ maindlg = iup.dialog {
 			iup.fill{},
 			button_addbranch_image,
 			button_addleaf_image,
+			button_copy_title,
 			textbox1,
 			button_show_next_image,
 			button_new_page,
+			button_rotate,
 			button_logo2,
 		}, --iup.hbox{
 		iup.hbox{iup.frame{title="Manuelle Zuordnung als Baum",tree,},cnv3,},
