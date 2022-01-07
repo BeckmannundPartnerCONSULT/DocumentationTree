@@ -479,7 +479,7 @@ end --function button_new_page:action()
 --6.4 button to show next image
 button_show_previous_image=iup.flatbutton{title="Voheriges Bild \nzeigen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_previous_image:flat_action()
-	p=io.popen('dir "' .. textbox1.value:match("(.*)\\[^\\]*") .. '\\*.PNG" /b /o-N /s')
+	p=io.popen('dir "' .. textbox1.value:match("(.*)\\[^\\]*") .. '\\*.' .. textbox1.value:match("%.([^%.]*)$") .. '" /b /o-N /s')
 	local fileToTake="no"
 	for fileText in p:lines() do
 print("A: " .. fileText,textbox1.value,fileText==textbox1.value,fileToTake)
@@ -526,7 +526,7 @@ end --function button_copy_title:flat_action()
 --6.8 button to show next image
 button_show_next_image=iup.flatbutton{title="Nächstes Bild \nzeigen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_next_image:flat_action()
-	p=io.popen('dir "' .. textbox1.value:match("(.*)\\[^\\]*") .. '\\*.PNG" /b /o /s')
+	p=io.popen('dir "' .. textbox1.value:match("(.*)\\[^\\]*") .. '\\*.' .. textbox1.value:match("%.([^%.]*)$") .. '" /b /o /s')
 	local fileToTake="no"
 	for fileText in p:lines() do
 		--test with: print("A: " .. fileText,textbox1.value,fileText==textbox1.value,fileToTake)
