@@ -106,6 +106,7 @@ state="COLLAPSED",
  "]] .. path:gsub("\\","\\\\") .. [[\\documentation_tree_balance.lua", 
  "]] .. path:gsub("\\","\\\\") .. [[\\documentation_tree_balance_passive.lua", 
  "]] .. path:gsub("\\","\\\\") .. [[\\documentation_tree_balance_active.lua", 
+ "]] .. path:gsub("\\","\\\\") .. [[\\documentation_tree_balance_indicators.lua", 
 },
 { branchname="Baumdokumentationen Verzeichnisse", 
 state="COLLAPSED",
@@ -131,13 +132,13 @@ documentation_tree_script_ProgrammText=[[
 
 --Wertebaum auf der untersten Stufe mit Werten
 WerteTree={branchname="Bilanzausschnitt Passiva ohne Eigenkapital", 
-{branchname="Passiva Rückstellungen und Rücklagen",
-{branchname="Rückstellungen",1000,},
-{branchname="Rücklagen",32345,},
+{branchname="Passiva RÃ¼ckstellungen und RÃ¼cklagen",
+{branchname="RÃ¼ckstellungen",1000,},
+{branchname="RÃ¼cklagen",32345,},
 },
 {branchname="Passiva Kredite",
 {branchname="Kredite an Banken",600000,},
-{branchname="Kredite an private Gläubiger",1112345,},
+{branchname="Kredite an private GlÃ¤ubiger",1112345,},
 },
 }
 
@@ -152,7 +153,7 @@ RemoveRecursion(WerteTreeAnsicht)
 WerteTreeAnteile={}
 AnteilRecursion(WerteTree,WerteTree,WerteTreeAnteile)
 RemoveRecursion(WerteTreeAnteile)
-WerteTreeAnteile.branchname="Passivseitenübersicht mit Anteilen"
+WerteTreeAnteile.branchname="PassivseitenÃ¼bersicht mit Anteilen"
 
 --Fertiger Wertebaum
 tree_script={branchname="Passivseite ohne Eigenkapital" ,
@@ -187,7 +188,7 @@ WerteTree={branchname="Aktiva",
 {branchname="Fertigprodukte",1000000,},
 {branchname="Halbfertigprodukte",1232345,},
 },
-{branchname="Aktiva flüssige Mittel",
+{branchname="Aktiva flÃ¼ssige Mittel",
 {branchname="Guthaben bei Banken",100000,},
 {branchname="Kasse",2345,},
 },
@@ -204,7 +205,7 @@ RemoveRecursion(WerteTreeAnsicht)
 WerteTreeAnteile={}
 AnteilRecursion(WerteTree,WerteTree,WerteTreeAnteile)
 RemoveRecursion(WerteTreeAnteile)
-WerteTreeAnteile.branchname="Aktivseitenübersicht mit Anteilen"
+WerteTreeAnteile.branchname="AktivseitenÃ¼bersicht mit Anteilen"
 
 --Fertiger Wertebaum
 tree_statistics={branchname="Aktivseite" ,
@@ -242,7 +243,7 @@ Eigenkapitalsumme                  = Aktivseitensumme -  Passivseitensumme_ohne_
 Eigenkapitalquote                  = Eigenkapitalsumme / Aktivseitensumme
 textfield1.value="Eigenkapital: " .. Eigenkapitalsumme .. "\n" .. 
 "Eigenkapitalquote: " .. Eigenkapitalquote .. "\n" .. 
-"Weitere Bilanzkennzahlen abhängig von der Bilanzstruktur ermitteln..."
+"Weitere Bilanzkennzahlen abhÃ¤ngig von der Bilanzstruktur ermitteln..."
 
 
 
@@ -469,7 +470,7 @@ end --function compare_files(file1,file2)
 --3.3.1 function for writing tree in a text file (function for printing tree)
 function printtree()
 	--open a filedialog
-	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.txt",filterinfo="Text Files", directory="c:\\temp"}
+	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswÃ¤hlen",filter="*.txt",filterinfo="Text Files", directory="c:\\temp"}
 	filedlg2:popup(iup.ANYWHERE,iup.ANYWHERE)
 	if filedlg2.status=="1" or filedlg2.status=="0" then
 		local outputfile=io.output(filedlg2.value) --setting the outputfile
@@ -482,7 +483,7 @@ function printtree()
 		end --for i=0,tree.totalchildcount0 do
 		outputfile:close() --close the outputfile
 	else --no outputfile was choosen
-		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.Message("SchlieÃŸen","Keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
@@ -491,7 +492,7 @@ end --function printtree()
 --3.3.2 function for printing dependencies in a csv file
 function printdependencies()
 	--open a filedialog
-	filedlg3=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.csv",filterinfo="csv Files", directory="c:\\temp"}
+	filedlg3=iup.filedlg{dialogtype="SAVE",title="Ziel auswÃ¤hlen",filter="*.csv",filterinfo="csv Files", directory="c:\\temp"}
 	filedlg3:popup(iup.ANYWHERE,iup.ANYWHERE)
 	if filedlg3.status=="1" or filedlg3.status=="0" then
 		local outputfile=io.output(filedlg3.value)--setting the outputfile
@@ -508,12 +509,52 @@ function printdependencies()
 		end --for i=0, tree.count - 1 do
 		outputfile:close()--close the outputfile
 	else --no file was choosen
-		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.Message("SchlieÃŸen","Keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg3.status=="1" or filedlg3.status=="0" then
 end --function printdependencies()
 
 --3.3 functions for writing text files end
+
+
+--3.4 function to change expand/collapse relying on depth
+--This function is needed in the expand/collapsed dialog. This function relies on the depth of the given level.
+function change_state_level(new_state,level,descendants_also,tree)
+	if descendants_also=="YES" then
+		for i=0,tree.count-1 do
+			if tree["depth" .. i]==level then
+				iup.TreeSetNodeAttributes(tree,i,{state=new_state}) --changing the state of current node
+				iup.TreeSetDescendantsAttributes(tree,i,{state=new_state})
+			end --if tree["depth" .. i]==level then
+		end --for i=0,tree.count-1 do
+	else
+		for i=0,tree.count-1 do
+			if tree["depth" .. i]==level then
+				iup.TreeSetNodeAttributes(tree,i,{state=new_state})
+			end --if tree["depth" .. i]==level then
+		end --for i=0,tree.count-1 do
+	end --if descendants_also=="YES" then
+end --function change_state_level(new_state,level,descendants_also,tree)
+
+
+--3.5 function to change expand/collapse relying on keyword
+--This function is needed in the expand/collapsed dialog. This function changes the state for all nodes, which match a keyword. Otherwise it works like change_stat_level.
+function change_state_keyword(new_state,keyword,descendants_also,tree)
+	if descendants_also=="YES" then
+		for i=0,tree.count-1 do
+			if tree["title" .. i]:match(keyword)~=nil then
+				iup.TreeSetNodeAttributes(tree,i,{state=new_state})
+				iup.TreeSetDescendantsAttributes(tree,i,{state=new_state})
+			end --if tree["title" .. i]:match(keyword)~=nil then
+		end --for i=0,tree.count-1 do
+	else
+		for i=0,tree.count-1 do
+			if tree["title" .. i]:match(keyword)~=nil then
+				iup.TreeSetNodeAttributes(tree,i,{state=new_state})
+			end --if tree["title" .. i]:match(keyword)~=nil then 
+		end --for i=0,tree.count-1 do
+	end --if descendants_also=="YES" then
+end --function change_state_keyword(new_state,level,descendants_also,tree)
 
 
 
@@ -708,11 +749,11 @@ end --	function search_in_textfield1:flat_action()
 dlg_search =iup.dialog{
 			iup.vbox{iup.hbox{search_label,searchtext,}, 
 
-			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+			iup.label{title="Sonderzeichen: %. fÃ¼r ., %- fÃ¼r -, %+ fÃ¼r +, %% fÃ¼r %, %[ fÃ¼r [, %] fÃ¼r ], %( fÃ¼r (, %) fÃ¼r ), %^ fÃ¼r ^, %$ fÃ¼r $, %? fÃ¼r ?",},
 			iup.hbox{searchmark,unmark,}, 
-			iup.label{title="rot: übergeordnete Knoten",fgcolor = "255 0 0", },
+			iup.label{title="rot: Ã¼bergeordnete Knoten",fgcolor = "255 0 0", },
 			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
-			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
+			iup.label{title="grÃ¼n: untergeordnete Knoten",fgcolor = "90 195 0", },
 			iup.hbox{search_in_textfield1,},
 
 			}; 
@@ -762,13 +803,97 @@ dlg_search_replace =iup.dialog{
 					iup.hbox{search_label_replace,searchtext_replace},
 					iup.hbox{replace_label_replace,replacetext_replace},
 					iup.hbox{search_replace, cancel_replace,},
-					iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+					iup.label{title="Sonderzeichen: %. fÃ¼r ., %- fÃ¼r -, %+ fÃ¼r +, %% fÃ¼r %, %[ fÃ¼r [, %] fÃ¼r ], %( fÃ¼r (, %) fÃ¼r ), %^ fÃ¼r ^, %$ fÃ¼r $, %? fÃ¼r ?",},
 				}; 
 				title="Suchen und Ersetzen",
 				size="420x100",
 				startfocus=replacetext_replace
 				}
 --4.3 replace dialog end
+
+--4.4 expand and collapse dialog
+
+--function needed for the expand and collapse dialog
+function button_expand_collapse(new_state,tree)
+	if toggle_level.value=="ON" then
+		if checkbox_descendants_collapse.value=="ON" then
+			change_state_level(new_state,tree.depth,"YES",tree)
+			change_state_level(new_state,tree.depth,"YES",tree2)
+			change_state_level(new_state,tree.depth,"YES",tree3)
+		else
+			change_state_level(new_state,tree.depth,"NO",tree)
+			change_state_level(new_state,tree.depth,"NO",tree2)
+			change_state_level(new_state,tree.depth,"NO",tree3)
+		end --if checkbox_descendants_collapse.value="ON" then
+	elseif toggle_keyword.value=="ON" then
+		if checkbox_descendants_collapse.value=="ON" then
+			change_state_keyword(new_state,text_expand_collapse.value,"YES",tree)
+			change_state_keyword(new_state,text_expand_collapse.value,"YES",tree2)
+			change_state_keyword(new_state,text_expand_collapse.value,"YES",tree3)
+		else
+			change_state_keyword(new_state,text_expand_collapse.value,"NO",tree)
+			change_state_keyword(new_state,text_expand_collapse.value,"NO",tree2)
+			change_state_keyword(new_state,text_expand_collapse.value,"NO",tree3)
+		end --if checkbos_descendants_collapse.value=="ON" then
+	end --if toggle_level.value="ON" then
+end --function button_expand_collapse(new_state,tree)
+
+--button for expanding branches
+expand_button=iup.flatbutton{title="Ausklappen",size="EIGHTH",BGCOLOR=color_buttons,FGCOLOR=color_button_text}
+function expand_button:flat_action()
+	button_expand_collapse("EXPANDED",tree) --call above function with expand as new state
+end --function expand_button:flat_action()
+
+--button for collapsing branches
+collapse_button=iup.flatbutton{title="Einklappen",size="EIGHTH",BGCOLOR=color_buttons,FGCOLOR=color_button_text}
+function collapse_button:flat_action()
+	button_expand_collapse("COLLAPSED",tree) --call above function with collapsed as new state
+end --function collapse_button:flat_action()
+
+--button for cancelling the dialog
+cancel_expand_collapse_button=iup.flatbutton{title="Abbrechen",size="EIGHTH",BGCOLOR=color_buttons,FGCOLOR=color_button_text}
+function cancel_expand_collapse_button:flat_action()
+	return iup.CLOSE
+end --function cancel_expand_collapse_button:flat_action()
+
+--toggle if expand/collapse should be applied to current depth
+toggle_level=iup.toggle{title="Nach aktueller Ebene", value="ON"}
+function toggle_level:action()
+	text_expand_collapse.active="NO"
+end --function toggle_level:action()
+
+--toggle if expand/collapse should be applied to search, i.e. to all nodes containing the text in the searchfield
+toggle_keyword=iup.toggle{title="Nach Suchwort", value="OFF"}
+function toggle_keyword:action()
+	text_expand_collapse.active="YES"
+end --function toggle_keyword:action()
+
+--radiobutton for toggles, if search field or depth expand/collapse function
+radio=iup.radio{iup.hbox{toggle_level,toggle_keyword},value=toggle_level}
+
+--text field for expand/collapse
+text_expand_collapse=iup.text{active="NO",expand="YES"}
+
+--checkbox if descendants also be changed
+checkbox_descendants_collapse=iup.toggle{title="Auf untergeordnete Knoten anwenden",value="ON"}
+
+--put this together into a dialog
+dlg_expand_collapse=iup.dialog{
+	iup.vbox{
+		iup.hbox{radio},
+		iup.hbox{text_expand_collapse},
+		iup.hbox{checkbox_descendants_collapse},
+		iup.hbox{expand_button,collapse_button,cancel_expand_collapse_button},
+	};
+	defaultenter=expand_button,
+	defaultesc=cancel_expand,
+	title="Ein-/Ausklappen",
+	size="QUARTER",
+	startfocus=searchtext,
+
+}
+
+--4.4 expand and collapse dialog end
 
 --4. dialogs end
 
@@ -880,7 +1005,7 @@ function renamenode:action()
 end --function renamenode:action()
 
 --5.1.3 add branch to tree
-addbranch = iup.item {title = "Ast hinzufügen"}
+addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function addbranch:action()
 	tree.addbranch = ""
 	tree.value=tree.value+1
@@ -895,7 +1020,7 @@ function addbranch_fromclipboard:action()
 end --function addbranch_fromclipboard:action()
 
 --5.1.5 add leaf of tree
-addleaf = iup.item {title = "Blatt hinzufügen"}
+addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function addleaf:action()
 	tree.addleaf = ""
 	tree.value=tree.value+1
@@ -1013,7 +1138,7 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for saving tree
@@ -1039,7 +1164,15 @@ function button_replace:flat_action()
 end --function button_replace:flat_action()
 
 
---6.5 button to update tree2, mark non existing files in grey and copy node with path
+--6.5 button for expand and collapse
+button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen\n(Strg+R)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_expand_collapse_dialog:flat_action()
+	text_expand_collapse.value=tree.title
+	dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
+end --function button_expand_collapse_dialog:flat_action()
+
+
+--6.6 button to update tree2, mark non existing files in grey and copy node with path
 button_copy_title=iup.flatbutton{title="Aktualisieren der Passivseite", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_copy_title:flat_action()
 	--clipboard.text=tree2.title0:match(".:\\.*") .. tree2.title
@@ -1062,13 +1195,13 @@ function button_copy_title:flat_action()
 	iup.TreeAddNodes(tree2, tree_script)
 end --function button_copy_title:flat_action()
 
---6.6 button to edit in IUP Lua scripter the script for tree2
+--6.7 button to edit in IUP Lua scripter the script for tree2
 button_edit_treescript=iup.flatbutton{title="Programmieren der \nPassivseite", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_edit_treescript:flat_action()
 	os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. path .. '\\documentation_tree_balance_passive.lua"')
 end --function button_edit_treescript:flat_action()
 
---6.7 button to update tree3
+--6.8 button to update tree3
 button_statisticsupdate=iup.flatbutton{title="Aktualisieren der \nAktivseite", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_statisticsupdate:flat_action()
 	delete_nodes_of_tree(tree3)
@@ -1080,14 +1213,14 @@ function button_statisticsupdate:flat_action()
 	iup.TreeAddNodes(tree3, tree_statistics)
 end --function button_statisticsupdate:flat_action()
 
---6.8 button to edit in IUP Lua scripter the script for tree3
+--6.9 button to edit in IUP Lua scripter the script for tree3
 button_edit_treestatistics=iup.flatbutton{title="Programmieren der \nAktivseite", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_edit_treestatistics:flat_action()
 	os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. path .. '\\documentation_tree_balance_active.lua"')
 end --function button_edit_treestatistics:flat_action()
 
 
---6.9 button to update indicators
+--6.10 button to update indicators
 button_indicators_update=iup.flatbutton{title="Aktualisieren der \nKennzahlen", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_indicators_update:flat_action()
 	if file_exists(path .. "\\documentation_tree_balance_indicators.lua") then
@@ -1097,16 +1230,16 @@ function button_indicators_update:flat_action()
 	end --if file_exists(path .. "\\documentation_tree_balance_passive.lua") then
 end --function button_indicators_update:flat_action()
 
---6.10 button to edit in IUP Lua scripter the script for indicators
+--6.11 button to edit in IUP Lua scripter the script for indicators
 button_indicators_edit=iup.flatbutton{title="Programmieren der \nKennzahlen", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_indicators_edit:flat_action()
 	os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. path .. '\\documentation_tree_balance_indicators.lua"')
 end --function button_indicators_edit:flat_action()
 
---6.11 button with second logo
+--6.12 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6 buttons end
@@ -1294,6 +1427,7 @@ maindlg = iup.dialog{
 			button_save_lua_table,
 			button_search,
 			button_replace,
+			button_expand_collapse_dialog,
 			iup.label{size="10x",},
 			button_statisticsupdate,
 			button_edit_treestatistics,
