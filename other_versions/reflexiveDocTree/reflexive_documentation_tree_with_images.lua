@@ -497,6 +497,12 @@ print("  C: " .. fileText,textbox1.value,fileToTake)
 	else
 		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
 	end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
+	--mark the node if next image in tree
+	for i=1, tree.count-1 do
+		if tree['title' .. i]==textbox1.value then
+		tree.value=i
+		end --if tree['title' .. i]==textbox1.value then
+	end --for i=numberOfNode, tree2.count-1 do
 end --function button_show_previous_image:flat_action()
 
 
@@ -545,6 +551,12 @@ function button_show_next_image:flat_action()
 	else
 		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
 	end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
+	--mark the node if next image in tree
+	for i=1, tree.count-1 do
+		if tree['title' .. i]==textbox1.value then
+		tree.value=i
+		end --if tree['title' .. i]==textbox1.value then
+	end --for i=numberOfNode, tree2.count-1 do
 end --function button_show_next_image:flat_action()
 
 --6.9 button to rotate image
