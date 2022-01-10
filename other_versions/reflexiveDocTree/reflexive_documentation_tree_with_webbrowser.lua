@@ -570,6 +570,7 @@ function button_go_to_page:flat_action()
 		TextErsatz=TextHTMLtable[aktuelleSeite]
 		webbrowser1.HTML=TextErsatz
 	else
+		aktuelleSeite=textbox1.value
 		TextErsatz=TextHTMLtable[aktuelleSeite]
 		webbrowser1.HTML=TextErsatz
 	end --if tonumber(textbox1.value) then
