@@ -402,10 +402,10 @@ end --function copy_leafs_of_node:action()
 paste_leafs_of_node = iup.item {title = "Alle Blätter darunter einfügen"}
 function paste_leafs_of_node:action()
 	if leafTable then
-		for i,v in ipairs(leafTable) do
-			tree.addleaf = v
+		for i=#leafTable,1,-1 do
+			tree.addleaf = leafTable[i]
 			tree.value=tree.value+1
-		end --for i,v in ipairs(leafTable) do
+		end --for i=#leafTable,1,-1 do
 	end --if leafTable then
 end --function paste_leafs_of_node:action()
 
