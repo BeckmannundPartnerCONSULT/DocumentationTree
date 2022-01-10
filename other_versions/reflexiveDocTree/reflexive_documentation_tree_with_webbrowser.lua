@@ -655,6 +655,12 @@ textbox2 = iup.multiline{value="",size="90x20",WORDWRAP="YES"}
 
 --7.2 webbrowser
 webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1],MAXSIZE="750x750"}
+function webbrowser1:navigate_cb(url)
+	--test with: iup.Message("",url) 
+	if url:match("file///") then --only url with https:// or http// ar loaded
+		os.execute('start "D" "' .. url:match("file///(.*)") .. '"')
+	end --if url:match("file///") then
+end --function webbrowser1:navigate_cb()
 
 --7.3 load tree from self file
 actualtree=lua_tree_output
