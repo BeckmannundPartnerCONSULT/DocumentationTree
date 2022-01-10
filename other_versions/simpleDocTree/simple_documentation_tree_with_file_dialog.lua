@@ -367,10 +367,151 @@ function startcopy:action() --copy node
 end --function startcopy:action()
 
 
+--5.1.2 cut of all leafs of a node
+cut_leafs_of_node = iup.item {title = "Alle Blätter darunter ausschneiden"}
+function cut_leafs_of_node:action()
+	local startNodeNumber=tree.value
+	local endNodeNumber=tree.value+tree.totalchildcount
+	local levelStartNode=tree['depth']
+	leafTable={}
+	for i=endNodeNumber,startNodeNumber+1,-1 do
+		tree.value=i
+		if tree['KIND']=="LEAF" and tree['depth']==tostring(levelStartNode+1) then
+			leafTable[#leafTable+1]=tree['title']
+			tree.delnode = "SELECTED"
+		end --if tree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+end --function cut_leafs_of_node:action()
 
---5.1.2 put the buttons together in the menu for tree
+--5.1.3 copy of all leafs of a node
+copy_leafs_of_node = iup.item {title = "Alle Blätter darunter kopieren"}
+function copy_leafs_of_node:action()
+	local startNodeNumber=tree.value
+	local endNodeNumber=tree.value+tree.totalchildcount
+	local levelStartNode=tree['depth']
+	leafTable={}
+	for i=endNodeNumber,startNodeNumber+1,-1 do
+		tree.value=i
+		if tree['KIND']=="LEAF" and tree['depth']==tostring(levelStartNode+1) then
+			leafTable[#leafTable+1]=tree['title']
+		end --if tree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+end --function copy_leafs_of_node:action()
+
+--5.1.4 paste of all leafs of a node
+paste_leafs_of_node = iup.item {title = "Alle Blätter darunter einfügen"}
+function paste_leafs_of_node:action()
+	if leafTable then
+		for i,v in ipairs(leafTable) do
+			tree.addleaf = v
+			tree.value=tree.value+1
+		end --for i,v in ipairs(leafTable) do
+	end --if leafTable then
+end --function paste_leafs_of_node:action()
+
+--5.1.5 for alphabetic sort of leafs ascending case sensitive
+alphabetic_sort_leafs_of_node_ascending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben aufsteigend sortieren"}
+function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
+	local startNodeNumber=tree.value
+	local endNodeNumber=tree.value+tree.totalchildcount
+	local levelStartNode=tree['depth']
+	local leafTable={}
+	for i=endNodeNumber,startNodeNumber+1,-1 do
+		tree.value=i
+		if tree['KIND']=="LEAF" and tree['depth']==tostring(levelStartNode+1) then
+			leafTable[#leafTable+1]=tree['title']
+			tree.delnode = "SELECTED"
+		end --if tree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+	table.sort(leafTable,function(a,b) return a<b end)
+	--test with: for i,v in ipairs(leafTable) do print(i,v) end
+	tree.value=startNodeNumber
+	for i,v in ipairs(leafTable) do
+		tree.addleaf = v
+		tree.value=tree.value+1
+	end --for i,v in ipairs(leafTable) do
+end --function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
+
+--5.1.6 for alphabetic sort of leafs ascending case insensitive
+alphabetic_sort_leafs_of_node_ascending_case_insensitive = iup.item {title = "Alle Blätter darunter alphabetisch aufsteigend sortieren"}
+function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
+	local startNodeNumber=tree.value
+	local endNodeNumber=tree.value+tree.totalchildcount
+	local levelStartNode=tree['depth']
+	local leafTable={}
+	for i=endNodeNumber,startNodeNumber+1,-1 do
+		tree.value=i
+		if tree['KIND']=="LEAF" and tree['depth']==tostring(levelStartNode+1) then
+			leafTable[#leafTable+1]=tree['title']
+			tree.delnode = "SELECTED"
+		end --if tree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+	table.sort(leafTable,function(a,b) local al=a:lower() local bl=b:lower() return al<bl end)
+	--test with: for i,v in ipairs(leafTable) do print(i,v) end
+	tree.value=startNodeNumber
+	for i,v in ipairs(leafTable) do
+		tree.addleaf = v
+		tree.value=tree.value+1
+	end --for i,v in ipairs(leafTable) do
+end --function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
+
+
+--5.1.7 for alphabetic sort of leafs ascending case sensitive
+alphabetic_sort_leafs_of_node_descending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben absteigend sortieren"}
+function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
+	local startNodeNumber=tree.value
+	local endNodeNumber=tree.value+tree.totalchildcount
+	local levelStartNode=tree['depth']
+	local leafTable={}
+	for i=endNodeNumber,startNodeNumber+1,-1 do
+		tree.value=i
+		if tree['KIND']=="LEAF" and tree['depth']==tostring(levelStartNode+1) then
+			leafTable[#leafTable+1]=tree['title']
+			tree.delnode = "SELECTED"
+		end --if tree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+	table.sort(leafTable,function(a,b) return a>b end)
+	--test with: for i,v in ipairs(leafTable) do print(i,v) end
+	tree.value=startNodeNumber
+	for i,v in ipairs(leafTable) do
+		tree.addleaf = v
+		tree.value=tree.value+1
+	end --for i,v in ipairs(leafTable) do
+end --function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
+
+--5.1.8 for alphabetic sort of leafs ascending case insensitive
+alphabetic_sort_leafs_of_node_descending_case_insensitive = iup.item {title = "Alle Blätter darunter alphabetisch absteigend sortieren"}
+function alphabetic_sort_leafs_of_node_descending_case_insensitive:action()
+	local startNodeNumber=tree.value
+	local endNodeNumber=tree.value+tree.totalchildcount
+	local levelStartNode=tree['depth']
+	local leafTable={}
+	for i=endNodeNumber,startNodeNumber+1,-1 do
+		tree.value=i
+		if tree['KIND']=="LEAF" and tree['depth']==tostring(levelStartNode+1) then
+			leafTable[#leafTable+1]=tree['title']
+			tree.delnode = "SELECTED"
+		end --if tree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+	table.sort(leafTable,function(a,b) local al=a:lower() local bl=b:lower() return al>bl end)
+	--test with: for i,v in ipairs(leafTable) do print(i,v) end
+	tree.value=startNodeNumber
+	for i,v in ipairs(leafTable) do
+		tree.addleaf = v
+		tree.value=tree.value+1
+	end --for i,v in ipairs(leafTable) do
+end --function alphabetic_sort_leafs_of_node_descending_case_insensitive:action()
+
+--5.1.9 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
+		copy_leafs_of_node,
+		cut_leafs_of_node,
+		paste_leafs_of_node,
+		alphabetic_sort_leafs_of_node_ascending_case_sensitive,
+		alphabetic_sort_leafs_of_node_ascending_case_insensitive,
+		alphabetic_sort_leafs_of_node_descending_case_sensitive,
+		alphabetic_sort_leafs_of_node_descending_case_insensitive,
 		}
 --5.1 menu of tree end
 
