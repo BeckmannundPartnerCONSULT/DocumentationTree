@@ -1205,6 +1205,13 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 	end --if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 end --function startcopy_withchilds2:action() 
 
+--5.2.1.2 copy leaf of tree2
+addbranch_from_leaf_in_tree2 = iup.item {title = "Knoten als Ast An Zuordnung senden"}
+function addbranch_from_leaf_in_tree2:action()
+	tree.addbranch = tree2.title0:match(".:\\.*") .. tree2['title']
+	tree.value=tree.value+1
+end --function addbranch_from_leaf_in_tree2:action()
+
 --5.2.2 start file of node of tree2 in IUP Lua scripter or start empty file in notepad or start empty scripter
 startnodescripter2 = iup.item {title = "Skripter starten"}
 function startnodescripter2:action()
@@ -1276,6 +1283,7 @@ end --function startnode2:action()
 menu2 = iup.menu{
 		startcopy2,
 		startcopy_withchilds2,
+		addbranch_from_leaf_in_tree2,
 		startnodescripter2, 
 		starteditor2,
 		startnode2, 
