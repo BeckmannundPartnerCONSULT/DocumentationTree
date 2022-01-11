@@ -367,7 +367,7 @@ function startcopy:action() --copy node
 end --function startcopy:action()
 
 
---5.1.2 cut of all leafs of a node
+--5.1.2.1 cut of all leafs of a node
 cut_leafs_of_node = iup.item {title = "Alle Blätter darunter ausschneiden"}
 function cut_leafs_of_node:action()
 	local startNodeNumber=tree.value
@@ -383,7 +383,58 @@ function cut_leafs_of_node:action()
 	end --for i=endNodeNumber,startNodeNumber,-1 do
 end --function cut_leafs_of_node:action()
 
---5.1.3 copy of all leafs of a node
+--5.1.2.2 cut of all leafs of a node
+cut_nodes_of_node = iup.item {title = "Alle Knoten darunter ausschneiden"}
+function cut_nodes_of_node:action()
+	local startNodeNumber=tree.value
+	local endNodeNumber=tree.value+tree.totalchildcount
+	local levelStartNode=tree['depth']
+	local levelOldNode=tree['depth']
+	nodeText='tree_nodes={branchname="' .. string.escape_forbidden_char(tree['title']) .. '",\n'
+	for i=startNodeNumber+1,endNodeNumber do
+		tree.value=i
+		--test with: nodeText=nodeText .. '\n von: ' .. tonumber(levelOldNode) .. " zu: " .. tonumber(tree['depth']) .. '\n'
+		--end curly brakets
+		if tonumber(levelOldNode)>tonumber(tree['depth']) then 
+			for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
+				nodeText=nodeText .. '},\n' 
+			end --for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
+ 		end --if tonumber(levelOldNode)>tonumber(tree['depth']) then 
+		levelOldNode=tree['depth']
+		--take branch or leaf
+		if tree['KIND']=="BRANCH" and tonumber(tree['depth'])>=levelStartNode+1 then
+			nodeText=nodeText .. '{branchname="' .. string.escape_forbidden_char(tree['title']) .. '",\n' 
+		elseif tree['KIND']=="LEAF" and tonumber(tree['depth'])>=levelStartNode+1 then
+			nodeText=nodeText .. '"' .. string.escape_forbidden_char(tree['title']) .. '",\n' 
+		end --if tree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+	--test with: nodeText=nodeText .. '\n von: ' .. tonumber(levelOldNode) .. " zu: " .. tonumber(levelStartNode) .. '\n'
+	--end curly brakets
+	if tonumber(levelOldNode)>tonumber(levelStartNode) then 
+		for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(levelStartNode)) do 
+			nodeText=nodeText .. '}'
+			if i<math.tointeger(tonumber(levelOldNode)-tonumber(levelStartNode)) then 
+				nodeText=nodeText .. ',\n'
+			end --if i<math.tointeger(tonumber(levelOldNode)-tonumber(levelStartNode)) then 
+		end --for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
+	end --if tonumber(levelOldNode)>tonumber(tree['depth']) then 
+	--delete nodes
+	for i=endNodeNumber,startNodeNumber+1,-1 do
+		tree.value=i
+		if tree['KIND']=="BRANCH" and tree['depth']>=tostring(levelStartNode+1) then
+			tree.delnode = "SELECTED"
+		elseif tree['KIND']=="LEAF" and tree['depth']>=tostring(levelStartNode+1) then
+			tree.delnode = "SELECTED"
+		end --if tree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+	--test with: print(nodeText)
+	--load tree_nodes Lua table
+	load(nodeText)()
+	--test with: for k,v in pairs(tree_nodes) do print(k,v) if type(v)=="table" then for k1,v1 in pairs(v) do print(k1,v1) end end end
+	--test add tree_nodes to node: tree:AddNodes(tree_nodes,startNodeNumber)
+end --function cut_nodes_of_node:action()
+
+--5.1.3.1 copy of all leafs of a node
 copy_leafs_of_node = iup.item {title = "Alle Blätter darunter kopieren"}
 function copy_leafs_of_node:action()
 	local startNodeNumber=tree.value
@@ -398,7 +449,49 @@ function copy_leafs_of_node:action()
 	end --for i=endNodeNumber,startNodeNumber,-1 do
 end --function copy_leafs_of_node:action()
 
---5.1.4 paste of all leafs of a node
+--5.1.3.2 copy of all leafs of a node
+copy_nodes_of_node = iup.item {title = "Alle Knoten darunter kopieren"}
+function copy_nodes_of_node:action()
+	local startNodeNumber=tree.value
+	local endNodeNumber=tree.value+tree.totalchildcount
+	local levelStartNode=tree['depth']
+	local levelOldNode=tree['depth']
+	nodeText='tree_nodes={branchname="' .. string.escape_forbidden_char(tree['title']) .. '",\n'
+	for i=startNodeNumber+1,endNodeNumber do
+		tree.value=i
+		--test with: nodeText=nodeText .. '\n von: ' .. tonumber(levelOldNode) .. " zu: " .. tonumber(tree['depth']) .. '\n'
+		--end curly brakets
+		if tonumber(levelOldNode)>tonumber(tree['depth']) then 
+			for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
+				nodeText=nodeText .. '},\n' 
+			end --for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
+ 		end --if tonumber(levelOldNode)>tonumber(tree['depth']) then 
+		levelOldNode=tree['depth']
+		--take branch or leaf
+		if tree['KIND']=="BRANCH" and tonumber(tree['depth'])>=levelStartNode+1 then
+			nodeText=nodeText .. '{branchname="' .. string.escape_forbidden_char(tree['title']) .. '",\n' 
+		elseif tree['KIND']=="LEAF" and tonumber(tree['depth'])>=levelStartNode+1 then
+			nodeText=nodeText .. '"' .. string.escape_forbidden_char(tree['title']) .. '",\n' 
+		end --if tree['KIND']=="LEAF" then
+	end --for i=endNodeNumber,startNodeNumber,-1 do
+	--test with: nodeText=nodeText .. '\n von: ' .. tonumber(levelOldNode) .. " zu: " .. tonumber(levelStartNode) .. '\n'
+	--end curly brakets
+	if tonumber(levelOldNode)>tonumber(levelStartNode) then 
+		for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(levelStartNode)) do 
+			nodeText=nodeText .. '}'
+			if i<math.tointeger(tonumber(levelOldNode)-tonumber(levelStartNode)) then 
+				nodeText=nodeText .. ',\n'
+			end --if i<math.tointeger(tonumber(levelOldNode)-tonumber(levelStartNode)) then 
+		end --for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
+	end --if tonumber(levelOldNode)>tonumber(tree['depth']) then 
+	--test with: print(nodeText)
+	--load tree_nodes Lua table
+	load(nodeText)()
+	--test with: for k,v in pairs(tree_nodes) do print(k,v) if type(v)=="table" then for k1,v1 in pairs(v) do print(k1,v1) end end end
+	--test add tree_nodes to node: tree:AddNodes(tree_nodes,startNodeNumber)
+end --function copy_nodes_of_node:action()
+
+--5.1.4.1 paste of all leafs of a node
 paste_leafs_of_node = iup.item {title = "Alle Blätter darunter einfügen"}
 function paste_leafs_of_node:action()
 	if leafTable then
@@ -408,6 +501,14 @@ function paste_leafs_of_node:action()
 		end --for i=#leafTable,1,-1 do
 	end --if leafTable then
 end --function paste_leafs_of_node:action()
+
+--5.1.4.2 paste of all leafs of a node
+paste_nodes_of_node = iup.item {title = "Alle Knoten darunter einfügen"}
+function paste_nodes_of_node:action()
+	if tree_nodes then
+	tree:AddNodes(tree_nodes,tree.value)
+	end --if tree_nodes then
+end --function paste_nodes_of_node:action()
 
 --5.1.5 for alphabetic sort of leafs ascending case sensitive
 alphabetic_sort_leafs_of_node_ascending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben aufsteigend sortieren"}
