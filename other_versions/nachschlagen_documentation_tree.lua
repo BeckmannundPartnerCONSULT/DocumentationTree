@@ -1206,9 +1206,13 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 end --function startcopy_withchilds2:action() 
 
 --5.2.1.2 copy leaf of tree2
-addbranch_from_leaf_in_tree2 = iup.item {title = "Knoten als Ast An Zuordnung senden"}
+addbranch_from_leaf_in_tree2 = iup.item {title = "Knoten als Ast an Zuordnung senden"}
 function addbranch_from_leaf_in_tree2:action()
-	tree.addbranch = tree2.title0:match(".:\\.*") .. tree2['title']
+	if tree2.title0:match(".:\\$") then
+		tree.addbranch = tree2.title0:match("(.:)\\.*") .. tree2['title']
+	else
+		tree.addbranch = tree2.title0:match(".:\\.*") .. tree2['title']
+	end --if tree2.title0:match(".:\\$") then
 	tree.value=tree.value+1
 end --function addbranch_from_leaf_in_tree2:action()
 
