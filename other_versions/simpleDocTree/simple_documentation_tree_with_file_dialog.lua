@@ -154,6 +154,27 @@ function alphabetic_tree_sort(tree)
 	change_state_level("EXPANDED","0","YES") --expand all branches again
 end --function alphabetic_tree_sort(tree)
 
+--3.5.3 function that sorts ascending whole lua table with tree not tree in IUP effectively
+function sortascendingTableRecursive(aTable)
+	table.sort(aTable,function(a,b) if type(a)=="table" then aT=tostring(a.branchname) else aT=tostring(a) end if type(b)=="table" then bT=tostring(b.branchname) else bT=tostring(b) end aTl=aT:lower() bTl=bT:lower() return aTl<bTl end)
+	for i,v in ipairs(aTable) do
+		if type(v)=="table" then
+			sortascendingTableRecursive(v)
+		end --if type(v)=="table" then
+	end --for i,v in ipairs(aTable)
+end --function sortascendingTableRecursive(aTable)
+
+--3.5.4 function that sorts descending whole lua table with tree not tree in IUP effectively
+function sortdescendingTableRecursive(aTable)
+	table.sort(aTable,function(a,b) if type(a)=="table" then aT=tostring(a.branchname) else aT=tostring(a) end if type(b)=="table" then bT=tostring(b.branchname) else bT=tostring(b) end aTl=aT:lower() bTl=bT:lower() return aTl>bTl end)
+	for i,v in ipairs(aTable) do
+		if type(v)=="table" then
+			sortdescendingTableRecursive(v)
+		end --if type(v)=="table" then
+	end --for i,v in ipairs(aTable)
+end --function sortdescendingTableRecursive(aTable)
+
+
 --4. dialogs
 
 
@@ -502,13 +523,32 @@ function paste_leafs_of_node:action()
 	end --if leafTable then
 end --function paste_leafs_of_node:action()
 
---5.1.4.2 paste of all leafs of a node
+--5.1.4.2 paste of all nodes of a node
 paste_nodes_of_node = iup.item {title = "Alle Knoten darunter einfügen"}
 function paste_nodes_of_node:action()
 	if tree_nodes then
-	tree:AddNodes(tree_nodes,tree.value)
+		tree:AddNodes(tree_nodes,tree.value)
 	end --if tree_nodes then
 end --function paste_nodes_of_node:action()
+
+--5.1.4.3 paste of all nodes of a node
+paste_nodes_of_node_sorted_ascending = iup.item {title = "Alle Knoten darunter aufsteigend sortiert einfügen"}
+function paste_nodes_of_node_sorted_ascending:action()
+	sortascendingTableRecursive(tree_nodes)
+	if tree_nodes then
+		tree:AddNodes(tree_nodes,tree.value)
+	end --if tree_nodes then
+end --function paste_nodes_of_node_sorted_ascending:action()
+
+--5.1.4.4 paste of all nodes of a node
+paste_nodes_of_node_sorted_descending = iup.item {title = "Alle Knoten darunter absteigend sortiert einfügen"}
+function paste_nodes_of_node_sorted_descending:action()
+	sortdescendingTableRecursive(tree_nodes)
+	if tree_nodes then
+		tree:AddNodes(tree_nodes,tree.value)
+	end --if tree_nodes then
+end --function paste_nodes_of_node_sorted_descending:action()
+
 
 --5.1.5 for alphabetic sort of leafs ascending case sensitive
 alphabetic_sort_leafs_of_node_ascending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben aufsteigend sortieren"}
@@ -607,8 +647,13 @@ end --function alphabetic_sort_leafs_of_node_descending_case_insensitive:action(
 menu = iup.menu{
 		startcopy,
 		copy_leafs_of_node,
+		copy_nodes_of_node,
 		cut_leafs_of_node,
+		cut_nodes_of_node,
 		paste_leafs_of_node,
+		paste_nodes_of_node,
+		paste_nodes_of_node_sorted_ascending,
+		paste_nodes_of_node_sorted_descending,
 		alphabetic_sort_leafs_of_node_ascending_case_sensitive,
 		alphabetic_sort_leafs_of_node_ascending_case_insensitive,
 		alphabetic_sort_leafs_of_node_descending_case_sensitive,
@@ -665,7 +710,7 @@ function button_logo:action()
 end --function button_logo:flat_action()
 
 --6.2 button for loading tree
-button_loading_lua_table=iup.flatbutton{title="Baum aus Lua Tabelle laden\n(Strg+O)", size="95x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_loading_lua_table=iup.flatbutton{title="Baum aus Lua Tabelle laden\n(Strg+O)", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_lua_table:flat_action()
 	--build file dialog for reading lua file
 	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=arg[0]:match("(.*)\\")}
