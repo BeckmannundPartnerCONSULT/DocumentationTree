@@ -4,6 +4,14 @@
 --1. take tree from file
 dofile("C:\\Tree\\Luajava_Tree\\Tree_Luajava_output_Tree.lua")
 
+--1.1 dynamic collection of data for the tree
+dynamischer_Tree={branchname="Dynamik"}
+p=io.popen('cmd /r dir C:\\Tree\\Luajava_Tree\\*.* /b/o/s')
+for line in p:lines() do
+	dynamischer_Tree[#dynamischer_Tree+1]=line
+end --for line in p:lines() do
+Tree[#Tree+1]=dynamischer_Tree
+
 --2. border Layout
 borderLayout=luajava.bindClass("java.awt.BorderLayout")
 
