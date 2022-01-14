@@ -6,10 +6,40 @@ dofile("C:\\Tree\\Luajava_Tree\\Tree_Luajava_output_Tree.lua")
 
 --1.1 dynamic collection of data for the tree
 dynamischer_Tree={branchname="Dynamik"}
+--[[simple collection:
 p=io.popen('cmd /r dir C:\\Tree\\Luajava_Tree\\*.* /b/o/s')
 for line in p:lines() do
 	dynamischer_Tree[#dynamischer_Tree+1]=line
 end --for line in p:lines() do
+--]]
+
+--1.1.1 function for collection without being in manual tree
+function readTreetohtmlRecursive(TreeTable)
+	AusgabeTabelle[TreeTable.branchname]=true
+	for k,v in ipairs(TreeTable) do
+		if type(v)=="table" then
+			readTreetohtmlRecursive(v)
+		else
+			AusgabeTabelle[v]=true
+		end--if type(v)=="table" then
+	end --for k,v in ipairs(TreeTable) do
+end --readTreetohtmlRecursive(TreeTable)
+  
+--1.1.2 apply the recursive function
+AusgabeTabelle={}
+readTreetohtmlRecursive(Tree)
+--1.1.3 collect data about files and directories on the device not being in the manual tree
+os.execute('cmd /r dir C:\\Tree\\Luajava_Tree\\* /b/o/s >C:\\Tree\\Luajava_Tree\\dir_Temp.txt')
+AnzahlDateien=0
+for line in io.lines("C:\\Tree\\Luajava_Tree\\dir_Temp.txt") do
+	if AusgabeTabelle[line] == nil then
+		dynamischer_Tree[#dynamischer_Tree+1]=line
+		AnzahlDateien=AnzahlDateien+1
+	end --if AusgabeTabelle[line] == nil then
+end --for line in io.lines("/mnt/sdcard/Tree/dir_Temp.txt") do
+print("Anzahl Dateien: " .. AnzahlDateien)
+
+--1.2 put dynamic in the tree
 Tree[#Tree+1]=dynamischer_Tree
 
 --2. border Layout
