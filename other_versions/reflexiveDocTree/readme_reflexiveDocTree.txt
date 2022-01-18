@@ -32,3 +32,8 @@ This script contains a tree with images with extensions .png that are shown in t
 
 This image file is needed to load the first image of reflexive_documentation_tree_with_images.lua.
 
+7. reflexive_documentation_tree_search.lua
+
+This script contains a graphical user interface with a text field for copy and paste out of internet sites like duckduckgo.com. The found webpage adresses are sorted in a tree driven by a text in the tree as child node of Suche.
+
+The resulting sorts can be manually reorganised to be efficient in finding webpages.
