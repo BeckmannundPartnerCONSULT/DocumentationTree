@@ -16,3 +16,6 @@ This repository contains a html for Tree with two frames. Parts are taken from W
 
 This repository contains a html for Tree with Lua realized by Fengari https://fengari.io/ https://github.com/fengari-lua/fengari.io.
 
+5. Tree_html_frame_build.lua
+
+This script builds a tree within 2 frames as in chapter 3. Therefore it is not necessary to build the html manually.
