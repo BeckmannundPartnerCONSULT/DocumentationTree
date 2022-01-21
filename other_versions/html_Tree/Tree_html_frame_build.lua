@@ -12,7 +12,7 @@ Tree={branchname="\"Tree_html_frame_home.html\">IDIV",
 },
 {branchname="\"\">Ordner des IDIV-Arbeitsplatzes", state="COLLAPSED",
 "\"C:\\Tree\\html_Tree\">C:\\Tree\\html_Tree",
-{branchname="\"wb_img\">Ordner f�r die Bilder", state="COLLAPSED",
+{branchname="\"wb_img\">Ordner für die Bilder", state="COLLAPSED",
 "\"wb_img\">wb_img",
 {branchname="\"wb_img\">Einzelbilder", state="COLLAPSED",
 "\"wb_img\\hideall.png\">wb_img\\hideall.png",
@@ -27,8 +27,14 @@ Tree={branchname="\"Tree_html_frame_home.html\">IDIV",
 },
 }
 
+--1.1 path of the graphical user interface and filename of this script
+path=arg[0]:match("(.*)\\")
+--test with: print(path)
+thisfilename=arg[0]:match("\\([^\\]+)$")
+--test with: print(arg[0])
+--test with: print(thisfilename)
 
---1.1 text for tree html
+--1.2 text for tree html
 textBeginHTML=[[
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
 <html>
@@ -198,7 +204,7 @@ Ergebnis:<input value="" name="R" size="54" type="text">
 
 ]]
 
---1.2 build the tree from Lua table
+--1.3 build the tree from Lua table
 textforHTML=""
 function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,linkNumberStart)
 	linkNumber=linkNumberStart or 1
@@ -219,13 +225,13 @@ function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,li
 	textforHTML = textforHTML .. 
 	'<a name="link' .. linkNumber .. 'folder' .. levelFolder .. '" href=' ..
 	tostring(TreeTable.branchname)
-	:gsub("ä","&auml;")
-	:gsub("Ä","&Auml;")
-	:gsub("ö","&ouml;")
-	:gsub("Ö","&Ouml;")
-	:gsub("ü","&uuml;")
-	:gsub("Ü","&Uuml;")
-	:gsub("ß","&szlig;")
+	:gsub("Ã¤","&auml;")
+	:gsub("Ã„","&Auml;")
+	:gsub("Ã¶","&ouml;")
+	:gsub("Ã–","&Ouml;")
+	:gsub("Ã¼","&uuml;")
+	:gsub("Ãœ","&Uuml;")
+	:gsub("ÃŸ","&szlig;")
 	.. "</a>" .. "</p>\n"
 	if TreeTable.state=="COLLAPSED" then
 		textforHTML = textforHTML .. string.rep("\t",level) .. '<div id="folder' .. levelFolder .. '">\n'
@@ -240,13 +246,13 @@ function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,li
 		else
 			AusgabeTabelle[v:match('"([^"]*)">')]=true
 			textforHTML = textforHTML .. string.rep("\t",level+1) .. '<p style="margin: 0px 0px 5px ' .. (level+1)*30  .. 'px">' .. '<a name="link' .. linkNumber .. 'folder' .. levelFolder .. "." .. i .. '" href=' .. v
-			:gsub("ä","&auml;")
-			:gsub("Ä","&Auml;")
-			:gsub("ö","&ouml;")
-			:gsub("Ö","&Ouml;")
-			:gsub("ü","&uuml;")
-			:gsub("Ü","&Uuml;")
-			:gsub("ß","&szlig;")
+			:gsub("Ã¤","&auml;")
+			:gsub("Ã„","&Auml;")
+			:gsub("Ã¶","&ouml;")
+			:gsub("Ã–","&Ouml;")
+			:gsub("Ã¼","&uuml;")
+			:gsub("Ãœ","&Uuml;")
+			:gsub("ÃŸ","&szlig;")
 			.. "</a>" .. "</p>\n"
 		end --if type(v)=="table" then
 	end --for i, v in ipairs(TreeTable) do
@@ -257,28 +263,20 @@ function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,li
 	level = level - 1
 end --readTreetohtmlRecursive(TreeTable)
   
---1.2.1 apply the recursive function
+--1.4.1 apply the recursive function
 AusgabeTabelle={}
 readTreetohtmlRecursive(Tree)
 
---1.2.2 tree frame: write tree html
-outputfile1=io.open("C:\\Tree\\html_Tree\\with_frames_2_build\\Tree_html_frame_wb_tree.html","w")
+--1.4.2 tree frame: write tree html
+outputfile1=io.open(path .. "\\" .. "Tree_html_frame_wb_tree.html","w")
 outputfile1:write(textBeginHTML)
 outputfile1:write('<div class="tree">' .. "\n")
 outputfile1:write(textforHTML)
 outputfile1:write("</div>\n</body>\n</html>")
 outputfile1:close()
 
---1.3 path of the graphical user interface and filename of this script
-path=arg[0]:match("(.*)\\")
---test with: print(path)
-thisfilename=arg[0]:match("\\([^\\]+)$")
---test with: print(arg[0])
---test with: print(thisfilename)
-
-
 --2. home frame write home html
-outputfile2=io.open("C:\\Tree\\html_Tree\\with_frames_2_build\\Tree_html_frame_home.html","w")
+outputfile2=io.open(path .. "\\" .. "Tree_html_frame_home.html","w")
 outputfile2:write('<p>This frame html contains a tree in the left frame. The mark functionality is limited because of the denomination of the link names. Go to link is not possible if mark functions correctly and vice versa.</p><pre>\n')
 p=io.popen('dir * /b/o/s ')
 --write lines only when not in manual tree
@@ -308,7 +306,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 outputfile2:close()
 
 --3. frame with 2 frames
-outputfile3=io.open("C:\\Tree\\html_Tree\\with_frames_2_build\\Tree_html_frame.html","w")
+outputfile3=io.open(path .. "\\" .. "Tree_html_frame.html","w")
 outputfile3:write([[
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html><head>
 <title>IDIV-Arbeitsplatz</title></head>
