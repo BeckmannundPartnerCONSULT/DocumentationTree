@@ -128,11 +128,18 @@ textBeginHTML=[[
       var link = document.links[i];
 		if (link.text.toLowerCase().search(document.G.Q.value.toLowerCase())>=0) //e.g. "Tree_Baum.html"
 		{  document.G.R.value=getFolderId(link.name);
+			searchI=i;
+			//test with: document.G.R.value = document.G.R.value + "nr: " + searchI
+			  for (var i = 0; i < document.links.length; i++) {      
+			//test with: document.G.R.value=document.G.R.value+"-"+getFolderId(document.links[i].name);
+				if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0 && i < searchI) {
+					document.links[i].style.color = "#ff0000";  
+				} //if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0) {
+			  } //  for (var i = 0; i < document.links.length; i++) {      
 			link.style.color = "#00ff00";  
 			//return;
 			goToLink(link)
 			parent.wb_cont.location.href = link.href;
-			searchI=i;
 			}
 		else
 		{  //document.G.Q.value=link.name;
@@ -140,13 +147,6 @@ textBeginHTML=[[
 			//return;
 		} //if (link.name==document.G.Q.value)
     } //for (var i = 0; i < document.links.length; i++) {      
-//test with: document.G.C.value = document.G.C.value + "nr: " + searchI
-  for (var i = searchI -1 ; i >=0 ; i--) {      
-//test with: document.G.C.value=document.G.C.value+"-"+getFolderId(document.links[i].name);
-	if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0) {
-		document.links[i].style.color = "#ff0000";  
-	} //if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0) {
-  } //  for (var i = 0; i < document.links.length; i++) {      
 } //function searchInTreeNext()
 
 
@@ -197,7 +197,6 @@ Suche von:<input value="" name="Q" size="54" type="text">
 <input value="Markieren der ersten Fundstelle" onclick="searchInTreeNext()" type="button"> 
 Bei Bedarf auf IDIV klicken.
 Ergebnis:<input value="" name="R" size="54" type="text">
-<!--test with:--><!--input value="" name="C" size="54" type="text"-->
 </form>
 
 
@@ -270,9 +269,12 @@ readTreetohtmlRecursive(Tree)
 --1.4.2 tree frame: write tree html
 outputfile1=io.open(path .. "\\" .. "Tree_html_frame_wb_tree.html","w")
 outputfile1:write(textBeginHTML)
+--word wrap without this: 
 outputfile1:write('<div class="tree">' .. "\n")
 outputfile1:write(textforHTML)
-outputfile1:write("</div>\n</body>\n</html>")
+--word wrap without this: 
+outputfile1:write("</div>")
+outputfile1:write("\n</body>\n</html>")
 outputfile1:close()
 
 --2. home frame write home html
