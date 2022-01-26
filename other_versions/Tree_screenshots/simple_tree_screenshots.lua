@@ -12,6 +12,8 @@ require("imlua")
 require("cdluaim") --for screen capture
 require("iuplua")
 require("iupluacd") --for iup canvas
+--1.1.2 import for videos
+require("imlua_avi")
 
 
 --1.3 initalize clipboard
@@ -139,7 +141,7 @@ function button_logo:action()
 end --function button_logo:flat_action()
 
 --6.2 button for screen capture
-button_screenshot=iup.flatbutton{title="Screenshot herstellen", size="95x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_screenshot=iup.flatbutton{title="Screenshot \nherstellen", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_screenshot:flat_action()
 	--screen capture
 	--part of screen capture: canvas=cd.CreateCanvas(cd.NATIVEWINDOW,nil)
@@ -156,7 +158,30 @@ function button_screenshot:flat_action()
 	canvas:Kill()
 end --function button_screenshot:flat_action()
 
---6.10 button with second logo
+--6.3 button for video
+button_video=iup.flatbutton{title="Video \nherstellen", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_video:flat_action()
+	numberOfImages=0
+	new_filename=path .. "\\" .."video.avi"
+	outputfile=im.FileNew(new_filename,"AVI") 
+	outputfile:SetAttribute("FPS",im.FLOAT,{0.1}) --frames per seconds 
+	for i=0,tree.count-1 do
+		if tree['TITLE' .. i]:lower():match("png") then
+			image,err=im.FileImageLoad(tree['TITLE' .. i])
+			err=outputfile:SaveImage(image)
+			numberOfImages=numberOfImages+1
+			print(tree['TITLE' .. i],image,err)
+			image:Destroy()
+			collectgarbage()
+			print(err)
+		end --if tree['TITLE' .. i]:lower():match("png") then
+	end --for i=0,tree.count-1 do
+--]]
+	outputfile:Close()
+	os.execute('"C:\\Program Files\\7-Zip\\7z.exe" a '  .. new_filename:gsub('avi','.zip ') .. " "  .. new_filename .. ' -r ')
+end --function button_video:flat_action()
+
+--6.4 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -237,6 +262,7 @@ maindlg = iup.dialog{
 		iup.hbox{
 			button_logo,
 			button_screenshot,
+			button_video,
 			iup.label{size="10x",},
 			iup.fill{},
 			button_logo2,
