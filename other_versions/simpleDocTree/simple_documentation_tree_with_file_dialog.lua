@@ -62,7 +62,7 @@ end --function string.escape_forbidden_char(insertstring)
 --3.2.1 function for writing tree in a text file (function for printing tree)
 function printtree()
 	--open a filedialog
-	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.txt",filterinfo="Text Files", directory="c:\\temp"}
+	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.txt",filterinfo="Text Files", directory=path}
 	filedlg2:popup(iup.ANYWHERE,iup.ANYWHERE)
 	if filedlg2.status=="1" or filedlg2.status=="0" then
 		local outputfile=io.output(filedlg2.value) --setting the outputfile
@@ -79,6 +79,89 @@ function printtree()
 		iup.NextField(maindlg)
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
+
+--3.2.4 function which saves the current iup tree as a lua table.
+function save_tree_to_lua(tree, outputfile_path)
+	local output_tree_text="lua_tree_output=" --the output string
+	local outputfile=io.output(outputfile_path) --a output file
+	for i=0,tree.count - 1 do --loop for all nodes
+		if tree["KIND" .. i ]=="BRANCH" then --consider cases, if actual node is a branch
+			if (i > 0 and (tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) ) ) or i==0 then --consider cases if depth increases
+				output_tree_text = output_tree_text .. '{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' -- we open a new branch
+				--save state
+				if tree["STATE" .. i ]=="COLLAPSED" then
+					output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+				end --if tree["STATE" .. i ]=="COLLAPSED" then
+			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) < tonumber(tree["DEPTH" .. i-1 ]) then --if depth decreases
+				if tree["KIND" .. i-1 ] == "BRANCH" then --depending if the predecessor node was a branch we need to close one bracket more
+					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
+						output_tree_text = output_tree_text .. '},\n'
+					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
+					output_tree_text = output_tree_text .. '{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' --and we open the new branch
+					--save state
+					if tree["STATE" .. i ]=="COLLAPSED" then
+						output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+					end --if tree["STATE" .. i ]=="COLLAPSED" then
+				else
+					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do -- or if the predecessor node was a leaf
+						output_tree_text = output_tree_text .. '},\n'
+					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
+					output_tree_text = output_tree_text .. '{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' --and we open the new branch
+					--save state
+					if tree["STATE" .. i ]=="COLLAPSED" then
+						output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+					end --if tree["STATE" .. i ]=="COLLAPSED" then
+				end --if tree["KIND" .. i-1 ] == "BRANCH" then
+			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) == tonumber(tree["DEPTH" .. i-1 ]) then --or if depth stays the same
+				if tree["KIND" .. i-1 ] == "BRANCH" then --again consider if the predecessor node was a branch
+					output_tree_text = output_tree_text .. '},\n{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
+					--save state
+					if tree["STATE" .. i ]=="COLLAPSED" then
+						output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+					end --if tree["STATE" .. i ]=="COLLAPSED" then
+				else --or a leaf
+					output_tree_text = output_tree_text .. '\n{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
+					--save state
+					if tree["STATE" .. i ]=="COLLAPSED" then
+						output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+					end --if tree["STATE" .. i ]=="COLLAPSED" then
+				end --if tree["KIND" .. i-1 ] == "BRANCH" then
+			end --if (i > 0 and (tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) ) ) or i==0 then
+		elseif tree["KIND" .. i ]=="LEAF" then --or if actual node is a leaf
+			if (i > 0 and tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) )  or i==0 then
+				output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",' --we add the leaf
+			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) < tonumber(tree["DEPTH" .. i-1 ]) then
+				if tree["KIND" .. i-1 ] == "LEAF" then --in the same manner as above, depending if the predecessor node was a leaf or branch, we have to close a different number of brackets
+					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
+						output_tree_text = output_tree_text .. '},\n'
+					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",' --and in each case we add the new leaf
+				else
+					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
+						output_tree_text = output_tree_text .. '},\n'
+					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",'
+				end --if tree["KIND" .. i-1 ] == "LEAF" then
+			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) == tonumber(tree["DEPTH" .. i-1 ]) then
+				if tree["KIND" .. i-1 ] == "LEAF" then
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
+				else
+					output_tree_text = output_tree_text .. '},\n "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
+				end --if tree["KIND" .. i-1 ] == "LEAF" then
+			end --if (i > 0 and tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) )  or i==0 then
+		end --if tree["KIND" .. i ]=="BRANCH" then
+	end --for i=0,tree.count - 1 do
+	for j=1, tonumber(tree["DEPTH" .. tree.count-1]) do
+		output_tree_text = output_tree_text .. "}" --close as many brackets as needed
+	end --for j=1, tonumber(tree["DEPTH" .. tree.count-1]) do
+	if tree["KIND" .. tree.count-1]=="BRANCH" then
+		output_tree_text = output_tree_text .. "}" -- we need to close one more bracket if last node was a branch
+	end --if tree["KIND" .. tree.count-1]=="BRANCH" then
+	--output_tree_text=string.escape_forbidden_char(output_tree_text)
+	outputfile:write(output_tree_text) --write everything into the outputfile
+	outputfile:close()
+end --function save_tree_to_lua(tree, outputfile_path)
+
 
 
 --3.3 function to change expand/collapse relying on depth
@@ -178,7 +261,35 @@ end --function sortdescendingTableRecursive(aTable)
 --4. dialogs
 
 
---4.1 search dialog
+--4.1 rename dialog
+--ok button
+ok = iup.flatbutton{title = "OK",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function ok:flat_action()
+	tree.title = text.value
+	return iup.CLOSE
+end --function ok:flat_action()
+
+--cancel button
+cancel = iup.flatbutton{title = "Abbrechen",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function cancel:flat_action()
+	return iup.CLOSE
+end --function cancel:flat_action()
+
+text = iup.multiline{size="120x50",border="YES",expand="YES",wordwrap="YES"} --textfield
+label1 = iup.label{title="Name:"}--label for textfield
+
+--open the dialog for renaming branch/leaf
+dlg_rename = iup.dialog{
+	iup.vbox{label1, text, iup.hbox{ok,cancel}}; 
+	title="Knoten bearbeiten",
+	size="QUARTER",
+	startfocus=text,
+	}
+
+--4.1 rename dialog end
+
+
+--4.2 search dialog
 searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
 
 --search in downward direction
@@ -297,9 +408,9 @@ dlg_search =iup.dialog{
 		startfocus=searchtext
 		}
 
---4.1 search dialog end
+--4.2 search dialog end
 
---4.2 expand and collapse dialog
+--4.3 expand and collapse dialog
 
 --function needed for the expand and collapse dialog
 function button_expand_collapse(new_state)
@@ -373,7 +484,53 @@ dlg_expand_collapse=iup.dialog{
 
 }
 
---4.2 expand and collapse dialog end
+--4.3 expand and collapse dialog end
+
+
+--4.4 replace dialog
+
+--cancel button for search dialog
+cancel_replace = iup.flatbutton{title = "Abbrechen",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function cancel_replace:flat_action()
+	--make everything black again
+	for i=0, tree.count - 1 do
+		tree["color" .. i]="0 0 0"
+	end --for i=0, tree.count - 1 do
+	for i=0, tree2.count - 1 do
+		tree2["color" .. i]="0 0 0"
+	end --for i=0, tree2.count - 1 do
+	return iup.CLOSE
+end --function cancel_replace:flat_action()
+
+searchtext_replace = iup.multiline{border="YES",expand="YES", SELECTION="ALL", wordwrap="YES"} --textfield for search
+replacetext_replace = iup.multiline{border="YES",expand="YES", SELECTION="ALL", wordwrap="YES"} --textfield for replace
+
+--search in upward direction
+search_replace   = iup.flatbutton{title = "Ersetzen",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+function search_replace:flat_action()
+	for i=0, tree.count-1 do
+		if tree["TITLE" .. i]:match(searchtext_replace.value)~=nil then
+			tree["TITLE" .. i]=tree["TITLE" .. i]:gsub(searchtext_replace.value,replacetext_replace.value)
+		end --if tree["TITLE" .. i]:match(searchtext_replace.value)~=nil then
+	end --for i=0, tree.count-1 do
+end --function search_replace:flat_action()
+
+search_label_replace=iup.label{title= "Suchfeld:    "} --label for textfield
+replace_label_replace=iup.label{title="Ersetzen mit:"} --label for textfield
+
+--put above together in a search dialog
+dlg_search_replace =iup.dialog{
+				iup.vbox{
+					iup.hbox{search_label_replace,searchtext_replace},
+					iup.hbox{replace_label_replace,replacetext_replace},
+					iup.hbox{search_replace, cancel_replace,},
+					iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+				}; 
+				title="Suchen und Ersetzen",
+				size="420x100",
+				startfocus=replacetext_replace
+				}
+--4.4 replace dialog end
 
 --4. dialogs end
 
@@ -388,7 +545,185 @@ function startcopy:action() --copy node
 end --function startcopy:action()
 
 
---5.1.2.1 cut of all leafs of a node
+--5.1.1.1 copy node of tree with all children
+startcopy_doubling = iup.item {title = "Verdoppeln"}
+function startcopy_doubling:action() --copy first node with same text as selected node with all its child nodes
+	local TreeText=""
+	local takeNode="yes"
+	local actualDepth=1
+	local kindEndNode=""
+	local countNodeandChildren=0
+	local numberOfNode=math.tointeger(tonumber(tree.value))
+	local depthOfNode=tree["DEPTH" .. numberOfNode]
+	for i=numberOfNode, tree.count-1 do
+		if i==numberOfNode then
+			kindEndNode=tree["KIND" .. i ]
+			--test with: print(tree["TITLE" .. i])
+			TreeText='{branchname="' .. string.escape_forbidden_char(tree["TITLE"]) .. '",'
+			countNodeandChildren=countNodeandChildren+1
+		elseif i>numberOfNode and tonumber(tree["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree["DEPTH" .. i])>actualDepth then
+			kindEndNode=tree["KIND" .. i ]
+			actualDepth=tonumber(tree["DEPTH" .. i])
+			if tree["KIND" .. i ]=="LEAF" then
+				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			else
+				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			end --if tree["KIND" .. i ]=="LEAF" then
+			countNodeandChildren=countNodeandChildren+1
+		elseif i>numberOfNode and tonumber(tree["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" and tonumber(tree["DEPTH" .. i])<actualDepth then
+			if tree["KIND" .. i-1 ]=="BRANCH" then
+				TreeText=TreeText .. '},\n'
+			end -- if tree["KIND" .. i ]=="BRANCH" and tree["KIND" .. i ]=="BRANCH" then
+			kindEndNode=tree["KIND" .. i ]
+			local numberOfcurlybrakets=math.tointeger(actualDepth-tonumber(tree["DEPTH" .. i]))
+			actualDepth=tonumber(tree["DEPTH" .. i])
+			for i=1,numberOfcurlybrakets do
+				TreeText=TreeText .. '},\n'
+			end --for i=1,numberOfcurlybrakets do
+			if tree["KIND" .. i ]=="LEAF" then
+				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			else
+				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			end --if tree["KIND" .. i ]=="LEAF" then
+			countNodeandChildren=countNodeandChildren+1
+		elseif i>numberOfNode and tonumber(tree["DEPTH" .. i])>tonumber(depthOfNode) and takeNode=="yes" then
+			--tonumber(tree["DEPTH" .. i])==actualDepth
+			if tree["KIND" .. i-1 ]=="BRANCH" then
+				TreeText=TreeText .. '},\n'
+			end -- if tree["KIND" .. i ]=="BRANCH" and tree["KIND" .. i ]=="BRANCH" then
+			kindEndNode=tree["KIND" .. i ]
+			--test with: print(tree["DEPTH" .. i],tree.title0:match(".:\\.*") .. tree["TITLE" .. i])
+			if tree["KIND" .. i ]=="LEAF" then
+				TreeText=TreeText .. '\n"' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			else
+				TreeText=TreeText .. '\n{branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i]) .. '",'
+			end --if tree["KIND" .. i ]=="LEAF" then
+			countNodeandChildren=countNodeandChildren+1
+		elseif i>numberOfNode then
+			takeNode="no"
+		end --if takeNode=="yes" then
+	end --for i=0, tree.count-1 do
+	--test with: print(kindEndNode)
+	--test with: print("countNodeandChildren: " .. countNodeandChildren)
+	--with countNodeandChildren==1 the curly braket is set by the last one
+	if kindEndNode=="BRANCH" and countNodeandChildren>1 then
+		TreeText=TreeText .. '},\n'
+	end -- if kindEndNode=="BRANCH" and countNodeandChildren>1 then
+	endnumberOfcurlybrakets=math.max(math.tointeger(actualDepth-depthOfNode-1),0)
+	for i=1,endnumberOfcurlybrakets do
+	TreeText=TreeText .. '},'
+	end --for i=1,endnumberOfcurlybrakets do
+	TreeText=TreeText .. '}'
+	--test with: print(TreeText)
+	--load TreeText as tree_temp
+	local _,numberCurlyBraketsBegin=TreeText:gsub("{","")
+	local _,numberCurlyBraketsEnd=TreeText:gsub("}","")
+	if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
+		loadstring('tree_temp='..TreeText)()
+		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		tree_temp={branchname=tree["title0"],tree_temp}
+		iup.TreeAddNodes(tree,tree_temp)
+	elseif numberCurlyBraketsBegin==numberCurlyBraketsEnd then
+		load('tree_temp='..TreeText)() --now tree_temp is filled
+		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		tree_temp={branchname=tree["title0"],tree_temp}
+		iup.TreeAddNodes(tree,tree_temp)
+	else
+		iup.Message("Der Knoten kann nicht verdoppelt werden.","Der Knoten kann nicht verdoppelt werden.")
+	end --if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
+end --function startcopy_doubling:action() 
+
+
+--5.1.2 rename node and rename action for other needs of tree
+renamenode = iup.item {title = "Knoten bearbeiten"}
+function renamenode:action()
+	text.value = tree['title']
+	dlg_rename:popup(iup.CENTER, iup.CENTER) --popup rename dialog
+	iup.SetFocus(tree)
+end --function renamenode:action()
+
+--5.1.3 add branch to tree
+addbranch = iup.item {title = "Ast hinzufügen"}
+function addbranch:action()
+	tree.addbranch = ""
+	tree.value=tree.value+1
+	renamenode:action()
+end --function addbranch:action()
+
+--5.1.3.1 add branch to tree by insertbranch
+addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+function addbranchbottom:action()
+	tree["insertbranch" .. tree.value] = ""
+	for i=tree.value+1,tree.count-1 do
+		if tree["depth" .. i]==tree["depth" .. tree.value] then
+			tree.value=i
+			renamenode:action()
+			break
+		end --if tree["depth" .. tree.value+1]==tree["depth" .. tree.value] then
+	end --for i=tree.value+1,tree.count-1 do
+end --function addbranchbottom:action()
+
+--5.1.3.2 add leaf to tree by insertleaf
+addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
+function addleafbottom:action()
+	tree["insertleaf" .. tree.value] = ""
+	for i=tree.value+1,tree.count-1 do
+		if tree["depth" .. i]==tree["depth" .. tree.value] then
+			tree.value=i
+			renamenode:action()
+			break
+		end --if tree["depth" .. tree.value+1]==tree["depth" .. tree.value] then
+	end --for i=tree.value+1,tree.count-1 do
+end --function addleafbottom:action()
+
+--5.1.4 add branch of tree from clipboard
+addbranch_fromclipboard = iup.item {title = "Ast aus Zwischenablage"}
+function addbranch_fromclipboard:action()
+	tree.addbranch = clipboard.text
+	tree.value=tree.value+1
+end --function addbranch_fromclipboard:action()
+
+--5.1.4.1 add branch to tree by insertbranch
+addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
+function addbranch_fromclipboardbottom:action()
+	tree["insertbranch" .. tree.value] = clipboard.text
+	for i=tree.value+1,tree.count-1 do
+	if tree["depth" .. i]==tree["depth" .. tree.value] then
+		tree.value=i
+		break
+	end --if tree["depth" .. tree.value+1]==tree["depth" .. tree.value] then
+	end --for i=tree.value+1,tree.count-1 do
+end --function addbranch_fromclipboardbottom:action()
+
+--5.1.4.2 add leaf to tree by insertleaf
+addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
+function addleaf_fromclipboardbottom:action()
+	tree["insertleaf" .. tree.value] = clipboard.text
+	for i=tree.value+1,tree.count-1 do
+	if tree["depth" .. i]==tree["depth" .. tree.value] then
+		tree.value=i
+		break
+	end --if tree["depth" .. tree.value+1]==tree["depth" .. tree.value] then
+	end --for i=tree.value+1,tree.count-1 do
+end --function addleaf_fromclipboardbottom:action()
+
+--5.1.5 add leaf of tree
+addleaf = iup.item {title = "Blatt hinzufügen"}
+function addleaf:action()
+	tree.addleaf = ""
+	tree.value=tree.value+1
+	renamenode:action()
+end --function addleaf:action()
+
+--5.1.6 add leaf of tree from clipboard
+addleaf_fromclipboard = iup.item {title = "Blatt aus Zwischenablage"}
+function addleaf_fromclipboard:action()
+	tree.addleaf = clipboard.text
+	tree.value=tree.value+1
+end --function addleaf_fromclipboard:action()
+
+
+--5.1.7.1 cut of all leafs of a node
 cut_leafs_of_node = iup.item {title = "Alle Blätter darunter ausschneiden"}
 function cut_leafs_of_node:action()
 	local startNodeNumber=tree.value
@@ -404,7 +739,7 @@ function cut_leafs_of_node:action()
 	end --for i=endNodeNumber,startNodeNumber,-1 do
 end --function cut_leafs_of_node:action()
 
---5.1.2.2 cut of all leafs of a node
+--5.1.7.2 cut of all leafs of a node
 cut_nodes_of_node = iup.item {title = "Alle Knoten darunter ausschneiden"}
 function cut_nodes_of_node:action()
 	local startNodeNumber=tree.value
@@ -455,7 +790,7 @@ function cut_nodes_of_node:action()
 	--test add tree_nodes to node: tree:AddNodes(tree_nodes,startNodeNumber)
 end --function cut_nodes_of_node:action()
 
---5.1.3.1 copy of all leafs of a node
+--5.1.7.3 copy of all leafs of a node
 copy_leafs_of_node = iup.item {title = "Alle Blätter darunter kopieren"}
 function copy_leafs_of_node:action()
 	local startNodeNumber=tree.value
@@ -470,7 +805,7 @@ function copy_leafs_of_node:action()
 	end --for i=endNodeNumber,startNodeNumber,-1 do
 end --function copy_leafs_of_node:action()
 
---5.1.3.2 copy of all leafs of a node
+--5.1.7.4 copy of all leafs of a node
 copy_nodes_of_node = iup.item {title = "Alle Knoten darunter kopieren"}
 function copy_nodes_of_node:action()
 	local startNodeNumber=tree.value
@@ -512,7 +847,7 @@ function copy_nodes_of_node:action()
 	--test add tree_nodes to node: tree:AddNodes(tree_nodes,startNodeNumber)
 end --function copy_nodes_of_node:action()
 
---5.1.4.1 paste of all leafs of a node
+--5.1.7.5 paste of all leafs of a node
 paste_leafs_of_node = iup.item {title = "Alle Blätter darunter einfügen"}
 function paste_leafs_of_node:action()
 	if leafTable then
@@ -523,7 +858,7 @@ function paste_leafs_of_node:action()
 	end --if leafTable then
 end --function paste_leafs_of_node:action()
 
---5.1.4.2 paste of all nodes of a node
+--5.1.7.6 paste of all nodes of a node
 paste_nodes_of_node = iup.item {title = "Alle Knoten darunter einfügen"}
 function paste_nodes_of_node:action()
 	if tree_nodes then
@@ -531,7 +866,7 @@ function paste_nodes_of_node:action()
 	end --if tree_nodes then
 end --function paste_nodes_of_node:action()
 
---5.1.4.3 paste of all nodes of a node
+--5.1.7.7 paste of all nodes of a node
 paste_nodes_of_node_sorted_ascending = iup.item {title = "Alle Knoten darunter aufsteigend sortiert einfügen"}
 function paste_nodes_of_node_sorted_ascending:action()
 	sortascendingTableRecursive(tree_nodes)
@@ -540,7 +875,7 @@ function paste_nodes_of_node_sorted_ascending:action()
 	end --if tree_nodes then
 end --function paste_nodes_of_node_sorted_ascending:action()
 
---5.1.4.4 paste of all nodes of a node
+--5.1.7.8 paste of all nodes of a node
 paste_nodes_of_node_sorted_descending = iup.item {title = "Alle Knoten darunter absteigend sortiert einfügen"}
 function paste_nodes_of_node_sorted_descending:action()
 	sortdescendingTableRecursive(tree_nodes)
@@ -550,7 +885,7 @@ function paste_nodes_of_node_sorted_descending:action()
 end --function paste_nodes_of_node_sorted_descending:action()
 
 
---5.1.5 for alphabetic sort of leafs ascending case sensitive
+--5.1.7.9 for alphabetic sort of leafs ascending case sensitive
 alphabetic_sort_leafs_of_node_ascending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben aufsteigend sortieren"}
 function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
 	local startNodeNumber=tree.value
@@ -573,7 +908,7 @@ function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
 	end --for i,v in ipairs(leafTable) do
 end --function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
 
---5.1.6 for alphabetic sort of leafs ascending case insensitive
+--5.1.7.10 for alphabetic sort of leafs ascending case insensitive
 alphabetic_sort_leafs_of_node_ascending_case_insensitive = iup.item {title = "Alle Blätter darunter alphabetisch aufsteigend sortieren"}
 function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
 	local startNodeNumber=tree.value
@@ -597,7 +932,7 @@ function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
 end --function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
 
 
---5.1.7 for alphabetic sort of leafs ascending case sensitive
+--5.1.7.11 for alphabetic sort of leafs ascending case sensitive
 alphabetic_sort_leafs_of_node_descending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben absteigend sortieren"}
 function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
 	local startNodeNumber=tree.value
@@ -620,7 +955,7 @@ function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
 	end --for i,v in ipairs(leafTable) do
 end --function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
 
---5.1.8 for alphabetic sort of leafs ascending case insensitive
+--5.1.7.12 for alphabetic sort of leafs ascending case insensitive
 alphabetic_sort_leafs_of_node_descending_case_insensitive = iup.item {title = "Alle Blätter darunter alphabetisch absteigend sortieren"}
 function alphabetic_sort_leafs_of_node_descending_case_insensitive:action()
 	local startNodeNumber=tree.value
@@ -643,9 +978,19 @@ function alphabetic_sort_leafs_of_node_descending_case_insensitive:action()
 	end --for i,v in ipairs(leafTable) do
 end --function alphabetic_sort_leafs_of_node_descending_case_insensitive:action()
 
---5.1.9 put the buttons together in the menu for tree
+--5.1.8 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
+		startcopy_doubling,
+		renamenode, 
+		addbranch,
+		addbranchbottom,  
+		addbranch_fromclipboard, 
+		addbranch_fromclipboardbottom, 
+		addleaf,
+		addleafbottom,
+		addleaf_fromclipboard,
+		addleaf_fromclipboardbottom,
 		copy_leafs_of_node,
 		copy_nodes_of_node,
 		cut_leafs_of_node,
@@ -713,7 +1058,7 @@ end --function button_logo:flat_action()
 button_loading_lua_table=iup.flatbutton{title="Baum aus Lua Tabelle laden\n(Strg+O)", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_lua_table:flat_action()
 	--build file dialog for reading lua file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=arg[0]:match("(.*)\\")}
+	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
 	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 	if filedlg.status=="1" then
 		iup.Message("Neue Datei",filedlg.value)
@@ -741,11 +1086,25 @@ function button_loading_lua_table:flat_action()
 
 end --function button_loading_lua_table:flat_action()
 
---6.3 button for saving tree
-button_save_lua_table=iup.flatbutton{title="Baum als Text speichern \n(Strg+P)", size="95x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+--6.3.1 button for saving tree
+button_save_lua_table=iup.flatbutton{title="Baum als Lua-Tabelle speichern \n(Strg+P)", size="125x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
-	printtree()
+	--open a filedialog
+	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.lua",filterinfo="Lua Files", directory=path}
+	filedlg2:popup(iup.ANYWHERE,iup.ANYWHERE)
+	if filedlg2.status=="1" or filedlg2.status=="0" then
+			save_tree_to_lua(tree, filedlg2.value)
+	else --no outputfile was choosen
+		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.NextField(maindlg)
+	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function button_save_lua_table:flat_action()
+
+--6.3.2 button for saving tree
+button_save_lua_table_as_text=iup.flatbutton{title="Baum als Text speichern \n(Strg+P)", size="95x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_save_lua_table_as_text:flat_action()
+	printtree()
+end --function button_save_lua_table_as_text:flat_action()
 
 --6.4 button for search in tree, tree2 and tree3
 button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
@@ -836,6 +1195,7 @@ maindlg = iup.dialog{
 			button_logo,
 			button_loading_lua_table,
 			button_save_lua_table,
+			button_save_lua_table_as_text,
 			button_search,
 			button_expand_collapse_dialog,
 			button_alphabetic_sort,
