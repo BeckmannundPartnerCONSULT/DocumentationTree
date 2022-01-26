@@ -238,6 +238,46 @@ function save_html_to_lua(htmlTexts, outputfile_path)
 end --function save_html_to_lua(htmlTexts, outputfile_path)
 
 
+
+--3.4 function to change expand/collapse relying on depth
+--This function is needed in the expand/collapsed dialog. This function relies on the depth of the given level.
+function change_state_level(new_state,level,descendants_also)
+	if descendants_also=="YES" then
+		for i=0,tree.count-1 do
+			if tree["depth" .. i]==level then
+				iup.TreeSetNodeAttributes(tree,i,{state=new_state}) --changing the state of current node
+				iup.TreeSetDescendantsAttributes(tree,i,{state=new_state})
+			end --if tree["depth" .. i]==level then
+		end --for i=0,tree.count-1 do
+	else
+		for i=0,tree.count-1 do
+			if tree["depth" .. i]==level then
+				iup.TreeSetNodeAttributes(tree,i,{state=new_state})
+			end --if tree["depth" .. i]==level then
+		end --for i=0,tree.count-1 do
+	end --if descendants_also=="YES" then
+end --function change_state_level(new_state,level,descendants_also)
+
+
+--3.5 function to change expand/collapse relying on keyword
+--This function is needed in the expand/collapsed dialog. This function changes the state for all nodes, which match a keyword. Otherwise it works like change_stat_level.
+function change_state_keyword(new_state,keyword,descendants_also)
+	if descendants_also=="YES" then
+		for i=0,tree.count-1 do
+			if tree["title" .. i]:match(keyword)~=nil then
+				iup.TreeSetNodeAttributes(tree,i,{state=new_state})
+				iup.TreeSetDescendantsAttributes(tree,i,{state=new_state})
+			end --if tree["title" .. i]:match(keyword)~=nil then
+		end --for i=0,tree.count-1 do
+	else
+		for i=0,tree.count-1 do
+			if tree["title" .. i]:match(keyword)~=nil then
+				iup.TreeSetNodeAttributes(tree,i,{state=new_state})
+			end --if tree["title" .. i]:match(keyword)~=nil then 
+		end --for i=0,tree.count-1 do
+	end --if descendants_also=="YES" then
+end --function change_state_keyword(new_state,level,descendants_also)
+
 --4. dialogs
 --4.1 rename dialog
 --ok button
@@ -452,6 +492,81 @@ dlg_search =iup.dialog{
 --4.3 search dialog end
 
 
+--4.4 expand and collapse dialog
+
+--function needed for the expand and collapse dialog
+function button_expand_collapse(new_state)
+	if toggle_level.value=="ON" then
+		if checkbox_descendants_collapse.value=="ON" then
+			change_state_level(new_state,tree.depth,"YES")
+		else
+			change_state_level(new_state,tree.depth)
+		end --if checkbox_descendants_collapse.value="ON" then
+	elseif toggle_keyword.value=="ON" then
+		if checkbox_descendants_collapse.value=="ON" then
+			change_state_keyword(new_state,text_expand_collapse.value,"YES")
+		else
+			change_state_keyword(new_state,text_expand_collapse.value)
+		end --if checkbos_descendants_collapse.value=="ON" then
+	end --if toggle_level.value="ON" then
+end --function button_expand_collapse(new_state)
+
+--button for expanding branches
+expand_button=iup.flatbutton{title="Ausklappen",size="EIGHTH",BGCOLOR=color_buttons,FGCOLOR=color_button_text}
+function expand_button:flat_action()
+	button_expand_collapse("EXPANDED") --call above function with expand as new state
+end --function expand_button:flat_action()
+
+--button for collapsing branches
+collapse_button=iup.flatbutton{title="Einklappen",size="EIGHTH",BGCOLOR=color_buttons,FGCOLOR=color_button_text}
+function collapse_button:flat_action()
+	button_expand_collapse("COLLAPSED") --call above function with collapsed as new state
+end --function collapse_button:flat_action()
+
+--button for cancelling the dialog
+cancel_expand_collapse_button=iup.flatbutton{title="Abbrechen",size="EIGHTH",BGCOLOR=color_buttons,FGCOLOR=color_button_text}
+function cancel_expand_collapse_button:flat_action()
+	return iup.CLOSE
+end --function cancel_expand_collapse_button:flat_action()
+
+--toggle if expand/collapse should be applied to current depth
+toggle_level=iup.toggle{title="Nach aktueller Ebene", value="ON"}
+function toggle_level:action()
+	text_expand_collapse.active="NO"
+end --function toggle_level:action()
+
+--toggle if expand/collapse should be applied to search, i.e. to all nodes containing the text in the searchfield
+toggle_keyword=iup.toggle{title="Nach Suchwort", value="OFF"}
+function toggle_keyword:action()
+	text_expand_collapse.active="YES"
+end --function toggle_keyword:action()
+
+--radiobutton for toggles, if search field or depth expand/collapse function
+radio=iup.radio{iup.hbox{toggle_level,toggle_keyword},value=toggle_level}
+
+--text field for expand/collapse
+text_expand_collapse=iup.text{active="NO",expand="YES"}
+
+--checkbox if descendants also be changed
+checkbox_descendants_collapse=iup.toggle{title="Auf untergeordnete Knoten anwenden",value="ON"}
+
+--put this together into a dialog
+dlg_expand_collapse=iup.dialog{
+	iup.vbox{
+		iup.hbox{radio},
+		iup.hbox{text_expand_collapse},
+		iup.hbox{checkbox_descendants_collapse},
+		iup.hbox{expand_button,collapse_button,cancel_expand_collapse_button},
+	};
+	defaultenter=expand_button,
+	defaultesc=cancel_expand,
+	title="Ein-/Ausklappen",
+	size="QUARTER",
+	startfocus=searchtext,
+
+}
+
+--4.4 expand and collapse dialog end
 
 
 --5. context menus (menus for right mouse click)
@@ -681,7 +796,14 @@ function button_search:flat_action()
 	dlg_search:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_search:flat_action()
 
---6.3.2 button for going to first page
+--6.3.2 button for expand and collapse
+button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen\n(Strg+R)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_expand_collapse_dialog:flat_action()
+	text_expand_collapse.value=tree.title
+	dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
+end --function button_expand_collapse_dialog:flat_action()
+
+--6.3.3 button for going to first page
 button_go_to_first_page = iup.flatbutton{title = "Startseite",size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_to_first_page:flat_action()
 	webbrowser1.HTML=TextHTMLtable[1]
@@ -866,6 +988,7 @@ maindlg = iup.dialog {
 			button_logo,
 			button_save_lua_table,
 			button_search,
+			button_expand_collapse_dialog,
 			button_go_to_first_page,
 			button_go_back,
 			button_edit_page,
