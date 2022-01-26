@@ -1,5 +1,5 @@
 lua_tree_output={ branchname="example of a reflexive tree", 
-{ branchname="Ordner f�r Lua", 
+{ branchname="Ordner für Lua", 
 { branchname="C:\\Lua", 
 state="COLLAPSED",
 },
@@ -230,6 +230,144 @@ dlg_rename = iup.dialog{
 
 --4.1 rename dialog end
 
+--4.2 search dialog
+searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
+
+--search in downward direction
+searchdown    = iup.flatbutton{title = "Abwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+function searchdown:flat_action()
+	local help=false
+	--downward search
+	if checkboxforcasesensitive.value=="ON"  then
+		for i=tree.value + 1, tree.count-1 do
+			if tree["title" .. i]:match(searchtext.value)~= nil then
+				tree.value= i
+				help=true
+				break
+			end --if tree["title" .. i]:match(searchtext.value)~= nil then
+		end --for i=tree.value + 1, tree.count-1 do
+	else
+		for i=tree.value + 1, tree.count-1 do
+			if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+				tree.value= i
+				help=true
+				break
+			end --if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+		end --for i=tree.value + 1, tree.count-1 do
+	end --if checkboxforcasesensitive.value=="ON" then
+	if help==false then
+		iup.Message("Suche","Ende des Baumes erreicht.")
+		tree.value=0 --starting again from the top
+		iup.NextField(maindlg)
+		iup.NextField(dlg_search)
+	end --if help==false then
+end --function searchdown:flat_action()
+
+--search to mark without going to the any node
+searchmark    = iup.flatbutton{title = "Markieren",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+function searchmark:flat_action()
+	--unmark all nodes
+	for i=0, tree.count - 1 do
+			tree["color" .. i]="0 0 0"
+	end --for i=0, tree.count - 1 do
+	--unmark all nodes end
+	--mark all nodes
+	for i=0, tree.count - 1 do
+		if tree["title" .. i]:upper():match(searchtext.value:upper())~= nil then
+			iup.TreeSetAncestorsAttributes(tree,i,{color="255 0 0",})
+			iup.TreeSetNodeAttributes(tree,i,{color="0 0 250",})
+			iup.TreeSetDescendantsAttributes(tree,i,{color="90 195 0"})
+		end --if tree["title" .. i]:upper():match(searchtext.value:upper())~= nil then
+	end --for i=0, tree.count - 1 do
+	--mark all nodes end
+	for i=0, tree.count - 1 do
+		--search in text files if checkbox on
+		if checkboxforsearchinfiles.value=="ON"  and file_exists(tree["title" .. i]) 
+			and (tree["title" .. i]:lower():match("^.:\\.*%.txt$")
+			 or tree["title" .. i]:lower():match("^.:\\.*%.sas$") 
+			 or tree["title" .. i]:lower():match("^.:\\.*%.csv$") 
+			 or tree["title" .. i]:lower():match("^.:\\.*%.lua%d*$")
+			 or tree["title" .. i]:lower():match("^.:\\.*%.iup%d*lua%d*$")
+			 or tree["title" .. i]:lower():match("^.:\\.*%.wlua$")
+			)
+			then
+			DateiFundstelle=""
+			for textLine in io.lines(tree["title" .. i]) do if textLine:lower():match(searchtext.value:lower()) then DateiFundstelle=DateiFundstelle .. textLine .. "\n"  end end
+			if DateiFundstelle~="" then
+				iup.TreeSetAncestorsAttributes(tree,i,{color="255 0 0",})
+				iup.TreeSetNodeAttributes(tree,i,{color="0 0 250",})
+				iup.TreeSetDescendantsAttributes(tree,i,{color="90 195 0"})
+			end --if DateiFundstelle~="" then
+		end --if checkboxforsearchinfiles.value=="ON"  and file_exists(tree["title" .. i])
+		--search in text files if checkbox on end
+	end --for i=0, tree.count - 1 do
+end --function searchmark:flat_action()
+
+--unmark without leaving the search-window
+unmark    = iup.flatbutton{title = "Entmarkieren",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+function unmark:flat_action()
+--unmark all nodes
+for i=0, tree.count - 1 do
+	tree["color" .. i]="0 0 0"
+end --for i=0, tree.count - 1 do
+--unmark all nodes end
+end --function unmark:flat_action()
+
+--search in upward direction
+searchup   = iup.flatbutton{title = "Aufwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+function searchup:flat_action()
+	local help=false
+	--upward search
+	if checkboxforcasesensitive.value=="ON" then
+		for i=tree.value - 1, 0, -1 do
+			if tree["title" .. i]:match(searchtext.value)~= nil then
+				tree.value= i
+				help=true
+				break
+			end --if tree["title" .. i]:match(searchtext.value)~= nil then
+		end --for i=tree.value - 1, 0, -1 do
+	else
+		for i=tree.value - 1, 0, -1 do
+			if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+				tree.value= i
+				help=true
+				break
+			end --if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+		end --for i=tree.value - 1, 0, -1 do
+	end --if checkboxforcasesensitive.value=="ON" then
+	if help==false then
+		iup.Message("Suche","Anfang des Baumes erreicht.")
+		tree.value=tree.count-1 --starting again from the bottom
+		iup.NextField(maindlg)
+		iup.NextField(dlg_search)
+	end --if help==false then
+end --	function searchup:flat_action()
+
+checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
+checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
+search_label=iup.label{title="Suchfeld:"} --label for textfield
+
+
+--put above together in a search dialog
+dlg_search =iup.dialog{
+			iup.vbox{iup.hbox{search_label,searchtext,}, 
+
+			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+			iup.hbox{searchmark,unmark,checkboxforsearchinfiles,}, 
+			iup.label{title="rot: übergeordnete Knoten",fgcolor = "255 0 0", },
+			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
+			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
+			iup.hbox{searchdown, searchup,checkboxforcasesensitive,},
+
+			}; 
+		title="Suchen",
+		size="420x100",
+		startfocus=searchtext
+		}
+
+--4.2 search dialog end
+
+
 --5. context menus (menus for right mouse click)
 
 --5.1 menu of tree
@@ -248,7 +386,7 @@ function renamenode:action()
 end --function renamenode:action()
 
 --5.1.3 add branch to tree
-addbranch = iup.item {title = "Ast hinzuf�gen"}
+addbranch = iup.item {title = "Ast hinzufügen"}
 function addbranch:action()
 	tree.addbranch = ""
 	tree.value=tree.value+1
@@ -256,7 +394,7 @@ function addbranch:action()
 end --function addbranch:action()
 
 --5.1.3.1 add branch to tree by insertbranch
-addbranchbottom = iup.item {title = "Ast darunter hinzuf�gen"}
+addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
 function addbranchbottom:action()
 	tree["insertbranch" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -269,7 +407,7 @@ function addbranchbottom:action()
 end --function addbranchbottom:action()
 
 --5.1.3.2 add leaf to tree by insertleaf
-addleafbottom = iup.item {title = "Blatt darunter hinzuf�gen"}
+addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
 function addleafbottom:action()
 	tree["insertleaf" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -313,7 +451,7 @@ function addleaf_fromclipboardbottom:action()
 end --function addleaf_fromclipboardbottom:action()
 
 --5.1.5 add leaf of tree
-addleaf = iup.item {title = "Blatt hinzuf�gen"}
+addleaf = iup.item {title = "Blatt hinzufügen"}
 function addleaf:action()
 	tree.addleaf = ""
 	tree.value=tree.value+1
@@ -353,7 +491,7 @@ function menu_new_page:action()
 	tree1.title=''
 p=io.popen('dir "' .. tree['title'] .. '"')
 explorerTree={branchname="Ordnerinhalt"}
-for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("�","�") end
+for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("","ä") end
 iup.TreeAddNodes(tree1, explorerTree)
 textbox1.value=tree['title']
 end --function menu_new_page:action()
@@ -435,19 +573,28 @@ function button_save_lua_table:flat_action()
 
 end --function button_save_lua_table:flat_action()
 
---6.11 button for building new page
+
+--6.3 button for search in tree
+button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_search:flat_action()
+	searchtext.value=tree.title
+	searchtext.SELECTION="ALL"
+	dlg_search:popup(iup.ANYWHERE, iup.ANYWHERE)
+end --function button_search:flat_action(
+
+--6.4 button for building new page
 button_new_page = iup.flatbutton{title = "Ordner laden",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_new_page:flat_action()
 	tree1.delnode0 = "CHILDREN"
 	tree1.title=''
 p=io.popen('dir "' .. tree['title'] .. '"')
 explorerTree={branchname="Ordnerinhalt"}
-for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("�","�") end
+for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("„","ä") end
 iup.TreeAddNodes(tree1, explorerTree)
 textbox1.value=tree['title']
 end --function button_new_page:action()
 
---6.12 button with second logo
+--6.5 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -473,7 +620,7 @@ showdragdrop="YES",
 
 p=io.popen('dir "C:\\"')
 explorerTree={branchname="Ordnerinhalt"}
-for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("�","�") end
+for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("","ä") end
 textbox1.value="C:\\"
 --build tree for explorer
 tree1=iup.tree{
@@ -529,15 +676,9 @@ maindlg = iup.dialog {
 		iup.hbox{
 			button_logo,
 			button_save_lua_table,
-			button_go_to_first_page,
-			button_go_back,
-			button_edit_page,
-			button_go_to_page,
-			button_delete,
-			iup.fill{},
 			button_search,
+			iup.fill{},
 			textbox1,
-			button_go_forward,
 			button_new_page,
 			button_logo2,
 		}, --iup.hbox{
