@@ -504,17 +504,23 @@ end --function startversion:action()
 --5.1.8 button for building new page
 menu_new_page = iup.item {title = "Bild laden"}
 function menu_new_page:action()
+	if tonumber(textbox_zoom.value) then
+		zoomFactor=textbox_zoom.value
+	end --if tonumber(textbox_zoom.value) then
+	if tonumber(textbox_place.value) then
+		placementFactor=textbox_place.value
+	end --if tonumber(textbox_place.value) then
 	textbox1.value=tree['title']
 	if textbox1.value:upper():match("JPG") or textbox1.value:upper():match("PNG") then 
 		cnv3.canvas:Clear()
 		cnv3.canvas:Activate()
 		cnv3.image=im.FileImageLoad(textbox1.value)
 		if cnv3.image:Width()<=xWidth and cnv3.image:Height()<=yHeight then
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*cnv3.image:Width()),math.floor(zoomFactor*cnv3.image:Height()),0,0,0,0)
 		elseif math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=yHeight then
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*xWidth),math.floor(zoomFactor*xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
 		else
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*yHeight*cnv3.image:Width()/cnv3.image:Height()),math.floor(zoomFactor*yHeight),0,0,0,0)
 		end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
 	end --if textbox1.value:upper():match("JPG") or textbox1.value:upper():match("PNG") then 
 end --function menu_new_page:action()
@@ -598,17 +604,23 @@ end --function button_save_lua_table:flat_action()
 --6.3 button for building new page
 button_new_page = iup.flatbutton{title = "Bild laden",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_new_page:flat_action()
+	if tonumber(textbox_zoom.value) then
+		zoomFactor=textbox_zoom.value
+	end --if tonumber(textbox_zoom.value) then
+	if tonumber(textbox_place.value) then
+		placementFactor=textbox_place.value
+	end --if tonumber(textbox_place.value) then
 	textbox1.value=tree['title']
 	if textbox1.value:upper():match("JPG") or textbox1.value:upper():match("PNG") then 
 		cnv3.canvas:Clear()
 		cnv3.canvas:Activate()
 		cnv3.image=im.FileImageLoad(textbox1.value)
 		if cnv3.image:Width()<=xWidth and cnv3.image:Height()<=yHeight then
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*cnv3.image:Width()),math.floor(zoomFactor*cnv3.image:Height()),0,0,0,0)
 		elseif math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=yHeight then
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*xWidth),math.floor(zoomFactor*xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
 		else
-			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
+			cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*yHeight*cnv3.image:Width()/cnv3.image:Height()),math.floor(zoomFactor*yHeight),0,0,0,0)
 		end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
 	end --if textbox1.value:upper():match("JPG") or textbox1.value:upper():match("PNG") then 
 end --function button_new_page:action()
@@ -616,6 +628,12 @@ end --function button_new_page:action()
 --6.4 button to show next image
 button_show_previous_image=iup.flatbutton{title="Voheriges Bild \nzeigen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_previous_image:flat_action()
+	if tonumber(textbox_zoom.value) then
+		zoomFactor=textbox_zoom.value
+	end --if tonumber(textbox_zoom.value) then
+	if tonumber(textbox_place.value) then
+		placementFactor=textbox_place.value
+	end --if tonumber(textbox_place.value) then
 	p=io.popen('dir "' .. textbox1.value:match("(.*)\\[^\\]*") .. '\\*.' .. textbox1.value:match("%.([^%.]*)$") .. '" /b /o-N /s')
 	local fileToTake="no"
 	for fileText in p:lines() do
@@ -628,11 +646,11 @@ print("  C: " .. fileText,textbox1.value,fileToTake)
 	cnv3.canvas:Activate()
 	cnv3.image=im.FileImageLoad(textbox1.value)
 	if cnv3.image:Width()<=xWidth and cnv3.image:Height()<=yHeight then
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*cnv3.image:Width()),math.floor(zoomFactor*cnv3.image:Height()),0,0,0,0)
 	elseif math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=yHeight then
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*xWidth),math.floor(zoomFactor*xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
 	else
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*yHeight*cnv3.image:Width()/cnv3.image:Height()),math.floor(zoomFactor*yHeight),0,0,0,0)
 	end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
 	--mark the node if next image in tree
 	for i=1, tree.count-1 do
@@ -677,6 +695,12 @@ end --function button_copy_title:flat_action()
 --6.8 button to show next image
 button_show_next_image=iup.flatbutton{title="Nächstes Bild \nzeigen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_next_image:flat_action()
+	if tonumber(textbox_zoom.value) then
+		zoomFactor=textbox_zoom.value
+	end --if tonumber(textbox_zoom.value) then
+	if tonumber(textbox_place.value) then
+		placementFactor=textbox_place.value
+	end --if tonumber(textbox_place.value) then
 	p=io.popen('dir "' .. textbox1.value:match("(.*)\\[^\\]*") .. '\\*.' .. textbox1.value:match("%.([^%.]*)$") .. '" /b /o /s')
 	local fileToTake="no"
 	for fileText in p:lines() do
@@ -690,11 +714,11 @@ function button_show_next_image:flat_action()
 	cnv3.canvas:Activate()
 	cnv3.image=im.FileImageLoad(textbox1.value)
 	if cnv3.image:Width()<=xWidth and cnv3.image:Height()<=yHeight then
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(cnv3.image:Width()),math.floor(cnv3.image:Height()),0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*cnv3.image:Width()),math.floor(zoomFactor*cnv3.image:Height()),0,0,0,0)
 	elseif math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=yHeight then
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),xWidth,math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*xWidth),math.floor(zoomFactor*xWidth*cnv3.image:Height()/cnv3.image:Width()),0,0,0,0)
 	else
-		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-cnv3.image:Width())/2),0),math.max(math.floor((yHeight-cnv3.image:Height())/2),0),math.floor(yHeight*cnv3.image:Width()/cnv3.image:Height()),yHeight,0,0,0,0)
+		cnv3.image:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-cnv3.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-cnv3.image:Height())/2),0),math.floor(zoomFactor*yHeight*cnv3.image:Width()/cnv3.image:Height()),math.floor(zoomFactor*yHeight),0,0,0,0)
 	end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
 	--mark the node if next image in tree
 	for i=1, tree.count-1 do
@@ -707,6 +731,12 @@ end --function button_show_next_image:flat_action()
 --6.9 button to rotate image
 button_rotate=iup.flatbutton{title="Bild drehen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_rotate:flat_action()
+	if tonumber(textbox_zoom.value) then
+		zoomFactor=textbox_zoom.value
+	end --if tonumber(textbox_zoom.value) then
+	if tonumber(textbox_place.value) then
+		placementFactor=textbox_place.value
+	end --if tonumber(textbox_place.value) then
 	--Rotation Test image1->cnv3.image
 	cnv3.image:AddAlpha() -- option 1: to avoid a black background
 	cnv3.image:SetAlpha(255)
@@ -717,11 +747,11 @@ function button_rotate:flat_action()
 	cnv3.canvas:Clear()
 	--processed:
 	if image2:Width()<=xWidth and image2:Height()<=yHeight then
-		image2:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-image2:Width())/2),0),math.max(math.floor((yHeight-image2:Height())/2),0),math.floor(image2:Width()),math.floor(image2:Height()),0,0,0,0)
+		image2:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-image2:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-image2:Height())/2),0),math.floor(zoomFactor*image2:Width()),math.floor(zoomFactor*image2:Height()),0,0,0,0)
 	elseif math.floor(xWidth*image2:Height()/image2:Width())<=yHeight then
-		image2:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-image2:Width())/2),0),math.max(math.floor((yHeight-image2:Height())/2),0),xWidth,math.floor(xWidth*image2:Height()/image2:Width()),0,0,0,0)
+		image2:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-image2:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-image2:Height())/2),0),math.floor(zoomFactor*xWidth),math.floor(zoomFactor*xWidth*image2:Height()/image2:Width()),0,0,0,0)
 	else
-		image2:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor((xWidth-image2:Width())/2),0),math.max(math.floor((yHeight-image2:Height())/2),0),math.floor(yHeight*image2:Width()/image2:Height()),yHeight,0,0,0,0)
+		image2:cdCanvasPutImageRect(cnv3.canvas,math.max(math.floor(placementFactor*(xWidth-image2:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-image2:Height())/2),0),math.floor(zoomFactor*yHeight*image2:Width()/image2:Height()),math.floor(zoomFactor*yHeight),0,0,0,0)
 	end --if math.floor(xWidth*cnv3.image:Height()/cnv3.image:Width())<=340 then
 end --function button_rotate:flat_action()
 
@@ -734,7 +764,11 @@ end --function button_logo:flat_action()
 --7 Main Dialog
 
 --7.1 textboxes 
-textbox1 = iup.multiline{value="",size="360x20",WORDWRAP="YES"}
+textbox1 = iup.multiline{value="",size="250x20",WORDWRAP="YES"}
+textbox_zoom_text = iup.text{value="Zoom",size="30x10",readonly="YES",BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+textbox_zoom = iup.text{value="1.0",size="30x10"}
+textbox_place_text = iup.text{value="Lage",size="30x10",readonly="YES",BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+textbox_place = iup.text{value="1.0",size="30x10"}
 
 --7.2 canvas for images
 image1 = im.FileImageLoad(path .. "\\" .. thisfilename:gsub("%.lua",".png"))
@@ -745,14 +779,20 @@ cnv3 = iup.canvas{image =  image1 , rastersize = xWidth .. "xWidth" .. yHeight,
 --scrollbar="YES",
 } 
 function cnv3:action()          -- called everytime the IUP canvas needs to be repainted
+	if tonumber(textbox_zoom.value) then
+		zoomFactor=textbox_zoom.value
+	end --if tonumber(textbox_zoom.value) then
+	if tonumber(textbox_place.value) then
+		placementFactor=textbox_place.value
+	end --if tonumber(textbox_place.value) then
 	self.canvas:Activate()
 	--0= use default values
 	if self.image:Width()<=xWidth and self.image:Height()<=yHeight then
-		self.image:cdCanvasPutImageRect(self.canvas,math.max(math.floor((xWidth-self.image:Width())/2),0),math.max(math.floor((yHeight-self.image:Height())/2),0),math.floor(self.image:Width()),math.floor(self.image:Height()),0,0,0,0)
+		self.image:cdCanvasPutImageRect(self.canvas,math.max(math.floor(placementFactor*(xWidth-self.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-self.image:Height())/2),0),math.floor(zoomFactor*self.image:Width()),math.floor(zoomFactor*self.image:Height()),0,0,0,0)
 	elseif math.floor(xWidth*self.image:Height()/self.image:Width())<=yHeight then
-		self.image:cdCanvasPutImageRect(self.canvas,math.max(math.floor((xWidth-self.image:Width())/2),0),math.max(math.floor((yHeight-self.image:Height())/2),0),xWidth,math.floor(xWidth*self.image:Height()/self.image:Width()),0,0,0,0)
+		self.image:cdCanvasPutImageRect(self.canvas,math.max(math.floor(placementFactor*(xWidth-self.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-self.image:Height())/2),0),math.floor(zoomFactor*xWidth),math.floor(zoomFactor*xWidth*self.image:Height()/self.image:Width()),0,0,0,0)
 	else
-		self.image:cdCanvasPutImageRect(self.canvas,math.max(math.floor((xWidth-self.image:Width())/2),0),math.max(math.floor((yHeight-self.image:Height())/2),0),math.floor(yHeight*self.image:Width()/self.image:Height()),yHeight,0,0,0,0)
+		self.image:cdCanvasPutImageRect(self.canvas,math.max(math.floor(placementFactor*(xWidth-self.image:Width())/2),0),math.max(math.floor(placementFactor*(yHeight-self.image:Height())/2),0),math.floor(zoomFactor*yHeight*self.image:Width()/self.image:Height()),math.floor(zoomFactor*yHeight),0,0,0,0)
 	end --if math.floor(xWidth*self.image:Height()/self.image:Width())<=340 then
 end --function cnv:action()          -- called everytime the IUP canvas needs to be repainted
 function cnv3:map_cb()       -- the CD canvas can only be created when the IUP canvas is mapped
@@ -818,6 +858,8 @@ maindlg = iup.dialog {
 			button_show_previous_image,
 			button_search,
 			iup.fill{},
+			iup.vbox{textbox_zoom_text,textbox_zoom,},
+			iup.vbox{textbox_place_text,textbox_place,},
 			button_addbranch_image,
 			button_addleaf_image,
 			button_copy_title,
@@ -834,7 +876,7 @@ maindlg = iup.dialog {
 	size="FULLxFULL" ;
 	gap="3",
 	alignment="ARIGHT",
-	margin="5x5" 
+	--margin="5x5" 
 }--maindlg = iup.dialog {
 
 --7.5 show the dialog
