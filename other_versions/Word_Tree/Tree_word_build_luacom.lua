@@ -21,8 +21,8 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 Tree={branchname="Baum erstellt am: Thu Oct 21 20:08:36 2021",
 "C:\\Tree\\simpleDocTree\\example_HTML_table_for_webbrowser.lua",
 "C:\\Tree\\simpleDocTree\\example_tree_for_webbrowser.lua",
-{branchname="Erklärungen",
-"Für das Verfassen von Texten in Word ist dieses Skript Tree_word_build_luacom.lua eine Möglichkeit, ohne großen Aufwand die Ebenen zu definieren. Das ist ein eigener Text, der hier dargestellt werden kann. Dieser Text ist nicht in einem Ast, sondern in einem Blatt.",
+{branchname="ErklÃ¤rungen",
+"FÃ¼r das Verfassen von Texten in Word ist dieses Skript Tree_word_build_luacom.lua eine MÃ¶glichkeit, ohne groÃŸen Aufwand die Ebenen zu definieren. Das ist ein eigener Text, der hier dargestellt werden kann. Dieser Text ist nicht in einem Ast, sondern in einem Blatt.",
 },
 {branchname="Weiteres Kapitel",
 "Das ist ein weiteres Kapitel in dem Documentation Tree.",
@@ -38,16 +38,16 @@ level = levelStart or 0
 numberOfParagraph = (numberOfParagraph or 0) + 1
 AusgabeTabelle[TreeTable.branchname]=true
 docNew.Paragraphs:Add() 
-docNew.Paragraphs(numberOfParagraph).Style="Ãœberschrift " .. math.min(level+1,9)
+docNew.Paragraphs(numberOfParagraph).Style="ÃƒÅ“berschrift " .. math.max(-(level+2),-10) --https://docs.microsoft.com/en-us/office/vba/api/Word.WdBuiltinStyle
 docNew.Paragraphs(numberOfParagraph).Range.Text= --test with: level .. ": " .. 
 tostring(TreeTable.branchname)
-:gsub("ä","\u{00E4}")
-:gsub("ö","\u{00F6}")
-:gsub("ü","\u{00FC}") 
-:gsub("Ä","\u{00C4}")
-:gsub("Ö","\u{00D6}")
-:gsub("Ü","\u{00DC}")
-:gsub("ß","\u{00DF}")
+:gsub("Ã¤","\u{00E4}")
+:gsub("Ã¶","\u{00F6}")
+:gsub("Ã¼","\u{00FC}") 
+:gsub("Ã„","\u{00C4}")
+:gsub("Ã–","\u{00D6}")
+:gsub("Ãœ","\u{00DC}")
+:gsub("ÃŸ","\u{00DF}")
 --test with: print(docNew.Paragraphs(numberOfParagraph).Style())
 for k,v in ipairs(TreeTable) do
 if type(v)=="table" then
@@ -60,13 +60,13 @@ docNew.Paragraphs:Add()
 docNew.Paragraphs(numberOfParagraph).Style="Standard"
 docNew.Paragraphs(numberOfParagraph).Range.Text= 
 tostring(v)
-:gsub("ä","\u{00E4}")
-:gsub("ö","\u{00F6}")
-:gsub("ü","\u{00FC}") 
-:gsub("Ä","\u{00C4}")
-:gsub("Ö","\u{00D6}")
-:gsub("Ü","\u{00DC}")
-:gsub("ß","\u{00DF}")
+:gsub("Ã¤","\u{00E4}")
+:gsub("Ã¶","\u{00F6}")
+:gsub("Ã¼","\u{00FC}") 
+:gsub("Ã„","\u{00C4}")
+:gsub("Ã–","\u{00D6}")
+:gsub("Ãœ","\u{00DC}")
+:gsub("ÃŸ","\u{00DF}")
 docNew.Paragraphs(numberOfParagraph).Range.ParagraphFormat.Alignment = 3 -- wdAlignParagraphJustify
 end --if type(v)=="table" then
 end --for k, v in ipairs(TreeTable) do
