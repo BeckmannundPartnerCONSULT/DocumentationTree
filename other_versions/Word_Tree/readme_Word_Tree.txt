@@ -8,3 +8,7 @@ This script builds from a Lua table a tree in Word with LuaCOM.
 
 This script builds from a Lua table a tree in Word with LuaCOM. The script is written for german windows version.
 
+3. Word_VBA.txt
+
+This file contains VBA-code to copy in Word docm for the interactive-dynamic table of contents in do it yourself manner.
+
