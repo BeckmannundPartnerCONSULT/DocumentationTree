@@ -1771,7 +1771,8 @@ end --for pluginFile in p:lines() do
 --7.6 show the dialog
 maindlg:show()
 
---7.6.1 delete nodes in tree2 that are in tree and mark not existing files in grey (is possible only after having the GUI shown)
+--7.6.1 optional: mark not existing files in grey (is possible only after having the GUI shown)
+--[[
 for i=0, tree.count-1 do
 	if file_exists(tree["TITLE" .. i]) then --existing files in black
 		iup.TreeSetNodeAttributes(tree,i,{color="0 0 0",})
@@ -1779,7 +1780,7 @@ for i=0, tree.count-1 do
 		iup.TreeSetNodeAttributes(tree,i,{color="200 200 150",})
 	end --if file_exists(tree["TITLE" .. i]) then
 end --for i=0, tree.count-1 do
-
+--]]
 
 --7.6.2 go to the main dialog
 iup.NextField(maindlg)
