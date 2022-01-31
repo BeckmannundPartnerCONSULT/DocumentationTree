@@ -429,7 +429,7 @@ function searchmark:flat_action()
 		end --if checkboxforsearchinfiles.value=="ON"  and file_exists(tree["title" .. i])
 		--search in text files if checkbox on end
 	end --for i=0, tree.count - 1 do
-	search_found_number.value="Anzahl Fundstellen: " .. tostring(numberFound)
+	search_found_number.value="Anzahl Fundstellen: " .. tostring(numberFound) .. " mal " .. tostring(searchtext.value) .. " gefunden."
 end --function searchmark:flat_action()
 
 --unmark without leaving the search-window
@@ -440,7 +440,7 @@ function unmark:flat_action()
 		tree["color" .. i]="0 0 0"
 	end --for i=0, tree.count - 1 do
 	--unmark all nodes end
-	search_found_number.value="
+	search_found_number.value=""
 end --function unmark:flat_action()
 
 --search in upward direction
