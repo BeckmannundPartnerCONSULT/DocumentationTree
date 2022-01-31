@@ -356,6 +356,7 @@ dlg_change_page = iup.dialog{
 
 --4.3 search dialog
 searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
+search_found_number = iup.text{border="YES",expand="YES",} --textfield for search found number
 
 --search in downward direction
 searchdown    = iup.flatbutton{title = "Abwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
@@ -390,6 +391,7 @@ end --function searchdown:flat_action()
 --search to mark without going to the any node
 searchmark    = iup.flatbutton{title = "Markieren",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchmark:flat_action()
+	local numberFound=0
 	--unmark all nodes
 	for i=0, tree.count - 1 do
 			tree["color" .. i]="0 0 0"
@@ -398,6 +400,7 @@ function searchmark:flat_action()
 	--mark all nodes
 	for i=0, tree.count - 1 do
 		if tree["title" .. i]:upper():match(searchtext.value:upper())~= nil then
+			numberFound=numberFound+1
 			iup.TreeSetAncestorsAttributes(tree,i,{color="255 0 0",})
 			iup.TreeSetNodeAttributes(tree,i,{color="0 0 250",})
 			iup.TreeSetDescendantsAttributes(tree,i,{color="90 195 0"})
@@ -418,6 +421,7 @@ function searchmark:flat_action()
 			DateiFundstelle=""
 			for textLine in io.lines(tree["title" .. i]) do if textLine:lower():match(searchtext.value:lower()) then DateiFundstelle=DateiFundstelle .. textLine .. "\n"  end end
 			if DateiFundstelle~="" then
+				numberFound=numberFound+1
 				iup.TreeSetAncestorsAttributes(tree,i,{color="255 0 0",})
 				iup.TreeSetNodeAttributes(tree,i,{color="0 0 250",})
 				iup.TreeSetDescendantsAttributes(tree,i,{color="90 195 0"})
@@ -425,16 +429,18 @@ function searchmark:flat_action()
 		end --if checkboxforsearchinfiles.value=="ON"  and file_exists(tree["title" .. i])
 		--search in text files if checkbox on end
 	end --for i=0, tree.count - 1 do
+	search_found_number.value="Anzahl Fundstellen: " .. tostring(numberFound)
 end --function searchmark:flat_action()
 
 --unmark without leaving the search-window
 unmark    = iup.flatbutton{title = "Entmarkieren",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function unmark:flat_action()
---unmark all nodes
-for i=0, tree.count - 1 do
-	tree["color" .. i]="0 0 0"
-end --for i=0, tree.count - 1 do
---unmark all nodes end
+	--unmark all nodes
+	for i=0, tree.count - 1 do
+		tree["color" .. i]="0 0 0"
+	end --for i=0, tree.count - 1 do
+	--unmark all nodes end
+	search_found_number.value="
 end --function unmark:flat_action()
 
 --search in upward direction
@@ -482,7 +488,7 @@ dlg_search =iup.dialog{
 			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
 			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
 			iup.hbox{searchdown, searchup,checkboxforcasesensitive,},
-
+			iup.hbox{search_found_number,},
 			}; 
 		title="Suchen",
 		size="420x100",
