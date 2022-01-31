@@ -192,14 +192,14 @@ state="COLLAPSED",
 { branchname="Zinsen linear = Kapital * Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner",  --tree['title118']
  "",  --tree['title119']
 },
-{ branchname="Zinsen mit Zinseszinsen = Kapital * ((Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner)^(1+Zinssatz)-1)",  --tree['title120']
+{ branchname="Zinsen mit Zinseszinsen = Kapital * ((1+Zinssatz)^(Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner)-1)",  --tree['title120']
  "",  --tree['title121']
 },
 { branchname="Zinsen stetig verzinst = Kapital * (e^(Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner) -1)",  --tree['title122']
  "",  --tree['title123']
 },
 { branchname="Alle Zinsen mit Titel in eine Datei ausgeben",  --tree['title124']
- "C:\\Zinsrechner\\reflexive_Tree_calculator_with_interests.txt",  --tree['title125']
+ "C:\\Tree\\LuatoLua\\reflexive_Tree_calculator_with_interests.txt",  --tree['title125']
 },
 },
 },
@@ -1539,7 +1539,7 @@ nodeFunctionTable["Kapital und Zinssatz eintragen"]="KapitalZinssatzSchreiben()"
 nodeFunctionTable["Alle Zinsen mit Titel ausgeben"]="ZinsenTitelAlle()"
 nodeFunctionTable["Titel"]="TitelErgaenzen()"
 nodeFunctionTable["Zinsen linear = Kapital * Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner"]="Zinsen()"
-nodeFunctionTable["Zinsen mit Zinseszinsen = Kapital * ((Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner)^(1+Zinssatz)-1)"]="Zinseszinsen()"
+nodeFunctionTable["Zinsen mit Zinseszinsen = Kapital * ((1+Zinssatz)^(Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner)-1)"]="Zinseszinsen()"
 nodeFunctionTable["Zinsen stetig verzinst = Kapital * (e^(Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner) -1)"]="Zinsenstetig()"
 nodeFunctionTable["Alle Zinsen mit Titel in eine Datei ausgeben"]="ZinsErgebnisAlleZeilenAusgabe()"
 nodeFunctionTable["Zurücksetzen"]="KapitalZinssatzZuruecksetzen()"
@@ -1604,7 +1604,7 @@ tree['imageexpanded114']=img_functionarrow --Kapital und Zinssatz eintragen     
 tree['imageexpanded115']=img_functionarrow --Alle Zinsen mit Titel ausgeben                                                 ZinsenTitelAlle()
 tree['imageexpanded116']=img_functionarrow --Titel                                                                          TitelErgaenzen()
 tree['imageexpanded118']=img_functionarrow --Zinsen linear = Kapital * Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner                                                                  Zinsen()
-tree['imageexpanded120']=img_functionarrow --Zinsen mit Zinseszinsen = Kapital * ((Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner)^(1+Zinssatz)-1)                                                        Zinseszinsen()
+tree['imageexpanded120']=img_functionarrow --Zinsen mit Zinseszinsen = Kapital * ((1+Zinssatz)^(Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner)-1)                                                        Zinseszinsen()
 tree['imageexpanded122']=img_functionarrow --Zinsen stetig verzinst = Kapital * (e^(Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner) -1)                                                         Zinsenstetig()
 tree['imageexpanded124']=img_functionarrow --Alle Zinsen mit Titel in eine Datei ausgeben                                   ZinsErgebnisAlleZeilenAusgabe()
 tree['imageexpanded126']=img_functionarrow --Zurücksetzen                                                                   KapitalZinssatzZuruecksetzen()
