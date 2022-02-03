@@ -2,7 +2,7 @@ This repository contains scripts for the conversion from tex formulas in wiki to
 
 1. wikitex_example.txt
 
-Example file with script code in wiki with formulas
+Example file with script code in wiki with formulas, embedded text and wiki html site code. They had to be used separately, but can be processed with the same script wikiTeXtoHtml.lua.
 
 2. wikiTeXtoHtml.lua
 
