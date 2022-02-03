@@ -10,7 +10,7 @@ require('iupluaweb')        --require iupluaweb for webbrowser
 
 --1.1.1 text box
 textbox0=iup.multiline{value="https://www.lua.org",size="340x20",wordwrap="YES"}
-textbox1=iup.multiline{value="",size="340x450"}
+textbox1=iup.multiline{value="",size="340x150"}
 
 
 --1.1.2 webbrowser
@@ -20,6 +20,11 @@ webbrowser1=iup.webbrowser{HTML=[[
 
 ]],MAXSIZE="630x730"}
 actualPage=1
+webbrowser2=iup.webbrowser{HTML=[[
+
+Ergebnis
+
+]],MAXSIZE="630x730"}
 
 --1.1.3 initalize clipboard
 clipboard=iup.clipboard{}
@@ -77,7 +82,7 @@ end --function string.escape_forbidden_char(insertstring)
 --3.2.1 function for writing tree in a text file (function for printing tree)
 function printtree()
 	--open a filedialog
-	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.txt",filterinfo="Text Files", directory="c:\\temp"}
+	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswÃ¤hlen",filter="*.txt",filterinfo="Text Files", directory="c:\\temp"}
 	filedlg2:popup(iup.ANYWHERE,iup.ANYWHERE)
 	if filedlg2.status=="1" or filedlg2.status=="0" then
 		local outputfile=io.output(filedlg2.value) --setting the outputfile
@@ -90,7 +95,7 @@ function printtree()
 		end --for i=0,tree.totalchildcount0 do
 		outputfile:close() --close the outputfile
 	else --no outputfile was choosen
-		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.Message("SchlieÃŸen","Keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
@@ -231,7 +236,7 @@ function insertion_sort_recursive(tree,node_value)
 			if tree.PREVIOUS~=nil then
 				insertion_sort_recursive(tree,tree.PREVIOUS)
 			end --if tree.PREVIOUS~=nil then
-		end --if tree.title:lower() > tree[¨title" .. tree.NEXT]:lower() then 
+		end --if tree.title:lower() > tree[Â¨title" .. tree.NEXT]:lower() then 
 	end --if tree.NEXT~=nil then
 end --function insertion_sort_recursive(tree,node_value)
 
@@ -260,7 +265,7 @@ end --function alphabetic_tree_sort(tree)
 searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
 
 --search in downward direction
-searchdown    = iup.flatbutton{title = "Abwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchdown    = iup.flatbutton{title = "AbwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchdown:flat_action()
 	local help=false
 	--downward search
@@ -319,7 +324,7 @@ end --for i=0, tree.count - 1 do
 end --function unmark:flat_action()
 
 --search in upward direction
-searchup   = iup.flatbutton{title = "Aufwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchup   = iup.flatbutton{title = "AufwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchup:flat_action()
 	local help=false
 	--upward search
@@ -348,7 +353,7 @@ function searchup:flat_action()
 	end --if help==false then
 end --	function searchup:flat_action()
 
-checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
+checkboxforcasesensitive = iup.toggle{title="GroÃŸ-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
 search_label=iup.label{title="Suchfeld:"} --label for textfield
 
@@ -356,12 +361,12 @@ search_label=iup.label{title="Suchfeld:"} --label for textfield
 dlg_search =iup.dialog{
 			iup.vbox{iup.hbox{search_label,searchtext,}, 
 
-			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+			iup.label{title="Sonderzeichen: %. fÃ¼r ., %- fÃ¼r -, %+ fÃ¼r +, %% fÃ¼r %, %[ fÃ¼r [, %] fÃ¼r ], %( fÃ¼r (, %) fÃ¼r ), %^ fÃ¼r ^, %$ fÃ¼r $, %? fÃ¼r ?",},
 			iup.hbox{searchmark,unmark,checkboxforsearchinfiles,
 			}, 
-			iup.label{title="rot: übergeordnete Knoten",fgcolor = "255 0 0", },
+			iup.label{title="rot: Ã¼bergeordnete Knoten",fgcolor = "255 0 0", },
 			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
-			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
+			iup.label{title="grÃ¼n: untergeordnete Knoten",fgcolor = "90 195 0", },
 
 			iup.hbox{searchdown, searchup, 
 
@@ -492,7 +497,7 @@ dlg_search_replace =iup.dialog{
 					iup.hbox{search_label_replace,searchtext_replace},
 					iup.hbox{replace_label_replace,replacetext_replace},
 					iup.hbox{search_replace, cancel_replace,},
-					iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+					iup.label{title="Sonderzeichen: %. fÃ¼r ., %- fÃ¼r -, %+ fÃ¼r +, %% fÃ¼r %, %[ fÃ¼r [, %] fÃ¼r ], %( fÃ¼r (, %) fÃ¼r ), %^ fÃ¼r ^, %$ fÃ¼r $, %? fÃ¼r ?",},
 				}; 
 				title="Suchen und Ersetzen",
 				size="420x100",
@@ -565,7 +570,7 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for saving tree
@@ -576,7 +581,7 @@ function button_save_lua_table:flat_action()
 end --function button_save_lua_table:flat_action()
 
 --6.3 button for search in tree, tree2 and tree3
-button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_search:flat_action()
 	searchtext.value=tree.title
 	searchtext.SELECTION="ALL"
@@ -605,7 +610,7 @@ function button_alphabetic_sort:flat_action()
 end --function button_alphabetic_sort:flat_action()
 
 --6.6 button for first webbrowser page
-button_first_page=iup.flatbutton{title="Seite laden", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_first_page=iup.flatbutton{title="Seite \nladen", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_first_page:flat_action()
 	textbox0.value=tree.title:match('href="([^"]*)"')
 	webbrowser1.HTML=[[
@@ -616,7 +621,7 @@ function button_first_page:flat_action()
 end --function button_first_page:flat_action()
 
 --6.7 button for next webbrowser page
-button_next_page=iup.flatbutton{title="Nächste Seite", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_next_page=iup.flatbutton{title="NÃ¤chste \nSeite", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_next_page:flat_action()
 	tree.value=tree.value+1
 	textbox0.value=tree.title:match('href="([^"]*)"')
@@ -628,7 +633,7 @@ function button_next_page:flat_action()
 end --function button_next_page:flat_action()
 
 --6.8 button for previous webbrowser page
-button_previous_page=iup.flatbutton{title="Vorige Seite", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_previous_page=iup.flatbutton{title="Vorige \nSeite", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_previous_page:flat_action()
 	tree.value=tree.value-1
 	textbox0.value=tree.title:match('href="([^"]*)"')
@@ -640,7 +645,7 @@ function button_previous_page:flat_action()
 end --function button_previous_page:flat_action()
 
 --6.9 button for go to webbrowser page
-button_page_hyperlinks_in_tree=iup.flatbutton{title="Hyperlinks im Baum \nübernehmen", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_page_hyperlinks_in_tree=iup.flatbutton{title="Hyperlinks im Baum \nÃ¼bernehmen", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_page_hyperlinks_in_tree:flat_action()
 	nodeInTreeTable={}
 	for i=0,tree.count-1 do
@@ -674,10 +679,91 @@ function button_page_hyperlinks_in_tree:flat_action()
 end --function button_page_hyperlinks_in_tree:flat_action()
 
 
---6.10 button with second logo
+
+--6.10 button for transformation of the webpage
+button_transform_page=iup.flatbutton{title="Seite mit Formeln\numwandeln", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_transform_page:flat_action()
+	textInput=textbox1.value
+	--1. transform basic code from wikipedia, aspecially with linebreaks
+	outputfile_txt=io.open("C:\\Temp\\test_first.txt","w")
+	textInput=textInput:gsub('.*<body[^>]*>(.*)</body>',"%1")
+			:gsub('%[[^%]]*%]',"")
+			:gsub('|%-\n!',"<tr><td>")
+			:gsub("|%-\n| '''","<tr><td>")
+			:gsub('<span class="mwe%-math%-element">.-</span><img.-alt="{\\displaystyle (.-)}"/></span>',"$\\it{%1}$")
+			:gsub(":<math>(.-)</math>",":<mathE>%1</mathE>")
+			:gsub("&nbsp;"," ")
+			:gsub("&#160;"," ")
+	outputfile_txt:write(textInput)
+	outputfile_txt:close()
+	--
+	--2. write a tex file
+	outputfile_tex=io.open("C:\\Temp\\test.tex","w")
+	outputfile_tex:write([[
+	\documentclass{article}
+
+	\begin{document}
+
+	]])
+	for line in io.lines("C:\\Temp\\test_first.txt") do
+		line=line:gsub(":<mathE>","\\begin{equation}\\it{\n")
+			:gsub("</mathE>%.",".\n}\\end{equation}")
+			:gsub("</mathE>,",",\n}\\end{equation}")
+			:gsub("</mathE>","\n}\\end{equation}")
+			:gsub("<math>","$\\it{")
+			:gsub("</math>","}$")
+			:gsub("^{\\displaystyle(.*)}.$","\\begin{equation}\\it{\n%1.\n}\\end{equation}")
+			:gsub("^{\\displaystyle(.*)},$","\\begin{equation}\\it{\n%1,\n}\\end{equation}")
+			:gsub("^{\\displaystyle(.*)}$","\\begin{equation}\\it{\n%1\n}\\end{equation}")
+			:gsub("{\\displaystyle(.-)}","$\\it{%1}$")
+			:gsub("%%","\\%%")
+			:gsub('{| class="wikitable"',"<table border=1>")
+			:gsub('!!',"</td><td>")
+			:gsub('||',"</td><td>")
+			:gsub('|}',"</table>")
+			:gsub("'''","")
+			:gsub("^=[^=]","<h1>"):gsub("[^=]=$","</h1>")
+			:gsub("^==[^=]","<h2>"):gsub("[^=]==$","</h2>")
+			:gsub("^===[^=]","<h3>"):gsub("[^=]===$","</h3>")
+			:gsub("^====[^=]","<h4>"):gsub("[^=]====$","</h4>")
+			:gsub("^=====[^=]","<h4>"):gsub("[^=]=====$","</h5>")
+		outputfile_tex:write(line .. "\n")
+	end --for line in io.lines("C:\\Temp\\test.txt") do
+	outputfile_tex:write([[
+
+	\end{document}
+
+	]])
+	outputfile_tex:close()
+	--
+	--3. transform tex file in html with tth from http://hutchinson.belmont.ma.us/tth/tth-noncom/download.html
+	os.execute('C:\\tth_exe\\tth.exe <c:\\Temp\\test.tex >c:\\Temp\\test_roh.html')
+	--
+	--4. produce final html file
+	outputfile_html=io.open("C:\\Temp\\test.html","w")
+	for line in io.lines("C:\\Temp\\test_roh.html") do
+		line=line:gsub("&lt;ref&#62;"," (")
+			:gsub("&lt;/ref&#62;",") ")
+			:gsub("&lt;","<")
+			:gsub("&#62;",">")
+			:gsub("&#187;",'">')
+			:gsub("#! ?",'')
+			:gsub('<table class="wikitable">','<table class="wikitable" border=1>')
+		outputfile_html:write(line .. "\n")
+	end --for line in io.lines("C:\\Temp\\test.txt") do
+	outputfile_html:close()
+	--5. write in GUI
+	inputfile_html=io.open("C:\\Temp\\test.html","r")
+	inputTextHtml=inputfile_html:read("*all")
+	webbrowser2.HTML=inputTextHtml
+	inputfile_html:close()
+end --function button_transform_page:flat_action()
+
+
+--6.11 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6. buttons end
@@ -749,16 +835,16 @@ function tree:k_any(c)
 end --function tree:k_any(c)
 
 
-Tree2={branchname="Öffnen der Internetseite",
+Tree2={branchname="Ã–ffnen der Internetseite",
 {branchname="Ast im manuellen Baum markieren",
-{branchname="Schaltfläche Seite laden",
+{branchname="SchaltflÃ¤che Seite laden",
 {branchname="Auf den Hyperlink klicken",
 {branchname="rechte Maustaste",
 
-{branchname="Aus dem Kontextmenü Quellcode anzeigen",
+{branchname="Aus dem KontextmenÃ¼ Quellcode anzeigen",
 {branchname="Aus dem Notepad-Editor alles markieren und kopieren",
-{branchname="Einfügen in Inhalte als Text",
-{branchname="Schaltfläche Hyperlinks im Baum übernehmen",
+{branchname="EinfÃ¼gen in Inhalte als Text",
+{branchname="SchaltflÃ¤che Hyperlinks im Baum Ã¼bernehmen",
 
 
 },
@@ -799,6 +885,7 @@ maindlg = iup.dialog{
 			button_previous_page,
 			button_next_page,
 			button_page_hyperlinks_in_tree,
+			button_transform_page,
 			iup.label{size="30x",},
 			iup.fill{},
 			button_logo2,
@@ -806,7 +893,7 @@ maindlg = iup.dialog{
 		
 		iup.hbox{
 			iup.frame{title="Webbrowser Inhalte",iup.vbox{webbrowser1,iup.frame{title="Webbrowser Hilfe",tree2,},}},
-			iup.frame{title="Inhalte als Text",iup.vbox{textbox1,}},
+			iup.frame{title="Inhalte als Text",iup.vbox{textbox1,webbrowser2,}},
 			iup.frame{title="Manuelle Zuordnung als Baum",tree,},
 			},
 
