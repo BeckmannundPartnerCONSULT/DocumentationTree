@@ -1,7 +1,6 @@
 
 
-First document. This is a simple example, with no 
-extra parameters or packages included.
+1. First document. This is an example of a wiki text in the edit mode
 
 == Title ==
 == Subtitle ==
@@ -26,5 +25,203 @@ This is a table:
 
 
 
-\end{document}
+2. Second document.  Text with embedded formulas
+
+Allgemeiner können wir uns überlegen, dass die relative Veränderung des Wertes des Zertifikats gerade durch
+
+{\displaystyle {\frac {{\text{Auszahlung}}-{\text{Kaufpreis}}}{\text{Kaufpreis}}}={\frac {(B(1+v)-S)b-(B-S)b}{(B-S)b}}={\frac {B(1+v)-S-(B-S)}{B-S}}={\frac {B}{B-S}}v}
+
+beschrieben wird, wobei {\displaystyle B} der Kurs des Basiswerts zum Kaufzeitpunkt, {\displaystyle b} das (für die prozentuale Veränderung irrelevante)
+
+
+3. Third document. Source code of wiki site
+
+<!DOCTYPE html>
+<html class="client-nojs" lang="de" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+
+</head>
+<body class="mediawiki ltr sitedir-ltr capitalize-all-nouns mw-hide-empty-elt ns-0 ns-subject mw-editable page-Zinsswaps rootpage-Zinsswaps skin-vector action-view">
+
+
+<h2><span class="mw-headline" id="Barwertberechnung">Title</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/index.php?title=Zinsswaps&amp;action=edit&amp;section=10" title="Abschnitt bearbeiten: Barwertberechnung">Bearbeiten</a><span class="mw-editsection-bracket">]</span></span></h2>
+<p>Wir erinnern uns, dass die Forward-Rate der Gleichung
+</p>
+<dl><dd><span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle e^{L(t_{1})t_{1}}e^{FR(t_{2},t_{1})(t_{2}-t_{1})}=e^{L(t_{2})t_{2}}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msup>
+          <mi>e</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>L</mi>
+            <mo stretchy="false">(</mo>
+            <msub>
+              <mi>t</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>1</mn>
+              </mrow>
+            </msub>
+            <mo stretchy="false">)</mo>
+            <msub>
+              <mi>t</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>1</mn>
+              </mrow>
+            </msub>
+          </mrow>
+        </msup>
+        <msup>
+          <mi>e</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>F</mi>
+            <mi>R</mi>
+            <mo stretchy="false">(</mo>
+            <msub>
+              <mi>t</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msub>
+            <mo>,</mo>
+            <msub>
+              <mi>t</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>1</mn>
+              </mrow>
+            </msub>
+            <mo stretchy="false">)</mo>
+            <mo stretchy="false">(</mo>
+            <msub>
+              <mi>t</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msub>
+            <mo>&#x2212;<!-- − --></mo>
+            <msub>
+              <mi>t</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>1</mn>
+              </mrow>
+            </msub>
+            <mo stretchy="false">)</mo>
+          </mrow>
+        </msup>
+        <mo>=</mo>
+        <msup>
+          <mi>e</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>L</mi>
+            <mo stretchy="false">(</mo>
+            <msub>
+              <mi>t</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msub>
+            <mo stretchy="false">)</mo>
+            <msub>
+              <mi>t</mi>
+              <mrow class="MJX-TeXAtom-ORD">
+                <mn>2</mn>
+              </mrow>
+            </msub>
+          </mrow>
+        </msup>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle e^{L(t_{1})t_{1}}e^{FR(t_{2},t_{1})(t_{2}-t_{1})}=e^{L(t_{2})t_{2}}}</annotation>
+  </semantics>
+</math></span><img src="https://en.wikipedia.org/api/rest_v1/media/math/render/svg/30b090a2faf08f9bdc3a1e1315b9a62a49c84adf" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.338ex; width:30.018ex; height:2.843ex;" alt="{\displaystyle e^{L(t_{1})t_{1}}e^{FR(t_{2},t_{1})(t_{2}-t_{1})}=e^{L(t_{2})t_{2}}}"/></span></dd></dl>
+<p>genügt, wobei <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle FR(t_{2},t_{1})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>F</mi>
+        <mi>R</mi>
+        <mo stretchy="false">(</mo>
+        <msub>
+          <mi>t</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msub>
+        <mo>,</mo>
+        <msub>
+          <mi>t</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle FR(t_{2},t_{1})}</annotation>
+  </semantics>
+</math></span><img src="https://en.wikipedia.org/api/rest_v1/media/math/render/svg/38b03210397e6d91f1605c6cf83ee6f25d665ef1" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:10.136ex; height:2.843ex;" alt="{\displaystyle FR(t_{2},t_{1})}"/></span> die Forward-Rate zwischen <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle t_{1}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>t</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>1</mn>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle t_{1}}</annotation>
+  </semantics>
+</math></span><img src="https://en.wikipedia.org/api/rest_v1/media/math/render/svg/cb0768c0bd659f2f84fb5ef9f4b74f336123d915" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.894ex; height:2.343ex;" alt="{\displaystyle t_{1}}"/></span> und <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle t_{2}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>t</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mn>2</mn>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle t_{2}}</annotation>
+  </semantics>
+</math></span><img src="https://en.wikipedia.org/api/rest_v1/media/math/render/svg/749fee708b41e7079eabd50d61c8bf3e965db16f" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.894ex; height:2.343ex;" alt="{\displaystyle t_{2}}"/></span> ist und <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle L(t_{i})}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <mi>L</mi>
+        <mo stretchy="false">(</mo>
+        <msub>
+          <mi>t</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+        <mo stretchy="false">)</mo>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle L(t_{i})}</annotation>
+  </semantics>
+</math></span><img src="https://en.wikipedia.org/api/rest_v1/media/math/render/svg/4c72a0c3b0e4409bc98c47b320dc78c35fc87560" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.838ex; width:5.031ex; height:2.843ex;" alt="{\displaystyle L(t_{i})}"/></span> den Wert der Zinskurve zum Zeitpunkt <span class="mwe-math-element"><span class="mwe-math-mathml-inline mwe-math-mathml-a11y" style="display: none;"><math xmlns="http://www.w3.org/1998/Math/MathML"  alttext="{\displaystyle t_{i}}">
+  <semantics>
+    <mrow class="MJX-TeXAtom-ORD">
+      <mstyle displaystyle="true" scriptlevel="0">
+        <msub>
+          <mi>t</mi>
+          <mrow class="MJX-TeXAtom-ORD">
+            <mi>i</mi>
+          </mrow>
+        </msub>
+      </mstyle>
+    </mrow>
+    <annotation encoding="application/x-tex">{\displaystyle t_{i}}</annotation>
+  </semantics>
+</math></span><img src="https://en.wikipedia.org/api/rest_v1/media/math/render/svg/8b61e3d4d909be4a19c9a554a301684232f59e5a" class="mwe-math-fallback-image-inline" aria-hidden="true" style="vertical-align: -0.671ex; width:1.639ex; height:2.343ex;" alt="{\displaystyle t_{i}}"/></span> beschreibt.
+</p>
+</body>
+</html>
+
 
