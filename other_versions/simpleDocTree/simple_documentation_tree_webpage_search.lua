@@ -58,6 +58,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 
 
 path_documentation_tree=path .. "\\documentation_tree_webpage_search_output.lua"
+path_documentation_text=path .. "\\documentation_tree_webpage_search_output.txt"
 
 
 --3. functions
@@ -577,8 +578,16 @@ end --function button_logo:flat_action()
 button_save_lua_table=iup.flatbutton{title="Baum als Lua-Tabelle speichern \n(Strg+P)", size="125x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	--printtree()
-	save_tree_to_lua(tree, path .. "\\documentation_tree_webpage_search_output.lua")
+	save_tree_to_lua(tree, path_documentation_tree)
 end --function button_save_lua_table:flat_action()
+
+--6.2.1 button for saving text
+button_save_text=iup.flatbutton{title="Text \nspeichern", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_save_text:flat_action()
+	local outputfile_text=io.open(path_documentation_text,"w")
+	outputfile_text:write(textbox1.value)
+	outputfile_text:close()
+end --function button_save_text:flat_action()
 
 --6.3 button for search in tree, tree2 and tree3
 button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
@@ -770,7 +779,7 @@ end --function button_logo:flat_action()
 
 
 --7. Main Dialog
---7.1 load standard tree
+--7.1.1 load standard tree
 if file_exists(path_documentation_tree) then
 	dofile(path_documentation_tree) --initialize the tree, read from the lua file
 	for line in io.lines(path_documentation_tree) do
@@ -834,6 +843,13 @@ function tree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
 
+--7.1.2 load standard text
+if file_exists(path_documentation_text) then
+	local inputfile_text=io.open(path_documentation_text,"r")
+	textbox1.value=inputfile_text:read("*all")
+	inputfile_text:close()
+end --if file_exists(path_documentation_text) then
+
 
 Tree2={branchname="Öffnen der Internetseite",
 {branchname="Ast im manuellen Baum markieren",
@@ -875,6 +891,7 @@ maindlg = iup.dialog{
 		iup.hbox{
 			button_logo,
 			button_save_lua_table,
+			button_save_text,
 			button_search,
 			button_replace,
 			button_expand_collapse_dialog,
