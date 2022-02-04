@@ -10,7 +10,7 @@ require('iupluaweb')        --require iupluaweb for webbrowser
 
 --1.1.1 text box
 textbox0=iup.multiline{value="https://www.lua.org",size="340x20",wordwrap="YES"}
-textbox1=iup.multiline{value="",size="340x150"}
+textbox1=iup.multiline{value="",size="250x150"}
 
 
 --1.1.2 webbrowser
@@ -18,13 +18,13 @@ webbrowser1=iup.webbrowser{HTML=[[
 
 <a href="]] .. textbox0.value .. [[">]] .. textbox0.value .. [[</a>
 
-]],MAXSIZE="630x730"}
+]],MAXSIZE="500x730"}
 actualPage=1
 webbrowser2=iup.webbrowser{HTML=[[
 
 Ergebnis
 
-]],MAXSIZE="630x730"}
+]],MAXSIZE="370x730"}
 
 --1.1.3 initalize clipboard
 clipboard=iup.clipboard{}
@@ -518,13 +518,49 @@ function startcopy:action() --copy node
 	 clipboard.text = tree['title']
 end --function startcopy:action()
 
+--5.1.4 add branch of tree from clipboard
+addbranch_fromclipboard = iup.item {title = "Ast aus Zwischenablage"}
+function addbranch_fromclipboard:action()
+	tree.addbranch = clipboard.text
+	tree.value=tree.value+1
+end --function addbranch_fromclipboard:action()
+
 
 
 --5.1.2 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
+		addbranch_fromclipboard, 
 		}
 --5.1 menu of tree end
+
+
+
+--5.2 menu of tree2
+--5.2.1 copy node of tree2
+startcopy2 = iup.item {title = "Knoten kopieren"}
+function startcopy2:action() --copy node
+	 clipboard.text = tree2['title']
+end --function startcopy2:action()
+
+--5.2.2 start the file or repository of the node of tree2
+startnode2 = iup.item {title = "Starten"}
+function startnode2:action() 
+	if tree2['title']:match("^.:\\.*%.[^\\ ]+$") or tree2['title']:match("^.:\\.*[^\\]+$") or tree2['title']:match("^.:\\$") or tree2['title']:match("^[^ ]*//[^ ]+$") then 
+		os.execute('start "D" "' .. tree2['title'] .. '"') 
+	elseif tree2['title']:match("sftp .*") then 
+		os.execute(tree2['title']) 
+	end --if tree2['title']:match("^.:\\.*%.[^\\ ]+$") or tree2['title']:match("^.:\\.*[^\\]+$") or tree2['title']:match("^.:\\$") or tree2['title']:match("^[^ ]*//[^ ]+$") then 
+end --function startnode2:action()
+
+
+
+--5.2.2 put the buttons together in the menu for tree
+menu2 = iup.menu{
+		startcopy2,
+		startnode2,
+		}
+--5.2 menu of tree end
 
 
 --5. context menus (menus for right mouse click) end
@@ -575,14 +611,14 @@ function button_logo:action()
 end --function button_logo:flat_action()
 
 --6.2 button for saving tree
-button_save_lua_table=iup.flatbutton{title="Baum als Lua-Tabelle speichern \n(Strg+P)", size="125x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_save_lua_table=iup.flatbutton{title="Baum als Lua-Tabelle \nspeichern (Strg+P)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	--printtree()
 	save_tree_to_lua(tree, path_documentation_tree)
 end --function button_save_lua_table:flat_action()
 
 --6.2.1 button for saving text
-button_save_text=iup.flatbutton{title="Text \nspeichern", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_save_text=iup.flatbutton{title="Text \nspeichern", size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_text:flat_action()
 	local outputfile_text=io.open(path_documentation_text,"w")
 	outputfile_text:write(textbox1.value)
@@ -590,7 +626,7 @@ function button_save_text:flat_action()
 end --function button_save_text:flat_action()
 
 --6.3 button for search in tree, tree2 and tree3
-button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="35x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_search:flat_action()
 	searchtext.value=tree.title
 	searchtext.SELECTION="ALL"
@@ -598,14 +634,14 @@ function button_search:flat_action()
 end --function button_search:flat_action()
 
 --6.4 button for expand and collapse
-button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen\n(Strg+R)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen\n(Strg+R)", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_expand_collapse_dialog:flat_action()
 	text_expand_collapse.value=tree.title
 	dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_expand_collapse_dialog:flat_action()
 
 --6.4.1 button for replacing in tree
-button_replace=iup.flatbutton{title="Suchen und Ersetzen\n(Strg+H)", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_replace=iup.flatbutton{title="Suchen und Ersetzen\n(Strg+H)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_replace:flat_action()
 	searchtext_replace.value=tree.title
 	replacetext_replace.SELECTION="ALL"
@@ -619,7 +655,7 @@ function button_alphabetic_sort:flat_action()
 end --function button_alphabetic_sort:flat_action()
 
 --6.6 button for first webbrowser page
-button_first_page=iup.flatbutton{title="Seite \nladen", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_first_page=iup.flatbutton{title="Seite \nladen", size="35x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_first_page:flat_action()
 	textbox0.value=tree.title:match('href="([^"]*)"')
 	webbrowser1.HTML=[[
@@ -630,7 +666,7 @@ function button_first_page:flat_action()
 end --function button_first_page:flat_action()
 
 --6.7 button for next webbrowser page
-button_next_page=iup.flatbutton{title="Nächste \nSeite", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_next_page=iup.flatbutton{title="Nächste \nSeite", size="35x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_next_page:flat_action()
 	tree.value=tree.value+1
 	textbox0.value=tree.title:match('href="([^"]*)"')
@@ -642,7 +678,7 @@ function button_next_page:flat_action()
 end --function button_next_page:flat_action()
 
 --6.8 button for previous webbrowser page
-button_previous_page=iup.flatbutton{title="Vorige \nSeite", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_previous_page=iup.flatbutton{title="Vorige \nSeite", size="35x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_previous_page:flat_action()
 	tree.value=tree.value-1
 	textbox0.value=tree.title:match('href="([^"]*)"')
@@ -803,7 +839,7 @@ tree=iup.tree{
 map_cb=function(self)
 self:AddNodes(actualtree)
 end, --function(self)
-SIZE="400x200",
+SIZE="600x200",
 showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
@@ -877,11 +913,22 @@ tree2=iup.tree{
 map_cb=function(self)
 self:AddNodes(Tree2)
 end, --function(self)
-SIZE="400x100",
+SIZE="10x100",
 showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
 }
+-- Callback of the right mouse button click
+function tree2:rightclick_cb(id)
+	tree2.value = id
+	menu2:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
+end --function tree:rightclick_cb(id)
+-- Callback for pressed keys
+function tree2:k_any(c)
+	if c == iup.K_Menu then
+		menu2:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
+	end --if c == iup.K_DEL then
+end --function tree:k_any(c)
 
 --7.2 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog{
@@ -897,13 +944,13 @@ maindlg = iup.dialog{
 			button_expand_collapse_dialog,
 			button_alphabetic_sort,
 			textbox0,
-			iup.label{size="40x",},
+			iup.label{size="10x",},
 			button_first_page,
 			button_previous_page,
 			button_next_page,
 			button_page_hyperlinks_in_tree,
 			button_transform_page,
-			iup.label{size="30x",},
+			iup.label{size="10x",},
 			iup.fill{},
 			button_logo2,
 		},
