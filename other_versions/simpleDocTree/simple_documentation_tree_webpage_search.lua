@@ -1,4 +1,4 @@
---This script is a simple documentation of a tree in a Lua table on the right side which is build from content of web side on the left side
+--This script is a simple documentation of a tree in a Lua table on the right side which is build from content of web side on the left side. The content of the web site with wiki TeX formulas can be transforned in pure html-code
 
 
 
@@ -11,7 +11,7 @@ require('iupluaweb')        --require iupluaweb for webbrowser
 --1.1.1 text box
 textbox0=iup.multiline{value="https://www.lua.org",size="340x20",wordwrap="YES"}
 textbox1=iup.multiline{value="",size="250x150"}
-
+textbox2=iup.multiline{value="Textdatei s.u.",size="190x20",wordwrap="YES"}
 
 --1.1.2 webbrowser
 webbrowser1=iup.webbrowser{HTML=[[
@@ -59,6 +59,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 
 path_documentation_tree=path .. "\\documentation_tree_webpage_search_output.lua"
 path_documentation_text=path .. "\\documentation_tree_webpage_search_output.txt"
+textbox2.value=path_documentation_text
 
 
 --3. functions
@@ -617,10 +618,30 @@ function button_save_lua_table:flat_action()
 	save_tree_to_lua(tree, path_documentation_tree)
 end --function button_save_lua_table:flat_action()
 
---6.2.1 button for saving text
+--6.2.1 button for loading text
+button_load_text=iup.flatbutton{title="Text \nladen", size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_load_text:flat_action()
+	local inputfile_text
+	if tree2['TITLE']:match(path .. ".*%.txt$") and file_exists(tree2['TITLE']) then
+		inputfile_text=io.open(tree2['TITLE'],"r")
+		textbox2.value=tree2['TITLE']
+	else
+		inputfile_text=io.open(path_documentation_text,"r")
+		textbox2.value=path_documentation_text
+	end --if tree2['TITLE']:match(path .. ".*%.txt$") then
+	textbox1.value=inputfile_text:read("*all")
+	inputfile_text:close()
+end --function button_load_text:flat_action()
+
+--6.2.2 button for saving text
 button_save_text=iup.flatbutton{title="Text \nspeichern", size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_text:flat_action()
-	local outputfile_text=io.open(path_documentation_text,"w")
+	local outputfile_text
+	if tree2['TITLE']:match(path .. ".*%.txt$") then
+		outputfile_text=io.open(tree2['TITLE'],"w")
+	else
+		outputfile_text=io.open(path_documentation_text,"w")
+	end --if tree2['TITLE']:match(path .. ".*%.txt$") then
 	outputfile_text:write(textbox1.value)
 	outputfile_text:close()
 end --function button_save_text:flat_action()
@@ -892,13 +913,12 @@ Tree2={branchname="Öffnen der Internetseite",
 {branchname="Schaltfläche Seite laden",
 {branchname="Auf den Hyperlink klicken",
 {branchname="rechte Maustaste",
-
 {branchname="Aus dem Kontextmenü Quellcode anzeigen",
 {branchname="Aus dem Notepad-Editor alles markieren und kopieren",
 {branchname="Einfügen in Inhalte als Text",
-{branchname="Schaltfläche Hyperlinks im Baum übernehmen",
-
-
+"Schaltfläche Hyperlinks im Baum übernehmen",
+{branchname="Schaltfläche Seite mit Formeln umwandeln",
+"Ergebnis kopieren oder als PDF abspeichern",
 },
 },
 },
@@ -906,6 +926,11 @@ Tree2={branchname="Öffnen der Internetseite",
 },
 },
 },
+},
+{branchname="Formelsammlungen herstellen",
+{branchname=path .. "\\Formelsammlung_1.txt",path .. "\\Formelsammlung_1.pdf",},
+{branchname=path .. "\\Formelsammlung_2.txt",path .. "\\Formelsammlung_2.pdf",},
+{branchname=path .. "\\Formelsammlung_3.txt",path .. "\\Formelsammlung_3.pdf",},
 },
 }
 
@@ -938,6 +963,8 @@ maindlg = iup.dialog{
 		iup.hbox{
 			button_logo,
 			button_save_lua_table,
+			button_load_text,
+			textbox2,
 			button_save_text,
 			button_search,
 			button_replace,
