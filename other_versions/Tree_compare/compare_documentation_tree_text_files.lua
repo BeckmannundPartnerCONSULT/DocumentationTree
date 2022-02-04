@@ -257,14 +257,14 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for loading text file 1
 button_loading_first_text_file=iup.flatbutton{title="Erste Textdatei laden", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_first_text_file:flat_action()
 	--build file dialog for reading text file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.*",filterinfo="Text Files",directory=path}
+	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei Ã¶ffnen",filter="*.*",filterinfo="Text Files",directory=path}
 	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 	if filedlg.status=="1" then
 		iup.Message("Neue Datei",filedlg.value)
@@ -274,7 +274,7 @@ function button_loading_first_text_file:flat_action()
 		textfield1.value=inputfile1:read("*all")
 		inputfile1:close()
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
+		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg.status=="1" then
 end --function button_loading_first_text_file:flat_action()
@@ -283,7 +283,7 @@ end --function button_loading_first_text_file:flat_action()
 button_loading_second_text_file=iup.flatbutton{title="Zweite Textdatei laden", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_second_text_file:flat_action()
 	--build file dialog for reading text file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.*",filterinfo="Text Files",directory=path}
+	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei Ã¶ffnen",filter="*.*",filterinfo="Text Files",directory=path}
 	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 	if filedlg.status=="1" then
 		iup.Message("Neue Datei",filedlg.value)
@@ -293,14 +293,14 @@ function button_loading_second_text_file:flat_action()
 		textfield2.value=inputfile2:read("*all")
 		inputfile2:close()
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
+		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg.status=="1" then
 end --function button_loading_second_text_file:flat_action()
 
 
 --6.4 button for expand and collapse
-button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen\n(Strg+R)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_expand_collapse_dialog:flat_action()
 	text_expand_collapse.value=tree.title
 	dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
@@ -308,48 +308,76 @@ end --function button_expand_collapse_dialog:flat_action()
 
 
 --6.5 button for comparing text file of tree and text file of tree2
-button_compare=iup.flatbutton{title="Textdateien vergleichen\n(Strg+T)", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_compare=iup.flatbutton{title="Textdateien vergleichen", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_compare:flat_action()
 	tree.delnode0 = "CHILDREN"
 	tree.title='compare'
 	--make the comparison
 	--go through text file 2
 	tree_script={branchname="compare",{branchname="Vergleich von " .. tostring(textbox1.value) .. " mit " .. tostring(textbox2.value)}}
-	file2existsTable={}
-	file2numberTable={}
+	local file2existsTable={}
+	local file2numberTable={}
 	for line in (textfield2.value .. "\n"):gmatch("([^\n]*)\n") do
-	file2numberTable[#file2numberTable+1]=line
-	file2existsTable[line]=#file2numberTable
-	end --for line in io.lines("C:\\Temp\\Vergleich_Text2.txt") do
+		file2numberTable[#file2numberTable+1]=line
+		file2existsTable[line]=#file2numberTable
+	end --for line in (textfield2.value .. "\n"):gmatch("([^\n]*)\n") do
 	--go through text file 1
-	lineNumber=0
+	local lineNumber=0
+	local file1existsTable={}
 	for line in (textfield1.value .. "\n"):gmatch("([^\n]*)\n") do
-	lineNumber=lineNumber+1
-	if line==file2numberTable[lineNumber] then 
-		if tree_script[#tree_script].branchname=="gleich" then
-			tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
+		file1existsTable[line]=true
+		lineNumber=lineNumber+1
+		if line==file2numberTable[lineNumber] then 
+			if tree_script[#tree_script].branchname=="gleich" then
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
+			else
+				tree_script[#tree_script+1]={branchname="gleich"}
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
+			end --if tree_script[#tree_script].branchname=="gleich" then
+		elseif file2existsTable[line] and lineNumber>file2existsTable[line] then 
+			if tree_script[#tree_script].branchname=="gleich siehe oben" then
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
+			else
+				tree_script[#tree_script+1]={branchname="gleich siehe oben"}
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
+			end --if tree_script[#tree_script].branchname=="gleich siehe oben" then
+		elseif file2existsTable[line] and lineNumber<file2existsTable[line] then 
+			if tree_script[#tree_script].branchname=="gleich siehe unten" then
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
+			else
+				tree_script[#tree_script+1]={branchname="gleich siehe unten"}
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
+			end --if tree_script[#tree_script].branchname=="gleich siehe unten" then
 		else
-			tree_script[#tree_script+1]={branchname="gleich"}
-			tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
-		end --if tree_script[#tree_script].branchname=="gleich" then
-	elseif file2existsTable[line] and lineNumber>file2existsTable[line] then 
-		if tree_script[#tree_script].branchname=="gleich siehe oben" then
-			tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
-		else
-			tree_script[#tree_script+1]={branchname="gleich siehe oben"}
-			tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
-		end --if tree_script[#tree_script].branchname=="gleich siehe oben" then
-	elseif file2existsTable[line] and lineNumber<file2existsTable[line] then 
-		if tree_script[#tree_script].branchname=="gleich siehe unten" then
-			tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
-		else
-			tree_script[#tree_script+1]={branchname="gleich siehe unten"}
-			tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
-		end --if tree_script[#tree_script].branchname=="gleich siehe unten" then
-	else
-		tree_script[#tree_script+1]={branchname="unterschiedlich",{branchname=lineNumber .. ": " .. line,lineNumber .. ": " .. tostring(file2numberTable[lineNumber])}}
-	end --if file2Table[line] then
-	end --for line in io.lines("C:\\Temp\\Vergleich_Text1.txt") do
+			tree_script[#tree_script+1]={branchname="unterschiedlich",{branchname=lineNumber .. ": " .. line,lineNumber .. ": " .. tostring(file2numberTable[lineNumber])}}
+		end --if file2Table[line] then
+	end --for line in (textfield1.value .. "\n"):gmatch("([^\n]*)\n") do
+	--go through text file 1 to search for missing lines in text file 2
+	local line1Number=0
+	for line in (textfield1.value .. "\n"):gmatch("([^\n]*)\n") do
+		line1Number=line1Number+1
+		if file2existsTable[line]==nil then
+			if tree_script[#tree_script].branchname=="nur in erster Datei" then
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=line1Number .. ": " .. line
+			else
+				tree_script[#tree_script+1]={branchname="nur in erster Datei"}
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=line1Number .. ": " .. line
+			end --if tree_script[#tree_script].branchname=="nur in erster Datei" then
+		end --if file2existsTable[line] then
+	end --for line in (textfield1.value .. "\n"):gmatch("([^\n]*)\n") do
+	--go through text file 2 to search for missing lines in text file 1
+	local line2Number=0
+	for line in (textfield2.value .. "\n"):gmatch("([^\n]*)\n") do
+		line2Number=line2Number+1
+		if file1existsTable[line]==nil then
+			if tree_script[#tree_script].branchname=="nur in zweiter Datei" then
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=line2Number .. ": " .. line
+			else
+				tree_script[#tree_script+1]={branchname="nur in zweiter Datei"}
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=line2Number .. ": " .. line
+			end --if tree_script[#tree_script].branchname=="nur in zweiter Datei" then
+		end --if file1existsTable[line] then
+	end --for line in (textfield2.value .. "\n"):gmatch("([^\n]*)\n") do
 	--build the compare tree
 	iup.TreeAddNodes(tree,tree_script)
 end --function button_compare:flat_action()
@@ -357,7 +385,7 @@ end --function button_compare:flat_action()
 --6.6 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6 buttons end
