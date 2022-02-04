@@ -17,7 +17,7 @@ elseif _VERSION=='Lua 5.2' then
 end --if _VERSION=='Lua 5.1' then
 
 
---1.1.5 securisation by allowing only necessary os.execute commands
+--1.1.4 securisation by allowing only necessary os.execute commands
 do --sandboxing
 local old=os.date("%H%M%S")
 local secureTable={}
@@ -69,7 +69,7 @@ color_button_text="255 255 255"
 color_background_tree="246 246 246"
 
 
---1.3 path of the graphical user interface and filename of this script
+--2.1 path of the graphical user interface and filename of this script
 path=arg[0]:match("(.*)\\")
 --test with: print(path)
 thisfilename=arg[0]:match("\\([^\\]+)$")
@@ -98,7 +98,7 @@ end --function string.escape_forbidden_char(insertstring)
 
 
 
---3.4 function to change expand/collapse relying on depth
+--3.2 function to change expand/collapse relying on depth
 --This function is needed in the expand/collapsed dialog. This function relies on the depth of the given level.
 function change_state_level(new_state,level,descendants_also)
 	if descendants_also=="YES" then
@@ -118,7 +118,7 @@ function change_state_level(new_state,level,descendants_also)
 end --function change_state_level(new_state,level,descendants_also)
 
 
---3.5 function to change expand/collapse relying on keyword
+--3.3 function to change expand/collapse relying on keyword
 --This function is needed in the expand/collapsed dialog. This function changes the state for all nodes, which match a keyword. Otherwise it works like change_stat_level.
 function change_state_keyword(new_state,keyword,descendants_also)
 	if descendants_also=="YES" then
@@ -137,7 +137,12 @@ function change_state_keyword(new_state,keyword,descendants_also)
 	end --if descendants_also=="YES" then
 end --function change_state_keyword(new_state,level,descendants_also)
 
---4.3 expand and collapse dialog
+--3 functions end
+
+
+--4. dialogs
+
+--4.1 expand and collapse dialog
 
 --function needed for the expand and collapse dialog
 function button_expand_collapse(new_state)
@@ -211,10 +216,11 @@ dlg_expand_collapse=iup.dialog{
 
 }
 
---4.3 expand and collapse dialog end
+--4.1 expand and collapse dialog end
 
 --4. dialogs end
 
+--5. no context menus
 
 --6 buttons
 --6.1 logo image definition and button wiht logo 
@@ -257,7 +263,7 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraﬂe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstra√üe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for loading tree 1
@@ -266,7 +272,7 @@ function button_loading_lua_table_1:flat_action()
 	tree1.delnode0 = "CHILDREN"
 	tree1.title=''
 	--build file dialog for reading lua file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei ˆffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
+	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei √∂ffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
 	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 	if filedlg.status=="1" then
 		iup.Message("Neue Datei",filedlg.value)
@@ -289,7 +295,7 @@ function button_loading_lua_table_1:flat_action()
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree1,actualtree)
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgew‰hlt")
+		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgew√§hlt")
 		iup.NextField(maindlg)
 	end --if filedlg.status=="1" then
 end --function button_loading_lua_table_1:flat_action()
@@ -300,7 +306,7 @@ function button_loading_lua_table_2:flat_action()
 	tree2.delnode0 = "CHILDREN"
 	tree2.title=''
 	--build file dialog for reading lua file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei ˆffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
+	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei √∂ffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
 	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 	if filedlg.status=="1" then
 		iup.Message("Neue Datei",filedlg.value)
@@ -323,7 +329,7 @@ function button_loading_lua_table_2:flat_action()
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree2,actualtree)
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgew‰hlt")
+		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgew√§hlt")
 		iup.NextField(maindlg)
 	end --if filedlg.status=="1" then
 end --function button_loading_lua_table_2:flat_action()
@@ -395,7 +401,7 @@ function button_compare:flat_action()
 				tree_script[#tree_script+1]={branchname="nur in erster Datei"}
 				tree_script[#tree_script][#tree_script[#tree_script]+1]=line1Number .. ": " .. line
 			end --if tree_script[#tree_script].branchname=="nur in erster Datei" then
-		end --		if file2existsTable[line] then
+		end --if file2existsTable[line] then
 	end --for i=0,tree1.totalchildcount0 do
 	--go through tree 2 to search for missing lines in tree 1
 	local line2Number=0
@@ -409,7 +415,7 @@ function button_compare:flat_action()
 				tree_script[#tree_script+1]={branchname="nur in zweiter Datei"}
 				tree_script[#tree_script][#tree_script[#tree_script]+1]=line2Number .. ": " .. line
 			end --if tree_script[#tree_script].branchname=="nur in zweiter Datei" then
-		end --		if file1existsTable[line] then
+		end --if file1existsTable[line] then
 	end --for i=0,tree2.totalchildcount0 do
 	--build the compare tree
 	iup.TreeAddNodes(tree,tree_script)
@@ -418,7 +424,7 @@ end --function button_compare:flat_action()
 --6.6 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraﬂe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstra√üe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6 buttons end
@@ -453,7 +459,7 @@ showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
 }
---7.2.2 display empty second tree
+--7.2.3 display empty second tree
 actualtree2={branchname="second tree"}
 tree2=iup.tree{
 map_cb=function(self)
@@ -547,13 +553,13 @@ maindlg = iup.dialog{
 }
 
 
---7.6 show the dialog
+--7.5 show the dialog
 maindlg:show()
 
---7.6.2 go to the main dialog
+--7.5.2 go to the main dialog
 iup.NextField(maindlg)
 
---7.9 Main Loop
+--7.6 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
