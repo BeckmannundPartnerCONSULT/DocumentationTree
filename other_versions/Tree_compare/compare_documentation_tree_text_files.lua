@@ -17,7 +17,7 @@ elseif _VERSION=='Lua 5.2' then
 end --if _VERSION=='Lua 5.1' then
 
 
---1.1.5 securisation by allowing only necessary os.execute commands
+--1.1.4 securisation by allowing only necessary os.execute commands
 do --sandboxing
 local old=os.date("%H%M%S")
 local secureTable={}
@@ -69,7 +69,7 @@ color_button_text="255 255 255"
 color_background_tree="246 246 246"
 
 
---1.3 path of the graphical user interface and filename of this script
+--2.1 path of the graphical user interface and filename of this script
 path=arg[0]:match("(.*)\\")
 --test with: print(path)
 thisfilename=arg[0]:match("\\([^\\]+)$")
@@ -98,7 +98,7 @@ end --function string.escape_forbidden_char(insertstring)
 
 
 
---3.4 function to change expand/collapse relying on depth
+--3.2 function to change expand/collapse relying on depth
 --This function is needed in the expand/collapsed dialog. This function relies on the depth of the given level.
 function change_state_level(new_state,level,descendants_also)
 	if descendants_also=="YES" then
@@ -118,7 +118,7 @@ function change_state_level(new_state,level,descendants_also)
 end --function change_state_level(new_state,level,descendants_also)
 
 
---3.5 function to change expand/collapse relying on keyword
+--3.3 function to change expand/collapse relying on keyword
 --This function is needed in the expand/collapsed dialog. This function changes the state for all nodes, which match a keyword. Otherwise it works like change_stat_level.
 function change_state_keyword(new_state,keyword,descendants_also)
 	if descendants_also=="YES" then
@@ -137,7 +137,11 @@ function change_state_keyword(new_state,keyword,descendants_also)
 	end --if descendants_also=="YES" then
 end --function change_state_keyword(new_state,level,descendants_also)
 
---4.3 expand and collapse dialog
+--3 functions end
+
+--4. dialogs
+
+--4.1 expand and collapse dialog
 
 --function needed for the expand and collapse dialog
 function button_expand_collapse(new_state)
@@ -211,10 +215,12 @@ dlg_expand_collapse=iup.dialog{
 
 }
 
---4.3 expand and collapse dialog end
+--4.1 expand and collapse dialog end
 
 --4. dialogs end
 
+
+--5. no context menus
 
 --6 buttons
 --6.1 logo image definition and button wiht logo 
@@ -492,13 +498,13 @@ maindlg = iup.dialog{
 }
 
 
---7.6 show the dialog
+--7.5 show the dialog
 maindlg:show()
 
---7.6.2 go to the main dialog
+--7.5.2 go to the main dialog
 iup.NextField(maindlg)
 
---7.9 Main Loop
+--7.6 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
