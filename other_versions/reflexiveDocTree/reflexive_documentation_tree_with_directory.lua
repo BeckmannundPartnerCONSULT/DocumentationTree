@@ -12,6 +12,9 @@ state="COLLAPSED",
  "C:\\Tree",}}}--lua_tree_output
 
 
+
+
+
 ----[====[This programm has webpages within the Lua script which can contain a tree in html
 
 
@@ -48,6 +51,7 @@ a:lower():match("^dir ") or
 a:lower():match("^pause") or
 a:lower():match("^title") or
 a:lower():match("^md ") or
+a:lower():match("^move ") or
 a:lower():match("^copy ") or
 a:lower():match("^color ") or
 a:lower():match("^start ") or
@@ -341,7 +345,7 @@ function searchup:flat_action()
 		iup.NextField(maindlg)
 		iup.NextField(dlg_search)
 	end --if help==false then
-end --	function searchup:flat_action()
+end --function searchup:flat_action()
 
 checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
@@ -491,7 +495,7 @@ function menu_new_page:action()
 	tree1.title=''
 p=io.popen('dir "' .. tree['title'] .. '"')
 explorerTree={branchname="Ordnerinhalt"}
-for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("","ä") end
+for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("„","ä"):gsub("ÿ"," ") end
 iup.TreeAddNodes(tree1, explorerTree)
 textbox1.value=tree['title']
 end --function menu_new_page:action()
@@ -519,6 +523,54 @@ menu = iup.menu{
 		startnode, 
 		}
 --5.1 menu of tree end
+
+--5.2 menu of tree1 
+
+--5.2.1 move a version of the file selected in the tree1 and give it the next version number
+startversionmove = iup.item {title = "Version umbenennen und archivieren"}
+function startversionmove:action()
+	--get the version of the file
+	if tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree1['title']:match("<DIR>")==nil then
+		Version=0
+		p=io.popen('dir "' .. textbox1.value .. "\\" .. tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37):gsub("(%.+)","_Version*%1") .. '" /b/o')
+		for Datei in p:lines() do 
+			--test with: iup.Message("Version",Datei) 
+			if Datei:match("_Version(%d+)") then Version_alt=Version Version=tonumber(Datei:match("_Version(%d+)")) if Version<Version_alt then Version=Version_alt end end
+			--test with: iup.Message("Version",Version) 
+		end --for Datei in p:lines() do 
+		--test with: iup.Message(Version,Version+1)
+		Version=Version+1
+		iup.Message("Archivieren und Umbenennen der Version:",tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37):gsub("(%.+)","_Version" .. Version .. "%1"))
+		os.execute('move "' .. textbox1.value .. "\\" .. tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37) .. '" "' .. textbox1.value .. "\\" .. tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37):gsub("(%.+)","_Version" .. Version .. "%1") .. '"')
+		--test with: print('move "' .. textbox1.value .. "\\" .. tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37) .. '" "' .. textbox1.value .. "\\" .. tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37):gsub("(%.+)","_Version" .. Version .. "%1") .. '"')
+	end --if tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree1['title']:match("<DIR>")==nil then
+end --function startversionmove:action()
+
+--5.2.3 put the buttons together in the menu for tree
+menu1 = iup.menu{
+		startversionmove, 
+		}
+--5.2 menu of tree1 
+
+--5.3 menu of tree2 
+
+--5.3.1 pick file selected in the tree2
+startpickfile = iup.item {title = "Datei auswählen"}
+function startpickfile:action()
+	if tree2['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree2['title']:match("<DIR>")==nil then
+		pickedFileName=tree2['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37)
+		--test with: iup.Message("Datei ausgewählt",pickedFile)
+	end --if tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree1['title']:match("<DIR>")==nil then
+end --function startpickfile:action()
+
+--5.2.3 put the buttons together in the menu for tree
+menu2 = iup.menu{
+		startpickfile, 
+		}
+--5.2 menu of tree1 
+
+
+
 --5. context menus (menus for right mouse click) end
 
 
@@ -570,7 +622,6 @@ end --function button_logo:flat_action()
 button_save_lua_table=iup.flatbutton{title="Datei speichern", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	save_reflexive_tree_to_lua(path .. "\\" .. thisfilename)
-
 end --function button_save_lua_table:flat_action()
 
 
@@ -587,14 +638,125 @@ button_new_page = iup.flatbutton{title = "Ordner laden",size="70x20", BGCOLOR=co
 function button_new_page:flat_action()
 	tree1.delnode0 = "CHILDREN"
 	tree1.title=''
-p=io.popen('dir "' .. tree['title'] .. '"')
-explorerTree={branchname="Ordnerinhalt"}
-for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("„","ä") end
-iup.TreeAddNodes(tree1, explorerTree)
-textbox1.value=tree['title']
+	p=io.popen('dir "' .. tree['title'] .. '"')
+	explorerTree={branchname="Ordnerinhalt"}
+	local fileTable={}
+	local directoryTable={}
+	local directoryInformationTable={}
+	for line in p:lines() do 
+		if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil then
+			fileTable[#fileTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
+		elseif line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>") then
+			directoryTable[#directoryTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
+		elseif line:match("%(") or line:match(":\\") then
+			directoryInformationTable[#directoryInformationTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
+		end --if line:match("^%d%d.%d%d.%d%d%d%d") then
+	end --for line in p:lines() do 
+	for k,v in pairs(directoryInformationTable) do
+		explorerTree[#explorerTree+1]={branchname=v}
+	end --for k,v in pairs(fileTable) do
+	table.sort(fileTable,function(a,b) local aSort=a:sub(37):lower() bSort=b:sub(37):lower() return aSort<bSort end) 
+	for k,v in pairs(fileTable) do
+		explorerTree[#explorerTree+1]=k .. ": " .. string.rep(" ",math.max(4-#tostring(k),0)) .. v
+	end --for k,v in pairs(fileTable) do
+	for k,v in pairs(directoryTable) do
+		explorerTree[#explorerTree+1]={branchname=k .. ": " .. string.rep(" ",math.max(4-#tostring(k),0)) .. v}
+	end --for k,v in pairs(directoryTable) do
+	iup.TreeAddNodes(tree1, explorerTree)
+	textbox1.value=tree['title']
 end --function button_new_page:action()
 
---6.5 button with second logo
+
+--6.4.1 button for building new page without versions
+button_new_page_without_versions = iup.flatbutton{title = "Ordner ohne \nVersionen laden",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_new_page_without_versions:flat_action()
+	tree1.delnode0 = "CHILDREN"
+	tree1.title=''
+	p=io.popen('dir "' .. tree['title'] .. '"')
+	explorerTree={branchname="Ordnerinhalt"}
+	local fileTable={}
+	local directoryTable={}
+	local directoryInformationTable={}
+	for line in p:lines() do 
+		if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil and line:match("_Version%d+")==nil then
+			fileTable[#fileTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
+		elseif line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>") then
+			directoryTable[#directoryTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
+		elseif line:match("%(") or line:match(":\\") then
+			directoryInformationTable[#directoryInformationTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
+		end --if line:match("^%d%d.%d%d.%d%d%d%d") then
+	end --for line in p:lines() do 
+	for k,v in pairs(directoryInformationTable) do
+		explorerTree[#explorerTree+1]={branchname=v}
+	end --for k,v in pairs(fileTable) do
+	table.sort(fileTable,function(a,b) local aSort=a:sub(37):lower() bSort=b:sub(37):lower() return aSort<bSort end) 
+	for k,v in pairs(fileTable) do
+		explorerTree[#explorerTree+1]=k .. ": " .. string.rep(" ",math.max(4-#tostring(k),0)) .. v
+	end --for k,v in pairs(fileTable) do
+	for k,v in pairs(directoryTable) do
+		explorerTree[#explorerTree+1]={branchname=k .. ": " .. string.rep(" ",math.max(4-#tostring(k),0)) .. v}
+	end --for k,v in pairs(directoryTable) do
+	iup.TreeAddNodes(tree1, explorerTree)
+	textbox1.value=tree['title']
+end --function button_new_page_without_versions:action()
+
+--6.4.2 button for building new page tree2 without versions
+button_new_page2_without_versions = iup.flatbutton{title = "Vergleichsordner ohne \nVersionen laden",size="90x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_new_page2_without_versions:flat_action()
+	tree2.delnode0 = "CHILDREN"
+	tree2.title=''
+	p=io.popen('dir "' .. tree['title'] .. '"')
+	explorerTree={branchname="Ordnerinhalt"}
+	local fileTable={}
+	local directoryTable={}
+	local directoryInformationTable={}
+	for line in p:lines() do 
+		if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil and line:match("_Version%d+")==nil then
+			fileTable[#fileTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
+		elseif line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>") then
+			directoryTable[#directoryTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
+		elseif line:match("%(") or line:match(":\\") then
+			directoryInformationTable[#directoryInformationTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
+		end --if line:match("^%d%d.%d%d.%d%d%d%d") then
+	end --for line in p:lines() do 
+	for k,v in pairs(directoryInformationTable) do
+		explorerTree[#explorerTree+1]={branchname=v}
+	end --for k,v in pairs(fileTable) do
+	table.sort(fileTable,function(a,b) local aSort=a:sub(37):lower() bSort=b:sub(37):lower() return aSort<bSort end) 
+	for k,v in pairs(fileTable) do
+		explorerTree[#explorerTree+1]=k .. ": " .. string.rep(" ",math.max(4-#tostring(k),0)) .. v
+	end --for k,v in pairs(fileTable) do
+	for k,v in pairs(directoryTable) do
+		explorerTree[#explorerTree+1]={branchname=k .. ": " .. string.rep(" ",math.max(4-#tostring(k),0)) .. v}
+	end --for k,v in pairs(directoryTable) do
+	iup.TreeAddNodes(tree2, explorerTree)
+	textbox2.value=tree['title']
+end --function button_new_page2_without_versions:action()
+
+--6.5 button for copy and paste
+button_version_move_copy_and_paste = iup.flatbutton{title = "Datei in Ordner \neinfügen",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_version_move_copy_and_paste:flat_action()
+	if pickedFileName and textbox2.value~=textbox1.value and textbox2.value:match("^.:\\") and textbox1.value:match("^.:\\") then
+		Version=0
+		p=io.popen('dir "' .. textbox1.value .. "\\" .. pickedFileName:gsub("(%.+)","_Version*%1") .. '" /b/o')
+		for Datei in p:lines() do 
+			--test with: iup.Message("Version",Datei) 
+			if Datei:match("_Version(%d+)") then Version_alt=Version Version=tonumber(Datei:match("_Version(%d+)")) if Version<Version_alt then Version=Version_alt end end
+			--test with: iup.Message("Version",Version) 
+		end --for Datei in p:lines() do 
+		--test with: iup.Message(Version,Version+1)
+		Version=Version+1
+		iup.Message("Archivieren und Umbenennen der Version:",pickedFileName:gsub("(%.+)","_Version" .. Version .. "%1"))
+		os.execute('move "' .. textbox1.value .. "\\" .. pickedFileName .. '" "' .. textbox1.value .. "\\" .. pickedFileName:gsub("(%.+)","_Version" .. Version .. "%1") .. '"')
+		os.execute('copy "' .. textbox2.value .. "\\" .. pickedFileName .. '" "' .. textbox1.value .. "\\" .. pickedFileName .. '"')
+		--test with: print('copy "' .. textbox2.value .. "\\" .. pickedFileName .. '" "' .. textbox1.value .. "\\" .. pickedFileName .. '"')
+	else
+		iup.Message("Keine Datei ausgewählt","oder Verzeichnisse gleich.")
+	end --if pickedFileName then
+	button_new_page_without_versions:flat_action()
+end --function button_version_move_copy_and_paste:action()
+
+--6.6 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -603,9 +765,10 @@ end --function button_logo:flat_action()
 --7 Main Dialog
 
 --7.1 textboxes 
-textbox1 = iup.multiline{value="",size="360x20",WORDWRAP="YES"}
+textbox1 = iup.multiline{value="",size="160x20",WORDWRAP="YES"}
+textbox2 = iup.multiline{value="",size="160x20",WORDWRAP="YES"}
 
---7.3 load tree from self file
+--7.2 load tree from self file
 actualtree=lua_tree_output
 --build tree
 tree=iup.tree{
@@ -616,22 +779,6 @@ SIZE="10x200",
 showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
-}
-
-p=io.popen('dir "C:\\"')
-explorerTree={branchname="Ordnerinhalt"}
-for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("","ä") end
-textbox1.value="C:\\"
---build tree for explorer
-tree1=iup.tree{
-map_cb=function(self)
-self:AddNodes(explorerTree)
-end, --function(self)
-SIZE="200x200",
-showrename="YES",--F2 key active
-markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
-showdragdrop="YES",
-font="Courier New, 12",--"Courier New, Italic Underline -30",
 }
 --set colors of tree
 tree.BGCOLOR=color_background_tree --set the background color of the tree
@@ -667,8 +814,51 @@ function tree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
 
+--7.3 load tree1 from directory
+p=io.popen('dir "C:\\"')
+explorerTree={branchname="Ordnerinhalt"}
+for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("„","ä"):gsub("ÿ"," ") end
+textbox1.value="C:\\"
+--build tree for explorer
+tree1=iup.tree{
+map_cb=function(self)
+self:AddNodes(explorerTree)
+end, --function(self)
+SIZE="150x200",
+showrename="YES",--F2 key active
+markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
+showdragdrop="YES",
+font="Courier New, 8",--"Courier New, Italic Underline -30",
+}
+-- Callback of the right mouse button click
+function tree1:rightclick_cb(id)
+	tree1.value = id
+	menu1:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
+end --function tree:rightclick_cb(id)
 
---7.4 building the dialog and put buttons, trees and preview together
+--7.4 load tree2 from directory
+p=io.popen('dir "C:\\"')
+explorerTree2={branchname="Ordnerinhalt des Vergleichsordners"}
+for line in p:lines() do explorerTree2[#explorerTree2+1]=line:gsub("„","ä"):gsub("ÿ"," ") end
+textbox2.value="C:\\"
+--build tree for explorer
+tree2=iup.tree{
+map_cb=function(self)
+self:AddNodes(explorerTree)
+end, --function(self)
+SIZE="250x200",
+showrename="YES",--F2 key active
+markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
+showdragdrop="YES",
+font="Courier New, 8",--"Courier New, Italic Underline -30",
+}
+-- Callback of the right mouse button click
+function tree2:rightclick_cb(id)
+	tree2.value = id
+	menu2:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
+end --function tree:rightclick_cb(id)
+
+--7.5 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog {
 
 	iup.vbox{
@@ -679,10 +869,14 @@ maindlg = iup.dialog {
 			button_search,
 			iup.fill{},
 			textbox1,
+			textbox2,
 			button_new_page,
+			button_new_page_without_versions,
+			button_version_move_copy_and_paste,
+			button_new_page2_without_versions,
 			button_logo2,
 		}, --iup.hbox{
-		iup.hbox{iup.frame{title="Manuelle Zuordnung als Baum",tree,},tree1,},
+		iup.hbox{iup.frame{title="Manuelle Zuordnung als Baum",tree,},iup.hbox{tree1,tree2,},},
 	}, --iup.vbox{
 	icon = img_logo,
 	title = path .. " Documentation Tree",
@@ -692,10 +886,10 @@ maindlg = iup.dialog {
 	margin="5x5" 
 }--maindlg = iup.dialog {
 
---7.5 show the dialog
+--7.6 show the dialog
 maindlg:showxy(iup.CENTER,iup.CENTER) 
 
---7.6 Main Loop
+--7.7 Main Loop
 if (iup.MainLoopLevel()==0) then iup.MainLoop() end
 
 
