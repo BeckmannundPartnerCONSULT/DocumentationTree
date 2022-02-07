@@ -488,17 +488,31 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.8 button for building new page
-menu_new_page = iup.item {title = "Ordner laden"}
-function menu_new_page:action()
-	tree1.delnode0 = "CHILDREN"
-	tree1.title=''
-p=io.popen('dir "' .. tree['title'] .. '"')
-explorerTree={branchname="Ordnerinhalt"}
-for line in p:lines() do explorerTree[#explorerTree+1]=line:gsub("„","ä"):gsub("ÿ"," ") end
-iup.TreeAddNodes(tree1, explorerTree)
-textbox1.value=tree['title']
-end --function menu_new_page:action()
+--5.1.8.1 button for building tree from start directory without versions
+menu_start_directory_without_versions = iup.item {title = "Ursprungsordner ohne Versionen laden"}
+function menu_start_directory_without_versions:action()
+	button_start_directory_without_versions:flat_action()
+end --function menu_start_directory_without_versions:action()
+
+--5.1.8.2 button for building tree from new directory
+menu_new_directory = iup.item {title = "Zielordner laden"}
+function menu_new_directory:action()
+	button_new_directory:flat_action()
+end --function menu_new_directory:action()
+
+--5.1.8.3 button for building tree from new directory without versions
+menu_new_directory_without_versions = iup.item {title = "Zielordner ohne Versionen laden"}
+function menu_new_directory_without_versions:action()
+	button_new_directory_without_versions:flat_action()
+end --function menu_new_directory_without_versions:action()
+
+--5.1.9 button for making new directory from selected node
+make_directory = iup.item {title = "Ordner anlegen"}
+function make_directory:action()
+	if tree['title']:match("^.:\\") then
+		os.execute('md "' .. tree['title'] .. '"')
+	end --if tree['title']:match("^.:\\") then
+end --function make_directory:action()
 
 --5.1.10 start the file or repository of the node of tree 
 startnode = iup.item {title = "Starten"}
@@ -506,7 +520,7 @@ function startnode:action()
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
 end --function startnode:action()
 
---5.1.12 put the buttons together in the menu for tree
+--5.1.11 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -519,7 +533,10 @@ menu = iup.menu{
 		addleaf_fromclipboard,
 		addleaf_fromclipboardbottom,
 		startversion,
-		menu_new_page, 
+		menu_start_directory_without_versions, 
+		menu_new_directory, 
+		menu_new_directory_without_versions, 
+		make_directory, 
 		startnode, 
 		}
 --5.1 menu of tree end
@@ -546,9 +563,18 @@ function startversionmove:action()
 	end --if tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree1['title']:match("<DIR>")==nil then
 end --function startversionmove:action()
 
---5.2.3 put the buttons together in the menu for tree
+--5.2.3 start the file or repository of the node of tree 
+startnode1 = iup.item {title = "Starten"}
+function startnode1:action() 
+	if tree1['title']:match("%.[^\\ ]+$") then 
+		os.execute('start "D" "' .. textbox1.value .. "\\" .. tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37) .. '"') 
+	end --if tree1['title']:match("%.[^\\ ]+$") then 
+end --function startnode1:action()
+
+--5.2.4 put the buttons together in the menu for tree
 menu1 = iup.menu{
 		startversionmove, 
+		startnode1, 
 		}
 --5.2 menu of tree1 
 
@@ -563,9 +589,18 @@ function startpickfile:action()
 	end --if tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree1['title']:match("<DIR>")==nil then
 end --function startpickfile:action()
 
---5.2.3 put the buttons together in the menu for tree
+--5.2.3 start the file or repository of the node of tree 
+startnode2 = iup.item {title = "Starten"}
+function startnode2:action() 
+	if tree2['title']:match("%.[^\\ ]+$") then 
+		os.execute('start "D" "' .. textbox2.value .. "\\" .. tree2['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37) .. '"') 
+	end --if tree2['title']:match("%.[^\\ ]+$") then 
+end --function startnode2:action()
+
+--5.2.4 put the buttons together in the menu for tree
 menu2 = iup.menu{
 		startpickfile, 
+		startnode2, 
 		}
 --5.2 menu of tree1 
 
@@ -619,14 +654,14 @@ function button_logo:action()
 end --function button_logo:flat_action()
 
 --6.2 button for saving tree reflexive with the programm
-button_save_lua_table=iup.flatbutton{title="Datei speichern", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_save_lua_table=iup.flatbutton{title="Datei speichern", size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	save_reflexive_tree_to_lua(path .. "\\" .. thisfilename)
 end --function button_save_lua_table:flat_action()
 
 
 --6.3 button for search in tree
-button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_search:flat_action()
 	searchtext.value=tree.title
 	searchtext.SELECTION="ALL"
@@ -634,8 +669,8 @@ function button_search:flat_action()
 end --function button_search:flat_action(
 
 --6.4 button for building new page
-button_new_page = iup.flatbutton{title = "Ordner laden",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
-function button_new_page:flat_action()
+button_new_directory = iup.flatbutton{title = "Zielordner \nladen",size="50x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_new_directory:flat_action()
 	tree1.delnode0 = "CHILDREN"
 	tree1.title=''
 	p=io.popen('dir "' .. tree['title'] .. '"')
@@ -664,12 +699,12 @@ function button_new_page:flat_action()
 	end --for k,v in pairs(directoryTable) do
 	iup.TreeAddNodes(tree1, explorerTree)
 	textbox1.value=tree['title']
-end --function button_new_page:action()
+end --function button_new_directory:action()
 
 
 --6.4.1 button for building new page without versions
-button_new_page_without_versions = iup.flatbutton{title = "Ordner ohne \nVersionen laden",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
-function button_new_page_without_versions:flat_action()
+button_new_directory_without_versions = iup.flatbutton{title = "Zielordner ohne \nVersionen laden",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_new_directory_without_versions:flat_action()
 	tree1.delnode0 = "CHILDREN"
 	tree1.title=''
 	p=io.popen('dir "' .. tree['title'] .. '"')
@@ -698,11 +733,11 @@ function button_new_page_without_versions:flat_action()
 	end --for k,v in pairs(directoryTable) do
 	iup.TreeAddNodes(tree1, explorerTree)
 	textbox1.value=tree['title']
-end --function button_new_page_without_versions:action()
+end --function button_new_directory_without_versions:action()
 
 --6.4.2 button for building new page tree2 without versions
-button_new_page2_without_versions = iup.flatbutton{title = "Vergleichsordner ohne \nVersionen laden",size="90x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
-function button_new_page2_without_versions:flat_action()
+button_start_directory_without_versions = iup.flatbutton{title = "Ursprungsordner ohne \nVersionen laden",size="90x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_start_directory_without_versions:flat_action()
 	tree2.delnode0 = "CHILDREN"
 	tree2.title=''
 	p=io.popen('dir "' .. tree['title'] .. '"')
@@ -731,11 +766,12 @@ function button_new_page2_without_versions:flat_action()
 	end --for k,v in pairs(directoryTable) do
 	iup.TreeAddNodes(tree2, explorerTree)
 	textbox2.value=tree['title']
-end --function button_new_page2_without_versions:action()
+end --function button_start_directory_without_versions:action()
 
 --6.5 button for copy and paste
-button_version_move_copy_and_paste = iup.flatbutton{title = "Datei in Ordner \neinfügen",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_version_move_copy_and_paste = iup.flatbutton{title = "Datei in Ziel-\nordner einfügen",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_version_move_copy_and_paste:flat_action()
+	local new_directory=textbox1.value 
 	if pickedFileName and textbox2.value~=textbox1.value and textbox2.value:match("^.:\\") and textbox1.value:match("^.:\\") then
 		Version=0
 		p=io.popen('dir "' .. textbox1.value .. "\\" .. pickedFileName:gsub("(%.+)","_Version*%1") .. '" /b/o')
@@ -753,10 +789,96 @@ function button_version_move_copy_and_paste:flat_action()
 	else
 		iup.Message("Keine Datei ausgewählt","oder Verzeichnisse gleich.")
 	end --if pickedFileName then
-	button_new_page_without_versions:flat_action()
+	textbox1.value=new_directory
+	for i=1, tree.count-1 do
+		if tree['title' .. i]==textbox1.value then
+		tree.value=i
+		end --if tree['title' .. i]==textbox1.value then
+	end --for i=numberOfNode, tree.count-1 do
+	button_new_directory_without_versions:flat_action()
 end --function button_version_move_copy_and_paste:action()
 
---6.6 button with second logo
+--6.6 button for copy and paste
+button_missing_copy_and_paste = iup.flatbutton{title = "Fehlende Dateien im \nZielordner ergänzen",size="90x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_missing_copy_and_paste:flat_action()
+	local new_directory=textbox1.value 
+	local files1Table={}
+	p=io.popen('dir "' .. textbox1.value .. '\\*.*" /b/o')
+	for Datei in p:lines() do 
+		if Datei:match("_Version(%d+)")==nil then 
+			files1Table[Datei]=true
+		end --if Datei:match("_Version(%d+)")==nil then 
+	end --for Datei in p:lines() do 
+	p=io.popen('dir "' .. textbox2.value .. '\\*.*" /b/o')
+	for Datei in p:lines() do 
+		if Datei:match("%.[^%.]+") and Datei:match("_Version(%d+)")==nil and files1Table[Datei]==nil and textbox2.value~=textbox1.value and textbox2.value:match("^.:\\") and textbox1.value:match("^.:\\") then 
+			os.execute('copy "' .. textbox2.value .. "\\" .. Datei .. '" "' .. textbox1.value .. "\\" .. Datei .. '"')
+			--test with: print('copy "' .. textbox2.value .. "\\" .. Datei .. '" "' .. textbox1.value .. "\\" .. Datei .. '"')
+		end --if Datei:match("_Version(%d+)")==nil then 
+	end --for Datei in p:lines() do 
+	textbox1.value=new_directory
+	for i=1, tree.count-1 do
+		if tree['title' .. i]==textbox1.value then
+		tree.value=i
+		end --if tree['title' .. i]==textbox1.value then
+	end --for i=numberOfNode, tree.count-1 do
+	button_new_directory_without_versions:flat_action()
+end --function button_missing_copy_and_paste:action()
+
+--6.7 button exchange start and new directory
+button_exchange_start_and_new_directory = iup.flatbutton{title = "Start- und \nZielordner tauschen",size="90x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_exchange_start_and_new_directory:flat_action()
+	local new_directory=textbox2.value 
+	local start_directory=textbox1.value 
+	textbox1.value=new_directory
+	for i=1, tree.count-1 do
+		if tree['title' .. i]==textbox1.value then
+		tree.value=i
+		end --if tree['title' .. i]==textbox1.value then
+	end --for i=numberOfNode, tree.count-1 do
+	button_new_directory_without_versions:flat_action()
+	textbox2.value=start_directory
+	for i=1, tree.count-1 do
+		if tree['title' .. i]==textbox2.value then
+		tree.value=i
+		end --if tree['title' .. i]==textbox2.value then
+	end --for i=numberOfNode, tree.count-1 do
+	button_start_directory_without_versions:flat_action()
+end --function button_exchange_start_and_new_directory:action()
+
+--6.8 button for comparing text file of tree and text file of tree2
+button_compare=iup.flatbutton{title="Ordner vergleichen", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_compare:flat_action()
+	--make the comparison
+	--go through tree 1
+	local file1existsTable={}
+	for i=0,tree1.totalchildcount0 do 
+		local line=tree1['TITLE' .. i]
+		file1existsTable[line]=true
+		iup.TreeSetNodeAttributes(tree1,i,{color="0 0 0",})
+	end --for i=0,tree1.totalchildcount0 do 
+	--go through tree 2
+	local file2existsTable={}
+	for i=0,tree2.totalchildcount0 do 
+		local line=tree2['TITLE' .. i]
+		file2existsTable[line]=true
+		iup.TreeSetNodeAttributes(tree2,i,{color="0 0 0",})
+	end --for i=0,tree2.totalchildcount0 do 
+
+	--go again through tree 1
+	for i=0,tree1.totalchildcount0 do 
+		local line=tree1['TITLE' .. i]
+		if file2existsTable[line]==nil then iup.TreeSetNodeAttributes(tree1,i,{color="228 27 0",}) end
+	end --for i=0,tree1.totalchildcount0 do 
+	--go again through tree 2
+	for i=0,tree2.totalchildcount0 do 
+		local line=tree2['TITLE' .. i]
+		if file1existsTable[line]==nil then iup.TreeSetNodeAttributes(tree2,i,{color="228 27 0",}) end
+	end --for i=0,tree2.totalchildcount0 do 
+
+end --function button_compare:flat_action()
+
+--6.9 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -824,7 +946,7 @@ tree1=iup.tree{
 map_cb=function(self)
 self:AddNodes(explorerTree)
 end, --function(self)
-SIZE="150x200",
+SIZE="250x200",
 showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
@@ -838,7 +960,7 @@ end --function tree:rightclick_cb(id)
 
 --7.4 load tree2 from directory
 p=io.popen('dir "C:\\"')
-explorerTree2={branchname="Ordnerinhalt des Vergleichsordners"}
+explorerTree2={branchname="Ordnerinhalt des Ursprungsordners"}
 for line in p:lines() do explorerTree2[#explorerTree2+1]=line:gsub("„","ä"):gsub("ÿ"," ") end
 textbox2.value="C:\\"
 --build tree for explorer
@@ -846,7 +968,7 @@ tree2=iup.tree{
 map_cb=function(self)
 self:AddNodes(explorerTree)
 end, --function(self)
-SIZE="250x200",
+SIZE="150x200",
 showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
@@ -867,16 +989,21 @@ maindlg = iup.dialog {
 			button_logo,
 			button_save_lua_table,
 			button_search,
-			iup.fill{},
-			textbox1,
 			textbox2,
-			button_new_page,
-			button_new_page_without_versions,
+			textbox1,
+			button_start_directory_without_versions,
+			iup.label{size="3x"},
+			button_exchange_start_and_new_directory,
+			button_compare,
+			iup.fill{},
+			button_missing_copy_and_paste,
 			button_version_move_copy_and_paste,
-			button_new_page2_without_versions,
+			iup.label{size="3x"},
+			button_new_directory,
+			button_new_directory_without_versions,
 			button_logo2,
 		}, --iup.hbox{
-		iup.hbox{iup.frame{title="Manuelle Zuordnung als Baum",tree,},iup.hbox{tree1,tree2,},},
+		iup.hbox{iup.frame{title="Manuelle Zuordnung als Baum",tree,},iup.hbox{tree2,tree1,},},
 	}, --iup.vbox{
 	icon = img_logo,
 	title = path .. " Documentation Tree",
