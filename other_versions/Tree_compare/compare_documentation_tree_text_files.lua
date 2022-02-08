@@ -285,6 +285,20 @@ function button_loading_first_text_file:flat_action()
 	end --if filedlg.status=="1" then
 end --function button_loading_first_text_file:flat_action()
 
+--6.2.1 button for loading text file 1
+button_scripter_first_text_file=iup.flatbutton{title="Skripter mit erster \nTextdatei starten", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_scripter_first_text_file:flat_action()
+	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
+	if file_exists(textbox1.value) then inputfile=io.open(textbox1.value,"r") ErsteZeile=inputfile:read() inputfile:close() end
+	if file_exists(textbox1.value) and ErsteZeile then 
+		os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. textbox1.value .. '"')
+	elseif file_exists(textbox1.value) then 
+		os.execute('start "d" notepad.exe "' .. textbox1.value .. '"')
+	else
+		os.execute('start "d" C:\\Lua\\iupluascripter54.exe ')
+	end --if file_exists(textbox1.value) and ErsteZeile then
+end --function button_scripter_first_text_file:flat_action()
+
 --6.3 button for loading text file 2
 button_loading_second_text_file=iup.flatbutton{title="Zweite Textdatei laden", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_second_text_file:flat_action()
@@ -304,6 +318,19 @@ function button_loading_second_text_file:flat_action()
 	end --if filedlg.status=="1" then
 end --function button_loading_second_text_file:flat_action()
 
+--6.3.1 button for loading text file 2
+button_scripter_second_text_file=iup.flatbutton{title="Skripter mit zweiter \nTextdatei starten", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_scripter_second_text_file:flat_action()
+	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
+	if file_exists(textbox2.value) then inputfile=io.open(textbox2.value,"r") ErsteZeile=inputfile:read() inputfile:close() end
+	if file_exists(textbox2.value) and ErsteZeile then 
+		os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. textbox2.value .. '"')
+	elseif file_exists(textbox2.value) then 
+		os.execute('start "d" notepad.exe "' .. textbox2.value .. '"')
+	else
+		os.execute('start "d" C:\\Lua\\iupluascripter54.exe ')
+	end --if file_exists(textbox2.value) and ErsteZeile then 
+end --function button_scripter_second_text_file:flat_action()
 
 --6.4 button for expand and collapse
 button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
@@ -475,11 +502,15 @@ maindlg = iup.dialog{
 		iup.hbox{
 			button_logo,
 			button_loading_first_text_file,
+			button_scripter_first_text_file,
+			iup.label{size="5x",},
 			button_loading_second_text_file,
+			button_scripter_second_text_file,
+			iup.fill{},
 			button_compare,
+			iup.label{size="5x",},
 			button_expand_collapse_dialog,
 			iup.label{size="5x",},
-			iup.fill{},
 			button_logo2,
 		},
 		
