@@ -52,7 +52,7 @@ do --sandboxing
 		else
 			print(a .." ist nicht erlaubt.")
 		end --if a:match("del") then 
-	end --function os.execute(a)
+	end --function io.popen(a)
 end --do --sandboxing
 
 --1.2 color section
