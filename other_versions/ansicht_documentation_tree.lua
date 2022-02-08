@@ -1115,7 +1115,7 @@ function startnodescripter:action()
 	end --if file_exists(tree['title']) and ErsteZeile then 
 end --function startnodescripter:action()
 
---5.1.10 start a preview of file of tree with columns for csv files or dir for repository or the text of the node
+--5.1.10.1 start a preview of file of tree with columns for csv files or dir for repository or the text of the node
 starteditor = iup.item {title = "Vorschau"}
 function starteditor:action() --start preview
 	if file_exists(tree['title']) then
@@ -1158,6 +1158,38 @@ function starteditor:action() --start preview
 	end --if file_exists(tree['title']) then
 end --function starteditor:action()
 
+--5.1.10.2 start a preview of path and filenames of the scipt chosen in node
+starteditor_path_files_of_script = iup.item {title = "Vorschau Pfade und Dateien"}
+function starteditor_path_files_of_script:action()
+	local takeLine
+	local inputOutputData=""
+	local pathThisfilenameTable={}
+	if file_exists(tree['title']) then
+		for line in io.lines(tree['title']) do
+			if line:match('arg%[0%]') and line:match("^\t*%-%-")==nil and line:match("^\t*end ?%-%-")==nil then
+				--test with: inputOutputData=inputOutputData .. "exchange_" .. line:gsub("^ *",""):gsub("^\t*",""):gsub('arg%[0%]','("' .. string.escape_forbidden_char(tree['title']) .. '")') .. "\n"
+				pathThisfilenameTable[line:match("^[^=]+"):gsub(" ","")]=line:match("^[^=]+"):gsub(" ","")
+			end --if line:match('arg%[0%]") then
+		end --for line in io.lines(tree['title']) do
+		for line in io.lines(tree['title']) do
+			takeLine="no"
+			for k,v in pairs(pathThisfilenameTable) do
+				if (" " .. line .. " "):match("[^a-zA-Z0-9_]" .. k .. "[^a-zA-Z0-9_]") then takeLine="yes" end
+			end --for k,v in pairs(pathThisfilenameTable) do
+			if line:match("^\t*%-%-")==nil and line:match("^\t*end ?%-%-")==nil then
+				if takeLine=="yes" then
+					inputOutputData=inputOutputData .. line .. "\n"
+				elseif line:match('\\\\[a-zA-Z0-9_]+%.[a-zA-Z0-9]+') then
+					inputOutputData=inputOutputData .. line .. "\n"
+				elseif line:match('\\[a-zA-Z0-9_]+%.[a-zA-Z0-9]+') then
+					inputOutputData=inputOutputData .. line .. "\n"
+				end --if line:match('\\[a-zA-Z0-9_]+%.[a-zA-Z0-9]+') then
+			end --if line:match("^\t*%-%-")==nil and line:match("^\t*end ?%-%-")==nil then
+		end --for line in io.lines(tree['title']) do
+		textfield1.value=inputOutputData
+	end --if file_exists(tree['title']) then
+end --function starteditor_path_files_of_script:action()
+
 --5.1.11 start the file or repository of the node of tree 
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
@@ -1181,6 +1213,7 @@ menu = iup.menu{
 		startastree, 
 		startnodescripter, 
 		starteditor,
+		starteditor_path_files_of_script,
 		startnode, 
 		}
 --5.1 menu of tree end
