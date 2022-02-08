@@ -1073,6 +1073,10 @@ function starteditor_path_files_of_script:action()
 					inputOutputData=inputOutputData .. line .. "\n"
 				elseif line:match('\\[a-zA-Z0-9_]+%.[a-zA-Z0-9]+') then
 					inputOutputData=inputOutputData .. line .. "\n"
+				elseif line:match('"[a-zA-Z0-9_]+%.[a-zA-Z0-9]+"') then
+					inputOutputData=inputOutputData .. line .. "\n"
+				elseif line:match("'[a-zA-Z0-9_]+%.[a-zA-Z0-9]+'") then
+					inputOutputData=inputOutputData .. line .. "\n"
 				end --if line:match('\\[a-zA-Z0-9_]+%.[a-zA-Z0-9]+') then
 			end --if line:match("^\t*%-%-")==nil and line:match("^\t*end ?%-%-")==nil then
 		end --for line in io.lines(tree['title']) do
