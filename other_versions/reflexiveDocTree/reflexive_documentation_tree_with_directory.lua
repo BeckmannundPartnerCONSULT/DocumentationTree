@@ -1003,7 +1003,7 @@ maindlg = iup.dialog {
 			button_new_directory_without_versions,
 			button_logo2,
 		}, --iup.hbox{
-		iup.hbox{iup.frame{title="Manuelle Zuordnung als Baum",tree,},iup.hbox{tree2,tree1,},},
+		iup.hbox{iup.frame{title="Manuelle Zuordnung als Baum",tree,},iup.frame{title="Ursprungsordner als Baum",tree2},iup.frame{title="Zielordner als Baum",tree1,},},
 	}, --iup.vbox{
 	icon = img_logo,
 	title = path .. " Documentation Tree",
