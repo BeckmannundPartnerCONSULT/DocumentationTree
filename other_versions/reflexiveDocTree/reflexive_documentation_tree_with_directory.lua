@@ -41,38 +41,38 @@ end --if _VERSION=='Lua 5.1' then
 
 --1.1.5 securisation by allowing only necessary os.execute commands
 do --sandboxing
-local old=os.date("%H%M%S")
-local secureTable={}
-secureTable[old]=os.execute
-function os.execute(a)
-if 
-a:lower():match("^sftp ") or
-a:lower():match("^dir ") or
-a:lower():match("^pause") or
-a:lower():match("^title") or
-a:lower():match("^md ") or
-a:lower():match("^move ") or
-a:lower():match("^copy ") or
-a:lower():match("^color ") or
-a:lower():match("^start ") or
-a:lower():match("^cls") 
-then
-return secureTable[old](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
-secureTable[old .. "1"]=io.popen
-function io.popen(a)
-if 
-a:lower():match("^dir ") or
-a:lower():match('^"dir ') 
-then
-return secureTable[old .. "1"](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
+	local old=os.date("%H%M%S")
+	local secureTable={}
+	secureTable[old]=os.execute
+	function os.execute(a)
+		if 
+		a:lower():match("^sftp ") or
+		a:lower():match("^dir ") or
+		a:lower():match("^pause") or
+		a:lower():match("^title") or
+		a:lower():match("^md ") or
+		a:lower():match("^move ") or
+		a:lower():match("^copy ") or
+		a:lower():match("^color ") or
+		a:lower():match("^start ") or
+		a:lower():match("^cls") 
+		then
+			return secureTable[old](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function os.execute(a)
+	secureTable[old .. "1"]=io.popen
+	function io.popen(a)
+		if 
+		a:lower():match("^dir ") or
+		a:lower():match('^"dir ') 
+		then
+			return secureTable[old .. "1"](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function io.popen(a)
 end --do --sandboxing
 
 --1.2 color section
@@ -698,7 +698,12 @@ function button_new_directory:flat_action()
 		explorerTree[#explorerTree+1]={branchname=k .. ": " .. string.rep(" ",math.max(4-#tostring(k),0)) .. v}
 	end --for k,v in pairs(directoryTable) do
 	iup.TreeAddNodes(tree1, explorerTree)
-	textbox1.value=tree['title']
+	--for search of file use only directory name
+	if tree['title']:match(".*\\[^\\]+%.[^\\]+$") then 
+		textbox1.value=tree['title']:match("(.*)\\[^\\]+%.[^\\]+$")
+	else
+		textbox1.value=tree['title']
+	end --if textbox1.value==tree['title']:match(".*\\[^\\]+%.[^\\]+$") then
 end --function button_new_directory:action()
 
 
@@ -732,7 +737,12 @@ function button_new_directory_without_versions:flat_action()
 		explorerTree[#explorerTree+1]={branchname=k .. ": " .. string.rep(" ",math.max(4-#tostring(k),0)) .. v}
 	end --for k,v in pairs(directoryTable) do
 	iup.TreeAddNodes(tree1, explorerTree)
-	textbox1.value=tree['title']
+	--for search of file use only directory name
+	if tree['title']:match(".*\\[^\\]+%.[^\\]+$") then
+		textbox1.value=tree['title']:match("(.*)\\[^\\]+%.[^\\]+$")
+	else
+		textbox1.value=tree['title']
+	end --if textbox1.value==tree['title']:match(".*\\[^\\]+%.[^\\]+$") then
 end --function button_new_directory_without_versions:action()
 
 --6.4.2 button for building new page tree2 without versions
@@ -765,7 +775,12 @@ function button_start_directory_without_versions:flat_action()
 		explorerTree[#explorerTree+1]={branchname=k .. ": " .. string.rep(" ",math.max(4-#tostring(k),0)) .. v}
 	end --for k,v in pairs(directoryTable) do
 	iup.TreeAddNodes(tree2, explorerTree)
-	textbox2.value=tree['title']
+	--for search of file use only directory name
+	if tree['title']:match(".*\\[^\\]+%.[^\\]+$") then
+		textbox2.value=tree['title']:match("(.*)\\[^\\]+%.[^\\]+$")
+	else
+		textbox2.value=tree['title']
+	end --if textbox2.value==tree['title']:match(".*\\[^\\]+%.[^\\]+$") then
 end --function button_start_directory_without_versions:action()
 
 --6.5 button for copy and paste
