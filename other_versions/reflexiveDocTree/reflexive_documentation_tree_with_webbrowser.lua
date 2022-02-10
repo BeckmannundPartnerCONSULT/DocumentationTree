@@ -367,7 +367,7 @@ function searchdown:flat_action()
 	local wordTable={}
 	local searchtextValue
 	if searchtext.value:match("%u[^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
-		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u"," "):gsub("%. %u"," "):gsub(": %u"," ")
+		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u+"," "):gsub("%. %u+"," "):gsub(": %u+"," ")
 	else
 		searchtextValue=searchtext.value
 	end --if searchtext.value:match("%u[^%s%p]+.*%?") then
@@ -424,7 +424,7 @@ function searchmark:flat_action()
 	local wordTable={}
 	local searchtextValue
 	if searchtext.value:match("%u[^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
-		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u"," "):gsub("%. %u"," "):gsub(": %u"," ")
+		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u+"," "):gsub("%. %u+"," "):gsub(": %u+"," ")
 	else
 		searchtextValue=searchtext.value
 	end --if searchtext.value:match("%u[^%s%p]+.*%?") then
@@ -504,7 +504,7 @@ function searchup:flat_action()
 	local wordTable={}
 	local searchtextValue
 	if searchtext.value:match("%u[^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
-		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u"," "):gsub("%. %u"," "):gsub(": %u"," ")
+		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u+"," "):gsub("%. %u+"," "):gsub(": %u+"," ")
 	else
 		searchtextValue=searchtext.value
 	end --if searchtext.value:match("%u[^%s%p]+.*%?") then
