@@ -356,11 +356,25 @@ dlg_change_page = iup.dialog{
 
 --4.3 search dialog
 searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
+searchtext2 = iup.multiline{border="YES",expand="YES",wordwrap="YES"} --textfield for search
 search_found_number = iup.text{border="YES",expand="YES",} --textfield for search found number
 
 --search in downward direction
 searchdown    = iup.flatbutton{title = "Abwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchdown:flat_action()
+	--for search for substantives in german questions
+	searchtext2.value=""
+	local wordTable={}
+	local searchtextValue
+	if searchtext.value:match("%u[^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
+		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u"," "):gsub("%. %u"," "):gsub(": %u"," ")
+	else
+		searchtextValue=searchtext.value
+	end --if searchtext.value:match("%u[^%s%p]+.*%?") then
+	for word in searchtextValue:gmatch("%u[^%s%p]+") do 
+		wordTable[#wordTable+1]=word 
+		searchtext2.value=searchtext2.value .. "/" .. word
+	end --for word in searchtextValue:gmatch("%u[^%s%p]+") do 
 	local help=false
 	--downward search
 	if checkboxforcasesensitive.value=="ON"  then
@@ -378,6 +392,18 @@ function searchdown:flat_action()
 				help=true
 				break
 			end --if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+			local searchFound=0
+			for k,v in pairs(wordTable) do	
+				--test with: print(k,v)
+				if tree["title" .. i]:upper():match(v:upper())~= nil then
+					searchFound=searchFound+1
+				end --if tree["title" .. i]:upper():match(v:upper())~= nil then
+			end --for k,v in pairs(wordTable) do	
+			if #wordTable>0 and searchFound==#wordTable then
+				tree.value= i
+				help=true
+				break
+			end --if searchFound==#wordTable then
 		end --for i=tree.value + 1, tree.count-1 do
 	end --if checkboxforcasesensitive.value=="ON" then
 	if help==false then
@@ -392,6 +418,20 @@ end --function searchdown:flat_action()
 searchmark    = iup.flatbutton{title = "Markieren",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchmark:flat_action()
 	local numberFound=0
+	local numberFoundWord=0
+	--for search for substantives in german questions
+	searchtext2.value=""
+	local wordTable={}
+	local searchtextValue
+	if searchtext.value:match("%u[^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
+		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u"," "):gsub("%. %u"," "):gsub(": %u"," ")
+	else
+		searchtextValue=searchtext.value
+	end --if searchtext.value:match("%u[^%s%p]+.*%?") then
+	for word in searchtextValue:gmatch("%u[^%s%p]+") do 
+		wordTable[#wordTable+1]=word 
+		searchtext2.value=searchtext2.value .. "/" .. word
+	end --for word in searchtextValue:gmatch("%u[^%s%p]+") do 
 	--unmark all nodes
 	for i=0, tree.count - 1 do
 			tree["color" .. i]="0 0 0"
@@ -405,6 +445,19 @@ function searchmark:flat_action()
 			iup.TreeSetNodeAttributes(tree,i,{color="0 0 250",})
 			iup.TreeSetDescendantsAttributes(tree,i,{color="90 195 0"})
 		end --if tree["title" .. i]:upper():match(searchtext.value:upper())~= nil then
+		local searchFound=0
+		for k,v in pairs(wordTable) do	
+			--test with: print(k,v)
+			if tree["title" .. i]:upper():match(v:upper())~= nil then
+				searchFound=searchFound+1
+			end --if tree["title" .. i]:upper():match(v:upper())~= nil then
+		end --for k,v in pairs(wordTable) do	
+		if #wordTable>0 and searchFound==#wordTable then
+				numberFoundWord=numberFoundWord+1
+				iup.TreeSetAncestorsAttributes(tree,i,{color="255 0 0",})
+				iup.TreeSetNodeAttributes(tree,i,{color="0 0 250",})
+				iup.TreeSetDescendantsAttributes(tree,i,{color="90 195 0"})
+		end --if searchFound==#wordTable then
 	end --for i=0, tree.count - 1 do
 	--mark all nodes end
 	for i=0, tree.count - 1 do
@@ -429,7 +482,7 @@ function searchmark:flat_action()
 		end --if checkboxforsearchinfiles.value=="ON"  and file_exists(tree["title" .. i])
 		--search in text files if checkbox on end
 	end --for i=0, tree.count - 1 do
-	search_found_number.value="Anzahl Fundstellen: " .. tostring(numberFound) .. " mal " .. tostring(searchtext.value) .. " gefunden."
+	search_found_number.value="Anzahl Fundstellen: " .. tostring(numberFound) .. " direkt bzw. " .. tostring(numberFoundWord) .. " indirekt " .. tostring(searchtext.value) .. " gefunden."
 end --function searchmark:flat_action()
 
 --unmark without leaving the search-window
@@ -446,6 +499,19 @@ end --function unmark:flat_action()
 --search in upward direction
 searchup   = iup.flatbutton{title = "Aufwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchup:flat_action()
+	--for search for substantives in german questions
+	searchtext2.value=""
+	local wordTable={}
+	local searchtextValue
+	if searchtext.value:match("%u[^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
+		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u"," "):gsub("%. %u"," "):gsub(": %u"," ")
+	else
+		searchtextValue=searchtext.value
+	end --if searchtext.value:match("%u[^%s%p]+.*%?") then
+	for word in searchtextValue:gmatch("%u[^%s%p]+") do 
+		wordTable[#wordTable+1]=word 
+		searchtext2.value=searchtext2.value .. "/" .. word
+	end --for word in searchtextValue:gmatch("%u[^%s%p]+") do 
 	local help=false
 	--upward search
 	if checkboxforcasesensitive.value=="ON" then
@@ -463,6 +529,18 @@ function searchup:flat_action()
 				help=true
 				break
 			end --if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+			local searchFound=0
+			for k,v in pairs(wordTable) do	
+				--test with: print(k,v)
+				if tree["title" .. i]:upper():match(v:upper())~= nil then
+					searchFound=searchFound+1
+				end --if tree["title" .. i]:upper():match(v:upper())~= nil then
+			end --for k,v in pairs(wordTable) do	
+			if #wordTable>0 and searchFound==#wordTable then
+				tree.value= i
+				help=true
+				break
+			end --if searchFound==#wordTable then
 		end --for i=tree.value - 1, 0, -1 do
 	end --if checkboxforcasesensitive.value=="ON" then
 	if help==false then
@@ -480,7 +558,7 @@ search_label=iup.label{title="Suchfeld:"} --label for textfield
 
 --put above together in a search dialog
 dlg_search =iup.dialog{
-			iup.vbox{iup.hbox{search_label,searchtext,}, 
+			iup.vbox{iup.hbox{search_label,iup.vbox{searchtext,iup.label{title="Suchworte aus Fragen und Texten:"},searchtext2,}}, 
 
 			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
 			iup.hbox{searchmark,unmark,checkboxforsearchinfiles,}, 
@@ -491,7 +569,7 @@ dlg_search =iup.dialog{
 			iup.hbox{search_found_number,},
 			}; 
 		title="Suchen",
-		size="420x100",
+		size="420x140",
 		startfocus=searchtext
 		}
 
