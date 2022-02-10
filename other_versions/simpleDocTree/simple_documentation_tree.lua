@@ -550,7 +550,7 @@ maindlg = iup.dialog{
 --7.2.1 show the dialog
 maindlg:show()
 
---7.2.3 go to the main dialog
+--7.2.2 go to the main dialog
 iup.NextField(maindlg)
 
 
