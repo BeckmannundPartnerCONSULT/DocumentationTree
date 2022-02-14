@@ -794,7 +794,7 @@ function button_transform_page:flat_action()
 			:gsub("^====[^=]","<h4>"):gsub("[^=]====$","</h4>")
 			:gsub("^=====[^=]","<h4>"):gsub("[^=]=====$","</h5>")
 		outputfile_tex:write(line .. "\n")
-	end --for line in io.lines("C:\\Temp\\test.txt") do
+	end --for line in io.lines("C:\\Temp\\test_first.txt") do
 	outputfile_tex:write([[
 
 	\end{document}
@@ -816,7 +816,7 @@ function button_transform_page:flat_action()
 			:gsub("#! ?",'')
 			:gsub('<table class="wikitable">','<table class="wikitable" border=1>')
 		outputfile_html:write(line .. "\n")
-	end --for line in io.lines("C:\\Temp\\test.txt") do
+	end --for line in io.lines("C:\\Temp\\test_roh.html") do
 	outputfile_html:close()
 	--5. write in GUI
 	inputfile_html=io.open("C:\\Temp\\test.html","r")
