@@ -10,7 +10,11 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-1. ansicht_documentation_tree.lua and nachschlagen_documentation_tree.lua
+1.1 IDIV_package.zip
+
+This zip file contains easy to use package to start with the interactive dynamic table of contents.
+
+1.2 ansicht_documentation_tree.lua and nachschlagen_documentation_tree.lua
 
 Download the IUP Lua framework and the documentation tree. Build a directory C:\Lua
 
