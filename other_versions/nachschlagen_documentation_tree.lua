@@ -962,7 +962,7 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.8 start node of tree as a tree GUI or save a new one if not existing
+--5.1.8.1 start node of tree as a tree GUI or save a new one if not existing
 startastree = iup.item {title = "Als Tree starten"}
 function startastree:action()
 	--look for a tree GUI in the repositories in the path
@@ -990,6 +990,14 @@ function startastree:action()
 		iup.Message("Kein Tree","Bei " .. tree['title'] .. " wird kein Tree angelegt.")
 	end --if file_exists(tree['title'] .. '\\' .. thisfilename ) then
 end --function startastree:action()
+
+--5.1.8.2 start the repository of the file of the node of tree 
+start_repository_of_node = iup.item {title = "Ordner des Knotens starten"}
+function start_repository_of_node:action() 
+	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
+		os.execute('start "D" "' .. tree['title']:match("(.*)\\") .. '"') 
+	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
+end --function start_repository_of_node:action()
 
 --5.1.9 start file of node of tree in IUP Lua scripter or start empty file in notepad or start empty scripter
 startnodescripter = iup.item {title = "Skripter starten"}
@@ -1109,6 +1117,7 @@ menu = iup.menu{
 		addleaf_fromclipboardbottom,
 		startversion,
 		startastree, 
+		start_repository_of_node, 
 		startnodescripter, 
 		starteditor,
 		starteditor_path_files_of_script,
