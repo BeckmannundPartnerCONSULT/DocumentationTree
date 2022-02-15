@@ -10,11 +10,18 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-1.1 IDIV_package.zip and IDIV_package_zip.lua
+1.1.1 IDIV_package_starter_kit.zip and IDIV_package_starter_kit_zip.lua
 
 This zip file contains easy to use package to start with the interactive dynamic table of contents.
 
+The script IDIV_package_starter_kit_zip.lua is used to build IDIV_package_starter_kit.zip.
+
+1.1.2 IDIV_package.zip and IDIV_package_zip.lua
+
+This zip file contains easy to use package to use interactive dynamic table of contents products.
+
 The script IDIV_package_zip.lua is used to build IDIV_package.zip.
+
 
 1.2 ansicht_documentation_tree.lua and nachschlagen_documentation_tree.lua
 
