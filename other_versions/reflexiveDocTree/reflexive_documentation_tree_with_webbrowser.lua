@@ -366,15 +366,15 @@ function searchdown:flat_action()
 	searchtext2.value=""
 	local wordTable={}
 	local searchtextValue
-	if searchtext.value:match("%u[^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
-		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u+"," "):gsub("%. %u+"," "):gsub(": %u+"," ")
+	if searchtext.value:match("[%uÄÖÜ][^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
+		searchtextValue=searchtext.value:match("[%uÄÖÜ][^%s%p]+ (.*)%?"):gsub("%? [%uÄÖÜ]+"," "):gsub("%. [%uÄÖÜ]+"," "):gsub(": [%uÄÖÜ]+"," ")
 	else
 		searchtextValue=searchtext.value
-	end --if searchtext.value:match("%u[^%s%p]+.*%?") then
-	for word in searchtextValue:gmatch("%u[^%s%p]+") do 
+	end --if searchtext.value:match("[%uÄÖÜ][^%s%p]+.*%?") then
+	for word in searchtextValue:gmatch("[%uÄÖÜ][^%s%p]+") do 
 		wordTable[#wordTable+1]=word 
 		searchtext2.value=searchtext2.value .. "/" .. word
-	end --for word in searchtextValue:gmatch("%u[^%s%p]+") do 
+	end --for word in searchtextValue:gmatch("[%uÄÖÜ][^%s%p]+") do 
 	local help=false
 	--downward search
 	if checkboxforcasesensitive.value=="ON"  then
@@ -423,15 +423,15 @@ function searchmark:flat_action()
 	searchtext2.value=""
 	local wordTable={}
 	local searchtextValue
-	if searchtext.value:match("%u[^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
-		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u+"," "):gsub("%. %u+"," "):gsub(": %u+"," ")
+	if searchtext.value:match("[%uÄÖÜ][^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
+		searchtextValue=searchtext.value:match("[%uÄÖÜ][^%s%p]+ (.*)%?"):gsub("%? [%uÄÖÜ]+"," "):gsub("%. [%uÄÖÜ]+"," "):gsub(": [%uÄÖÜ]+"," ")
 	else
 		searchtextValue=searchtext.value
-	end --if searchtext.value:match("%u[^%s%p]+.*%?") then
-	for word in searchtextValue:gmatch("%u[^%s%p]+") do 
+	end --if searchtext.value:match("[%uÄÖÜ][^%s%p]+.*%?") then
+	for word in searchtextValue:gmatch("[%uÄÖÜ][^%s%p]+") do 
 		wordTable[#wordTable+1]=word 
 		searchtext2.value=searchtext2.value .. "/" .. word
-	end --for word in searchtextValue:gmatch("%u[^%s%p]+") do 
+	end --for word in searchtextValue:gmatch("[%uÄÖÜ][^%s%p]+") do 
 	--unmark all nodes
 	for i=0, tree.count - 1 do
 			tree["color" .. i]="0 0 0"
@@ -503,15 +503,15 @@ function searchup:flat_action()
 	searchtext2.value=""
 	local wordTable={}
 	local searchtextValue
-	if searchtext.value:match("%u[^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
-		searchtextValue=searchtext.value:match("%u[^%s%p]+ (.*)%?"):gsub("%? %u+"," "):gsub("%. %u+"," "):gsub(": %u+"," ")
+	if searchtext.value:match("[%uÄÖÜ][^%s%p]+.*%?") then --take words except space characters %s and punctuation characters %p
+		searchtextValue=searchtext.value:match("[%uÄÖÜ][^%s%p]+ (.*)%?"):gsub("%? [%uÄÖÜ]+"," "):gsub("%. [%uÄÖÜ]+"," "):gsub(": [%uÄÖÜ]+"," ")
 	else
 		searchtextValue=searchtext.value
-	end --if searchtext.value:match("%u[^%s%p]+.*%?") then
-	for word in searchtextValue:gmatch("%u[^%s%p]+") do 
+	end --if searchtext.value:match("[%uÄÖÜ][^%s%p]+.*%?") then
+	for word in searchtextValue:gmatch("[%uÄÖÜ][^%s%p]+") do 
 		wordTable[#wordTable+1]=word 
 		searchtext2.value=searchtext2.value .. "/" .. word
-	end --for word in searchtextValue:gmatch("%u[^%s%p]+") do 
+	end --for word in searchtextValue:gmatch("[%uÄÖÜ][^%s%p]+") do 
 	local help=false
 	--upward search
 	if checkboxforcasesensitive.value=="ON" then
