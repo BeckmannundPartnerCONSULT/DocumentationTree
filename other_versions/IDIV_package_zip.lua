@@ -3,16 +3,18 @@
 
 packageTable={}
 
+--reflexive scripts are special
+packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_search.lua"]="C:\\Tree\\IDIV_package\\IDIV_Suchergebnisse_Internet"
+packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
+packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_with_directory.lua"]="C:\\Tree\\IDIV_package\\IDIV_Ordnergliederung"
+packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_html_with_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Praesentation"
 
-
+--non reflexive scripts can be easily updated, but they need aditional files
 packageTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\nachschlagen_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Arbeitsplatz"
 packageTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\ansicht_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Bibliothek"
 packageTable["C:\\Tree\\Tree_compare\\compare_documentation_tree_lua_trees.lua"]="C:\\Tree\\IDIV_package\\IDIV_Baumansichtvergleich"
 packageTable["C:\\Tree\\Tree_compare\\compare_documentation_tree_text_files.lua"]="C:\\Tree\\IDIV_package\\IDIV_Textdateivergleich"
 packageTable["C:\\Tree\\Tree_News\\Tree_news_categorisation.lua"]="C:\\Tree\\IDIV_package\\IDIV_Nachrichtenverarbeitung"
-packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_search.lua"]="C:\\Tree\\IDIV_package\\IDIV_Suchergebnisse_Internet"
-packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
-packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_with_directory.lua"]="C:\\Tree\\IDIV_package\\IDIV_Ordnergliederung"
 packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_webpage_search.lua"]="C:\\Tree\\IDIV_package\\IDIV_Suchergebnisse_Webpage"
 packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
 packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_with_file_dialog.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
@@ -33,10 +35,8 @@ function string.escape_forbidden_char(insertstring) --this function takes a stri
 end --function string.escape_forbidden_char(insertstring)
 
 --2. collect data for the tree
-
-outputfile1=io.open("C:\\Tree\\reflexiveDocTree\\reflexive_html_with_tree_do_list_Tree.lua","w")
 productTable={}
-for line in io.lines("C:\\Tree\\reflexiveDocTree\\reflexive_html_with_tree.lua") do
+for line in io.lines("C:\\Tree\\reflexiveDocTree\\reflexive_html_with_tree_Produktpalette.lua") do
 	line=string.escape_forbidden_char(line)
 	if line:match("<.*<!--") then
 		if line:match("%(.*%)") then UnterGruppe="_" .. line:match("%([^%)]*%)") else UnterGruppe="" end
