@@ -336,6 +336,7 @@ end --function file_exists(name)
 --3.1.2 round function here away-from-zero
 --other forms of round functions can also be implemented in Lua
 function math.round(a,precisionNumber) 
+precisionNumber=precisionNumber or 0 
 if a>0 then return math.floor(a*10^precisionNumber+0.5)/10^precisionNumber 
 else        return math.ceil (a*10^precisionNumber-0.5)/10^precisionNumber 
 end --if a>0 then
