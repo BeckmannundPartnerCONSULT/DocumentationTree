@@ -543,7 +543,23 @@ menu = iup.menu{
 
 --5.2 menu of tree1 
 
---5.2.1 move a version of the file selected in the tree1 and give it the next version number
+--5.2.1 copy node of tree1
+startcopy1 = iup.item {title = "Knoten kopieren"}
+function startcopy1:action() --copy node
+	local repositoryName=""
+	for i=0,tree1.count-1 do
+		if tree1["title" .. i]:match(".:\\.*") then
+			repositoryName=tree1["title" .. i]:match(".:\\.*")
+		end --if tree1["title" .. i]:match(".:\\.*") then
+	end --for i=0,tree1.count-1 do
+	if tree1['title']:match("%d%d.%d%d.%d%d%d%d.*") then
+		clipboard.text=(repositoryName .. "\\" .. tree1['title']:match("%d%d.%d%d.%d%d%d%d.*"):sub(37)):gsub("\\\\","\\")
+	else
+		clipboard.text=(repositoryName .. "\\" .. tree1['title']:sub(37)):gsub("\\\\","\\")
+	end --if tree1['title']:match("%d%d.%d%d.%d%d%d%d.*") then
+end --function startcopy1:action() 
+
+--5.2.2 move a version of the file selected in the tree1 and give it the next version number
 startversionmove = iup.item {title = "Version umbenennen und archivieren"}
 function startversionmove:action()
 	--get the version of the file
@@ -573,6 +589,7 @@ end --function startnode1:action()
 
 --5.2.4 put the buttons together in the menu for tree
 menu1 = iup.menu{
+		startcopy1, 
 		startversionmove, 
 		startnode1, 
 		}
@@ -580,7 +597,23 @@ menu1 = iup.menu{
 
 --5.3 menu of tree2 
 
---5.3.1 pick file selected in the tree2
+--5.3.1 copy node of tree2
+startcopy2 = iup.item {title = "Knoten kopieren"}
+function startcopy2:action() --copy node
+	local repositoryName=""
+	for i=0,tree2.count-1 do
+		if tree2["title" .. i]:match(".:\\.*") then
+			repositoryName=tree2["title" .. i]:match(".:\\.*")
+		end --if tree2["title" .. i]:match(".:\\.*") then
+	end --for i=0,tree2.count-1 do
+	if tree2['title']:match("%d%d.%d%d.%d%d%d%d.*") then
+		clipboard.text=(repositoryName .. "\\" .. tree2['title']:match("%d%d.%d%d.%d%d%d%d.*"):sub(37)):gsub("\\\\","\\")
+	else
+		clipboard.text=(repositoryName .. "\\" .. tree2['title']:sub(37)):gsub("\\\\","\\")
+	end --if tree2['title']:match("%d%d.%d%d.%d%d%d%d.*") then
+end --function startcopy2:action() 
+
+--5.3.2 pick file selected in the tree2
 startpickfile = iup.item {title = "Datei auswählen"}
 function startpickfile:action()
 	if tree2['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree2['title']:match("<DIR>")==nil then
@@ -599,6 +632,7 @@ end --function startnode2:action()
 
 --5.2.4 put the buttons together in the menu for tree
 menu2 = iup.menu{
+		startcopy2, 
 		startpickfile, 
 		startnode2, 
 		}
@@ -718,13 +752,13 @@ function button_new_directory_without_versions:flat_action()
 	local directoryTable={}
 	local directoryInformationTable={}
 	for line in p:lines() do 
-		if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil and line:match("_Version%d+")==nil then
+		if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil and line:match("_Version%d+")==nil and line:sub(37,37)~="." then
 			fileTable[#fileTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
 		elseif line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>") then
 			directoryTable[#directoryTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
 		elseif line:match("%(") or line:match(":\\") then
 			directoryInformationTable[#directoryInformationTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
-		end --if line:match("^%d%d.%d%d.%d%d%d%d") then
+		end --if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil and line:match("_Version%d+")==nil and line:sub(37,37)~="." then
 	end --for line in p:lines() do 
 	for k,v in pairs(directoryInformationTable) do
 		explorerTree[#explorerTree+1]={branchname=v}
@@ -756,13 +790,13 @@ function button_start_directory_without_versions:flat_action()
 	local directoryTable={}
 	local directoryInformationTable={}
 	for line in p:lines() do 
-		if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil and line:match("_Version%d+")==nil then
+		if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil and line:match("_Version%d+")==nil and line:sub(37,37)~="." then
 			fileTable[#fileTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
 		elseif line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>") then
 			directoryTable[#directoryTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
 		elseif line:match("%(") or line:match(":\\") then
 			directoryInformationTable[#directoryInformationTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
-		end --if line:match("^%d%d.%d%d.%d%d%d%d") then
+		end --if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil and line:match("_Version%d+")==nil and line:sub(37,37)~="." then
 	end --for line in p:lines() do 
 	for k,v in pairs(directoryInformationTable) do
 		explorerTree[#explorerTree+1]={branchname=v}
@@ -868,26 +902,26 @@ function button_compare:flat_action()
 	--go through tree 1
 	local file1existsTable={}
 	for i=0,tree1.totalchildcount0 do 
-		local line=tree1['TITLE' .. i]
+		local line=tree1['TITLE' .. i]:match("%d: (.*)") or tree1['TITLE' .. i]
 		file1existsTable[line]=true
 		iup.TreeSetNodeAttributes(tree1,i,{color="0 0 0",})
 	end --for i=0,tree1.totalchildcount0 do 
 	--go through tree 2
 	local file2existsTable={}
 	for i=0,tree2.totalchildcount0 do 
-		local line=tree2['TITLE' .. i]
+		local line=tree2['TITLE' .. i]:match("%d: (.*)") or tree2['TITLE' .. i]
 		file2existsTable[line]=true
 		iup.TreeSetNodeAttributes(tree2,i,{color="0 0 0",})
 	end --for i=0,tree2.totalchildcount0 do 
 
 	--go again through tree 1
 	for i=0,tree1.totalchildcount0 do 
-		local line=tree1['TITLE' .. i]
+		local line=tree1['TITLE' .. i]:match("%d: (.*)") or tree1['TITLE' .. i]
 		if file2existsTable[line]==nil then iup.TreeSetNodeAttributes(tree1,i,{color="228 27 0",}) end
 	end --for i=0,tree1.totalchildcount0 do 
 	--go again through tree 2
 	for i=0,tree2.totalchildcount0 do 
-		local line=tree2['TITLE' .. i]
+		local line=tree2['TITLE' .. i]:match("%d: (.*)") or tree2['TITLE' .. i]
 		if file1existsTable[line]==nil then iup.TreeSetNodeAttributes(tree2,i,{color="228 27 0",}) end
 	end --for i=0,tree2.totalchildcount0 do 
 
