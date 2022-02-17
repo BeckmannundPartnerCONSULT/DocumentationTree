@@ -22,8 +22,16 @@ This batch file is the launcher for the Lua script Tree_Luajava_Windows.lua.
 
 5. Tree_Luajava_start.sh
 
-This batch file is the launcher for the Lua script Tree_Luajava_Linux.lua.
+This shell file is the launcher for the Lua script Tree_Luajava_Linux.lua.
 
 6. Tree_Luajava_Linux_RaspberryPi.lua
 
 This script is especially written for a Raspberry Pi. The launcher Tree_Luajava_start.sh can be adapted with the file name Tree_Luajava_Linux_RaspberryPi.lua.
+
+7. Tree_Luajava_Linux_directory.lua
+
+This script is used to open a graphical user interface with two directories and the comparison of both.
+
+8. Tree_Luajava_start_directory.sh
+
+This shell file is the launcher for the Lua script Tree_Luajava_Linux_directory.lua.
