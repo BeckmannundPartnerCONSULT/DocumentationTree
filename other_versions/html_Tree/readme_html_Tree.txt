@@ -19,3 +19,11 @@ This repository contains a html for Tree with Lua realized by Fengari https://fe
 5. Tree_html_frame_build.lua
 
 This script builds a tree within 2 frames as in chapter 3. Therefore it is not necessary to build the html manually.
+
+6.1 html_build_text.lua
+
+This script converts in a tree driven manner a tree into a html site. It is an example for tree driven format.
+
+6.2 Tree_Baum_Text.lua
+
+Example tree for the script html_build_text.lua.
