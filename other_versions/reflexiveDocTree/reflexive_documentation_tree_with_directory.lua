@@ -902,26 +902,26 @@ function button_compare:flat_action()
 	--go through tree 1
 	local file1existsTable={}
 	for i=0,tree1.totalchildcount0 do 
-		local line=tree1['TITLE' .. i]:match("%d: (.*)") or tree1['TITLE' .. i]
+		local line=tree1['TITLE' .. i]:match("%d%d.%d%d.%d%d%d%d.*") or tree1['TITLE' .. i]
 		file1existsTable[line]=true
 		iup.TreeSetNodeAttributes(tree1,i,{color="0 0 0",})
 	end --for i=0,tree1.totalchildcount0 do 
 	--go through tree 2
 	local file2existsTable={}
 	for i=0,tree2.totalchildcount0 do 
-		local line=tree2['TITLE' .. i]:match("%d: (.*)") or tree2['TITLE' .. i]
+		local line=tree2['TITLE' .. i]:match("%d%d.%d%d.%d%d%d%d.*") or tree2['TITLE' .. i]
 		file2existsTable[line]=true
 		iup.TreeSetNodeAttributes(tree2,i,{color="0 0 0",})
 	end --for i=0,tree2.totalchildcount0 do 
 
 	--go again through tree 1
 	for i=0,tree1.totalchildcount0 do 
-		local line=tree1['TITLE' .. i]:match("%d: (.*)") or tree1['TITLE' .. i]
+		local line=tree1['TITLE' .. i]:match("%d%d.%d%d.%d%d%d%d.*") or tree1['TITLE' .. i]
 		if file2existsTable[line]==nil then iup.TreeSetNodeAttributes(tree1,i,{color="228 27 0",}) end
 	end --for i=0,tree1.totalchildcount0 do 
 	--go again through tree 2
 	for i=0,tree2.totalchildcount0 do 
-		local line=tree2['TITLE' .. i]:match("%d: (.*)") or tree2['TITLE' .. i]
+		local line=tree2['TITLE' .. i]:match("%d%d.%d%d.%d%d%d%d.*") or tree2['TITLE' .. i]
 		if file1existsTable[line]==nil then iup.TreeSetNodeAttributes(tree2,i,{color="228 27 0",}) end
 	end --for i=0,tree2.totalchildcount0 do 
 
