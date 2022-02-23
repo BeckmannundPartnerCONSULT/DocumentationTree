@@ -161,8 +161,8 @@ dlg_rename = iup.dialog{
 
 --5. GUI elements
 --5.1 textboxes 
-textbox1 = iup.text{value="1",size="20x20",WORDWRAP="NO",alignment="ACENTER"}
-textbox2 = iup.multiline{value="",size="90x20",WORDWRAP="YES"}
+textbox1 = iup.text{value="1",size="20x20",WORDWRAP="NO",alignment="ACENTER",border="NO",}
+textbox2 = iup.text{value="",size="90x20",WORDWRAP="NO",border="NO",}
 
 --5.2 webbrowser
 webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1]}
@@ -333,7 +333,80 @@ local newText=[====[<!DOCTYPE html> <head></head><html> <body>
 	TextHTMLtable[aktuelleSeite]= newText
 end --function button_new_page:action()
 
---6.12 button with second logo
+--6.12 button for fullscreen
+button_fullscreen_yes = iup.flatbutton{title = "Vollbildschirm",size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_fullscreen_yes:flat_action()
+	maindlg.fullscreen="YES"
+	maindlg.background="255 255 255"
+	button_fullscreen_yes.BGCOLOR="255 255 255"
+	button_save_lua_table.BGCOLOR="255 255 255"
+	button_go_to_first_page.BGCOLOR="255 255 255"
+	button_go_back.BGCOLOR="255 255 255"
+	button_edit_page.BGCOLOR="255 255 255"
+	button_go_to_page.BGCOLOR="255 255 255"
+	button_delete.BGCOLOR="255 255 255"
+	button_no_button.BGCOLOR="255 255 255"
+	textbox1.FGCOLOR="255 255 255"
+	textbox2.FGCOLOR="255 255 255"
+	button_fullscreen_no.BGCOLOR="255 255 255"
+	button_save_as_html.BGCOLOR="255 255 255"
+	button_search.BGCOLOR="255 255 255"
+	button_go_forward.BGCOLOR="255 255 255"
+	button_new_page.BGCOLOR="255 255 255"
+	button_fullscreen_yes.BGCOLOR="255 255 255"
+	webbrowser1.zoom="105"
+end --function button_fullscreen_yes:action()
+
+--6.13 button for fullscreen
+button_no_button = iup.flatbutton{title = "Ohne Schaltflächen",size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_no_button:flat_action()
+	maindlg.fullscreen="NO"
+	maindlg.background="255 255 255"
+	button_fullscreen_yes.BGCOLOR="255 255 255"
+	button_save_lua_table.BGCOLOR="255 255 255"
+	button_go_to_first_page.BGCOLOR="255 255 255"
+	button_go_back.BGCOLOR="255 255 255"
+	button_edit_page.BGCOLOR="255 255 255"
+	button_go_to_page.BGCOLOR="255 255 255"
+	button_delete.BGCOLOR="255 255 255"
+	button_no_button.BGCOLOR="255 255 255"
+	textbox1.FGCOLOR="255 255 255"
+	textbox2.FGCOLOR="255 255 255"
+	button_fullscreen_no.BGCOLOR="255 255 255"
+	button_save_as_html.BGCOLOR="255 255 255"
+	button_search.BGCOLOR="255 255 255"
+	button_go_forward.BGCOLOR="255 255 255"
+	button_new_page.BGCOLOR="255 255 255"
+	button_fullscreen_yes.BGCOLOR="255 255 255"
+	webbrowser1.zoom="105"
+end --function button_no_button:action()
+
+--6.14 button for normal screen
+button_fullscreen_no = iup.flatbutton{title = "Normalbildschirm",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_fullscreen_no:flat_action()
+	maindlg.fullscreen="NO"
+	maindlg.background="240 240 240"
+	maindlg.title = path .. " Documentation Tree"
+	button_fullscreen_yes.BGCOLOR=color_buttons
+	button_save_lua_table.BGCOLOR=color_buttons
+	button_go_to_first_page.BGCOLOR=color_buttons
+	button_go_back.BGCOLOR=color_buttons
+	button_edit_page.BGCOLOR=color_buttons
+	button_go_to_page.BGCOLOR=color_buttons
+	button_delete.BGCOLOR=color_buttons
+	button_no_button.BGCOLOR=color_buttons
+	textbox1.FGCOLOR=color_buttons
+	textbox2.FGCOLOR=color_buttons
+	button_fullscreen_no.BGCOLOR=color_buttons
+	button_save_as_html.BGCOLOR=color_buttons
+	button_search.BGCOLOR=color_buttons
+	button_go_forward.BGCOLOR=color_buttons
+	button_new_page.BGCOLOR=color_buttons
+	button_fullscreen_yes.BGCOLOR=color_buttons
+	webbrowser1.zoom="80"
+end --function button_fullscreen_no:flat_action()
+
+--6.15 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -351,12 +424,15 @@ maindlg = iup.dialog {
 			button_go_to_page,
 			textbox1,
 			button_delete,
+			button_fullscreen_no,
+			button_no_button,
 			iup.fill{},
 			button_save_as_html,
 			button_search,
 			textbox2,
 			button_go_forward,
 			button_new_page,
+			button_fullscreen_yes,
 			button_logo2,
 		}, --iup.hbox{
 		iup.hbox{webbrowser1,},
@@ -371,6 +447,12 @@ maindlg = iup.dialog {
 
 --7.1 show the dialog
 maindlg:showxy(iup.CENTER,iup.CENTER) 
+
+--7.1.1 zoom the webbrowser
+webbrowser1.zoom="80"
+
+--7.1.2 optional show properties of element
+--iup.Show(iup.ElementPropertiesDialog(textbox1,textbox1))
 
 --7.2 Main Loop
 if (iup.MainLoopLevel()==0) then iup.MainLoop() end
