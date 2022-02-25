@@ -27,3 +27,12 @@ This script converts in a tree driven manner a tree into a html site. It is an e
 6.2 Tree_Baum_Text.lua
 
 Example tree for the script html_build_text.lua.
+
+7.1 html_build_node_content.lua
+
+This script produces a tree in html with the nodes having the content of their children nodes in parenthesis.
+
+7.2 Tree_Baum_node_content.lua
+
+Example tree for the script html_build_node_content.lua.
+
