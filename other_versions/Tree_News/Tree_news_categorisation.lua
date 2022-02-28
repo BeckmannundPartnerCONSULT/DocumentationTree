@@ -827,50 +827,7 @@ function startnodescripter:action()
 	end --if file_exists(tree['title']) and ErsteZeile then 
 end --function startnodescripter:action()
 
---5.1.10 start a preview of file of tree with columns for csv files or dir for repository or the text of the node
-starteditor = iup.item {title = "Vorschau"}
-function starteditor:action() --start preview
-	if file_exists(tree['title']) then
-		inputfile1=io.open(tree['title'],"r")
-		inputText=inputfile1:read("*a")
-		inputfile1:close()
-		if tree['title']:match("%.csv") then
-			inputText=inputText:gsub(";","\t"):gsub(",","\t")
-			i=13 --minimum number of length of tabulator 
-			while true do
-				Textselbst,Anzahl=inputText:gsub("\n","\t"):gsub(string.rep("[^\t]",i),"")
-				if Anzahl==0 then break end i=i+1
-			end --while true do
-			i=i-1 --because for i=0 there is no length
-			i=math.min(i,80) --maximum number is 80 caracters
-			outputText=""
-			for textLine in (inputText .. "\n"):gmatch("([^\n]*)\n") do
-				for Feld in (textLine .. "\t"):gmatch("([^\t]*)\t") do 
-					if Feld:match("^%-?%d+") then
-						outputText=outputText .. string.rep(" ",math.max(i-#Feld,0)) .. Feld .. "\t"
-					else
-						outputText=outputText .. Feld .. string.rep(" ",math.max(i-#Feld,0)) .. "\t"
-					end --if Feld:match("^%-?%d+") then
-				end --for Feld in (textLine .. "\t") do 
-				outputText=outputText .. "\n"
-			end --for textLine in inputText:match("([^\n]*)\n") do
-			textfield1.value=outputText
-		else
-			textfield1.value=inputText
-		end --if tree['title']:match("%.csv") then
-	elseif tree['title']:match("^.:\\.*%.[^\\ ]+$")==nil and tree['title']:match("^.:\\.*[^\\]+$") then
-		p=io.popen('dir "' .. tree['title'] .. '"')
-		Verzeichnisliste=""
-		for Datei in p:lines() do
-			Verzeichnisliste=Verzeichnisliste .. Datei:gsub("ÿ",".") .. "\n"
-		end --for Datei in p:lines() do
-		textfield1.value=Verzeichnisliste
-	else --substitute line break in preview
-		textfield1.value=tree['title']:gsub("\\n","\n")
-	end --if file_exists(tree['title']) then
-end --function starteditor:action()
-
---5.1.11 start the file or repository of the node of tree 
+--5.1.10 start the file or repository of the node of tree 
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -880,7 +837,7 @@ function startnode:action()
 	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
 end --function startnode:action()
 
---5.1.12 put the buttons together in the menu for tree
+--5.1.11 put the buttons together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		startcopy_doubling,
@@ -896,7 +853,6 @@ menu = iup.menu{
 		startversion,
 		startastree, 
 		startnodescripter, 
-		starteditor,
 		startnode, 
 		}
 --5.1 menu of tree end
