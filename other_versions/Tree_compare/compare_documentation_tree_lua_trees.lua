@@ -3,7 +3,7 @@
 
 --1.1 libraries and clipboard
 --1.1.1 libraries
-require('iuplua')           --require iuplua for GUIs
+require("iuplua")           --require iuplua for GUIs
 require("iuplua_scintilla") --for Scintilla-editor
 
 --1.1.2 initalize clipboard
@@ -152,6 +152,87 @@ function change_state_level(new_state,level,descendants_also)
 	end --if descendants_also=="YES" then
 end --function change_state_level(new_state,level,descendants_also)
 
+--3.2.1 function which saves the current iup tree as a lua table.
+function save_tree_to_lua(tree, outputfile_path)
+	local output_tree_text="lua_tree_output=" --the output string
+	local outputfile=io.output(outputfile_path) --a output file
+	for i=0,tree.count - 1 do --loop for all nodes
+		if tree["KIND" .. i ]=="BRANCH" then --consider cases, if actual node is a branch
+			if (i > 0 and (tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) ) ) or i==0 then --consider cases if depth increases
+				output_tree_text = output_tree_text .. '{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' -- we open a new branch
+				--save state
+				if tree["STATE" .. i ]=="COLLAPSED" then
+					output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+				end --if tree["STATE" .. i ]=="COLLAPSED" then
+			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) < tonumber(tree["DEPTH" .. i-1 ]) then --if depth decreases
+				if tree["KIND" .. i-1 ] == "BRANCH" then --depending if the predecessor node was a branch we need to close one bracket more
+					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
+						output_tree_text = output_tree_text .. '},\n'
+					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
+					output_tree_text = output_tree_text .. '{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' --and we open the new branch
+					--save state
+					if tree["STATE" .. i ]=="COLLAPSED" then
+						output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+					end --if tree["STATE" .. i ]=="COLLAPSED" then
+				else
+					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do -- or if the predecessor node was a leaf
+						output_tree_text = output_tree_text .. '},\n'
+					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
+					output_tree_text = output_tree_text .. '{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' --and we open the new branch
+					--save state
+					if tree["STATE" .. i ]=="COLLAPSED" then
+						output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+					end --if tree["STATE" .. i ]=="COLLAPSED" then
+				end --if tree["KIND" .. i-1 ] == "BRANCH" then
+			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) == tonumber(tree["DEPTH" .. i-1 ]) then --or if depth stays the same
+				if tree["KIND" .. i-1 ] == "BRANCH" then --again consider if the predecessor node was a branch
+					output_tree_text = output_tree_text .. '},\n{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
+					--save state
+					if tree["STATE" .. i ]=="COLLAPSED" then
+						output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+					end --if tree["STATE" .. i ]=="COLLAPSED" then
+				else --or a leaf
+					output_tree_text = output_tree_text .. '\n{ branchname="' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
+					--save state
+					if tree["STATE" .. i ]=="COLLAPSED" then
+						output_tree_text = output_tree_text .. 'state="COLLAPSED",\n'
+					end --if tree["STATE" .. i ]=="COLLAPSED" then
+				end --if tree["KIND" .. i-1 ] == "BRANCH" then
+			end --if (i > 0 and (tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) ) ) or i==0 then
+		elseif tree["KIND" .. i ]=="LEAF" then --or if actual node is a leaf
+			if (i > 0 and tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) )  or i==0 then
+				output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",' --we add the leaf
+			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) < tonumber(tree["DEPTH" .. i-1 ]) then
+				if tree["KIND" .. i-1 ] == "LEAF" then --in the same manner as above, depending if the predecessor node was a leaf or branch, we have to close a different number of brackets
+					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
+						output_tree_text = output_tree_text .. '},\n'
+					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",' --and in each case we add the new leaf
+				else
+					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
+						output_tree_text = output_tree_text .. '},\n'
+					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",'
+				end --if tree["KIND" .. i-1 ] == "LEAF" then
+			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) == tonumber(tree["DEPTH" .. i-1 ]) then
+				if tree["KIND" .. i-1 ] == "LEAF" then
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
+				else
+					output_tree_text = output_tree_text .. '},\n "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
+				end --if tree["KIND" .. i-1 ] == "LEAF" then
+			end --if (i > 0 and tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) )  or i==0 then
+		end --if tree["KIND" .. i ]=="BRANCH" then
+	end --for i=0,tree.count - 1 do
+	for j=1, tonumber(tree["DEPTH" .. tree.count-1]) do
+		output_tree_text = output_tree_text .. "}" --close as many brackets as needed
+	end --for j=1, tonumber(tree["DEPTH" .. tree.count-1]) do
+	if tree["KIND" .. tree.count-1]=="BRANCH" then
+		output_tree_text = output_tree_text .. "}" -- we need to close one more bracket if last node was a branch
+	end --if tree["KIND" .. tree.count-1]=="BRANCH" then
+	--output_tree_text=string.escape_forbidden_char(output_tree_text)
+	outputfile:write(output_tree_text) --write everything into the outputfile
+	outputfile:close()
+end --function save_tree_to_lua(tree, outputfile_path)
 
 --3.3 function to change expand/collapse relying on keyword
 --This function is needed in the expand/collapsed dialog. This function changes the state for all nodes, which match a keyword. Otherwise it works like change_stat_level.
@@ -384,7 +465,7 @@ function button_compare:flat_action()
 	tree.title='compare'
 	--make the comparison
 	--go through tree 2
-	tree_script={branchname="compare",{branchname="Vergleich von " .. tostring(textbox1.value) .. " mit " .. tostring(textbox2.value)}}
+	local tree_script={branchname="compare",{branchname="Vergleich von " .. tostring(textbox1.value) .. " mit " .. tostring(textbox2.value)}}
 	local file2existsTable={}
 	local file2numberTable={}
 	for i=0,tree2.totalchildcount0 do 
@@ -457,7 +538,190 @@ function button_compare:flat_action()
 	iup.TreeAddNodes(tree,tree_script)
 end --function button_compare:flat_action()
 
---6.6 button with second logo
+--6.6 button for sorting text file of tree with text file of tree2 to a tree with parent child
+button_sort_with_tree=iup.flatbutton{title="Ersten Baum mit \nanderem klassifizieren", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_sort_with_tree:flat_action()
+	tree.delnode0 = "CHILDREN"
+	tree.title='classify'
+	--make the sort
+	--go through tree 2
+	local tree_script={branchname="classify",{branchname="Klassifizieren von " .. tostring(textbox1.value) .. " mit " .. tostring(textbox2.value)}}
+	local file2ParentTable={}
+	file2ParentTable[tree2['TITLE' .. 0]]="root"
+	for i=1,tree2.totalchildcount0 do 
+		file2ParentTable[tree2['TITLE' .. i]]=tree2['TITLE' .. tree2['PARENT' .. i]]
+	end --for i=0,tree1.totalchildcount0 do 
+	--go through tree 1 to search for missing lines in tree 2
+	local line1Number=0
+	local treeSortedTable={}
+	for i=0,tree1.totalchildcount0 do 
+		local line=tree1['TITLE' .. i]
+		line1Number=line1Number+1
+		if file2ParentTable[line]==nil then
+			if treeSortedTable["nur im ersten Baum"] then
+				treeSortedTable["nur im ersten Baum"][#treeSortedTable["nur im ersten Baum"]+1]=line
+			else
+				treeSortedTable["nur im ersten Baum"]={line}
+			end --if treeSortedTable["nur im ersten Baum"] then
+		else
+			if treeSortedTable[file2ParentTable[line]] then
+				treeSortedTable[file2ParentTable[line]][#treeSortedTable[file2ParentTable[line]]+1]=line
+			else
+				treeSortedTable[file2ParentTable[line]]={line}
+			end --if treeSortedTable[file2ParentTable[line]] then
+		end --if file2existsTable[line] then
+	end --for i=0,tree1.totalchildcount0 do
+	tree_script[#tree_script][#tree_script[#tree_script]+1]={branchname=tree1['TITLE' .. 0],tree2['TITLE' .. 0]}
+	for i=0,tree2.totalchildcount0 do
+		if treeSortedTable[tree2['TITLE' .. i]] then
+			for i1,v1 in ipairs(treeSortedTable[tree2['TITLE' .. i]]) do
+				if tree_script[#tree_script].branchname==tree2['TITLE' .. i] then
+					tree_script[#tree_script][#tree_script[#tree_script]+1]=v1
+				else
+					tree_script[#tree_script+1]={branchname=tree2['TITLE' .. i]}
+					tree_script[#tree_script][#tree_script[#tree_script]+1]=v1
+				end --if tree_script[#tree_script].branchname==tree2['TITLE' .. i] then
+			end --for i1,v1 in ipairs(treeSortedTable[tree2['TITLE' .. i]]) do
+		end --if treeSortedTable[tree2['TITLE' .. i]] then
+	end --for i=0,tree2.totalchildcount0 do
+	if treeSortedTable["nur im ersten Baum"] then
+		for i1,v1 in ipairs(treeSortedTable["nur im ersten Baum"]) do
+			if tree_script[#tree_script].branchname=="nur im ersten Baum" then
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=v1
+			else
+				tree_script[#tree_script+1]={branchname="nur im ersten Baum"}
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=v1
+			end --if tree_script[#tree_script].branchname=="nur im ersten Baum" then
+		end --for i1,v1 in ipairs(treeSortedTable["nur im ersten Baum"]) do
+	end --if treeSortedTable["nur im ersten Baum"] then
+	--build the sorted tree
+	iup.TreeAddNodes(tree,tree_script)
+end --function button_sort_with_tree:flat_action()
+
+--6.7 button for sorting text file of tree in text file of tree2 to tree deleting not needed nodes
+button_sort_in_tree=iup.flatbutton{title="Ersten Baum in \nanderen einsortieren", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_sort_in_tree:flat_action()
+	tree.delnode0 = "SELECTED" --"CHILDREN"
+	--deep copy of tree2 in tree
+	for i=0,tree2.totalchildcount0 do 
+		if tree2['KIND' .. i]=="LEAF" then
+			tree['addleaf' .. i-1]=tree2['title' .. i]
+		elseif tree2['KIND' .. i]=="BRANCH" and tree2['KIND' .. i-1]=="LEAF" and i>0 and tree2['depth' .. i]==tree2['depth' .. i-1]  then
+			tree['addbranch' .. i-1]=tree2['title' .. i]
+		elseif tree2['KIND' .. i]=="BRANCH" and tree2['KIND' .. i-1]=="LEAF" then
+			local searchDiff1=0
+			for i1=i,0,-1 do
+				if tree['depth' .. i1]==tree2['depth' .. i] then break end
+				searchDiff1=searchDiff1+1
+				--test with: print(searchDiff1)
+			end --for i1=i,0,-1 do
+			tree['insertbranch' .. i-searchDiff1]=tree2['title' .. i]
+		elseif  tree2['KIND' .. i]=="BRANCH" and  tree2['KIND' .. i-1]=="BRANCH" and i>0 and tree2['depth' .. i]==tree2['depth' .. i-1] then
+			tree['insertbranch' .. i-1]=tree2['title' .. i]
+		elseif  tree2['KIND' .. i]=="BRANCH" and  tree2['KIND' .. i-1]=="BRANCH" and i>0 and tree2['depth' .. i]<tree2['depth' .. i-1] then
+			local searchDiff2=0
+			for i1=i,0,-1 do
+				if tree['depth' .. i1]==tree2['depth' .. i] then break end
+				searchDiff2=searchDiff2+1
+				--test with: print(searchDiff2)
+			end --for i1=i,0,-1 do
+			tree['insertbranch' .. i-searchDiff2]=tree2['title' .. i]
+		else
+			tree['addbranch' .. i-1]=tree2['title' .. i]
+		end --if tree2['KIND' .. i]=="LEAF" then
+	end --for i=0,tree2.totalchildcount0 do 
+	--make the sort
+	--go through tree 2
+	local file1existsTable={}
+	for i=0,tree1.totalchildcount0 do 
+		file1existsTable[tree1['TITLE' .. i]]=true
+	end --for i=0,tree1.totalchildcount0 do 
+	for i=tree.totalchildcount0,0,-1 do
+		if file1existsTable[tree['TITLE' .. i]]==nil and tree['totalchildcount' .. i]=="0" then
+			tree["delnode" .. i] = "SELECTED"
+		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+	end --for i=0,tree2.totalchildcount0 do
+	--go through tree 2
+	local file2existsTable={}
+	local file2numberTable={}
+	for i=0,tree2.totalchildcount0 do 
+		local line=tree2['TITLE' .. i]
+		file2numberTable[#file2numberTable+1]=line
+		file2existsTable[line]=#file2numberTable
+	end --for i=0,tree1.totalchildcount0 do 
+	--go through tree 1 to search for missing lines in tree 2
+	local tree_script={branchname="rest",{branchname="Sortieren von " .. tostring(textbox1.value) .. " mit " .. tostring(textbox2.value)}}
+	local line1Number=0
+	for i=0,tree1.totalchildcount0 do 
+		local line=tree1['TITLE' .. i]
+		line1Number=line1Number+1
+		if file2existsTable[line]==nil then
+			if tree_script[#tree_script].branchname=="nur in erster Datei" then
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=line
+			else
+				tree_script[#tree_script+1]={branchname="nur in erster Datei"}
+				tree_script[#tree_script][#tree_script[#tree_script]+1]=line
+			end --if tree_script[#tree_script].branchname=="nur in erster Datei" then
+		end --if file2existsTable[line] then
+	end --for i=0,tree1.totalchildcount0 do
+	--add results which tree is sorted by which and 
+	local searchDiff3=0
+	for i1=tree.totalchildcount0,0,-1 do
+		if tree['depth' .. i1]=="1" then break end
+		searchDiff3=searchDiff3+1
+		--test with: print(searchDiff3)
+	end --for i1=i,0,-1 do
+	tree['insertbranch' .. tree.totalchildcount0-searchDiff3]="Ergebnisse"
+	--build the tree of not sorted nodes
+	iup.TreeAddNodes(tree,tree_script,tree.totalchildcount0)
+end --function button_sort_in_tree:flat_action()
+
+--6.8 button for deleting one node leaving all other nodes but changing the order
+button_delete_in_tree=iup.flatbutton{title="Ebene herauslöschen", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_delete_in_tree:flat_action()
+	if tree.totalchildcount=="0" then
+		tree.delnode = "SELECTED"
+	else
+		selectedNode=tree.value
+		 --insert at same depth a temporary leaf
+		tree['insertleaf' .. selectedNode]="temporary"
+		for i=selectedNode,selectedNode+tree['childcount' .. selectedNode] do
+			--search for temporary node number
+			local temporaryNode=0
+			for i1=selectedNode,tree.totalchildcount0 do
+				temporaryNode=i1
+				if tree['title' .. i1]=="temporary" then break end
+			end --for i1=selectedNode,tree.totalchildcount0 do
+			--last node on depth + 1 from selectedNode
+			local lastNode=0
+			for i1=selectedNode+tree['totalchildcount' .. selectedNode],selectedNode+1,-1 do
+				lastNode=i1
+				if tree['depth' .. i1]==tostring(tree['depth' .. selectedNode]+1) then break end
+			end --for i1=selectedNode,tree.totalchildcount0 do
+			tree['movenode' .. lastNode] = temporaryNode --lastNode in normal order
+			--tree['movenode' .. selectedNode+1] = temporaryNode --selectedNode+1 in reversed order
+		end --for i=selectedNode,tree['totalchildcount' .. selectedNode] do
+		--delete selected node and temporary nodes
+		tree.delnode = "SELECTED"
+		tree.delnode = "SELECTED"
+	end --	if tree.totalchildcount==0 then
+end --function button_delete_in_tree:flat_action()
+
+--6.9 button for saving tree
+button_save_lua_table=iup.flatbutton{title="Baum als Lua-Tabelle speichern", size="125x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_save_lua_table:flat_action()
+	--open a filedialog
+	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.lua",filterinfo="Lua Files", directory=path}
+	filedlg2:popup(iup.ANYWHERE,iup.ANYWHERE)
+	if filedlg2.status=="1" or filedlg2.status=="0" then
+			save_tree_to_lua(tree, filedlg2.value)
+	else --no outputfile was choosen
+		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.NextField(maindlg)
+	end --if filedlg2.status=="1" or filedlg2.status=="0" then
+end --function button_save_lua_table:flat_action()
+
+--6.10 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -484,6 +748,13 @@ showdragdrop="YES",
 }
 --set the background color of the tree
 tree.BGCOLOR=color_background_tree
+-- Callback for pressed keys
+function tree:k_any(c)
+	if c == iup.K_DEL then
+		tree.delnode = "MARKED"
+	end --if c == iup.K_DEL then
+end --function tree:k_any(c)
+
 --7.2.2 display empty first tree
 actualtree1={branchname="first tree"}
 tree1=iup.tree{
@@ -495,6 +766,7 @@ showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
 }
+
 --7.2.3 display empty second tree
 actualtree2={branchname="second tree"}
 tree2=iup.tree{
@@ -507,58 +779,7 @@ markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
 }
 
---7.3.1 text file field as scintilla editor 1
-textfield1=iup.scintilla{}
-textfield1.SIZE="280x530" --I think this is not optimal! (since the size is so appears to be fixed)
---textfield1.wordwrap="WORD" --enable wordwarp
-textfield1.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
-textfield1.FONT="Courier New, 8" --font of shown code
-textfield1.LEXERLANGUAGE="lua" --set the programming language to lua for syntax higlighting
-textfield1.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
---colors for syntax highlighting
-textfield1.STYLEFGCOLOR0="0 0 0"      -- 0-Default
-textfield1.STYLEFGCOLOR1="0 128 0"    -- 1-Lua comment
-textfield1.STYLEFGCOLOR2="0 128 0"    -- 2-Lua comment line
-textfield1.STYLEFGCOLOR3="0 128 0"    -- 3-JavaDoc/ Doxygen style Lua commen
-textfield1.STYLEFGCOLOR4="180 0 0"    -- 4-Number 
-textfield1.STYLEFGCOLOR5="0 0 255"    -- 5-Keywords (id=0) 
-textfield1.STYLEFGCOLOR6="160 20 180"  -- 6-String 
-textfield1.STYLEFGCOLOR7="128 0 0"    -- 7-Character
-textfield1.STYLEFGCOLOR8="160 20 180"  -- 8-Literal string
-textfield1.STYLEFGCOLOR9="0 0 255"    -- 9-Old preprocessor block (obsolete)
-textfield1.STYLEFGCOLOR10="128 0 0" -- 10-Operator 
---textfield1.STYLEBOLD10="YES"
---textfield1.STYLEFGCOLOR11="255 0 255" -- 11-Identifier (this overwrites the default color)
---textfield1.STYLEITALIC10="YES"
-textfield1.MARGINWIDTH0="40"
-
---7.3.2 text file field as scintilla editor 2
-textfield2=iup.scintilla{}
-textfield2.SIZE="280x530" --I think this is not optimal! (since the size is so appears to be fixed)
---textfield2.wordwrap="WORD" --enable wordwarp
-textfield2.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
-textfield2.FONT="Courier New, 8" --font of shown code
-textfield2.LEXERLANGUAGE="lua" --set the programming language to lua for syntax higlighting
-textfield2.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
---colors for syntax highlighting
-textfield2.STYLEFGCOLOR0="0 0 0"      -- 0-Default
-textfield2.STYLEFGCOLOR1="0 128 0"    -- 1-Lua comment
-textfield2.STYLEFGCOLOR2="0 128 0"    -- 2-Lua comment line
-textfield2.STYLEFGCOLOR3="0 128 0"    -- 3-JavaDoc/ Doxygen style Lua commen
-textfield2.STYLEFGCOLOR4="180 0 0"    -- 4-Number 
-textfield2.STYLEFGCOLOR5="0 0 255"    -- 5-Keywords (id=0) 
-textfield2.STYLEFGCOLOR6="160 20 180"  -- 6-String 
-textfield2.STYLEFGCOLOR7="128 0 0"    -- 7-Character
-textfield2.STYLEFGCOLOR8="160 20 180"  -- 8-Literal string
-textfield2.STYLEFGCOLOR9="0 0 255"    -- 9-Old preprocessor block (obsolete)
-textfield2.STYLEFGCOLOR10="128 0 0" -- 10-Operator 
---textfield2.STYLEBOLD10="YES"
---textfield2.STYLEFGCOLOR11="255 0 255" -- 11-Identifier (this overwrites the default color)
---textfield2.STYLEITALIC10="YES"
-textfield2.MARGINWIDTH0="40"
-
-
---7.4 building the dialog and put buttons, trees and preview together
+--7.3 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog{
 	--simply show a box with buttons
 	iup.vbox{
@@ -567,10 +788,15 @@ maindlg = iup.dialog{
 			button_logo,
 			button_loading_lua_table_1,
 			button_loading_lua_table_2,
+			iup.fill{},
 			button_compare,
+			button_sort_with_tree,
+			button_sort_in_tree,
+			iup.label{size="5x",},
+			button_delete_in_tree,
 			button_expand_collapse_dialog,
 			iup.label{size="5x",},
-			iup.fill{},
+			button_save_lua_table,
 			button_logo2,
 		},
 		
@@ -589,13 +815,13 @@ maindlg = iup.dialog{
 }
 
 
---7.5 show the dialog
+--7.4 show the dialog
 maindlg:show()
 
---7.5.2 go to the main dialog
+--7.4.2 go to the main dialog
 iup.NextField(maindlg)
 
---7.6 Main Loop
+--7.5 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
