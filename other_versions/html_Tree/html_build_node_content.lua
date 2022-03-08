@@ -5,7 +5,7 @@ outputfile1=io.open("C:\\Tree\\html_Tree\\Tree_Baum_node_content.html","w")
 outputfile1:write('<font size="5"> ')
 function readTreetohtmlRecursive(TreeTable)
 	if TreeTable.branchname:match("^http")==nil then
-	AusgabeTabelle[TreeTable.branchname]=TreeTable.branchname .. " ("
+		AusgabeTabelle[TreeTable.branchname]=TreeTable.branchname .. " ("
 	end --if TreeTable.branchname:match("^http")==nil then
 	for k,v in ipairs(TreeTable) do
 		if type(v)=="table" then
@@ -31,8 +31,10 @@ function readTreetohtmlRecursive(TreeTable)
 		:gsub("ß","&szlig;")
 		.. "\n")
 	else
+		local TreeTable_branchname_link=TreeTable.branchname
+		if TreeTable.branchname:match("^http") then TreeTable_branchname_link='<a href="' .. TreeTable.branchname .. '">' .. TreeTable.branchname .. '</a>' end
 		outputfile1:write("<ul><li>" ..
-		tostring(TreeTable.branchname)
+		tostring(TreeTable_branchname_link)
 		:gsub("ä","&auml;")
 		:gsub("Ä","&Auml;")
 		:gsub("ö","&ouml;")
@@ -47,7 +49,9 @@ function readTreetohtmlRecursive(TreeTable)
 		if type(v)=="table" then
 			readTreetohtmlRecursive(v)
 		else
-			outputfile1:write("<ul><li>" .. v
+			local v_link=v
+			if v:match("^http") then v_link='<a href="' .. v .. '">' .. v .. '</a>' end
+			outputfile1:write("<ul><li>" .. v_link 
 			:gsub("ä","&auml;")
 			:gsub("Ä","&Auml;")
 			:gsub("ö","&ouml;")
