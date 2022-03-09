@@ -41,3 +41,11 @@ The resulting sorts can be manually reorganised to be efficient in finding webpa
 8 reflexive_documentation_tree_with_html.lua
 
 This script converts in a tree driven manner a tree into a html site. It is an example for tree driven format. Both, the tree and the html are shown in a graphical user interface.
+
+9.1 reflexive_documentation_tree_of_Lua.lua
+
+This script is a graphical user interface for the description of the Lua syntax with examples. The source of the texts is from official Lua documentation, reference manual and the book programming in Lua.
+
+9.2 reflexive_documentation_tree_of_Lua.html
+
+This file is an html site for the description of the Lua syntax with examples build from the script reflexive_documentation_tree_of_Lua.lua. The source of the texts is from official Lua documentation, reference manual and the book programming in Lua.
