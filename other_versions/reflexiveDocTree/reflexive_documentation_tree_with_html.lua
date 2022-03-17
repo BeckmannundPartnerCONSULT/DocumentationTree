@@ -26,8 +26,8 @@ TextHTMLtable={
 --1. basic data
 
 --1.1.1 libraries
-require( "iuplua" )
-require( "iupluaweb" )
+require("iuplua")           --require iuplua for GUIs
+require("iupluaweb")        --require iupluaweb for webbrowser
 --iup.SetGlobal("UTF8MODE","NO")
 
 --1.1.2 initalize clipboard
@@ -135,18 +135,18 @@ function save_html_to_lua(htmlTexts, outputfile_path)
 			end --if (i > 0 and (tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) ) ) or i==0 then
 		elseif tree["KIND" .. i ]=="LEAF" then --or if actual node is a leaf
 			if (i > 0 and tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) )  or i==0 then
-				output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",' --we add the leaf
+				output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' --we add the leaf
 			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) < tonumber(tree["DEPTH" .. i-1 ]) then
 				if tree["KIND" .. i-1 ] == "LEAF" then --in the same manner as above, depending if the predecessor node was a leaf or branch, we have to close a different number of brackets
 					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
 						output_tree_text = output_tree_text .. '},\n'
 					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) do
-					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",' --and in each case we add the new leaf
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n' --and in each case we add the new leaf
 				else
 					for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
 						output_tree_text = output_tree_text .. '},\n'
 					end --for j=1, tonumber(tree["DEPTH" .. i-1 ])- tonumber(tree["DEPTH" .. i ]) +1 do
-					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '",'
+					output_tree_text = output_tree_text .. ' "' .. string.escape_forbidden_char(tree["TITLE" .. i ]) .. '", \n'
 				end --if tree["KIND" .. i-1 ] == "LEAF" then
 			elseif i > 0 and tonumber(tree["DEPTH" .. i ]) == tonumber(tree["DEPTH" .. i-1 ]) then
 				if tree["KIND" .. i-1 ] == "LEAF" then
@@ -281,7 +281,7 @@ function search_in_text:flat_action()
 	else
 		text1.SELECTIONPOS=from-1 .. ":" .. to
 	end --if from==nil then 
-end --	function search_in_text:flat_action()
+end --function search_in_text:flat_action()
 
 text1 = iup.multiline{size="120x50",border="YES",expand="YES",wordwrap="YES"} --textfield
 label1 = iup.label{title="Blattinhalt:"}--label for textfield
@@ -337,12 +337,12 @@ function searchdown:flat_action()
 				break
 			end --if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
 			local searchFound=0
-			for k,v in pairs(wordTable) do	
+			for k,v in pairs(wordTable) do 
 				--test with: print(k,v)
 				if tree["title" .. i]:upper():match(v:upper())~= nil then
 					searchFound=searchFound+1
 				end --if tree["title" .. i]:upper():match(v:upper())~= nil then
-			end --for k,v in pairs(wordTable) do	
+			end --for k,v in pairs(wordTable) do
 			if #wordTable>0 and searchFound==#wordTable then
 				tree.value= i
 				help=true
@@ -390,12 +390,12 @@ function searchmark:flat_action()
 			iup.TreeSetDescendantsAttributes(tree,i,{color="90 195 0"})
 		end --if tree["title" .. i]:upper():match(searchtext.value:upper())~= nil then
 		local searchFound=0
-		for k,v in pairs(wordTable) do	
+		for k,v in pairs(wordTable) do 
 			--test with: print(k,v)
 			if tree["title" .. i]:upper():match(v:upper())~= nil then
 				searchFound=searchFound+1
 			end --if tree["title" .. i]:upper():match(v:upper())~= nil then
-		end --for k,v in pairs(wordTable) do	
+		end --for k,v in pairs(wordTable) do
 		if #wordTable>0 and searchFound==#wordTable then
 				numberFoundWord=numberFoundWord+1
 				iup.TreeSetAncestorsAttributes(tree,i,{color="255 0 0",})
@@ -474,12 +474,12 @@ function searchup:flat_action()
 				break
 			end --if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
 			local searchFound=0
-			for k,v in pairs(wordTable) do	
+			for k,v in pairs(wordTable) do 
 				--test with: print(k,v)
 				if tree["title" .. i]:upper():match(v:upper())~= nil then
 					searchFound=searchFound+1
 				end --if tree["title" .. i]:upper():match(v:upper())~= nil then
-			end --for k,v in pairs(wordTable) do	
+			end --for k,v in pairs(wordTable) do
 			if #wordTable>0 and searchFound==#wordTable then
 				tree.value= i
 				help=true
@@ -493,7 +493,7 @@ function searchup:flat_action()
 		iup.NextField(maindlg)
 		iup.NextField(dlg_search)
 	end --if help==false then
-end --	function searchup:flat_action()
+end --function searchup:flat_action()
 
 checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
@@ -688,7 +688,7 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.8 button for building new page
+--5.1.8 menu for building new page
 menu_new_page = iup.item {title = "Neue Seite"}
 function menu_new_page:action()
 local newText=[====[<!DOCTYPE html> <head></head><html> <body>
@@ -711,7 +711,7 @@ local newText=[====[<!DOCTYPE html> <head></head><html> <body>
 end --function menu_new_page:action()
 
 
---5.1.9 button for go to webbrowser page
+--5.1.9 menu for go to webbrowser page
 menu_goto_page=iup.item {title="Gehe zu Seite vom Knoten", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function menu_goto_page:action()
 	if tonumber(tree['title']) then 
@@ -767,7 +767,7 @@ menu = iup.menu{
 --5. context menus (menus for right mouse click) end
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -865,24 +865,38 @@ function button_load_tree_to_html:flat_action()
 			webbrowserText=webbrowserText .. "<ul><li>" .. "<b>" .. 
 			tostring(tree['TITLE' .. i])
 			:gsub("Ã¤","&auml;")
+			:gsub("ä","&auml;")
 			:gsub("Ã„","&Auml;")
+			:gsub("Ä","&Auml;")
 			:gsub("Ã¶","&ouml;")
+			:gsub("ö","&ouml;")
 			:gsub("Ã–","&Ouml;")
+			:gsub("Ö","&Ouml;")
 			:gsub("Ã¼","&uuml;")
+			:gsub("ü","&uuml;")
 			:gsub("Ãœ","&Uuml;")
+			:gsub("Ü","&Uuml;")
 			:gsub("ÃŸ","&szlig;")
+			:gsub("ß","&szlig;")
 			:gsub("\\n","<br>") .. "</b>" .. "\n"
 		elseif i>0 and tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) and tree["KIND" .. i ] == "BRANCH" then
 			AusgabeTabelle[tree['TITLE' .. i]]=true
 			webbrowserText=webbrowserText .. "<ul><li>" .. "<b>" .. 
 			tostring(tree['TITLE' .. i])
 			:gsub("Ã¤","&auml;")
+			:gsub("ä","&auml;")
 			:gsub("Ã„","&Auml;")
+			:gsub("Ä","&Auml;")
 			:gsub("Ã¶","&ouml;")
+			:gsub("ö","&ouml;")
 			:gsub("Ã–","&Ouml;")
+			:gsub("Ö","&Ouml;")
 			:gsub("Ã¼","&uuml;")
+			:gsub("ü","&uuml;")
 			:gsub("Ãœ","&Uuml;")
+			:gsub("Ü","&Uuml;")
 			:gsub("ÃŸ","&szlig;")
+			:gsub("ß","&szlig;")
 			:gsub("\\n","<br>") .. "</b>" .. "\n"
 		elseif i>0 and tonumber(tree["DEPTH" .. i ]) <= tonumber(tree["DEPTH" .. i-1 ]) and tree["KIND" .. i ] == "BRANCH" then
 			if tree["KIND" .. i ] == "BRANCH" and tree["KIND" .. i-1 ] == "BRANCH" then
@@ -895,25 +909,65 @@ function button_load_tree_to_html:flat_action()
 			webbrowserText=webbrowserText .. "<ul><li>" .. "<b>" .. 
 			tostring(tree['TITLE' .. i])
 			:gsub("Ã¤","&auml;")
+			:gsub("ä","&auml;")
 			:gsub("Ã„","&Auml;")
+			:gsub("Ä","&Auml;")
 			:gsub("Ã¶","&ouml;")
+			:gsub("ö","&ouml;")
 			:gsub("Ã–","&Ouml;")
+			:gsub("Ö","&Ouml;")
 			:gsub("Ã¼","&uuml;")
+			:gsub("ü","&uuml;")
 			:gsub("Ãœ","&Uuml;")
+			:gsub("Ü","&Uuml;")
 			:gsub("ÃŸ","&szlig;")
+			:gsub("ß","&szlig;")
 			:gsub("\\n","<br>") .. "</b>" .. "\n"
+			--test with: print(tree['TITLE' .. i])
+		elseif i>0 and tonumber(tree["DEPTH" .. i ]) < tonumber(tree["DEPTH" .. i-1 ]) and tree["KIND" .. i ] == "LEAF" then
+			if tree["KIND" .. i ] == "LEAF" and tree["KIND" .. i-1 ] == "LEAF" then
+				webbrowserText=webbrowserText .. "</li></ul>" .. "\n"
+			end --if tree["KIND" .. i ] == "BRANCH" and tree["KIND" .. i-1 ] == "BRANCH" then
+			for j=1,math.max(math.tointeger(tonumber(tree["DEPTH" .. i-1 ])-tonumber(tree["DEPTH" .. i])),0) do
+				webbrowserText=webbrowserText .. "</li></ul>" .. "\n"
+			end --for j=1,math.max(math.tointeger(tonumber(tree["DEPTH" .. i-1 ])-tonumber(tree["DEPTH" .. i])),0)+1 do
+			AusgabeTabelle[tree['TITLE' .. i]]=true
+			webbrowserText=webbrowserText .. "<ul><li>" .. 
+			tostring(tree['TITLE' .. i])
+			:gsub("Ã¤","&auml;")
+			:gsub("ä","&auml;")
+			:gsub("Ã„","&Auml;")
+			:gsub("Ä","&Auml;")
+			:gsub("Ã¶","&ouml;")
+			:gsub("ö","&ouml;")
+			:gsub("Ã–","&Ouml;")
+			:gsub("Ö","&Ouml;")
+			:gsub("Ã¼","&uuml;")
+			:gsub("ü","&uuml;")
+			:gsub("Ãœ","&Uuml;")
+			:gsub("Ü","&Uuml;")
+			:gsub("ÃŸ","&szlig;")
+			:gsub("ß","&szlig;")
+			:gsub("\\n","<br>") .. "\n"
 			--test with: print(tree['TITLE' .. i])
 		else
 			AusgabeTabelle[tree['TITLE' .. i]]=true
 			webbrowserText=webbrowserText .. 
 			tostring(tree['TITLE' .. i])
 			:gsub("Ã¤","&auml;")
+			:gsub("ä","&auml;")
 			:gsub("Ã„","&Auml;")
+			:gsub("Ä","&Auml;")
 			:gsub("Ã¶","&ouml;")
+			:gsub("ö","&ouml;")
 			:gsub("Ã–","&Ouml;")
+			:gsub("Ö","&Ouml;")
 			:gsub("Ã¼","&uuml;")
+			:gsub("ü","&uuml;")
 			:gsub("Ãœ","&Uuml;")
+			:gsub("Ü","&Uuml;")
 			:gsub("ÃŸ","&szlig;")
+			:gsub("ß","&szlig;")
 			:gsub("\\n","<br>") .. "\n"
 		end --if i>0 and tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) then
 	end --for i=0,tree.count - 1 do --loop for all nodes
@@ -927,9 +981,37 @@ button_save_as_html=iup.flatbutton{title="Als html speichern", size="75x20", BGC
 function button_save_as_html:flat_action()
 	local outputfile1=io.open(path .. "\\" .. thisfilename:gsub("%.lua$",".html"),"w")
 	for k,v in pairs(TextHTMLtable) do
-		outputfile1:write(v .. "\n")
+		outputfile1:write(v:gsub("Ã¤","&auml;")
+				:gsub("ä","&auml;")
+				:gsub("Ã„","&Auml;")
+				:gsub("Ä","&Auml;")
+				:gsub("Ã¶","&ouml;")
+				:gsub("ö","&ouml;")
+				:gsub("Ã–","&Ouml;")
+				:gsub("Ö","&Ouml;")
+				:gsub("Ã¼","&uuml;")
+				:gsub("ü","&uuml;")
+				:gsub("Ãœ","&Uuml;")
+				:gsub("Ü","&Uuml;")
+				:gsub("ÃŸ","&szlig;")
+				:gsub("ß","&szlig;")
+				.. "\n")
 	end --for k,v in pairs(TextHTMLtable) do
-	outputfile1:write(webbrowser1.HTML .. "\n")
+	outputfile1:write(webbrowser1.HTML:gsub("Ã¤","&auml;")
+				:gsub("ä","&auml;")
+				:gsub("Ã„","&Auml;")
+				:gsub("Ä","&Auml;")
+				:gsub("Ã¶","&ouml;")
+				:gsub("ö","&ouml;")
+				:gsub("Ã–","&Ouml;")
+				:gsub("Ö","&Ouml;")
+				:gsub("Ã¼","&uuml;")
+				:gsub("ü","&uuml;")
+				:gsub("Ãœ","&Uuml;")
+				:gsub("Ü","&Uuml;")
+				:gsub("ÃŸ","&szlig;")
+				:gsub("ß","&szlig;")
+				.. "\n")
 	outputfile1:close()
 end --function button_save_as_html:flat_action()
 
@@ -941,7 +1023,7 @@ end --function button_logo:flat_action()
 
 --7 Main Dialog
 
---7.1 textboxes 
+--7.1 textboxes
 textbox1 = iup.text{value="1",size="20x20",WORDWRAP="NO",alignment="ACENTER"}
 textbox2 = iup.multiline{value="",size="90x20",WORDWRAP="YES"}
 
@@ -1038,35 +1120,49 @@ maindlg:showxy(iup.CENTER,iup.CENTER)
 --7.6 load tree in webbrowser
 webbrowserText='<font size="5"> '
 function readTreetohtmlRecursive(TreeTable)
-AusgabeTabelle[TreeTable.branchname]=true
-webbrowserText=webbrowserText .. "<ul><li>" .. "<b>" .. 
-tostring(TreeTable.branchname)
-:gsub("Ã¤","&auml;")
-:gsub("Ã„","&Auml;")
-:gsub("Ã¶","&ouml;")
-:gsub("Ã–","&Ouml;")
-:gsub("Ã¼","&uuml;")
-:gsub("Ãœ","&Uuml;")
-:gsub("ÃŸ","&szlig;")
-:gsub("\\n","<br>") .. "</b>" .. "\n"
-for k,v in ipairs(TreeTable) do
-if type(v)=="table" then
-readTreetohtmlRecursive(v)
-else
-AusgabeTabelle[v]=true
-webbrowserText=webbrowserText .. v
-:gsub("Ã¤","&auml;")
-:gsub("Ã„","&Auml;")
-:gsub("Ã¶","&ouml;")
-:gsub("Ã–","&Ouml;")
-:gsub("Ã¼","&uuml;")
-:gsub("Ãœ","&Uuml;")
-:gsub("ÃŸ","&szlig;")
-:gsub("\\n","<br>") .. "\n"
-end --if type(v)=="table" then
-end --for k, v in ipairs(TreeTable) do
-webbrowserText=webbrowserText .. "</li></ul>" .. "\n"
-end --readTreetohtmlRecursive(TreeTable)
+	AusgabeTabelle[TreeTable.branchname]=true
+	webbrowserText=webbrowserText .. "<ul><li>" .. "<b>" .. 
+	tostring(TreeTable.branchname)
+	:gsub("Ã¤","&auml;")
+	:gsub("ä","&auml;")
+	:gsub("Ã„","&Auml;")
+	:gsub("Ä","&Auml;")
+	:gsub("Ã¶","&ouml;")
+	:gsub("ö","&ouml;")
+	:gsub("Ã–","&Ouml;")
+	:gsub("Ö","&Ouml;")
+	:gsub("Ã¼","&uuml;")
+	:gsub("ü","&uuml;")
+	:gsub("Ãœ","&Uuml;")
+	:gsub("Ü","&Uuml;")
+	:gsub("ÃŸ","&szlig;")
+	:gsub("ß","&szlig;")
+	:gsub("\\n","<br>") .. "</b>" .. "\n"
+	for k,v in ipairs(TreeTable) do
+		if type(v)=="table" then
+			readTreetohtmlRecursive(v)
+		else
+			AusgabeTabelle[v]=true
+			webbrowserText=webbrowserText .. v:gsub("Ã¤","&auml;")
+							:gsub("ä","&auml;")
+							:gsub("Ã„","&Auml;")
+							:gsub("Ä","&Auml;")
+							:gsub("Ã¶","&ouml;")
+							:gsub("ö","&ouml;")
+							:gsub("Ã–","&Ouml;")
+							:gsub("Ö","&Ouml;")
+							:gsub("Ã¼","&uuml;")
+							:gsub("ü","&uuml;")
+							:gsub("Ãœ","&Uuml;")
+							:gsub("Ü","&Uuml;")
+							:gsub("ÃŸ","&szlig;")
+							:gsub("ß","&szlig;")
+							:gsub("\\n","<br>")
+							.. "\n"
+		end --if type(v)=="table" then
+	end --for k, v in ipairs(TreeTable) do
+	webbrowserText=webbrowserText .. "</li></ul>" .. "\n"
+end --function readTreetohtmlRecursive(TreeTable)
 AusgabeTabelle={}
 readTreetohtmlRecursive(lua_tree_output)
 webbrowserText=webbrowserText .. "</font>"
