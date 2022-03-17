@@ -17,3 +17,8 @@ Script forWindows system.
 3. text_to_lua_tree.lua
 
 This script converts a text file with titles and text into a tree in a Lua table.
+
+3.1 example.txt
+
+This text file is an example for the input text file of the script text_to_lua_tree.lua.
+
