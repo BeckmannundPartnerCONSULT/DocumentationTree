@@ -13,3 +13,7 @@ Script for Linux system.
 2. TXTtoLua_Windows.lua
 
 Script forWindows system.
+
+3. text_to_lua_tree.lua
+
+This script converts a text file with titles and text into a tree in a Lua table.
