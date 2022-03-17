@@ -339,7 +339,7 @@ dlg_expand_collapse=iup.dialog{
 --5. no context menus
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -631,7 +631,7 @@ function button_sort_in_tree:flat_action()
 		end --if tree2['KIND' .. i]=="LEAF" then
 	end --for i=0,tree2.totalchildcount0 do 
 	--make the sort
-	--go through tree 2
+	--go through tree 1
 	local file1existsTable={}
 	for i=0,tree1.totalchildcount0 do 
 		file1existsTable[tree1['TITLE' .. i]]=true
@@ -640,7 +640,7 @@ function button_sort_in_tree:flat_action()
 		if file1existsTable[tree['TITLE' .. i]]==nil and tree['totalchildcount' .. i]=="0" then
 			tree["delnode" .. i] = "SELECTED"
 		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
-	end --for i=0,tree2.totalchildcount0 do
+	end --for i=tree.totalchildcount0,0,-1 do
 	--go through tree 2
 	local file2existsTable={}
 	local file2numberTable={}
@@ -676,7 +676,52 @@ function button_sort_in_tree:flat_action()
 	iup.TreeAddNodes(tree,tree_script,tree.totalchildcount0)
 end --function button_sort_in_tree:flat_action()
 
---6.8 button for deleting one node leaving all other nodes but changing the order
+--6.8 button for building tree with text file of tree1 deleting nodes being in tree2
+button_tree1_not_in_tree=iup.flatbutton{title="Ersten Baum, der nicht \nim anderen ist", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_tree1_not_in_tree:flat_action()
+	tree.delnode0 = "SELECTED" --"CHILDREN"
+	--deep copy of tree1 in tree
+	for i=0,tree1.totalchildcount0 do 
+		if tree1['KIND' .. i]=="LEAF" then
+			tree['addleaf' .. i-1]=tree1['title' .. i]
+		elseif tree1['KIND' .. i]=="BRANCH" and tree1['KIND' .. i-1]=="LEAF" and i>0 and tree1['depth' .. i]==tree1['depth' .. i-1]  then
+			tree['addbranch' .. i-1]=tree1['title' .. i]
+		elseif tree1['KIND' .. i]=="BRANCH" and tree1['KIND' .. i-1]=="LEAF" then
+			local searchDiff1=0
+			for i1=i,0,-1 do
+				if tree['depth' .. i1]==tree1['depth' .. i] then break end
+				searchDiff1=searchDiff1+1
+				--test with: print(searchDiff1)
+			end --for i1=i,0,-1 do
+			tree['insertbranch' .. i-searchDiff1]=tree1['title' .. i]
+		elseif  tree1['KIND' .. i]=="BRANCH" and  tree1['KIND' .. i-1]=="BRANCH" and i>0 and tree1['depth' .. i]==tree1['depth' .. i-1] then
+			tree['insertbranch' .. i-1]=tree1['title' .. i]
+		elseif  tree1['KIND' .. i]=="BRANCH" and  tree1['KIND' .. i-1]=="BRANCH" and i>0 and tree1['depth' .. i]<tree1['depth' .. i-1] then
+			local searchDiff2=0
+			for i1=i,0,-1 do
+				if tree['depth' .. i1]==tree1['depth' .. i] then break end
+				searchDiff2=searchDiff2+1
+				--test with: print(searchDiff2)
+			end --for i1=i,0,-1 do
+			tree['insertbranch' .. i-searchDiff2]=tree1['title' .. i]
+		else
+			tree['addbranch' .. i-1]=tree1['title' .. i]
+		end --if tree1['KIND' .. i]=="LEAF" then
+	end --for i=0,tree1.totalchildcount0 do 
+	--make the sort
+	--go through tree 2
+	local file2existsTable={}
+	for i=0,tree2.totalchildcount0 do 
+		file2existsTable[tree2['TITLE' .. i]]=true
+	end --for i=0,tree2.totalchildcount0 do 
+	for i=tree.totalchildcount0,0,-1 do
+		if file2existsTable[tree['TITLE' .. i]] and tree['totalchildcount' .. i]=="0" then
+			tree["delnode" .. i] = "SELECTED"
+		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+	end --for i=tree.totalchildcount0,0,-1 do
+end --function button_tree1_not_in_tree:flat_action()
+
+--6.9 button for deleting one node leaving all other nodes but changing the order
 button_delete_in_tree=iup.flatbutton{title="Ebene herauslöschen", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_delete_in_tree:flat_action()
 	if tree.totalchildcount=="0" then
@@ -704,10 +749,10 @@ function button_delete_in_tree:flat_action()
 		--delete selected node and temporary nodes
 		tree.delnode = "SELECTED"
 		tree.delnode = "SELECTED"
-	end --	if tree.totalchildcount==0 then
+	end --if tree.totalchildcount==0 then
 end --function button_delete_in_tree:flat_action()
 
---6.9 button for saving tree
+--6.10 button for saving tree
 button_save_lua_table=iup.flatbutton{title="Baum als Lua-Tabelle speichern", size="125x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	--open a filedialog
@@ -721,7 +766,7 @@ function button_save_lua_table:flat_action()
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function button_save_lua_table:flat_action()
 
---6.10 button with second logo
+--6.11 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -731,7 +776,7 @@ end --function button_logo:flat_action()
 
 
 --7 Main Dialog
---7.1 textboxes 
+--7.1 textboxes
 textbox1 = iup.multiline{value="",size="320x20",WORDWRAP="YES"}
 textbox2 = iup.multiline{value="",size="320x20",WORDWRAP="YES"}
 
@@ -792,6 +837,7 @@ maindlg = iup.dialog{
 			button_compare,
 			button_sort_with_tree,
 			button_sort_in_tree,
+			button_tree1_not_in_tree,
 			iup.label{size="5x",},
 			button_delete_in_tree,
 			button_expand_collapse_dialog,
@@ -817,9 +863,6 @@ maindlg = iup.dialog{
 
 --7.4 show the dialog
 maindlg:show()
-
---7.4.2 go to the main dialog
-iup.NextField(maindlg)
 
 --7.5 Main Loop
 if (iup.MainLoopLevel()==0) then
