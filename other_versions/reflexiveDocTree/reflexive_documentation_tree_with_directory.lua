@@ -116,7 +116,7 @@ function string.escape_forbidden_char(insertstring) --this function takes a stri
 	return insertstring:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\'", "\\\'"):gsub("\n", "\\n"):gsub("\r", "\\n")
 end --function string.escape_forbidden_char(insertstring)
 
---3.3 function which saves the current iup tree as a lua table.
+--3.3 function which saves the current iup tree as a lua table
 function save_reflexive_tree_to_lua(outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
@@ -430,7 +430,7 @@ function addbranch_fromclipboard:action()
 	tree.value=tree.value+1
 end --function addbranch_fromclipboard:action()
 
---5.1.4.1 add branch of tree from clipboard by insertbranch
+--5.1.4.1 add branch to tree by insertbranch from clipboard
 addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function addbranch_fromclipboardbottom:action()
 	tree["insertbranch" .. tree.value]= clipboard.text
@@ -442,7 +442,7 @@ function addbranch_fromclipboardbottom:action()
 	end --for i=tree.value+1,tree.count-1 do
 end --function addbranch_fromclipboardbottom:action()
 
---5.1.4.2 add leaf to tree by insertleaf
+--5.1.4.2 add leaf to tree by insertleaf from clipboard
 addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function addleaf_fromclipboardbottom:action()
 	tree["insertleaf" .. tree.value] = clipboard.text
@@ -488,25 +488,25 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.8.1 button for building tree from start directory without versions
+--5.1.8.1 menu for building tree from start directory without versions
 menu_start_directory_without_versions = iup.item {title = "Ursprungsordner ohne Versionen laden"}
 function menu_start_directory_without_versions:action()
 	button_start_directory_without_versions:flat_action()
 end --function menu_start_directory_without_versions:action()
 
---5.1.8.2 button for building tree from new directory
+--5.1.8.2 menu for building tree from new directory
 menu_new_directory = iup.item {title = "Zielordner laden"}
 function menu_new_directory:action()
 	button_new_directory:flat_action()
 end --function menu_new_directory:action()
 
---5.1.8.3 button for building tree from new directory without versions
+--5.1.8.3 menu for building tree from new directory without versions
 menu_new_directory_without_versions = iup.item {title = "Zielordner ohne Versionen laden"}
 function menu_new_directory_without_versions:action()
 	button_new_directory_without_versions:flat_action()
 end --function menu_new_directory_without_versions:action()
 
---5.1.9 button for making new directory from selected node
+--5.1.9 menu for making new directory from selected node
 make_directory = iup.item {title = "Ordner anlegen"}
 function make_directory:action()
 	if tree['title']:match("^.:\\") then
@@ -514,13 +514,13 @@ function make_directory:action()
 	end --if tree['title']:match("^.:\\") then
 end --function make_directory:action()
 
---5.1.10 start the file or repository of the node of tree 
+--5.1.10 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
 end --function startnode:action()
 
---5.1.11 put the buttons together in the menu for tree
+--5.1.11 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -541,7 +541,7 @@ menu = iup.menu{
 		}
 --5.1 menu of tree end
 
---5.2 menu of tree1 
+--5.2 menu of tree1
 
 --5.2.1 copy node of tree1
 startcopy1 = iup.item {title = "Knoten kopieren"}
@@ -579,7 +579,7 @@ function startversionmove:action()
 	end --if tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree1['title']:match("<DIR>")==nil then
 end --function startversionmove:action()
 
---5.2.3 start the file or repository of the node of tree 
+--5.2.3 start the file or repository of the node of tree
 startnode1 = iup.item {title = "Starten"}
 function startnode1:action() 
 	if tree1['title']:match("%.[^\\ ]+$") then 
@@ -587,15 +587,15 @@ function startnode1:action()
 	end --if tree1['title']:match("%.[^\\ ]+$") then 
 end --function startnode1:action()
 
---5.2.4 put the buttons together in the menu for tree
+--5.2.4 put the menu items together in the menu for tree
 menu1 = iup.menu{
 		startcopy1, 
 		startversionmove, 
 		startnode1, 
 		}
---5.2 menu of tree1 
+--5.2 menu of tree1 end
 
---5.3 menu of tree2 
+--5.3 menu of tree2
 
 --5.3.1 copy node of tree2
 startcopy2 = iup.item {title = "Knoten kopieren"}
@@ -622,7 +622,18 @@ function startpickfile:action()
 	end --if tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree1['title']:match("<DIR>")==nil then
 end --function startpickfile:action()
 
---5.2.3 start the file or repository of the node of tree 
+--5.3.3 pick file selected in the tree2 and copy it in goal directory with versioning
+startpickfile_and_copy_to_goal = iup.item {title = "Datei mit Versionskopie in Zielordner einfügen"}
+function startpickfile_and_copy_to_goal:action()
+	if tree2['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree2['title']:match("<DIR>")==nil then
+		pickedFileName=tree2['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+"):sub(37)
+		--test with: iup.Message("Datei ausgewählt",pickedFile)
+	end --if tree1['title']:match("%d%d.%d%d.%d%d%d%d.+%.[^ ]+") and tree1['title']:match("<DIR>")==nil then
+	button_version_move_copy_and_paste:flat_action()
+	button_compare:flat_action()
+end --function startpickfile_and_copy_to_goal:action()
+
+--5.3.4 start the file or repository of the node of tree
 startnode2 = iup.item {title = "Starten"}
 function startnode2:action() 
 	if tree2['title']:match("%.[^\\ ]+$") then 
@@ -630,13 +641,14 @@ function startnode2:action()
 	end --if tree2['title']:match("%.[^\\ ]+$") then 
 end --function startnode2:action()
 
---5.2.4 put the buttons together in the menu for tree
+--5.3.5 put the menu items together in the menu for tree
 menu2 = iup.menu{
 		startcopy2, 
+		startpickfile_and_copy_to_goal, 
 		startpickfile, 
 		startnode2, 
 		}
---5.2 menu of tree1 
+--5.3 menu of tree1 end
 
 
 
@@ -644,7 +656,7 @@ menu2 = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -719,7 +731,7 @@ function button_new_directory:flat_action()
 			directoryTable[#directoryTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
 		elseif line:match("%(") or line:match(":\\") then
 			directoryInformationTable[#directoryInformationTable+1]=line:gsub("„","ä"):gsub("ÿ"," ")
-		end --if line:match("^%d%d.%d%d.%d%d%d%d") then
+		end --if line:match("^%d%d.%d%d.%d%d%d%d") and line:match("<DIR>")==nil then
 	end --for line in p:lines() do 
 	for k,v in pairs(directoryInformationTable) do
 		explorerTree[#explorerTree+1]={branchname=v}
@@ -841,7 +853,7 @@ function button_version_move_copy_and_paste:flat_action()
 	textbox1.value=new_directory
 	for i=1, tree.count-1 do
 		if tree['title' .. i]==textbox1.value then
-		tree.value=i
+			tree.value=i
 		end --if tree['title' .. i]==textbox1.value then
 	end --for i=numberOfNode, tree.count-1 do
 	button_new_directory_without_versions:flat_action()
@@ -868,7 +880,7 @@ function button_missing_copy_and_paste:flat_action()
 	textbox1.value=new_directory
 	for i=1, tree.count-1 do
 		if tree['title' .. i]==textbox1.value then
-		tree.value=i
+			tree.value=i
 		end --if tree['title' .. i]==textbox1.value then
 	end --for i=numberOfNode, tree.count-1 do
 	button_new_directory_without_versions:flat_action()
@@ -882,14 +894,14 @@ function button_exchange_start_and_new_directory:flat_action()
 	textbox1.value=new_directory
 	for i=1, tree.count-1 do
 		if tree['title' .. i]==textbox1.value then
-		tree.value=i
+			tree.value=i
 		end --if tree['title' .. i]==textbox1.value then
 	end --for i=numberOfNode, tree.count-1 do
 	button_new_directory_without_versions:flat_action()
 	textbox2.value=start_directory
 	for i=1, tree.count-1 do
 		if tree['title' .. i]==textbox2.value then
-		tree.value=i
+			tree.value=i
 		end --if tree['title' .. i]==textbox2.value then
 	end --for i=numberOfNode, tree.count-1 do
 	button_start_directory_without_versions:flat_action()
@@ -935,7 +947,7 @@ end --function button_logo:flat_action()
 
 --7 Main Dialog
 
---7.1 textboxes 
+--7.1 textboxes
 textbox1 = iup.multiline{value="",size="160x20",WORDWRAP="YES"}
 textbox2 = iup.multiline{value="",size="160x20",WORDWRAP="YES"}
 
