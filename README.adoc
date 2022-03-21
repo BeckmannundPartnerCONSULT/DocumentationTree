@@ -20,6 +20,9 @@ Der Artikel https://www.it-finanzmagazin.de/individuelle-datenverarbeitung-idv-b
 
 *Umsetzung*: https://github.com/cybi[Jens Kötterheinrich]
 
+*Andere Versionen für das interaktiv-dynamische Inhaltsverzeichnis als Weiterentwicklung*: https://github.com/BrunoKaiser[Dr. Bruno Kaiser]
+
+
 == Dokumentation
 Folgende Dokumente zur link:documentation[Dokumentation] stehen zur Verfügung:
 
@@ -28,3 +31,5 @@ link:documentation/content/Benutzerhandbuch.adoc[Benutzerhandbuch]
 link:documentation/content/DV-Konzept.adoc[DV-Konzept]
 
 PDF-Versionen der Dokumente werden zusammen mit den JAR-Dateien durch Maven generiert.
+
+link:other_versions/reflexiveDocTree/reflexive_html_with_tree_do_comments.html[Fachkonzept für die anderen Versionen, d.h. die Versionen des interaktiv-dynamischen Inhaltsverzeichnisses in IUP-Lua]
