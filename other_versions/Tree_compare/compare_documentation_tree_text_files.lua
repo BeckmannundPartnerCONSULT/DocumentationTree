@@ -3,7 +3,7 @@
 
 --1.1 libraries and clipboard
 --1.1.1 libraries
-require('iuplua')           --require iuplua for GUIs
+require("iuplua")           --require iuplua for GUIs
 require("iuplua_scintilla") --for Scintilla-editor
 
 --1.1.2 initalize clipboard
@@ -83,7 +83,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 
 --3 functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -258,7 +258,7 @@ dlg_expand_collapse=iup.dialog{
 --5. no context menus
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -367,6 +367,41 @@ function button_scripter_second_text_file:flat_action()
 	end --if file_exists(textbox2.value) and ErsteZeile then 
 end --function button_scripter_second_text_file:flat_action()
 
+--6.3.2 button for loading all text files without versions in IUP Lua scripter found in first directory and subdirectories containing the search text
+button_scripter_loading_text_files_with_search=iup.flatbutton{title="Skripter mit Textdateien im ersten\n Ordner mit Suchergebnis laden", size="135x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_scripter_loading_text_files_with_search:flat_action()
+	local directoryText
+	clipboard.text=textbox3.value
+	if textbox1.value:match("^.:\\") and textbox1.value:match("%.")==nil and textbox1.value:match("\\$")==nil then --directory without dot and without backslash at the end
+		directoryText=textbox1.value:match("(.*)")
+	elseif textbox1.value:match("^.:\\.*\\") then
+		directoryText=textbox1.value:match("(.*)\\")
+	end --if textbox1.value:match("^.:\\") then 
+	if directoryText~=nil and textbox3.value~="" then
+		searchAlarm=iup.Alarm("Wollen Sie die Suche der Dateien in folgendem Verzeichnis?",tostring(directoryText),"        Ja, bitte Suchen        ","        Nicht Suchen        ")
+		if searchAlarm==1 then 
+			local fileFound=""
+			p=io.popen('dir ' .. directoryText .. ' /b/o/s ')
+			for fileText in p:lines() do
+				if fileText:match("_Version(%d+)")==nil then
+					local inputfile2=io.open(fileText,"r")
+					if inputfile2 then --open if it is a file, for directory inputfile2 is nil
+						inputText2=inputfile2:read("*all")
+						inputfile2:close()
+						if inputText2:lower():match(textbox3.value:lower()) then
+							fileFound=fileFound .. " " .. fileText
+						end --if inputText2:lower():match(textbox3.value:lower()) then
+					end --if inputfile2 then
+				end --if fileText:match("_Version(%d+)")==nil then
+			end --for fileText in p:lines() do
+			--test with: iup.Message("Suche in",fileFound)
+			os.execute('start "d" C:\\Lua\\iupluascripter54.exe ' .. fileFound .. " ")
+		else
+			iup.Message("Keine Suche","Es wird nicht gesucht.")
+		end --if searchAlarm==1 then 
+	end --if directoryText~=nil then
+end --function button_scripter_loading_text_files_with_search:flat_action()
+
 --6.4 button for expand and collapse
 button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_expand_collapse_dialog:flat_action()
@@ -461,9 +496,10 @@ end --function button_logo:flat_action()
 
 
 --7 Main Dialog
---7.1 textboxes 
+--7.1 textboxes
 textbox1 = iup.multiline{value="",size="320x20",WORDWRAP="YES"}
 textbox2 = iup.multiline{value="",size="320x20",WORDWRAP="YES"}
+textbox3 = iup.multiline{value="",size="320x20",WORDWRAP="YES"}
 
 --7.2 display empty compare tree
 actualtree={branchname="compare"}
@@ -542,6 +578,9 @@ maindlg = iup.dialog{
 			iup.label{size="5x",},
 			button_loading_second_text_file,
 			button_scripter_second_text_file,
+			iup.label{size="5x",},
+			button_scripter_loading_text_files_with_search,
+			textbox3,
 			iup.fill{},
 			button_compare,
 			iup.label{size="5x",},
@@ -567,9 +606,6 @@ maindlg = iup.dialog{
 
 --7.5 show the dialog
 maindlg:show()
-
---7.5.2 go to the main dialog
-iup.NextField(maindlg)
 
 --7.6 Main Loop
 if (iup.MainLoopLevel()==0) then
