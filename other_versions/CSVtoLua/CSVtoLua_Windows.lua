@@ -6,11 +6,11 @@ outputLuaTable="C:\\Tree\\CSVtoLua_build\\dependencies_to_tree.lua"
 --this script takes dependencies and builds a tree out of them. 
 
 --the definition of the columns is as follows:
---1. child, for database query or insert table or build table
---2. parent, for database table or query
+--first column: child, for database query or insert table or build table
+--second clumn: parent, for database table or query
 
 
---1. function string:split()
+--1. function string:split() for splittings strings
 --function for splittings strings, the first arguemnt is the string, which should be splitted and the second argument is the pattern, were the string is split/separated.
 --the return value is a table, containg all the substrings without the spiltting pattern
 function string:split( inSplitPattern )
@@ -27,7 +27,7 @@ function string:split( inSplitPattern )
 end --function string:split( inSplitPattern )
 
 
---2. read input file
+--2. read CSV input file
 --read csv data
 
 --READING THE INPUTFILE
@@ -54,7 +54,7 @@ outputstring=''
 
 --BUILDING THE OUTPUTSTRING
 
---3.1 recursive function to build the tree
+--3.1 recursive function to build the tree with stopp of circles
 
 --BEGINNING OF THE RECURSIVE FUNCTION
 looptest={}-- a table which we want to use in order to detect cyclic dependencies of our tree. There we need to break out of the recursion of the function
@@ -86,7 +86,7 @@ QueryNameTable={}
 for k=1,#maintable do QueryNameTable[maintable[k][1]]=true end
 
 
---5. write the lua table
+--5. write the Lua table for the tree
 --BEGINNING OF THE COMPOSITION PROCESS
 
 outputstring=outputstring .. 'tree_from_csv='
