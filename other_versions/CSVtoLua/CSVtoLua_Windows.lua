@@ -11,8 +11,8 @@ outputLuaTable="C:\\Tree\\CSVtoLua_build\\dependencies_to_tree.lua"
 
 
 --1. function string:split() for splittings strings
---function for splittings strings, the first arguemnt is the string, which should be splitted and the second argument is the pattern, were the string is split/separated.
---the return value is a table, containg all the substrings without the spiltting pattern
+--function for splittings strings, the first argument is the string, which should be splitted and the second argument is the pattern, were the string is split/separated.
+--the return value is a table, containg all the substrings without the splitting pattern
 function string:split( inSplitPattern )
 	local outResults = {}
 	local theStart = 1
