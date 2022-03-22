@@ -4,20 +4,11 @@
 --1. basic data
 
 --1.1 libraries
-require('iuplua')           --require iuplua for GUIs
-require('iupluaweb')        --require iupluaweb for webbrowser
+require("iuplua")           --require iuplua for GUIs
+require("iupluaweb")        --require iupluaweb for webbrowser
 require("luacom")           --require for converting PDF to text file with Word
 
---1.1.1 text box
-textbox1=iup.text{value="1",size="340x20",alignment="ACENTER"}
-
-
---1.1.2 webbrowser
-webbrowser1=iup.webbrowser{HTML="Nachrichten aus Welt und Domradio",MAXSIZE="930x230"}
-webbrowser2=iup.webbrowser{HTML="gespeicherte Texte zum manuellen Baum",MAXSIZE="930x230"}
-actualPage=1
-
---1.1.3 initalize clipboard
+--1.2 initalize clipboard
 clipboard=iup.clipboard{}
 
 
@@ -49,7 +40,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 --2.3 script for manual tree
 path_documentation_tree= path .. "\\documentation_tree_News.lua"
 
---2.4 load the data needed
+--2.4 initialise the data needed
 TextHTMLtable={}
 NewsTree={branchname="Neue Nachrichten am " .. os.date("%d.%m.%Y") .. " auf C:\\Tree\\Tree_News\\PDF_News_inputs",}
 
@@ -100,7 +91,7 @@ end --if FileNewNews and FileOldNews then
 
 --3 functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -138,7 +129,7 @@ function printtree()
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
 
---3.2.2 function which saves the current iup tree as a lua table.
+--3.2.2 function which saves the current iup tree as a lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -439,7 +430,7 @@ function searchup:flat_action()
 		iup.NextField(maindlg)
 		iup.NextField(dlg_search)
 	end --if help==false then
-end --	function searchup:flat_action()
+end --function searchup:flat_action()
 
 checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
@@ -472,7 +463,7 @@ function search_in_texts:flat_action()
 			end --for i=0,tree2.count-1 do if tree2['title' .. i]==k then
 		end --if v:match(searchtext.value) then 
 	end --for k,v in pairs(TextHTMLtable) do
-end --	function search_in_texts:flat_action()
+end --function search_in_texts:flat_action()
 
 
 --put above together in a search dialog
@@ -588,7 +579,7 @@ function startcopy:action() --copy node
 	 clipboard.text = tree['title']
 end --function startcopy:action()
 
---5.1.1.1 copy node of tree with all children
+--5.1.1.1 copy node of tree with all children and add to the root
 startcopy_doubling = iup.item {title = "Verdoppeln"}
 function startcopy_doubling:action() --copy first node with same text as selected node with all its child nodes
 	local TreeText=""
@@ -726,7 +717,7 @@ function addbranch_fromclipboard:action()
 	tree.value=tree.value+1
 end --function addbranch_fromclipboard:action()
 
---5.1.4.1 add branch to tree by insertbranch
+--5.1.4.1 add branch to tree by insertbranch from clipboard
 addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function addbranch_fromclipboardbottom:action()
 	tree["insertbranch" .. tree.value] = clipboard.text
@@ -738,7 +729,7 @@ function addbranch_fromclipboardbottom:action()
 	end --for i=tree.value+1,tree.count-1 do
 end --function addbranch_fromclipboardbottom:action()
 
---5.1.4.2 add leaf to tree by insertleaf
+--5.1.4.2 add leaf to tree by insertleaf from clipboard
 addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function addleaf_fromclipboardbottom:action()
 	tree["insertleaf" .. tree.value] = clipboard.text
@@ -784,36 +775,7 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.8 start node of tree as a tree GUI or save a new one if not existing
-startastree = iup.item {title = "Als Tree starten"}
-function startastree:action()
-	--look for a tree GUI in the repositories in the path
-	--copy the GUI to have the GUI update to the last version used by the GUI from which it starts
-	if file_exists(tree['title'] .. '\\' .. thisfilename ) then
-	--g:match(".:\\[^\\]+")
-		os.execute('copy "' .. path .. '\\' .. thisfilename .. '" "' .. tree['title'] .. '\\' .. thisfilename .. '"')
-		--test with: iup.Message("Benutzeroberfläche kopiert",tree['title'] .. '\\' .. thisfilename)
-		os.execute('start "D" "' .. tree['title'] .. '\\' .. thisfilename .. '"')
-	elseif tree['title']:lower():match("\\archiv")==nil and tree['title']:match("\\[^\\%.]+$") then
-		BenutzeroberflaechenText=""
-		p=io.popen('dir "' .. tree['title']:match(".:\\[^\\]+") .. '\\' .. thisfilename .. '" /b/o/s')
-		for Ordner in p:lines() do BenutzeroberflaechenText=BenutzeroberflaechenText .. Ordner .. "\n" end
-		--tree GUI only if user want it
-		AnlegeAlarm=iup.Alarm("Benutzeroberfläche angelegen?","Es gibt folgende Benutzeroberflächen:\n" .. BenutzeroberflaechenText .. "\nWas möchten Sie für das Verzeichnis mit der neuen Benutzeroberfläche tun??","Anlegen","Nicht anlegen")
-		if AnlegeAlarm==1 then 
-			os.execute('copy "' .. path .. '\\' .. thisfilename .. '" "' .. tree['title'] .. '\\' .. thisfilename .. '"')
-			iup.Message("Benutzeroberfläche angelegt",tree['title'] .. '\\' .. thisfilename)
-		elseif AnlegeAlarm==2 then
-			iup.Message("Benutzeroberfläche wird nicht angelegt","Danke, nicht zu viele Benutzeroberflächen anzulegen.")
-		end --if AnlegeAlarm==1 then 
-	elseif tree['title']:lower():match("\\archiv") then
-		iup.Message("Kein Tree bei einem Archiv","Bei einem Archiv (" .. tree['title'] .. ") wird kein Tree angelegt.")
-	else 
-		iup.Message("Kein Tree","Bei " .. tree['title'] .. " wird kein Tree angelegt.")
-	end --if file_exists(tree['title'] .. '\\' .. thisfilename ) then
-end --function startastree:action()
-
---5.1.9 start file of node of tree in IUP Lua scripter or start empty file in notepad or start empty scripter
+--5.1.8 start file of node of tree in IUP Lua scripter or start empty file in notepad or start empty scripter
 startnodescripter = iup.item {title = "Skripter starten"}
 function startnodescripter:action()
 	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
@@ -827,7 +789,7 @@ function startnodescripter:action()
 	end --if file_exists(tree['title']) and ErsteZeile then 
 end --function startnodescripter:action()
 
---5.1.10 start the file or repository of the node of tree 
+--5.1.9 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -837,7 +799,7 @@ function startnode:action()
 	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
 end --function startnode:action()
 
---5.1.11 put the buttons together in the menu for tree
+--5.1.10 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		startcopy_doubling,
@@ -851,7 +813,6 @@ menu = iup.menu{
 		addleaf_fromclipboard,
 		addleaf_fromclipboardbottom,
 		startversion,
-		startastree, 
 		startnodescripter, 
 		startnode, 
 		}
@@ -877,7 +838,7 @@ function startcopy:action() --copy node
 	end --if tonumber(textbox1.value) then 
 end --function startcopy:action()
 
---5.1.2 copy node of tree2 with all children
+--5.1.2 copy node of tree2 with all children and add to the root of the tree
 startcopy_withchilds2 = iup.item {title = "An Zuordnung senden"}
 function startcopy_withchilds2:action() --copy first node with same text as selected node with all its child nodes
 	local TreeText=""
@@ -977,12 +938,12 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 	local _,numberCurlyBraketsEnd=TreeText:gsub("}","")
 	if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 		loadstring('tree_temp='..TreeText)()
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	elseif numberCurlyBraketsBegin==numberCurlyBraketsEnd then
 		load('tree_temp='..TreeText)() --now tree_temp is filled
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	elseif tree2["KIND" .. numberOfNode ]=="LEAF" then
@@ -1005,7 +966,7 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 end --function startcopy_withchilds2:action() 
 
 
---5.2.3 put the buttons together in the menu for tree2
+--5.2.3 put the menu items together in the menu for tree2
 menu2 = iup.menu{
 		startcopy,
 		startcopy_withchilds2,
@@ -1017,7 +978,7 @@ menu2 = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -1080,7 +1041,7 @@ function button_save_lua_table:flat_action()
 end --function button_save_lua_table:flat_action()
 
 
---6.3 button for search in tree2 and tree2
+--6.3 button for search in tree and tree2
 button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_search:flat_action()
 	searchtext.value=tree.title
@@ -1230,7 +1191,7 @@ function button_expand_collapse_dialog:flat_action()
 	dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_expand_collapse_dialog:flat_action()
 
---6.6 button for go to webbrowser page
+--6.6 button for going to webbrowser page
 button_goto_page=iup.flatbutton{title="Gehe zu Seite\nvom Knoten", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_goto_page:flat_action()
 	if tonumber(tree2['title']) then 
@@ -1261,7 +1222,15 @@ end --function button_logo:flat_action()
 
 --7 Main Dialog
 
---7.1 load tree from file
+--7.1 textboxes
+textbox1=iup.text{value="1",size="340x20",alignment="ACENTER"}
+
+--7.2 webbrowser
+webbrowser1=iup.webbrowser{HTML="Nachrichten aus Welt und Domradio",MAXSIZE="930x230"}
+webbrowser2=iup.webbrowser{HTML="gespeicherte Texte zum manuellen Baum",MAXSIZE="930x230"}
+actualPage=1
+
+--7.3.1 load tree from file
 if file_exists(path_documentation_tree) then
 	dofile(path_documentation_tree) --initialize the tree, read from the lua file
 	for line in io.lines(path_documentation_tree) do
@@ -1353,7 +1322,7 @@ function tree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
 
---7.2 load tree2 from file
+--7.3.2 load tree2 from file
 actualtree2=NewsTree
 --build tree2
 tree2=iup.tree{
@@ -1413,7 +1382,7 @@ function tree2:k_any(c)
 	end --if c == iup.K_DEL then
 end --function tree2:k_any(c)
 
---7.3 building the dialog and put buttons, trees and preview together
+--7.4 building the dialog and put buttons, trees and other elements together
 maindlg = iup.dialog{
 	--simply show a box with buttons
 	iup.vbox{
@@ -1446,14 +1415,10 @@ maindlg = iup.dialog{
 	BACKGROUND=color_background
 }
 
---7.3.1 show the dialog
+--7.4.1 show the dialog
 maindlg:show()
 
---7.3.2 go to the main dialog
-iup.NextField(maindlg)
-
-
---7.4 Main Loop
+--7.5 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
