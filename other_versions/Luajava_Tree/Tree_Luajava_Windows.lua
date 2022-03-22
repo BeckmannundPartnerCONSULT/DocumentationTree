@@ -1,7 +1,7 @@
 --echo this script opens a tree in Luajava
 --cd\ & cd Tree & cd Luajava_Tree & C:\jdk-16.0.2\bin\java.exe -classpath C:\Tree\LuaJ_Tree\Tree.jar lua Tree_Luajava_Windows.lua
 
---1. take tree from file
+--1. read input tree
 dofile("C:\\Tree\\Luajava_Tree\\Tree_Luajava_output_Tree.lua")
 
 --1.1 dynamic collection of data for the tree
@@ -13,7 +13,7 @@ for line in p:lines() do
 end --for line in p:lines() do
 --]]
 
---1.1.1 function for collection without being in manual tree
+--1.1.1 function for collection without the files and directories being in manual tree
 function readTreetohtmlRecursive(TreeTable)
 	AusgabeTabelle[TreeTable.branchname]=true
 	for k,v in ipairs(TreeTable) do
@@ -25,7 +25,7 @@ function readTreetohtmlRecursive(TreeTable)
 	end --for k,v in ipairs(TreeTable) do
 end --readTreetohtmlRecursive(TreeTable)
   
---1.1.2 apply the recursive function
+--1.1.2 collection of tree data by applying the recursive function
 AusgabeTabelle={}
 readTreetohtmlRecursive(Tree)
 --1.1.3 collect data about files and directories on the device not being in the manual tree
@@ -52,28 +52,28 @@ jframe=luajava.bindClass("javax.swing.JFrame")
 frame=luajava.newInstance("javax.swing.JFrame","Neue Oberflaeche")
 content=frame:getContentPane()
 
---3.2 constants
+--4. constants for the GUI
 scrollpaneconstants=luajava.bindClass("javax.swing.ScrollPaneConstants")
 v = scrollpaneconstants.VERTICAL_SCROLLBAR_AS_NEEDED
 h = scrollpaneconstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
 
---4. text areas
---4.1 text area for search text and to change the tree with
+--5. text areas
+--5.1 text area for search text and to change the tree with
 textArea1=luajava.newInstance("javax.swing.JTextArea",'Tree[#Tree+1]={branchname="","",}',10,12)
 textArea1:setLineWrap(true);
 textArea1:setWrapStyleWord(true);
 jsp2 = luajava.newInstance("javax.swing.JScrollPane", textArea1,v,h)
 content:add(jsp2,borderLayout.EAST)
 
---4.2 text area for search results and examples for changing the tree
+--5.2 text area for search results and examples for changing the tree
 textArea2=luajava.newInstance("javax.swing.JTextArea",'Tree[#Tree+1]={branchname="","",}\nTree[][]=""\nTree[]=nil\nfor i=3,#Tree do Tree[i-1]=Tree[i] end Tree[#Tree]=nil\ntable.insert(Tree,3,{branchname="Neu","neues Blatt"})',10,84)
 textArea2:setLineWrap(false);
 textArea2:setWrapStyleWord(false);
 jsp3 = luajava.newInstance("javax.swing.JScrollPane", textArea2,v,h)
 content:add(jsp3,borderLayout.SOUTH)
 
---5. buttons
---5.1 button for changing the tree
+--6. buttons
+--6.1 button for changing the tree
 button1=luajava.newInstance("javax.swing.JButton","Baum gestalten")
 button1:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 	mousePressed=function(e) 
@@ -138,7 +138,7 @@ button1:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 })) --addMouseListener(luajava.createProxy("java.awt.event.MouseListener"
 content:add(button1,borderLayout.NORTH)
 
---5.2 button for search in tree with paths as result
+--6.2 button for search in tree with paths as result
 button2=luajava.newInstance("javax.swing.JButton","Suche der Pfade")
 button2:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 	mousePressed=function(e) 
@@ -157,7 +157,7 @@ button2:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 content:add(button2,borderLayout.WEST)
 
 
---6. build recursively the tree
+--7. build recursively the tree
 TreeContentTable={}
 function readTreeRecursive(TreeTable,javaTreeTable)
 	javaTreeTable.branchname=javaTreeTable.branchname or luajava.newInstance("javax.swing.tree.DefaultMutableTreeNode",TreeTable.branchname)
@@ -181,7 +181,7 @@ readTreeRecursive(Tree,javaTree)
 tree1=luajava.newInstance("javax.swing.JTree",javaTree.branchname)
 tree1:setEditable(true)
 
---6.1 Mouse listener for the tree to start programms
+--7.1 Mouse listener for the tree to start programms
 tree1:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 	mousePressed=function(e) 
 		if e:getClickCount()==2 then 
@@ -198,7 +198,7 @@ tree1:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 	end, --mousePressed=function(e) 
 })) --addMouseListener(luajava.createProxy("java.awt.event.MouseListener"
 
---6.2 write out the paths in file
+--7.2 write out the paths in file
 outputfile1=io.open("C:\\Tree\\Luajava_Tree\\Tree_Luajava_output.txt","w")
 pathTable={}
 function searchTreeRecursivePath(TreeTable)
@@ -225,11 +225,11 @@ end --function searchTreeRecursivePath(TreeTable)
 searchTreeRecursivePath(Tree)
 outputfile1:close()
 
---7. tree in scrollpane added to content
+--7.3 tree in scrollpane added to content
 jsp1 = luajava.newInstance("javax.swing.JScrollPane",tree1,v,h)
 content:add(jsp1,borderLayout.CENTER);
 
---8. show the frame
+--7.4 show the frame
 frame:setDefaultCloseOperation(jframe.EXIT_ON_CLOSE)
 frame:setSize(900,600)
 frame:setVisible(true)
