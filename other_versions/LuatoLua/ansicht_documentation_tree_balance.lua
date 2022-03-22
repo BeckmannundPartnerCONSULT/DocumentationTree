@@ -392,9 +392,7 @@ function save_tree_to_lua(tree, outputfile_path)
 	outputfile:close()
 end --function save_tree_to_lua(tree, outputfile_path)
 
-
-
---3.2.4 function which deletes nodes in the second tree, if they occur in the tree of the first argument
+--3.2.3 function which deletes nodes in the second tree, if they occur in the tree of the first argument
 function compare_files_raw(fileText,compareFileText)
 	compareText=compareText .. "\nDatei: " .. fileText .. "\n\n"
 	--build the compare-table bTable from compareFileText
@@ -546,7 +544,7 @@ end --function change_state_keyword(new_state,level,descendants_also,tree)
 
 
 --3.4 functions for summing up in the tree
---3.4.1 recursion to build the sum backwards
+--3.4.1 function for recursion to build the sum backwards
 function BackwardRecursion(WerteTabelle)
 	local Summe=nil
 	local AnzahlNumber=0
@@ -567,7 +565,7 @@ function BackwardRecursion(WerteTabelle)
 end --function BackwardRecursion(WerteTabelle)
 
 
---3.4.2 caculate the depth to reduce number of recursions
+--3.4.2 calculate the depth to reduce number of recursions
 function TiefeRecursion(WerteTabelle)
 	Tiefe=(Tiefe or 0)+1
 	for k,v in pairs(WerteTabelle) do
@@ -577,7 +575,7 @@ function TiefeRecursion(WerteTabelle)
 	end --for k,v in pairs(WerteTabelle) do
 end --function TiefeRecursion(WerteTabelle)
 
---3.4.3 use of recursion unti depth to avoid endless loop
+--3.4.3 function to use the recursion until depth to avoid endless loop
 function AnwendungTiefeRecursion(WerteTabelle)
 	local i=0
 	while i<Tiefe do
@@ -589,7 +587,7 @@ function AnwendungTiefeRecursion(WerteTabelle)
 	end --while i<Tiefe do
 end --function AnwendungTiefeRecursion(WerteTabelle)
 
---3.4.4 visualisation of the backward recursion to have values in the same line as the texts 
+--3.4.4 function for visualisation of the backward recursion to have values in the same line as the texts
 --idea: TreeZurAnsicht recursiv branchname with element 1 to be added and delete element 1 TreeAusgabe wth function RemoveRecursion()
 function AnsichtRecursion(TreeZurAnsicht,TreeAusgabe)
 	--TreeAusgabe.state="COLLAPSED"
@@ -600,7 +598,7 @@ function AnsichtRecursion(TreeZurAnsicht,TreeAusgabe)
 	end --for k,v in ipairs(TreeZurAnsicht) do
 end --function AnsichtRecursion(TreeZurAnsicht,TreeAusgabe)
 
---3.4.5 calculate the portions with the sums of the levels above
+--3.4.5 function to calculate the portions with the sums of the levels above
 function AnteilRecursion(TreeAnteile,SummeTabelle,TreeAusgabe)
 	--TreeAusgabe.state="COLLAPSED"
 	TreeAusgabe.branchname=TreeAnteile.branchname .. ": " .. math.floor(TreeAnteile[1]/SummeTabelle[1]*100+0.5)/100
@@ -610,7 +608,7 @@ function AnteilRecursion(TreeAnteile,SummeTabelle,TreeAusgabe)
 	end --for k,v in ipairs(TreeAnteile) do
 end --function AnteilRecursion(TreeAnteile,SummeTabelle,TreeAusgabe)
 
---3.4.6 delete the first elements if it is a number
+--3.4.6 function to delete the first elements if it is a number
 function RemoveRecursion(WerteTabelle)
 	if type(WerteTabelle[1])=="number" then table.remove(WerteTabelle,1) end
 	for k,v in ipairs(WerteTabelle) do
@@ -893,7 +891,7 @@ function startcopy:action() --copy node
 	 clipboard.text = tree['title']
 end --function startcopy:action()
 
---5.1.1.1 copy node of tree with all children
+--5.1.1.1 copy node of tree with all children and add to the root
 startcopy_doubling = iup.item {title = "Verdoppeln"}
 function startcopy_doubling:action() --copy first node with same text as selected node with all its child nodes
 	local TreeText=""
@@ -1054,7 +1052,7 @@ function startnodescripter:action()
 	end --if file_exists(tree['title']) and ErsteZeile then 
 end --function startnodescripter:action()
 
---5.1.9 start the file or repository of the node of tree 
+--5.1.9 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -1064,7 +1062,7 @@ function startnode:action()
 	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
 end --function startnode:action()
 
---5.1.10 put the buttons together in the menu for tree
+--5.1.10 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		startcopy_doubling,
@@ -1084,7 +1082,7 @@ menu = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -1232,7 +1230,7 @@ end --function button_logo:flat_action()
 
 
 --7 Main Dialog
---7.1 load tree from file (this ensures that tree and tree2 are compared contentwise)
+--7.1 load tree from file
 if file_exists(path_documentation_tree) then
 	dofile(path_documentation_tree) --initialize the tree, read from the lua file
 	for line in io.lines(path_documentation_tree) do
@@ -1393,7 +1391,6 @@ textfield1.STYLEFGCOLOR10="128 0 0" -- 10-Operator
 --textfield1.STYLEFGCOLOR11="255 0 255" -- 11-Identifier (this overwrites the default color)
 --textfield1.STYLEITALIC10="YES"
 textfield1.MARGINWIDTH0="40"
-
 -- Callback for pressed keys
 function textfield1:k_any(c)
 	if c == iup.K_cF then
@@ -1450,7 +1447,7 @@ maindlg = iup.dialog{
 --7.5.1 show the dialog
 maindlg:show()
 
---7.5.2 build indicators
+--7.5.2 build indicators with the execution of an individual script
 dofile(path .. "\\documentation_tree_balance_indicators.lua")
 
 --7.6 Main Loop
