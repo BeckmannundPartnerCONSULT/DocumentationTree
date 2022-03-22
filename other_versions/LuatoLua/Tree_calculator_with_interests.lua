@@ -347,7 +347,7 @@ end --function math.round(a,precisionNumber)
 
 --3.3 functions for tree calculations
 
---3.3.1 function with function names corresponding to nodes
+--3.3.1 functions with function names corresponding to nodes
 
 function Schaltjahr () 
 Jahr = tree['title' .. 8]
@@ -365,9 +365,9 @@ end--function Rechner()
 
 
 --
---360 Methode
+-- 360 Methode
 function Anzahltage30zaehler()
---30/360 Bond Basis This convention is exactly as 30U/360 below, except for the first two rules. Note that the order of calculations is important:
+-- 30/360 Bond Basis This convention is exactly as 30U/360 below, except for the first two rules. Note that the order of calculations is important:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
 M1 = -(-tree['title17'])
@@ -386,7 +386,7 @@ end --function Anzahltage30zaehler()
 
 --
 function Anzahltage30ISDAzaehler() 
---30/360 ISDA:
+-- 30/360 ISDA:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
 M1 = -(-tree['title17'])
@@ -407,7 +407,7 @@ end --function Anzahltage30ISDAzaehler()
 
 --
 function Anzahltage30Ezaehler() 
---30E/360 Date adjustment rules:
+-- 30E/360 Date adjustment rules:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
 M1 = -(-tree['title17'])
@@ -426,7 +426,7 @@ end --function Anzahltage30Ezaehler()
 
 --
 function Anzahltage30EPluszaehler() 
---30E+/360 Date adjustment rules:
+-- 30E+/360 Date adjustment rules:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
 D2Plus = -(-tree['title55'])
@@ -450,7 +450,7 @@ end --function Anzahltage30PlusEzaehler()
 
 --
 function Anzahltage30Germanzaehler() 
---30German/360 Date adjustment rules:
+-- 30German/360 Date adjustment rules:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
 M1 = -(-tree['title17'])
@@ -475,7 +475,7 @@ end --function Anzahltage30Germanzaehler()
 
 
 function Anzahltage30USzaehler() 
---30German/360 Date adjustment rules:
+-- 30German/360 Date adjustment rules:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
 M1 = -(-tree['title17'])
@@ -650,7 +650,7 @@ function startnodescripter:action()
 	end --if file_exists(tree['title']) and ErsteZeile then 
 end --function startnodescripter:action()
 
---5.1.2 start the file or repository of the node of tree 
+--5.1.2 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -660,7 +660,7 @@ function startnode:action()
 	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
 end --function startnode:action()
 
---5.1.3 put the buttons together in the menu for tree
+--5.1.3 put the menu items together in the menu for tree
 menu = iup.menu{
 		startnodescripter, 
 		startnode, 
@@ -669,7 +669,7 @@ menu = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
