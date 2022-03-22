@@ -1,6 +1,6 @@
 --java -classpath /Tree/luaj-jse-3.0.1.jar lua /Tree/Luajava_Tree/Tree_Luajava_Linux_directory.lua &
 
---1. take tree from file
+--1. read input tree
 dofile("/Tree/Luajava_Tree/Tree_Luajava_output_Tree.lua")
 
 --1.1 origingal repository
@@ -19,21 +19,21 @@ jframe=luajava.bindClass("javax.swing.JFrame")
 frame=luajava.newInstance("javax.swing.JFrame","IDIV-Ordnervergleich")
 content=frame:getContentPane()
 
---3.2 constants
+--4. constants for the GUI
 scrollpaneconstants=luajava.bindClass("javax.swing.ScrollPaneConstants")
 v = scrollpaneconstants.VERTICAL_SCROLLBAR_AS_NEEDED
 h = scrollpaneconstants.HORIZONTAL_SCROLLBAR_AS_NEEDED
 
 
---4. text areas
---4.1 text area for search text and to change the tree with
+--5. text areas
+--5.1 text area for search text and to change the tree with
 textArea1=luajava.newInstance("javax.swing.JTextArea",'',2,2)
 textArea1:setLineWrap(true);
 textArea1:setWrapStyleWord(true);
 jsp2 = luajava.newInstance("javax.swing.JScrollPane", textArea1,v,h)
 content:add(jsp2,borderLayout.NORTH)
 
---4.2 text area for search results and examples for changing the tree
+--5.2 text area for search results and examples for changing the tree
 --get the difference of both repositories
 textArea2Text=""
 p=io.popen('diff ' .. originalRepository .. ' ' .. goalRepository)
@@ -77,8 +77,9 @@ textArea2:setWrapStyleWord(false);
 jsp4 = luajava.newInstance("javax.swing.JScrollPane", textArea2,v,h)
 content:add(jsp4,borderLayout.SOUTH)
 
+--6. no buttons
 
---6. build recursively the tree
+--7.1 build recursively the tree
 TreeContentTable={}
 function readTreeRecursive(TreeTable,javaTreeTable)
 	javaTreeTable.branchname=javaTreeTable.branchname or luajava.newInstance("javax.swing.tree.DefaultMutableTreeNode",TreeTable.branchname)
@@ -104,7 +105,7 @@ tree1:setEditable(true)
 
 
 
-
+--7.2 load tree1 from directory
 javaTree2={}
 javaTree2.branchname=luajava.newInstance("javax.swing.tree.DefaultMutableTreeNode","Ursprungsordnerinhalt als Baum: " .. originalRepository)
 tree2=luajava.newInstance("javax.swing.JTree",javaTree2.branchname)
@@ -120,7 +121,7 @@ for line in p:lines() do
 	end --if line:match("_Version")==nil then
 end --for line in p:lines() do
 
-
+--7.3 load tree2 from directory
 javaTree3={}
 javaTree3.branchname=luajava.newInstance("javax.swing.tree.DefaultMutableTreeNode","Zielordnerinhalt als Baum: " .. goalRepository)
 tree3=luajava.newInstance("javax.swing.JTree",javaTree3.branchname)
@@ -137,7 +138,7 @@ for line in p:lines() do
 end --for line in p:lines() do
 
 
---6.1 Mouse listener for the tree to start programms
+--7.4.1 Mouse listener for the tree to start programms
 tree2:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 	mousePressed=function(e) 
 		if e:getClickCount()==2 then 
@@ -152,7 +153,7 @@ tree2:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 })) --addMouseListener(luajava.createProxy("java.awt.event.MouseListener"
 
 
---6.2 Mouse listener for the tree to start programms
+--7.4.2 Mouse listener for the tree to start programms
 tree3:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 	mousePressed=function(e) 
 		if e:getClickCount()==2 then 
@@ -168,7 +169,7 @@ tree3:addMouseListener(luajava.createProxy("java.awt.event.MouseListener",{
 
 
 
---7. tree in scrollpane added to content
+--7.5 tree in scrollpane added to content
 jsp1 = luajava.newInstance("javax.swing.JScrollPane",tree1,v,h)
 content:add(jsp1,borderLayout.WEST);
 
@@ -179,7 +180,7 @@ jsp3 = luajava.newInstance("javax.swing.JScrollPane",tree3,v,h)
 content:add(jsp3,borderLayout.EAST);
 
 
---8. show the frame
+--7.6 show the frame
 frame:setDefaultCloseOperation(jframe.EXIT_ON_CLOSE)
 frame:setSize(900,400)
 frame:setVisible(true)
