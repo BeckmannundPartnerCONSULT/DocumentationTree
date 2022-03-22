@@ -7,7 +7,7 @@ require ("iuplua")
 --1.1.2 initalize clipboard
 clipboard=iup.clipboard{}
 
---1.1.3 loadstring for Lua 5.3
+--1.1.3 loadstring for Lua 5.3 and higher Lua versions
 if (not loadstring) then
   loadstring = load
 end --if (not loadstring) then
@@ -142,7 +142,7 @@ end --function console.textbox_leaf:dropfiles_cb(filename)
 
 
 
---3. functions               
+--3. functions
 
 --3.1 put original functions in variables
 console.orig_output = io.output
@@ -193,7 +193,7 @@ function print(...)
 	console.print2output(str)
 end --function print(...)
 
---3.5 print zum output function    
+--3.5 print to output function
 function console.print2output(s, no_newline)
 	if tostring(s):match("^>") then
 		--find last branch at depth 1
@@ -318,7 +318,7 @@ function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end --function file_exists(name)
 
---3.14 function which saves the current iup tree as a lua table.
+--3.14 function which saves the current iup tree as a lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.open(outputfile_path,"w") --a output file
@@ -405,7 +405,7 @@ function string.escape_forbidden_char(insertstring) --this function takes a stri
 	return insertstring:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\'", "\\\'"):gsub("\n", "\\n"):gsub("\r", "\\n")
 end --function string.escape_forbidden_char(insertstring)
 
---3.16 version info 
+--3.16 function for version informations
 function console.version_info()
   print(_VERSION, _COPYRIGHT) -- _COPYRIGHT does not exists by default, but it could...
   print("IUP " .. iup._VERSION .. "  " .. iup._COPYRIGHT)
@@ -415,7 +415,9 @@ function console.version_info()
   if (mot) then print("  Motif Version: ", mot) end
   local gtk = iup.GetGlobal("GTKVERSION")
   if (gtk) then print("  GTK Version: ", gtk) end
-end
+end --function console.version_info()
+
+--3. functions end
 
 --4. dialogs
 
@@ -505,7 +507,7 @@ function addbranch_fromclipboard:action()
 	console.outputTree.value=console.outputTree.value+1
 end --function addbranch_fromclipboard:action()
 
---5.1.4.1 add branch to console.outputTree by insertbranch
+--5.1.4.1 add branch to console.outputTree by insertbranch from clipboard
 addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function addbranch_fromclipboardbottom:action()
 	console.outputTree["insertbranch" .. console.outputTree.value] = clipboard.text
@@ -517,7 +519,7 @@ function addbranch_fromclipboardbottom:action()
 	end --for i=console.outputTree.value+1,console.outputTree.count-1 do
 end --function addbranch_fromclipboardbottom:action()
 
---5.1.4.2 add leaf to console.outputTree by insertleaf
+--5.1.4.2 add leaf to console.outputTree by insertleaf from clipboard
 addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function addleaf_fromclipboardbottom:action()
 	console.outputTree["insertleaf" .. console.outputTree.value] = clipboard.text
@@ -577,7 +579,7 @@ function startnodescripter:action()
 	end --if file_exists(console.outputTree['title']) and ErsteZeile then 
 end --function startnodescripter:action()
 
---5.1.9 start the file or repository of the node of console.outputTree 
+--5.1.9 start the file or repository of the node of console.outputTree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if console.outputTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.outputTree['title']:match("^.:\\.*[^\\]+$") or console.outputTree['title']:match("^.:\\$") or console.outputTree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -599,7 +601,7 @@ function startnode_script:action()
 	end --if console.outputTree["KIND"]=="BRANCH" then 
 end --function startnode_script:action()
 
---5.1.10 execute Lua script with Lua chunk of the node of console.outputTree and write result under the node
+--5.1.11 execute Lua script with Lua chunk of the node and the child nodes of console.outputTree and write result under the node
 startnode_script_update_with_children = iup.item {title = "Knoten mit Unterknoten aktualisieren"}
 function startnode_script_update_with_children:action() 
 	if console.outputTree["KIND"]=="BRANCH" then 
@@ -618,7 +620,7 @@ function startnode_script_update_with_children:action()
 	end --if console.outputTree["KIND"]=="BRANCH" then 
 end --function startnode_script_update_with_children:action()
 
---5.1.10 execute Lua script with Lua chunk of the node of console.outputTree and write result under the node
+--5.1.12 execute Lua script with Lua chunk of the node of console.outputTree and rewrite result under the node of tree console.outputTree
 startnode_script_update = iup.item {title = "Knoten aktualisieren"}
 function startnode_script_update:action() 
 	if console.outputTree["KIND"]=="BRANCH" then 
@@ -634,7 +636,7 @@ function startnode_script_update:action()
 	end --if console.outputTree["KIND"]=="BRANCH" then 
 end --function startnode_script_update:action()
 
---5.1.12 put the buttons together in the menu for console.outputTree
+--5.1.13 put the menu items together in the menu for console.outputTree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -657,7 +659,7 @@ menu = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -707,8 +709,8 @@ function button_save_lua_table:flat_action()
 end --function button_save_lua_table:flat_action()
 
 
---7. GUI
---7.1 build the tree with console output
+--7. Main Dialog
+--7.1 load output tree from file
 if file_exists(path .. "\\Tree_console_output.lua") then
 	dofile(path .. "\\Tree_console_output.lua")
 end --if file_exists(path .. "\\Tree_console_output.lua") then
@@ -747,7 +749,7 @@ function console.outputTree:k_any(c)
 end --function console.outputTree:k_any(c)
 
 
---7.2 main dialog
+--7.2 building the dialog and put buttons, trees and other elements together
 console.dialog = iup.dialog{
 	iup.vbox{
 		iup.hbox{button_logo, button_save_lua_table,
@@ -772,7 +774,7 @@ console.dialog = iup.dialog{
 	icon=img_logo, -- 0 use the Lua icon from the executable in Windows
 } --iup.dialog{
 
---7.3 close main dialog
+--7.3 close Main Dialog
 function console.dialog:close_cb()
 	print = console.orig_print  -- restore print and io.write
 	io.write = console.orig_write
@@ -781,7 +783,7 @@ function console.dialog:close_cb()
 	return iup.IGNORE
 end
 
---7.4 show the main dialog
+--7.4 show the dialog
 console.dialog:showxy(iup.LEFT,iup.CENTER)
 console.dialog.size = nil -- reset initial size, allow resize to smaller values
 iup.SetFocus(console.prompt)
@@ -791,7 +793,7 @@ if lua_tree_output==nil then
 	console.version_info()
 end --if lua_tree_output then
 
---7.6 Main loop
+--7.6 Main Loop
 if (iup.MainLoopLevel() == 0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel() == 0) then
