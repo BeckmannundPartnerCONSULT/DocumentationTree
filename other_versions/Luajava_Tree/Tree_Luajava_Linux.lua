@@ -1,4 +1,4 @@
---java -classpath /Tree/luaj-jse-3.0.1.jar lua /Tree/Tree_Luajava_Linux.lua
+--java -classpath /Tree/luaj-jse-3.0.1.jar lua /Tree/Tree_Luajava_Linux.lua &
 
 --1. take tree from file
 dofile("/Tree/Tree_Luajava_output_Tree.lua")
