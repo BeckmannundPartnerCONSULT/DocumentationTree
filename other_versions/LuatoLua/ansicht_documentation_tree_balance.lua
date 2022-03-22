@@ -286,7 +286,7 @@ os.execute('copy "' .. path_documentation_tree .. '" "' .. path .. '\\Archiv\\do
 
 --3 functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -303,28 +303,14 @@ end --function string.escape_forbidden_char(insertstring)
 
 --3.2 functions for GUI
 
---3.2.1 function which takes a lua table and prints out a file, with the lua code for defining this table
-function printluatabletree(luatable)
-	outputfile:write('{branchname="'.. luatable.branchname .. '",\n')
-	for j=1, #luatable do
-		if type(luatable[j])=='table' then
-			printluatabletree(luatable[j])
-		elseif type(luatable[j])=='string' then
-			outputfile:write('"' .. luatable[j] .. '",\n')
-		end --if type(luatable[j])=='table' then
-	end --for j=1, #luatable do
-	outputfile:write('},\n')
-end --function printluatabletree(luatable)
-
-
---3.2.2 deleting all nodes of an given tree, but does not delete the tree
+--3.2.1 function for deleting all nodes of an given tree, but that does not delete the tree
 function delete_nodes_of_tree(tree_given)
 	tree_given.delnode0 = "CHILDREN"
 	tree_given.title=''
 end --function delete_nodes_of_tree(tree_given)
 
 
---3.2.3 function which saves the current iup tree as a lua table.
+--3.2.2 function which saves the current iup tree as a lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -982,12 +968,12 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 	local _,numberCurlyBraketsEnd=TreeText:gsub("}","")
 	if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 		loadstring('tree_temp='..TreeText)()
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	elseif numberCurlyBraketsBegin==numberCurlyBraketsEnd then
 		load('tree_temp='..TreeText)() --now tree_temp is filled
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	else
@@ -1466,9 +1452,6 @@ maindlg:show()
 
 --7.5.2 build indicators
 dofile(path .. "\\documentation_tree_balance_indicators.lua")
-
---7.5.3 go to the main dialog
-iup.NextField(maindlg)
 
 --7.6 Main Loop
 if (iup.MainLoopLevel()==0) then
