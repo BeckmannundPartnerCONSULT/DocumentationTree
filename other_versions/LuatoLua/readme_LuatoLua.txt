@@ -65,4 +65,5 @@ This scripts contains three trees:
 
 8. ansicht_documentation_tree_balance.lua
 
-This script gives the possibility to analyse a balance of an enterprise.
+This script gives the possibility to analyse a balance of an enterprise. Balance indicators can be calculated.
+
