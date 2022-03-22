@@ -819,7 +819,7 @@ function tree:rightclick_cb(id)
 end --function tree:rightclick_cb(id)
 
 
---7.3 building the dialog and put buttons, trees and preview together
+--7.3 building the dialog and put buttons, trees and other elements together
 maindlg = iup.dialog {iup.frame{title="Zinsrechner",
 		iup.scrollbox{iup.vbox{
 			--iup.hbox{button_logo,},
