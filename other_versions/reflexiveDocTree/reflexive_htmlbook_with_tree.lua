@@ -14,11 +14,11 @@ TextHTMLTabelle={
 Dieses Buch wird als Seiten hergestellt.
 <br>
 <br><h2>2. Herstellung</h2>
-Die Seiten werden links uns rechts angeordnet und so mit einem WYSIAWYG-Prinzip gefüllt, das im nächsten Abschnitt definiert wird.</body></html>]====],
+Die Seiten werden links uns rechts angeordnet und so mit einem WYSIAWYG-Prinzip gefÃ¼llt, das im nÃ¤chsten Abschnitt definiert wird.</body></html>]====],
 [====[<!DOCTYPE html> <head></head><html><body><h2>3. Das WYSIAWYG-Prinzip</h2>
 WYSIAWYG bedeutet what you see is analogous to what you get.</body></html>]====],
 [====[<!DOCTYPE html> <head></head><html><body><h2>4. Fazit</h2>
-Das Inhaltsverzeichnis wird immer automatisch aktuell gehalten. Das ist sehr praktisch. Das Wiederfinden der Seiten ist dank der Suchfunktionalität etwas einfacher als ohne.
+Das Inhaltsverzeichnis wird immer automatisch aktuell gehalten. Das ist sehr praktisch. Das Wiederfinden der Seiten ist dank der SuchfunktionalitÃ¤t etwas einfacher als ohne.
 <br> </body></html>]====],
 }--TextHTMLTabelle<!--
 
@@ -56,7 +56,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 --test with: print(thisfilename)
 
 --2. global data definition
---2.1 page valid
+--2.1 initialisation of the current page
 aktuelleSeite=1
 
 --2.2 table of contents as a tree on the first page
@@ -86,7 +86,7 @@ if _VERSION=='Lua 5.1' or _VERSION=='Lua 5.2' then
 	end --function table.move(a,f,e,t)
 end --if _VERSION=='Lua 5.1' then
 
---3.2 function which saves the current iup htmlTexts as a lua table.
+--3.2 function which saves the current iup htmlTexts as a lua table
 function save_html_to_lua(htmlTexts, outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
@@ -111,7 +111,7 @@ function save_html_to_lua(htmlTexts, outputfile_path)
 	outputfile:close()
 end --function save_html_to_lua(htmlTexts, outputfile_path)
 
---4.1 rename dialog
+--4.1 change page dialog
 --ok button 1
 ok_1 = iup.flatbutton{title = "OK",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function ok_1:flat_action()
@@ -218,7 +218,7 @@ label1_2 = iup.label{title="Blattinhalt rechts:"}--label for textfield
 
 
 --open the dialog for renaming branch/leaf
-dlg_rename = iup.dialog{
+dlg_change_page = iup.dialog{
 	iup.hbox{ 
 	iup.vbox{label1_1, text1_1, iup.hbox{ok_1,search_in_text_1,}}; 
 	iup.vbox{label1_2, text1_2, iup.hbox{ok_2,search_in_text_2,iup.fill{},cancel,}}; 
@@ -228,20 +228,13 @@ dlg_rename = iup.dialog{
 	startfocus=text1_1,
 	}
 
---4.1 rename dialog end
+--4.1 change page dialog end
 
---5. GUI elements
---5.1 textboxes 
-textbox1 = iup.text{value="1",size="20x20",WORDWRAP="NO",alignment="ACENTER"}
-textbox2 = iup.multiline{value="",size="90x20",WORDWRAP="YES"}
-
---5.2 webbrowser
-webbrowser1=iup.webbrowser{HTML=TextHTMLTabelle[1]}
-webbrowser2=iup.webbrowser{HTML=TextHTMLTabelle[2]}
+--5. no context menus
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -281,10 +274,10 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
---6.2 button for saving TextHTMLTabelle
+--6.2 button for saving TextHTMLtable and the programm of the graphical user interface
 button_save_lua_table=iup.flatbutton{title="Buch speichern", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	save_html_to_lua(TextHTMLTabelle, path .. "\\" .. thisfilename)
@@ -300,7 +293,7 @@ function button_go_to_first_page:flat_action()
 end --function button_go_to_first_page:flat_action()
 
 --6.4 button for going one page back
-button_go_back = iup.flatbutton{title = "Eine Seite zurück",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_go_back = iup.flatbutton{title = "Eine Seite zurÃ¼ck",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_back:flat_action()
 	aktuelleSeite=math.tointeger(tonumber(textbox1.value)) or aktuelleSeite
 	if math.floor(aktuelleSeite/2)*2==aktuelleSeite and aktuelleSeite>1 then
@@ -341,11 +334,11 @@ function button_edit_page:flat_action()
 					:gsub("<h%d+>","")
 					:gsub("</h%d+>[^\n]","\n")
 					:gsub("</h%d+>\n","\n")
-		dlg_rename:popup(iup.CENTER, iup.CENTER) --popup rename dialog
+		dlg_change_page:popup(iup.CENTER, iup.CENTER) --popup rename dialog
 	end --if tonumber(textbox1.value) then
 end --function button_edit_page:flat_action()
 
---6.6 button for going to page
+--6.6 button for going to the page
 button_go_to_page = iup.flatbutton{title = "Gehe zu Seite:",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_to_page:flat_action()
 	if tonumber(textbox1.value) then
@@ -363,10 +356,10 @@ function button_go_to_page:flat_action()
 	end --if tonumber(textbox1.value) then
 end --function button_go_to_page:flat_action()
 
---6.7 button for deleting page
-button_delete = iup.flatbutton{title = "Löschen der Seite",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+--6.7 button for deleting the page
+button_delete = iup.flatbutton{title = "LÃ¶schen der Seite",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_delete:flat_action()
-	LoeschAlarm=iup.Alarm("Soll die Seite " .. tonumber(textbox1.value) .. " wirklich gelöscht werden?","Soll die Seite " .. tonumber(textbox1.value) .. " wirklich gelöscht werden?","Löschen","Nicht Löschen")
+	LoeschAlarm=iup.Alarm("Soll die Seite " .. tonumber(textbox1.value) .. " wirklich gelÃ¶scht werden?","Soll die Seite " .. tonumber(textbox1.value) .. " wirklich gelÃ¶scht werden?","LÃ¶schen","Nicht LÃ¶schen")
 	if LoeschAlarm==1 then 
 		if tonumber(textbox1.value) and tonumber(textbox1.value)<=#TextHTMLTabelle then
 			aktuelleSeite=math.tointeger(tonumber(textbox1.value))
@@ -374,17 +367,17 @@ function button_delete:flat_action()
 			TextHTMLTabelle[#TextHTMLTabelle]=nil --delete last element
 			--test with: iup.Message(aktuelleSeite, tostring(math.floor(aktuelleSeite/2)*2==aktuelleSeite))
 			if math.floor(aktuelleSeite/2)*2==aktuelleSeite and aktuelleSeite>1 then
-				webbrowser2.HTML="Seite gelöscht"
+				webbrowser2.HTML="Seite gelÃ¶scht"
 			else
-				webbrowser1.HTML="Seite gelöscht"
+				webbrowser1.HTML="Seite gelÃ¶scht"
 			end --if math.floor(aktuelleSeite/2)*2==aktuelleSeite and aktuelleSeite>1 then
 		else
-			iup.Message("Keine Seite zum Löschen","Keine Seite zum Löschen")
+			iup.Message("Keine Seite zum LÃ¶schen","Keine Seite zum LÃ¶schen")
 		end --if tonumber(textbox1.value) and tonumber(textbox1.value)<=#TextHTMLTabelle then
 	end --if LoeschAlarm==1 then 
 end --function button_delete:flat_action()
 
---6.8 button for saving TextHTMLTabelle
+--6.8 button for saving TextHTMLtable as html file
 button_save_as_html=iup.flatbutton{title="Als html speichern", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_as_html:flat_action()
 	local outputfile1=io.open(path .. "\\" .. thisfilename:gsub("%.lua$",".html"),"w")
@@ -397,7 +390,7 @@ function button_save_as_html:flat_action()
 end --function button_save_as_html:flat_action()
 
 
---6.9 button for search in TextHTMLTabelle
+--6.9 button for search in TextHTMLtable
 button_search=iup.flatbutton{title="Suche im Buch", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_search:flat_action()
 aktuelleSeite=math.tointeger(tonumber(textbox1.value))
@@ -459,10 +452,20 @@ end --function button_new_page:flat_action()
 --6.12 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --7 Main Dialog
+
+--7.1 textboxes
+textbox1 = iup.text{value="1",size="20x20",WORDWRAP="NO",alignment="ACENTER"}
+textbox2 = iup.multiline{value="",size="90x20",WORDWRAP="YES"}
+
+--7.2 webbrowser
+webbrowser1=iup.webbrowser{HTML=TextHTMLTabelle[1]}
+webbrowser2=iup.webbrowser{HTML=TextHTMLTabelle[2]}
+
+--7.3 building the dialog and put buttons, trees and other elements together
 maindlg = iup.dialog { 
 	iup.vbox{
 		iup.hbox{
@@ -491,10 +494,10 @@ maindlg = iup.dialog {
 	margin="5x5" 
 }--maindlg = iup.dialog {
 
---7.1 show the dialog
+--7.4 show the dialog
 maindlg:showxy(iup.CENTER,iup.CENTER) 
 
---7.2 Main Loop
+--7.5 Main Loop
 if (iup.MainLoopLevel()==0) then iup.MainLoop() end
 
 --]====]
