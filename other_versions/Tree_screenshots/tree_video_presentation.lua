@@ -1,6 +1,7 @@
 --This script shows a tree with a video taken from the camera
 
---1. lua table for tree
+--1. basic data
+--1.1 tree as Lua table
 lua_tree_output={ branchname="table of contents of the presentation", 
 { branchname="Video presentation", 
 { branchname="file of the presentation", 
@@ -84,13 +85,13 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 --test with: print(arg[0])
 --test with: print(thisfilename)
 
---1.4 build the video
+--2.1 build the video
 
---1.4.1 optional save video
+--2.1.1 optional save video
 --ifile = im.FileNew("C:\\Temp\\videocapture_makevideo.avi", "AVI") --"WMV")
 --ifile:SetAttribute("FPS", im.FLOAT, {15}) -- Frames per second
 
---1.4.2 capture video and connect to camera
+--2.1.2 capture video and connect to camera
 local vc = im.VideoCaptureCreate()
 if (not vc) then
   error("ERROR: No capture device found!")
@@ -99,24 +100,35 @@ if (vc:Connect(0) == 0) then
   error("ERROR: Fail to connect to capture device")
 end --if (vc:Connect(0) == 0) then
 
---1.4.3 get image from camera
+--2.1.3 get image from camera
 local capw, caph = vc:GetImageSize()
 local initimgsize = string.format("%ix%i", capw, caph)
 local frbuf = im.ImageCreate(capw, caph, im.RGB, im.BYTE)
 local gldata, glformat = frbuf:GetOpenGLData()
 
---1.4.4 set canvas with automatic size or manual size
+--2.1.4 set canvas with automatic size or manual size
 --cnv = iup.glcanvas{buffer="DOUBLE", rastersize = initimgsize,}
 --
 cnv = iup.glcanvas{buffer="DOUBLE", rastersize = "1200x600",}
 
---1.4.5 function to resize canvas
+--3 functions
+
+--3.1 general Lua functions
+
+--3.1.1 function checking if file exits
+function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end --function file_exists(name)
+
+--3.2 special video functions
+--3.2.1 function to resize canvas
 function cnv:resize_cb(width, height)
   iup.GLMakeCurrent(self)
   gl.Viewport(0, 0, width, height)
 end
 
---1.4.6 function to build video in canvas
+--3.2.2 function to build video in canvas
 function cnv:action(x, y)
 	iup.GLMakeCurrent(self)
 	gl.PixelStore(gl.UNPACK_ALIGNMENT, 1)
@@ -146,20 +158,11 @@ function cnv:action(x, y)
 	iup.GLSwapBuffers(self)
 end --function cnv:action(x, y)
 
---1.4.7 set video live
+
+--4. no dialogs
+
+--4.1 set video live
 vc:Live(1)
-
---3 functions
-
---3.1 general lua-functions
-
---3.1.1 function checking if file exits
-function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
-end --function file_exists(name)
-
-
 
 
 --5.1 menu of tree
@@ -178,7 +181,7 @@ function startnodescripter:action()
 	end --if file_exists(tree['title']) and ErsteZeile then 
 end --function startnodescripter:action()
 
---5.1.2 start the file or repository of the node of tree 
+--5.1.2 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -188,7 +191,7 @@ function startnode:action()
 	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
 end --function startnode:action()
 
---5.1.3 put the buttons together in the menu for tree
+--5.1.3 put the menu items together in the menu for tree
 menu = iup.menu{
 		startnodescripter,
 		startnode, 
@@ -197,7 +200,7 @@ menu = iup.menu{
 
 --6. no buttons
 
---7. Main dialog
+--7. Main Dialog
 
 --7.1 load tree from self file
 actualtree=lua_tree_output
@@ -236,12 +239,12 @@ iup.scrollbox{cnv}},size="300xFULL"}
 --7.3 variable for loop
 local in_loop = true
 
---7.4 function to close main dialog
+--7.4 close Main Dialog
 function maindlg:close_cb()
   in_loop = false
 end
 
---7.5 function for keys pressed in main dialog
+--7.5 function for keys pressed in main dialog for full screen and closing
 function maindlg:k_any(c)
 	if c == iup.K_q or c == iup.K_ESC then
 		return iup.CLOSE
@@ -258,11 +261,11 @@ function maindlg:k_any(c)
 	end --if c == iup.K_F1 then
 end --function maindlg:k_any(c)
 
---7.6 Main dialog
+--7.6 show the dialog
 maindlg:showxy(iup.LEFT,iup.BOTTOM)
 iup.SetFocus(cnv)
 
---7.7 loop for the main dialog
+--7.7 Main Loop
 while in_loop do
 	vc:Frame(frbuf,-1)
 	iup.Update(cnv)
@@ -276,7 +279,7 @@ while in_loop do
 	end --if result == iup.CLOSE then
 end --while in_loop do
 
---7.8 close the main dialog
+--7.8 close Main Dialog
 vc:Live(0)
 vc:Disconnect()
 vc:Destroy()
