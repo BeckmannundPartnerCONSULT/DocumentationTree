@@ -154,7 +154,7 @@ os.execute('copy "' .. path_documentation_tree .. '" "' .. path .. '\\Archiv\\do
 
 --3 functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -171,28 +171,14 @@ end --function string.escape_forbidden_char(insertstring)
 
 --3.2 functions for GUI
 
---3.2.1 function which takes a lua table and prints out a file, with the lua code for defining this table
-function printluatabletree(luatable)
-	outputfile:write('{branchname="'.. luatable.branchname .. '",\n')
-	for j=1, #luatable do
-		if type(luatable[j])=='table' then
-			printluatabletree(luatable[j])
-		elseif type(luatable[j])=='string' then
-			outputfile:write('"' .. luatable[j] .. '",\n')
-		end --if type(luatable[j])=='table' then
-	end --for j=1, #luatable do
-	outputfile:write('},\n')
-end --function printluatabletree(luatable)
-
-
---3.2.2 deleting all nodes of an given tree, but does not delete the tree
+--3.2.1 function for deleting all nodes of an given tree, but that does not delete the tree
 function delete_nodes_of_tree(tree_given)
 	tree_given.delnode0 = "CHILDREN"
 	tree_given.title=''
 end --function delete_nodes_of_tree(tree_given)
 
 
---3.2.3 function which deletes nodes in the second tree, if they occur in the tree of the first argument
+--3.2.2 function which deletes nodes in the second tree, if they occur in the tree of the first argument
 function delete_nodes_2nd_arg(tree,tree2)
 	for i=0, tree.count-1 do
 		for j=0, tree2.count -1 do
@@ -205,7 +191,7 @@ function delete_nodes_2nd_arg(tree,tree2)
 end --function delete_nodes_2nd_arg(tree,tree2)
 
 
---3.2.4 function which saves the current iup tree as a lua table.
+--3.2.3 function which saves the current iup tree as a lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -289,7 +275,7 @@ end --function save_tree_to_lua(tree, outputfile_path)
 
 
 
---3.2.5 function which deletes nodes in the second tree, if they occur in the tree of the first argument
+--3.2.4 functions which compares first text file with second text file
 function compare_files_raw(fileText,compareFileText)
 	compareText=compareText .. "\nDatei: " .. fileText .. "\n\n"
 	--build the compare-table bTable from compareFileText
@@ -401,7 +387,7 @@ end --function printdependencies()
 
 
 --3.4 functions for summing up in the tree
---3.4.1 recursion to build the sum backwards
+--3.4.1 function for recursion to build the sum backwards
 function BackwardRecursion(WerteTabelle)
 	local Summe=nil
 	local AnzahlNumber=0
@@ -422,7 +408,7 @@ function BackwardRecursion(WerteTabelle)
 end --function BackwardRecursion(WerteTabelle)
 
 
---3.4.2 caculate the depth to reduce number of recursions
+--3.4.2 calculate the depth to reduce number of recursions
 function TiefeRecursion(WerteTabelle)
 	Tiefe=(Tiefe or 0)+1
 	for k,v in pairs(WerteTabelle) do
@@ -432,7 +418,7 @@ function TiefeRecursion(WerteTabelle)
 	end --for k,v in pairs(WerteTabelle) do
 end --function TiefeRecursion(WerteTabelle)
 
---3.4.3 use of recursion unti depth to avoid endless loop
+--3.4.3 function to use the recursion until depth to avoid endless loop
 function AnwendungTiefeRecursion(WerteTabelle)
 	local i=0
 	while i<Tiefe do
@@ -444,7 +430,7 @@ function AnwendungTiefeRecursion(WerteTabelle)
 	end --while i<Tiefe do
 end --function AnwendungTiefeRecursion(WerteTabelle)
 
---3.4.4 visualisation of the backward recursion to have values in the same line as the texts 
+--3.4.4 function for visualisation of the backward recursion to have values in the same line as the texts
 --idea: TreeZurAnsicht recursiv branchname with element 1 to be added and delete element 1 TreeAusgabe wth function RemoveRecursion()
 function AnsichtRecursion(TreeZurAnsicht,TreeAusgabe)
 	TreeAusgabe.state="COLLAPSED"
@@ -455,7 +441,7 @@ function AnsichtRecursion(TreeZurAnsicht,TreeAusgabe)
 	end --for k,v in ipairs(TreeZurAnsicht) do
 end --function AnsichtRecursion(TreeZurAnsicht,TreeAusgabe)
 
---3.4.5 calculate the portions with the sums of the levels above
+--3.4.5 function to calculate the portions with the sums of the levels above
 function AnteilRecursion(TreeAnteile,SummeTabelle,TreeAusgabe)
 	TreeAusgabe.state="COLLAPSED"
 	TreeAusgabe.branchname=TreeAnteile.branchname .. ": " .. math.floor(TreeAnteile[1]/SummeTabelle[1]*100+0.5)/100
@@ -465,7 +451,7 @@ function AnteilRecursion(TreeAnteile,SummeTabelle,TreeAusgabe)
 	end --for k,v in ipairs(TreeAnteile) do
 end --function AnteilRecursion(TreeAnteile,SummeTabelle,TreeAusgabe)
 
---3.4.6 delete the first elements if it is a number
+--3.4.6 function to delete the first elements if it is a number
 function RemoveRecursion(WerteTabelle)
 	if type(WerteTabelle[1])=="number" then table.remove(WerteTabelle,1) end
 	for k,v in ipairs(WerteTabelle) do
@@ -766,7 +752,7 @@ function startcopy:action() --copy node
 	 clipboard.text = tree['title']
 end --function startcopy:action()
 
---5.1.1.1 copy node of tree with all children
+--5.1.1.1 copy node of tree with all children and add to the root
 startcopy_doubling = iup.item {title = "Verdoppeln"}
 function startcopy_doubling:action() --copy first node with same text as selected node with all its child nodes
 	local TreeText=""
@@ -904,7 +890,7 @@ function addbranch_fromclipboard:action()
 	tree.value=tree.value+1
 end --function addbranch_fromclipboard:action()
 
---5.1.4.1 add branch to tree by insertbranch
+--5.1.4.1 add branch to tree by insertbranch from clipboard
 addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function addbranch_fromclipboardbottom:action()
 	tree["insertbranch" .. tree.value] = clipboard.text
@@ -916,7 +902,7 @@ function addbranch_fromclipboardbottom:action()
 	end --for i=tree.value+1,tree.count-1 do
 end --function addbranch_fromclipboardbottom:action()
 
---5.1.4.2 add leaf to tree by insertleaf
+--5.1.4.2 add leaf to tree by insertleaf from clipboard
 addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function addleaf_fromclipboardbottom:action()
 	tree["insertleaf" .. tree.value] = clipboard.text
@@ -991,7 +977,7 @@ function startastree:action()
 	end --if file_exists(tree['title'] .. '\\' .. thisfilename ) then
 end --function startastree:action()
 
---5.1.8.2 start the repository of the file of the node of tree 
+--5.1.8.2 start the directory of the file of the node of tree
 start_repository_of_node = iup.item {title = "Ordner des Knotens starten"}
 function start_repository_of_node:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -1092,7 +1078,7 @@ function starteditor_path_files_of_script:action()
 	end --if file_exists(tree['title']) then
 end --function starteditor_path_files_of_script:action()
 
---5.1.11 start the file or repository of the node of tree 
+--5.1.11 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -1102,7 +1088,7 @@ function startnode:action()
 	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
 end --function startnode:action()
 
---5.1.12 put the buttons together in the menu for tree
+--5.1.12 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		startcopy_doubling,
@@ -1137,7 +1123,7 @@ function startcopy2:action() --copy node
 	end --if tree2['title']:match("^\\.*") then
 end --function startcopy2:action() 
 
---5.2.1.1 copy node of tree2 with all children
+--5.2.1.1 copy node of tree2 with all children and add to the root of the tree
 startcopy_withchilds2 = iup.item {title = "An Zuordnung senden"}
 function startcopy_withchilds2:action() --copy first node with same text as selected node with all its child nodes
 	local TreeText=""
@@ -1252,7 +1238,7 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 	end --if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 end --function startcopy_withchilds2:action() 
 
---5.2.1.2 copy leaf of tree2
+--5.2.1.2 copy node of tree2 and add it to root of first tree as branch
 addbranch_from_leaf_in_tree2 = iup.item {title = "Knoten als Ast an Zuordnung senden"}
 function addbranch_from_leaf_in_tree2:action()
 	if tree2.title0:match(".:\\$") then
@@ -1330,7 +1316,7 @@ function startnode2:action()
 	end --if tree2['title']:match("Nicht dokumentierte Dateien auf: ") then
 end --function startnode2:action()
 
---5.2.5 put the buttons together in the menu for tree2
+--5.2.5 put the menu items together in the menu for tree2
 menu2 = iup.menu{
 		startcopy2,
 		startcopy_withchilds2,
@@ -1345,7 +1331,7 @@ menu2 = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -1432,13 +1418,13 @@ end --function button_logo:flat_action()
 
 
 --7 Main Dialog
---7.1 textboxes 
+--7.1 textboxes
 textbox1 = iup.multiline{value="",size="350x20",WORDWRAP="YES"}
 
 --7.1.1 drag & drop text area branch
 textbox_branch = iup.text{value="Ast bilden",size="45x10", readonly="YES", dragdrop = "Yes",BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 textbox_branch.tip = "Drop files here to build a branch"
---7.1.1a callback to add branch with drag & drop         
+--7.1.1a callback to add branch with drag & drop
 function textbox_branch:dropfiles_cb(filename)
 	tree['addbranch']=tostring(filename)
 end --function textbox_branch:dropfiles_cb(filename)
@@ -1446,13 +1432,13 @@ end --function textbox_branch:dropfiles_cb(filename)
 --7.1.2 drag & drop text area leaf
 textbox_leaf = iup.text{value="Blatt bilden",size="45x10", readonly="YES", dragdrop = "Yes",BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 textbox_leaf.tip = "Drop files here to build a leaf"
---7.1.1a callback to add leaf with drag & drop 
+--7.1.1a callback to add leaf with drag & drop
 function textbox_leaf:dropfiles_cb(filename)
 	tree['addleaf']=tostring(filename)
 end --function textbox_leaf:dropfiles_cb(filename)
 
 
---7.2.1 load tree from file (this ensures that tree and tree2 are compared contentwise)
+--7.2.1 load tree from file
 if file_exists(path_documentation_tree) then
 	dofile(path_documentation_tree) --initialize the tree, read from the lua file
 	for line in io.lines(path_documentation_tree) do
@@ -1829,10 +1815,7 @@ for i=0, tree.count-1 do
 end --for i=0, tree.count-1 do
 --]]
 
---7.6.2 go to the main dialog
-iup.NextField(maindlg)
-
---7.7 callback on close of the main dialog
+--7.7 callback on close of the main dialog for saving or restoring
 function maindlg:close_cb()
 	EndeAlarm=iup.Alarm("Alarm","Wollen Sie den Baum speichern oder die Vorversion wiederherstellen?","Speichern","Wiederherstellen")
 	if EndeAlarm==1 then 
