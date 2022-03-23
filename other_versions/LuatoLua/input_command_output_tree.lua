@@ -934,10 +934,10 @@ end --function command_startnode_script_update_with_children:action()
 command_startnode_script_update = iup.item {title = "Knoten aktualisieren"}
 function command_startnode_script_update:action() 
 	if console.commandTree["KIND"]=="BRANCH" then 
-		local startNode=console.commandTree.value
-		if console.commandTree["KIND" .. startNode+1]=="LEAF" then
-			console.commandTree['delnode' .. startNode+1] = "SELECTED" --TOTALCHILDCOUNT
-		end --if console.commandTree["KIND" .. startNode+1]=="LEAF" then
+		local startNode=console.outputTree.value
+		if console.outputTree["KIND" .. startNode+1]=="LEAF" then
+			console.outputTree['delnode' .. startNode+1] = "SELECTED" --TOTALCHILDCOUNT
+		end --if console.outputTree["KIND" .. startNode+1]=="LEAF" then
 		if console.commandTree['title']:match("^.:\\.*%.lua$") then 
 			dofile(console.commandTree['title']) 
 		elseif console.commandTree['title']:match("%(") or console.commandTree['title']:match("=") then
@@ -946,7 +946,7 @@ function command_startnode_script_update:action()
 	end --if console.commandTree["KIND"]=="BRANCH" then 
 end --function command_startnode_script_update:action()
 
---5.2.13 put the buttons together in the menu for console.commandTree
+--5.2.13 put the menu items together in the menu for console.commandTree
 command_menu = iup.menu{
 		command_startcopy,
 		command_renamenode, 
@@ -1042,7 +1042,7 @@ function output_addbranch_fromclipboard:action()
 	console.outputTree.value=console.outputTree.value+1
 end --function output_addbranch_fromclipboard:action()
 
---5.3.4.1 add branch to console.outputTree by insertbranch
+--5.3.4.1 add branch to console.outputTree by insertbranch from clipboard
 output_addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function output_addbranch_fromclipboardbottom:action()
 	console.outputTree["insertbranch" .. console.outputTree.value] = clipboard.text
@@ -1054,7 +1054,7 @@ function output_addbranch_fromclipboardbottom:action()
 	end --for i=console.outputTree.value+1,console.outputTree.count-1 do
 end --function output_addbranch_fromclipboardbottom:action()
 
---5.3.4.2 add leaf to console.outputTree by insertleaf
+--5.3.4.2 add leaf to console.outputTree by insertleaf from clipboard
 output_addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function output_addleaf_fromclipboardbottom:action()
 	console.outputTree["insertleaf" .. console.outputTree.value] = clipboard.text
@@ -1066,7 +1066,7 @@ function output_addleaf_fromclipboardbottom:action()
 	end --for i=console.outputTree.value+1,console.outputTree.count-1 do
 end --function output_addleaf_fromclipboardbottom:action()
 
---5.3.4.3 add leaf to console.outputTree by insertleaf after the last leaf of the branch chosen
+--5.3.4.3 add leaf to console.outputTree by insertleaf after the last leaf of the branch chosen from clipboard
 output_addleaf_fromclipboardbottom = iup.item {title = "Blatt unter letztem Blatt aus Zwischenablage"}
 function output_addleaf_fromclipboardbottom:action()
 	console.outputTree["insertleaf" .. console.outputTree.value+console.outputTree.totalchildcount] = clipboard.text
@@ -1108,13 +1108,13 @@ function output_startversion:action()
 end --function output_startversion:action()
 
 
---5.3.7.1 deletes all children nodes
+--5.3.7.1 delete all children nodes
 output_delnode_children = iup.item {title = "Alle Knoten darunter löschen"}
 function output_delnode_children:action()
 	console.outputTree.delnode = "CHILDREN"
 end --function output_delnode_children:action()
 
---5.3.7.2 start file of node of console.outputTree in IUP Lua scripter or start empty file in notepad or start empty scripter
+--5.3.7.2 delete all leafs under the branch
 output_delnode_children_leafs = iup.item {title = "Alle Blätter darunter löschen"}
 function output_delnode_children_leafs:action()
 	local startNodeNumber=console.outputTree.value
@@ -1128,7 +1128,7 @@ function output_delnode_children_leafs:action()
 	end --for i=endNodeNumber,startNodeNumber,-1 do
 end --function output_delnode_children_leafs:action()
 
---5.3.7.3 start file of node of console.outputTree in IUP Lua scripter or start empty file in notepad or start empty scripter
+--5.3.7.3 filter all leafs under the branch for pattern in console prompt
 output_delnode_children_leafs_filter = iup.item {title = "Alle Blätter darunter filtern"}
 function output_delnode_children_leafs_filter:action()
 	local startNodeNumber=console.outputTree.value
@@ -1156,7 +1156,7 @@ function output_startnodescripter:action()
 	end --if file_exists(console.outputTree['title']) and ErsteZeile then 
 end --function output_startnodescripter:action()
 
---5.3.9 start the file or repository of the node of console.outputTree 
+--5.3.9 start the file or repository of the node of console.outputTree
 output_startnode = iup.item {title = "Starten"}
 function output_startnode:action() 
 	if console.outputTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.outputTree['title']:match("^.:\\.*[^\\]+$") or console.outputTree['title']:match("^.:\\$") or console.outputTree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -1190,7 +1190,7 @@ output_menu = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -1261,8 +1261,8 @@ function button_save_lua_table_output:flat_action()
 	save_tree_to_lua(console.outputTree, path .. "\\" .. thisfilename:gsub("%.lua","_output.lua"),"lua_tree_output")
 end --function button_save_lua_table_output:flat_action()
 
---7. GUI
---7.1.1 build the tree with console input
+--7. Main Dialog
+--7.1.1 load input tree from file
 if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_input.lua")) then
 	dofile(path .. "\\" .. thisfilename:gsub("%.lua","_input.lua"))
 end --if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_input.lua")) then
@@ -1300,7 +1300,7 @@ function console.inputTree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function console.inputTree:k_any(c)
 
---7.1.2 build the command tree
+--7.1.2 load command tree from file
 if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_command.lua")) then
 	dofile(path .. "\\" .. thisfilename:gsub("%.lua","_command.lua"))
 end --if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_command.lua")) then
@@ -1338,7 +1338,7 @@ function console.commandTree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function console.commandTree:k_any(c)
 
---7.1.3 build the output tree
+--7.1.3 load output tree from file
 if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_output.lua")) then
 	dofile(path .. "\\" .. thisfilename:gsub("%.lua","_output.lua"))
 end --if file_exists(path .. "\\" .. thisfilename:gsub("%.lua","_output.lua")) then
@@ -1372,7 +1372,7 @@ function console.outputTree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function console.outputTree:k_any(c)
 
---7.2 main dialog
+--7.2 Main Dialog
 console.dialog = iup.dialog{
 	iup.hbox{
 		iup.vbox{
@@ -1415,7 +1415,7 @@ console.dialog = iup.dialog{
 	icon=img_logo, -- 0 use the Lua icon from the executable in Windows
 } --iup.dialog{
 
---7.3 close main dialog
+--7.3 close Main Dialog
 function console.dialog:close_cb()
 	print = console.orig_print  -- restore print and io.write
 	io.write = console.orig_write
@@ -1424,7 +1424,7 @@ function console.dialog:close_cb()
 	return iup.IGNORE
 end
 
---7.4 show the main dialog
+--7.4 show the dialog
 console.dialog:showxy(iup.LEFT,iup.CENTER)
 console.dialog.size = nil -- reset initial size, allow resize to smaller values
 iup.SetFocus(console.prompt)
@@ -1436,10 +1436,10 @@ end --if lua_tree_input then
 
 --7.6 load the data use recursive function to build variable inputs from tree as Lua variables
 if lua_tree_input then
-readVariablesInTreeRecursive(lua_tree_input)
+	readVariablesInTreeRecursive(lua_tree_input)
 end --if lua_tree_input then
 
---7.7 Main loop
+--7.7 Main Loop
 if (iup.MainLoopLevel() == 0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel() == 0) then
