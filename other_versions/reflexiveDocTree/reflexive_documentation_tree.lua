@@ -1,7 +1,7 @@
-lua_tree_output={ branchname="example of a reflexive tree", 
-{ branchname="Node 1", 
+lua_tree_output={ branchname="example of a reflexive tree",
+{ branchname="Node 1",
 state="COLLAPSED",
-{ branchname="Node 2", 
+{ branchname="Node 2",
 state="COLLAPSED",
  "Leaf",}}}--lua_tree_output
 
@@ -43,7 +43,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 
 --3. functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -60,23 +60,7 @@ end --function string.escape_forbidden_char(insertstring)
 
 --3.2 functions for GUI
 
---3.2.1 function which takes a lua table and prints out a file, with the lua code for defining this table
-function printluatabletree(luatable)
-	outputfile:write('{branchname="'.. luatable.branchname .. '",\n')
-	for j=1, #luatable do
-		if type(luatable[j])=='table' then
-			printluatabletree(luatable[j])
-		elseif type(luatable[j])=='string' then
-			outputfile:write('"' .. luatable[j] .. '",\n')
-		end --if type(luatable[j])=='table' then
-	end --for j=1, #luatable do
-	outputfile:write('},\n')
-end --function printluatabletree(luatable)
-
-
-
-
---3.2.3 function which saves the current iup tree as a lua table.
+--3.2.1 function which saves the current iup tree as a lua table
 function save_tree_to_lua(tree, outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
@@ -164,8 +148,6 @@ function save_tree_to_lua(tree, outputfile_path)
 	outputfile:write(inputTextProgramm)
 	outputfile:close()
 end --function save_tree_to_lua(tree, outputfile_path)
-
-
 
 
 --3.2 functions for GUI end
@@ -461,13 +443,13 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.8 start the file or repository of the node of tree 
+--5.1.8 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
 end --function startnode:action()
 
---5.1.9 put the buttons together in the menu for tree
+--5.1.9 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -485,7 +467,7 @@ menu = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -639,10 +621,7 @@ maindlg = iup.dialog{
 --7.2.1 show the dialog
 maindlg:show()
 
---7.2.3 go to the main dialog
-iup.NextField(maindlg)
-
---7.3 callback on close of the main dialog
+--7.3 callback on close of the main dialog for saving
 function maindlg:close_cb()
 	EndeAlarm=iup.Alarm("Alarm","Wollen Sie den Baum speichern?","Speichern","Nein")
 	if EndeAlarm==1 then 
