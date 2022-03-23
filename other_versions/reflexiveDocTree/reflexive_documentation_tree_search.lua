@@ -168,8 +168,8 @@ state="COLLAPSED",
  "https://de.wikipedia.org/wiki/Beleihung_(Kreditwesen)", 
  "https://de.wikipedia.org/wiki/Kreditwesengesetz", 
  "https://de.wikipedia.org/wiki/Bank", 
- "https://de.wikipedia.org/wiki/Liste_der_größten_Banken_in_Deutschland", 
- "https://de.wikipedia.org/wiki/Monetäre_Finanzinstitute", 
+ "https://de.wikipedia.org/wiki/Liste_der_grÃ¶ÃŸten_Banken_in_Deutschland", 
+ "https://de.wikipedia.org/wiki/MonetÃ¤re_Finanzinstitute", 
  "https://de.wikipedia.org/wiki/Kreditinstitut", 
  "https://de.wikipedia.org/wiki/Simulationsbasierte_Optimierung", 
  "https://de.wikipedia.org/wiki/Dynamische_Optimierung", 
@@ -289,7 +289,7 @@ state="COLLAPSED",
 },
 { branchname="Sprachen", 
 state="COLLAPSED",
-{ branchname="Übersetzung", 
+{ branchname="Ãœbersetzung", 
 state="COLLAPSED",
 { branchname="https://www.babelfish.de", 
 state="COLLAPSED",
@@ -308,10 +308,10 @@ state="COLLAPSED",
  "https://www.deepl.com/de/translator",},
 { branchname="https://de.pons.com", 
 state="COLLAPSED",
- "https://de.pons.com/übersetzung",},
+ "https://de.pons.com/Ã¼bersetzung",},
 { branchname="https://www.dict.cc", 
 state="COLLAPSED",
- "https://www.dict.cc/?s=Übersetzung",},
+ "https://www.dict.cc/?s=Ãœbersetzung",},
 { branchname="https://dict.leo.org", 
 state="COLLAPSED",
  "https://dict.leo.org/englisch-deutsch",},
@@ -527,7 +527,7 @@ state="COLLAPSED",
  "https://stackovergo.com/de/tag/iup",},
 { branchname="https://webserver2.tecgraf.puc-rio.br", 
 { branchname="https://www.generacodice.com", 
- "https://www.generacodice.com/en/articolo/826486/How-to-display-a-progress-Bar-using-Lua-and-IUP", "https://www.generacodice.com/en/articolo/58761/Obtenir-des-contributions-avec-IUP-à-Lua", 
+ "https://www.generacodice.com/en/articolo/826486/How-to-display-a-progress-Bar-using-Lua-and-IUP", "https://www.generacodice.com/en/articolo/58761/Obtenir-des-contributions-avec-IUP-Ã -Lua", 
 },
 { branchname="https://freebasic.net", 
  "https://freebasic.net/forum/viewtopic.php?t=14869",},
@@ -646,37 +646,37 @@ end --if _VERSION=='Lua 5.1' then
 
 --1.1.5 securisation by allowing only necessary os.execute commands
 do --sandboxing
-local old=os.date("%H%M%S")
-local secureTable={}
-secureTable[old]=os.execute
-function os.execute(a)
-if 
-a:lower():match("^sftp ") or
-a:lower():match("^dir ") or
-a:lower():match("^pause") or
-a:lower():match("^title") or
-a:lower():match("^md ") or
-a:lower():match("^copy ") or
-a:lower():match("^color ") or
-a:lower():match("^start ") or
-a:lower():match("^cls") 
-then
-return secureTable[old](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
-secureTable[old .. "1"]=io.popen
-function io.popen(a)
-if 
-a:lower():match("^dir ") or
-a:lower():match('^"dir ') 
-then
-return secureTable[old .. "1"](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
+	local old=os.date("%H%M%S")
+	local secureTable={}
+	secureTable[old]=os.execute
+	function os.execute(a)
+		if 
+		a:lower():match("^sftp ") or
+		a:lower():match("^dir ") or
+		a:lower():match("^pause") or
+		a:lower():match("^title") or
+		a:lower():match("^md ") or
+		a:lower():match("^copy ") or
+		a:lower():match("^color ") or
+		a:lower():match("^start ") or
+		a:lower():match("^cls") 
+		then
+			return secureTable[old](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function os.execute(a)
+	secureTable[old .. "1"]=io.popen
+	function io.popen(a)
+		if 
+		a:lower():match("^dir ") or
+		a:lower():match('^"dir ') 
+		then
+			return secureTable[old .. "1"](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function io.popen(a)
 end --do --sandboxing
 
 --1.2 color section
@@ -731,7 +731,7 @@ function string.escape_forbidden_char(insertstring) --this function takes a stri
 	return insertstring:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\'", "\\\'"):gsub("\n", "\\n"):gsub("\r", "\\n")
 end --function string.escape_forbidden_char(insertstring)
 
---3.3 function which saves the current iup tree as a lua table.
+--3.3 function which saves the current iup tree as a lua table
 function save_reflexive_tree_to_lua(outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
@@ -854,7 +854,7 @@ dlg_rename = iup.dialog{
 searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
 
 --search in downward direction
-searchdown    = iup.flatbutton{title = "Abwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchdown    = iup.flatbutton{title = "AbwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchdown:flat_action()
 	local help=false
 	--downward search
@@ -934,7 +934,7 @@ end --for i=0, tree.count - 1 do
 end --function unmark:flat_action()
 
 --search in upward direction
-searchup   = iup.flatbutton{title = "Aufwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchup   = iup.flatbutton{title = "AufwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchup:flat_action()
 	local help=false
 	--upward search
@@ -963,7 +963,7 @@ function searchup:flat_action()
 	end --if help==false then
 end --	function searchup:flat_action()
 
-checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
+checkboxforcasesensitive = iup.toggle{title="GroÃŸ-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
 search_label=iup.label{title="Suchfeld:"} --label for textfield
 
@@ -987,11 +987,11 @@ end --	function search_in_textbox1:flat_action()
 dlg_search =iup.dialog{
 			iup.vbox{iup.hbox{search_label,searchtext,}, 
 
-			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+			iup.label{title="Sonderzeichen: %. fÃ¼r ., %- fÃ¼r -, %+ fÃ¼r +, %% fÃ¼r %, %[ fÃ¼r [, %] fÃ¼r ], %( fÃ¼r (, %) fÃ¼r ), %^ fÃ¼r ^, %$ fÃ¼r $, %? fÃ¼r ?",},
 			iup.hbox{searchmark,unmark,checkboxforsearchinfiles,}, 
-			iup.label{title="rot: übergeordnete Knoten",fgcolor = "255 0 0", },
+			iup.label{title="rot: Ã¼bergeordnete Knoten",fgcolor = "255 0 0", },
 			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
-			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
+			iup.label{title="grÃ¼n: untergeordnete Knoten",fgcolor = "90 195 0", },
 			iup.hbox{searchdown, searchup,checkboxforcasesensitive,},
 			iup.hbox{search_in_textbox1,},
 
@@ -1023,7 +1023,7 @@ function renamenode:action()
 end --function renamenode:action()
 
 --5.1.3 add branch to tree
-addbranch = iup.item {title = "Ast hinzufügen"}
+addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function addbranch:action()
 	tree.addbranch = ""
 	tree.value=tree.value+1
@@ -1031,7 +1031,7 @@ function addbranch:action()
 end --function addbranch:action()
 
 --5.1.3.1 add branch to tree by insertbranch
-addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+addbranchbottom = iup.item {title = "Ast darunter hinzufÃ¼gen"}
 function addbranchbottom:action()
 	tree["insertbranch" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -1044,7 +1044,7 @@ function addbranchbottom:action()
 end --function addbranchbottom:action()
 
 --5.1.3.2 add leaf to tree by insertleaf
-addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
+addleafbottom = iup.item {title = "Blatt darunter hinzufÃ¼gen"}
 function addleafbottom:action()
 	tree["insertleaf" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -1063,7 +1063,7 @@ function addbranch_fromclipboard:action()
 	tree.value=tree.value+1
 end --function addbranch_fromclipboard:action()
 
---5.1.4.1 add branch of tree from clipboard by insertbranch
+--5.1.4.1 add branch to tree by insertbranch from clipboard
 addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function addbranch_fromclipboardbottom:action()
 	tree["insertbranch" .. tree.value]= clipboard.text
@@ -1075,7 +1075,7 @@ function addbranch_fromclipboardbottom:action()
 	end --for i=tree.value+1,tree.count-1 do
 end --function addbranch_fromclipboardbottom:action()
 
---5.1.4.2 add leaf to tree by insertleaf
+--5.1.4.2 add leaf to tree by insertleaf from clipboard
 addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function addleaf_fromclipboardbottom:action()
 	tree["insertleaf" .. tree.value] = clipboard.text
@@ -1088,7 +1088,7 @@ function addleaf_fromclipboardbottom:action()
 end --function addleaf_fromclipboardbottom:action()
 
 --5.1.5 add leaf of tree
-addleaf = iup.item {title = "Blatt hinzufügen"}
+addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function addleaf:action()
 	tree.addleaf = ""
 	tree.value=tree.value+1
@@ -1121,7 +1121,7 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.8 button for building new page
+--5.1.8 menu for building new page
 menu_new_page = iup.item {title = "Text laden"}
 function menu_new_page:action()
 	--collect search words
@@ -1226,13 +1226,13 @@ function startnodescripter:action()
 	end --if file_exists(tree['title']) and ErsteZeile then 
 end --function startnodescripter:action()
 
---5.1.10 start the file or repository of the node of tree 
+--5.1.10 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
 end --function startnode:action()
 
---5.1.12 put the buttons together in the menu for tree
+--5.1.12 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -1254,7 +1254,7 @@ menu = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -1294,7 +1294,7 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for saving tree reflexive with the programm
@@ -1415,12 +1415,12 @@ end --function button_unmark_tree:action()
 --6.6 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --7 Main Dialog
 
---7.1 textboxes 
+--7.1 textboxes
 textbox1 = iup.multiline{value="",size="360x520",WORDWRAP="YES"}
 textbox1.value="Bitte Text eingeben"
 
