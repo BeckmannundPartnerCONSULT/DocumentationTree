@@ -130,7 +130,7 @@ function string.escape_forbidden_char(insertstring) --this function takes a stri
 	return insertstring:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\'", "\\\'"):gsub("\n", "\\n"):gsub("\r", "\\n")
 end --function string.escape_forbidden_char(insertstring)
 
---3.3 function which saves the current iup tree as a lua table.
+--3.3 function which saves the current iup tree as a lua table
 function save_reflexive_tree_to_lua(outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
@@ -443,7 +443,7 @@ function addbranch_fromclipboard:action()
 	tree.value=tree.value+1
 end --function addbranch_fromclipboard:action()
 
---5.1.4.1 add branch of tree from clipboard by insertbranch
+--5.1.4.1 add branch to tree by insertbranch from clipboard
 addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function addbranch_fromclipboardbottom:action()
 	tree["insertbranch" .. tree.value]= clipboard.text
@@ -455,7 +455,7 @@ function addbranch_fromclipboardbottom:action()
 	end --for i=tree.value+1,tree.count-1 do
 end --function addbranch_fromclipboardbottom:action()
 
---5.1.4.2 add leaf to tree by insertleaf
+--5.1.4.2 add leaf to tree by insertleaf from clipboard
 addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function addleaf_fromclipboardbottom:action()
 	tree["insertleaf" .. tree.value] = clipboard.text
@@ -501,7 +501,7 @@ function startversion:action()
 	end --if tree['title']:match(".:\\.*%.[^\\]+") then
 end --function startversion:action()
 
---5.1.8 button for building new page
+--5.1.8 menu for building new page
 menu_new_page = iup.item {title = "Bild laden"}
 function menu_new_page:action()
 	if tonumber(textbox_zoom.value) then
@@ -525,13 +525,13 @@ function menu_new_page:action()
 	end --if textbox1.value:upper():match("JPG") or textbox1.value:upper():match("PNG") then 
 end --function menu_new_page:action()
 
---5.1.10 start the file or repository of the node of tree 
+--5.1.9 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
 end --function startnode:action()
 
---5.1.12 put the buttons together in the menu for tree
+--5.1.10 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -552,7 +552,7 @@ menu = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -625,7 +625,7 @@ function button_new_page:flat_action()
 	end --if textbox1.value:upper():match("JPG") or textbox1.value:upper():match("PNG") then 
 end --function button_new_page:action()
 
---6.4 button to show next image
+--6.4 button to show previous image
 button_show_previous_image=iup.flatbutton{title="Voheriges Bild \nzeigen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_previous_image:flat_action()
 	if tonumber(textbox_zoom.value) then
@@ -670,14 +670,14 @@ function button_search:flat_action()
 end --function button_search:flat_action(
 
 
---6.5 add branch of tree from filename of image
+--6.5 button for adding branch of tree from filename of image
 button_addbranch_image=iup.flatbutton{title="Ast aus \nBilddateinamen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_addbranch_image:flat_action()
 	tree.addbranch = textbox1.value
 	tree.value=tree.value+1
 end --function button_addbranch_image:flat_action()
 
---6.6 add leaf of tree from filename of image
+--6.6 button for adding leaf of tree from filename of image
 button_addleaf_image=iup.flatbutton{title="Blatt aus \nBilddateinamen",size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_addleaf_image:flat_action()
 	tree.addleaf = textbox1.value
@@ -685,7 +685,7 @@ function button_addleaf_image:flat_action()
 end --function button_addleaf_image:flat_action()
 
 
---6.7 button to copy filename
+--6.7 button to copy filename in clipboard
 button_copy_title=iup.flatbutton{title="Dateipfad in \nZwischenablage", size="60x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_copy_title:flat_action()
 	clipboard.text=textbox1.value
@@ -763,7 +763,7 @@ end --function button_logo:flat_action()
 
 --7 Main Dialog
 
---7.1 textboxes 
+--7.1 textboxes
 textbox1 = iup.multiline{value="",size="250x20",WORDWRAP="YES"}
 textbox_zoom_text = iup.text{value="Zoom",size="30x10",readonly="YES",BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 textbox_zoom = iup.text{value="1.0",size="30x10"}
@@ -811,7 +811,6 @@ showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
 }
-
 --set colors of tree
 tree.BGCOLOR=color_background_tree --set the background color of the tree
 -- Callback of the right mouse button click
