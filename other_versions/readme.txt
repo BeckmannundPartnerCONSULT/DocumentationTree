@@ -49,7 +49,7 @@ The jar archive is started with a start file as a Tree or as a Lua console. Exam
 
 At the first start the needed Lua scripts are written in the start directory. The trees stay empty. At the second start the trees are filled and the use of them can begin.
 
-3. html_build.lua
+3. html_build_Linux.lua
 
 This skript converts a Lua tree in a html page with tree. This is especially helpful on mobile devices.
 
