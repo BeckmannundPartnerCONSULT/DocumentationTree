@@ -10,16 +10,8 @@ textHTML_file="C:\\Tree\\simpleDocTree\\example_HTML_table_for_webbrowser.lua"
 require('iuplua')           --require iuplua for GUIs
 require('iupluaweb')        --require iupluaweb for webbrowser
 
---1.1.1 text box
-textbox1=iup.text{value="1",size="90x20",alignment="ACENTER"}
 
-
---1.1.2 webbrowser
-dofile(textHTML_file)
-webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1],MAXSIZE="630x730"}
-actualPage=1
-
---1.1.3 initalize clipboard
+--1.2 initalize clipboard
 clipboard=iup.clipboard{}
 
 
@@ -51,7 +43,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 
 --3. functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -377,7 +369,7 @@ end --function startcopy:action()
 
 
 
---5.1.2 put the buttons together in the menu for tree
+--5.1.2 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		}
@@ -388,7 +380,7 @@ menu = iup.menu{
 
 
 --6. buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -458,13 +450,13 @@ function button_alphabetic_sort:flat_action()
 	alphabetic_tree_sort(tree)
 end --function button_alphabetic_sort:flat_action()
 
---6.6 button for first webbrowser page
+--6.6 button for going to first page
 button_first_page=iup.flatbutton{title="Startseite", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_first_page:flat_action()
 	webbrowser1.HTML=TextHTMLtable[1]
 end --function button_first_page:flat_action()
 
---6.7 button for next webbrowser page
+--6.7 button for going to the next page
 button_next_page=iup.flatbutton{title="Nächste Seite", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_next_page:flat_action()
 	if actualPage<#TextHTMLtable then actualPage=actualPage+1 end
@@ -472,7 +464,7 @@ function button_next_page:flat_action()
 	textbox1.value=actualPage
 end --function button_next_page:flat_action()
 
---6.8 button for previous webbrowser page
+--6.8 button for going to the previous page
 button_previous_page=iup.flatbutton{title="Vorige Seite", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_previous_page:flat_action()
 	if actualPage>1 then actualPage=actualPage-1 end
@@ -480,7 +472,7 @@ function button_previous_page:flat_action()
 	textbox1.value=actualPage
 end --function button_previous_page:flat_action()
 
---6.9 button for go to webbrowser page
+--6.9 button for going to the page
 button_goto_page=iup.flatbutton{title="Gehe zu Seite\nvom Knoten", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_goto_page:flat_action()
 	if tonumber(tree['title']) then 
@@ -499,6 +491,7 @@ function button_goto_page:flat_action()
 	end --if tonumber(textbox1.value) then 
 end --function button_goto_page:flat_action()
 
+
 --6.10 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
@@ -509,7 +502,16 @@ end --function button_logo:flat_action()
 
 
 --7. Main Dialog
---7.1 load tree from file (this ensures that tree and tree2 are compared contentwise)
+
+--7.1 textboxes
+textbox1=iup.text{value="1",size="90x20",alignment="ACENTER"}
+
+--7.2 webbrowser
+dofile(textHTML_file)
+webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1],MAXSIZE="630x730"}
+actualPage=1
+
+--7.3 load tree from file
 if file_exists(path_documentation_tree) then
 	dofile(path_documentation_tree) --initialize the tree, read from the lua file
 	for line in io.lines(path_documentation_tree) do
@@ -571,7 +573,7 @@ function tree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
 
---7.2 building the dialog and put buttons, trees and preview together
+--7.4 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog{
 	--simply show a box with buttons
 	iup.vbox{
@@ -606,16 +608,10 @@ maindlg = iup.dialog{
 	BACKGROUND=color_background
 }
 
---7.2.1 show the dialog
+--7.4.1 show the dialog
 maindlg:show()
 
---7.2.2 go to the main dialog
-iup.NextField(maindlg)
-
-
-
-
---7.3 Main Loop
+--7.5 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
