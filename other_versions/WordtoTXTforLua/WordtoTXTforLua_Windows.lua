@@ -22,8 +22,6 @@ for file in p:lines() do
 		secureFileTable[FileText]=YearText .. MonthText .. DayText .. HourText .. MinuteText
 	end --if file:match("docx2.txt") then
 end --for file in p:lines() do
---test with: for k,v in pairs(wordFileTable) do print(secureFileTable[k .. ".txt"], v) end
-
 --test with: for k,v in pairs(wordFileTable) do print(secureFileTable[k:gsub(".docx","_docx2") .. ".txt"], v) end
 
 --2.3 collect file names from tree
