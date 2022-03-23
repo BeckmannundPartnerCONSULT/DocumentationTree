@@ -90,7 +90,7 @@ if _VERSION=='Lua 5.1' or _VERSION=='Lua 5.2' then
 	end --function table.move(a,f,e,t)
 end --if _VERSION=='Lua 5.1' then
 
---3.2 function which saves the current iup htmlTexts as a lua table.
+--3.2 function which saves the current iup htmlTexts as a lua table
 function save_html_to_lua(htmlTexts, outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
@@ -159,22 +159,10 @@ dlg_rename = iup.dialog{
 
 --4.1 rename dialog end
 
---5. GUI elements
---5.1 textboxes 
-textbox1 = iup.text{value="1",size="20x20",WORDWRAP="NO",alignment="ACENTER",border="NO",}
-textbox2 = iup.text{value="",size="90x20",WORDWRAP="NO",border="NO",}
-
---5.2 webbrowser
-webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1]}
-function webbrowser1:navigate_cb(url)
-	--test with: iup.Message("",url) 
-	if url:match("file///") then --only url with https:// or http// ar loaded
-		os.execute('start "D" "' .. url:match("file///(.*)") .. '"')
-	end --if url:match("file///") then
-end --function webbrowser1:navigate_cb()
+--5. no context menus
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -217,7 +205,7 @@ function button_logo:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
---6.2 button for saving TextHTMLtable
+--6.2 button for saving TextHTMLtable and the programm of the graphical user interface
 button_save_lua_table=iup.flatbutton{title="Datei speichern", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	save_html_to_lua(TextHTMLtable, path .. "\\" .. thisfilename)
@@ -285,7 +273,7 @@ function button_delete:flat_action()
 	end --if LoeschAlarm==1 then 
 end --function button_delete:flat_action()
 
---6.8 button for saving TextHTMLtable
+--6.8 button for saving TextHTMLtable as html file
 button_save_as_html=iup.flatbutton{title="Als html speichern", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_as_html:flat_action()
 	local outputfile1=io.open(path .. "\\" .. thisfilename:gsub("%.lua$",".html"),"w")
@@ -413,6 +401,21 @@ function button_logo2:action()
 end --function button_logo:flat_action()
 
 --7 Main Dialog
+
+--7.1 textboxes
+textbox1 = iup.text{value="1",size="20x20",WORDWRAP="NO",alignment="ACENTER",border="NO",}
+textbox2 = iup.text{value="",size="90x20",WORDWRAP="NO",border="NO",}
+
+--7.2 webbrowser
+webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1]}
+function webbrowser1:navigate_cb(url)
+	--test with: iup.Message("",url) 
+	if url:match("file///") then --only url with https:// or http// ar loaded
+		os.execute('start "D" "' .. url:match("file///(.*)") .. '"')
+	end --if url:match("file///") then
+end --function webbrowser1:navigate_cb()
+
+--7.3 building the dialog and put buttons, trees and other elements together
 maindlg = iup.dialog {
 	iup.vbox{
 		iup.hbox{
