@@ -8,25 +8,9 @@
 require('iuplua')           --require iuplua for GUIs
 require('iupluaweb')        --require iupluaweb for webbrowser
 
---1.1.1 text box
-textbox0=iup.multiline{value="https://www.lua.org",size="340x20",wordwrap="YES"}
-textbox1=iup.multiline{value="",size="250x150"}
-textbox2=iup.multiline{value="Textdatei s.u.",size="190x20",wordwrap="YES"}
 
---1.1.2 webbrowser
-webbrowser1=iup.webbrowser{HTML=[[
 
-<a href="]] .. textbox0.value .. [[">]] .. textbox0.value .. [[</a>
-
-]],MAXSIZE="500x730"}
-actualPage=1
-webbrowser2=iup.webbrowser{HTML=[[
-
-Ergebnis
-
-]],MAXSIZE="370x730"}
-
---1.1.3 initalize clipboard
+--1.2 initalize clipboard
 clipboard=iup.clipboard{}
 
 
@@ -64,7 +48,7 @@ textbox2.value=path_documentation_text
 
 --3. functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -103,7 +87,7 @@ function printtree()
 end --function printtree()
 
 
---3.2.4 function which saves the current iup tree as a lua table.
+--3.2.4 function which saves the current iup tree as a lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -528,7 +512,7 @@ end --function addbranch_fromclipboard:action()
 
 
 
---5.1.2 put the buttons together in the menu for tree
+--5.1.2 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		addbranch_fromclipboard, 
@@ -556,7 +540,7 @@ end --function startnode2:action()
 
 
 
---5.2.2 put the buttons together in the menu for tree
+--5.2.2 put the menu items together in the menu for tree
 menu2 = iup.menu{
 		startcopy2,
 		startnode2,
@@ -568,7 +552,7 @@ menu2 = iup.menu{
 
 
 --6. buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -618,7 +602,7 @@ function button_save_lua_table:flat_action()
 	save_tree_to_lua(tree, path_documentation_tree)
 end --function button_save_lua_table:flat_action()
 
---6.2.1 button for loading text
+--6.2.1 button for loading text from text file or loading standard text file
 button_load_text=iup.flatbutton{title="Text \nladen", size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_load_text:flat_action()
 	local inputfile_text
@@ -633,7 +617,7 @@ function button_load_text:flat_action()
 	inputfile_text:close()
 end --function button_load_text:flat_action()
 
---6.2.2 button for saving text
+--6.2.2 button for saving text in text file
 button_save_text=iup.flatbutton{title="Text \nspeichern", size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_text:flat_action()
 	local outputfile_text
@@ -675,7 +659,7 @@ function button_alphabetic_sort:flat_action()
 	alphabetic_tree_sort(tree)
 end --function button_alphabetic_sort:flat_action()
 
---6.6 button for first webbrowser page
+--6.6 button for going to first page
 button_first_page=iup.flatbutton{title="Seite \nladen", size="35x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_first_page:flat_action()
 	textbox0.value=tree.title:match('href="([^"]*)"')
@@ -686,7 +670,7 @@ function button_first_page:flat_action()
 ]]
 end --function button_first_page:flat_action()
 
---6.7 button for next webbrowser page
+--6.7 button for going to the next page
 button_next_page=iup.flatbutton{title="Nächste \nSeite", size="35x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_next_page:flat_action()
 	tree.value=tree.value+1
@@ -698,7 +682,7 @@ function button_next_page:flat_action()
 ]]
 end --function button_next_page:flat_action()
 
---6.8 button for previous webbrowser page
+--6.8 button for going to the previous page
 button_previous_page=iup.flatbutton{title="Vorige \nSeite", size="35x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_previous_page:flat_action()
 	tree.value=tree.value-1
@@ -710,7 +694,7 @@ function button_previous_page:flat_action()
 ]]
 end --function button_previous_page:flat_action()
 
---6.9 button for go to webbrowser page
+--6.9 button for going to the page
 button_page_hyperlinks_in_tree=iup.flatbutton{title="Hyperlinks im Baum \nübernehmen", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_page_hyperlinks_in_tree:flat_action()
 	nodeInTreeTable={}
@@ -746,7 +730,7 @@ end --function button_page_hyperlinks_in_tree:flat_action()
 
 
 
---6.10 button for transformation of the webpage
+--6.10 button for transformation of the webpage with mathematical expressions
 button_transform_page=iup.flatbutton{title="Seite mit Formeln\numwandeln", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_transform_page:flat_action()
 	textInput=textbox1.value
@@ -836,7 +820,26 @@ end --function button_logo:flat_action()
 
 
 --7. Main Dialog
---7.1.1 load standard tree
+
+--7.1 textboxes
+textbox0=iup.multiline{value="https://www.lua.org",size="340x20",wordwrap="YES"}
+textbox1=iup.multiline{value="",size="250x150"}
+textbox2=iup.multiline{value="Textdatei s.u.",size="190x20",wordwrap="YES"}
+
+--7.2 webbrowser
+webbrowser1=iup.webbrowser{HTML=[[
+
+<a href="]] .. textbox0.value .. [[">]] .. textbox0.value .. [[</a>
+
+]],MAXSIZE="500x730"}
+actualPage=1
+webbrowser2=iup.webbrowser{HTML=[[
+
+Ergebnis
+
+]],MAXSIZE="370x730"}
+
+--7.2.1 load tree from file
 if file_exists(path_documentation_tree) then
 	dofile(path_documentation_tree) --initialize the tree, read from the lua file
 	for line in io.lines(path_documentation_tree) do
@@ -855,7 +858,7 @@ if file_exists(path_documentation_tree) then
 else
 	actualtree={branchname="Internetinhalte als Baum"}
 end --if file_exists(path_documentation_tree) then
---builde tree
+--build tree
 tree=iup.tree{
 map_cb=function(self)
 self:AddNodes(actualtree)
@@ -900,14 +903,14 @@ function tree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
 
---7.1.2 load standard text
+--7.2.2 load standard text file
 if file_exists(path_documentation_text) then
 	local inputfile_text=io.open(path_documentation_text,"r")
 	textbox1.value=inputfile_text:read("*all")
 	inputfile_text:close()
 end --if file_exists(path_documentation_text) then
 
-
+--7.2.3 load tree2 from file
 Tree2={branchname="Öffnen der Internetseite",
 {branchname="Ast im manuellen Baum markieren",
 {branchname="Schaltfläche Seite laden",
@@ -933,7 +936,7 @@ Tree2={branchname="Öffnen der Internetseite",
 {branchname=path .. "\\Formelsammlung_3.txt",path .. "\\Formelsammlung_3.pdf",},
 },
 }
-
+--build tree2
 tree2=iup.tree{
 map_cb=function(self)
 self:AddNodes(Tree2)
@@ -955,7 +958,7 @@ function tree2:k_any(c)
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
 
---7.2 building the dialog and put buttons, trees and preview together
+--7.3 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog{
 	--simply show a box with buttons
 	iup.vbox{
@@ -996,16 +999,10 @@ maindlg = iup.dialog{
 	BACKGROUND=color_background
 }
 
---7.2.1 show the dialog
+--7.3.1 show the dialog
 maindlg:show()
 
---7.2.2 go to the main dialog
-iup.NextField(maindlg)
-
-
-
-
---7.3 Main Loop
+--7.4 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
