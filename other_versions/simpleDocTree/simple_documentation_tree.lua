@@ -39,7 +39,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 
 --3 functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -365,7 +365,7 @@ end --function startcopy:action()
 
 
 
---5.1.2 put the buttons together in the menu for tree
+--5.1.2 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		}
@@ -376,7 +376,7 @@ menu = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -456,7 +456,7 @@ end --function button_logo:flat_action()
 
 
 --7 Main Dialog
---7.1 load tree from file (this ensures that tree and tree2 are compared contentwise)
+--7.1 load tree from file
 if file_exists(path_documentation_tree) then
 	dofile(path_documentation_tree) --initialize the tree, read from the lua file
 	for line in io.lines(path_documentation_tree) do
@@ -547,16 +547,10 @@ maindlg = iup.dialog{
 	BACKGROUND=color_background
 }
 
---7.2.1 show the dialog
+--7.3 show the dialog
 maindlg:show()
 
---7.2.2 go to the main dialog
-iup.NextField(maindlg)
-
-
-
-
---7.3 Main Loop
+--7.4 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
