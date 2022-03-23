@@ -2,7 +2,7 @@
 
 --1.1 libraries and clipboard
 --1.1.1 libraries
-require ("iuplua")
+require("iuplua")           --require iuplua for GUIs
 require("iuplua_scintilla") --for Scintilla-editor
 require("iuplua_plot")      --for plots in MDI
 require("iupluacontrols")   --for matrix and matrixex in MDI
@@ -10,44 +10,44 @@ require("iupluacontrols")   --for matrix and matrixex in MDI
 --1.1.2 initalize clipboard
 clipboard=iup.clipboard{}
 
---1.1.3 loadstring for Lua 5.3
+--1.1.3 loadstring for Lua 5.3 and higher Lua versions
 if (not loadstring) then
   loadstring = load
 end --if (not loadstring) then
 
 --1.1.4 securisation by allowing only necessary os.execute commands
 do --sandboxing
-local old=os.date("%H%M%S")
-local secureTable={}
-secureTable[old]=os.execute
-function os.execute(a)
-if 
-a:lower():match("^sftp ") or
-a:lower():match("^dir ") or
-a:lower():match("^pause") or
-a:lower():match("^title") or
-a:lower():match("^md ") or
-a:lower():match("^copy ") or
-a:lower():match("^color ") or
-a:lower():match("^start ") or
-a:lower():match("^cls") 
-then
-return secureTable[old](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
-secureTable[old .. "1"]=io.popen
-function io.popen(a)
-if 
-a:lower():match("^dir ") or
-a:lower():match('^"dir ') 
-then
-return secureTable[old .. "1"](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
+	local old=os.date("%H%M%S")
+	local secureTable={}
+	secureTable[old]=os.execute
+	function os.execute(a)
+		if 
+		a:lower():match("^sftp ") or
+		a:lower():match("^dir ") or
+		a:lower():match("^pause") or
+		a:lower():match("^title") or
+		a:lower():match("^md ") or
+		a:lower():match("^copy ") or
+		a:lower():match("^color ") or
+		a:lower():match("^start ") or
+		a:lower():match("^cls") 
+		then
+			return secureTable[old](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function os.execute(a)
+	secureTable[old .. "1"]=io.popen
+	function io.popen(a)
+		if 
+		a:lower():match("^dir ") or
+		a:lower():match('^"dir ') 
+		then
+			return secureTable[old .. "1"](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function io.popen(a)
 end --do --sandboxing
 
 --1.2 color section
@@ -142,7 +142,7 @@ end --function console.textbox_leaf:dropfiles_cb(filename)
 
 
 
---3. functions               
+--3. functions
 
 --3.1 put original functions in variables
 console.orig_output = io.output
@@ -193,7 +193,7 @@ function print(...)
 	console.print2output(str)
 end --function print(...)
 
---3.5 print zum output function    
+--3.5 print to output function
 function console.print2output(s, no_newline)
 	if tostring(s):match("^>") then
 		--find last branch at depth 1
@@ -318,7 +318,7 @@ function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end --function file_exists(name)
 
---3.14 function which saves the current iup tree as a lua table.
+--3.14 function which saves the current iup tree as a lua table
 function save_tree_to_lua(tree, outputfile_path,outputname_tree)
 	local output_tree_text=outputname_tree .. "=" --"lua_tree_input=" --the output string
 	local outputfile=io.open(outputfile_path,"w") --a output file
@@ -405,7 +405,7 @@ function string.escape_forbidden_char(insertstring) --this function takes a stri
 	return insertstring:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\'", "\\\'"):gsub("\n", "\\n"):gsub("\r", "\\n")
 end --function string.escape_forbidden_char(insertstring)
 
---3.16 version info 
+--3.16 function for version informations
 function console.version_info()
   print(_VERSION, _COPYRIGHT) -- _COPYRIGHT does not exists by default, but it could...
   print("IUP " .. iup._VERSION .. "  " .. iup._COPYRIGHT)
@@ -519,7 +519,7 @@ command_dlg_rename = iup.dialog{
 	startfocus=command_text,
 	}
 
---4.2 rename dialog end
+--4.2 command rename dialog end
 
 --4.3 output rename dialog
 --output ok button
@@ -546,7 +546,7 @@ output_dlg_rename = iup.dialog{
 	startfocus=output_text,
 	}
 
---4.3 rename dialog end
+--4.3 output rename dialog end
 
 
 --5. context menus (menus for right mouse click)
@@ -626,7 +626,7 @@ function addbranch_fromclipboard:action()
 	console.inputTree.value=console.inputTree.value+1
 end --function addbranch_fromclipboard:action()
 
---5.1.4.1 add branch to console.inputTree by insertbranch
+--5.1.4.1 add branch to console.inputTree by insertbranch from clipboard
 addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function addbranch_fromclipboardbottom:action()
 	console.inputTree["insertbranch" .. console.inputTree.value] = clipboard.text
@@ -638,7 +638,7 @@ function addbranch_fromclipboardbottom:action()
 	end --for i=console.inputTree.value+1,console.inputTree.count-1 do
 end --function addbranch_fromclipboardbottom:action()
 
---5.1.4.2 add leaf to console.inputTree by insertleaf
+--5.1.4.2 add leaf to console.inputTree by insertleaf from clipboard
 addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function addleaf_fromclipboardbottom:action()
 	console.inputTree["insertleaf" .. console.inputTree.value] = clipboard.text
@@ -650,7 +650,7 @@ function addleaf_fromclipboardbottom:action()
 	end --for i=console.inputTree.value+1,console.inputTree.count-1 do
 end --function addleaf_fromclipboardbottom:action()
 
---5.1.4.3 add leaf to console.inputTree by insertleaf after the last leaf of the branch chosen
+--5.1.4.3 add leaf to console.inputTree by insertleaf after the last leaf of the branch chosen from clipboard
 addleaf_fromclipboardbottom = iup.item {title = "Blatt unter letztem Blatt aus Zwischenablage"}
 function addleaf_fromclipboardbottom:action()
 	console.inputTree["insertleaf" .. console.inputTree.value+console.inputTree.totalchildcount] = clipboard.text
@@ -705,7 +705,7 @@ function startnodescripter:action()
 	end --if file_exists(console.inputTree['title']) and ErsteZeile then 
 end --function startnodescripter:action()
 
---5.1.9 start the file or repository of the node of console.inputTree 
+--5.1.9 start the file or repository of the node of console.inputTree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if console.inputTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.inputTree['title']:match("^.:\\.*[^\\]+$") or console.inputTree['title']:match("^.:\\$") or console.inputTree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -716,7 +716,7 @@ function startnode:action()
 end --function startnode:action()
 
 
---5.1.12 put the buttons together in the menu for console.inputTree
+--5.1.10 put the menu items together in the menu for console.inputTree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -791,7 +791,7 @@ function command_addbranch_fromclipboard:action()
 	console.commandTree.value=console.commandTree.value+1
 end --function command_addbranch_fromclipboard:action()
 
---5.2.4.1 add branch to console.commandTree by insertbranch
+--5.2.4.1 add branch to console.commandTree by insertbranch from clipboard
 command_addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function command_addbranch_fromclipboardbottom:action()
 	console.commandTree["insertbranch" .. console.commandTree.value] = clipboard.text
@@ -803,7 +803,7 @@ function command_addbranch_fromclipboardbottom:action()
 	end --for i=console.commandTree.value+1,console.commandTree.count-1 do
 end --function command_addbranch_fromclipboardbottom:action()
 
---5.2.4.2 add leaf to console.commandTree by insertleaf
+--5.2.4.2 add leaf to console.commandTree by insertleaf from clipboard
 command_addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function command_addleaf_fromclipboardbottom:action()
 	console.commandTree["insertleaf" .. console.commandTree.value] = clipboard.text
@@ -863,7 +863,7 @@ function command_startnodescripter:action()
 	end --if file_exists(console.commandTree['title']) and ErsteZeile then 
 end --function command_startnodescripter:action()
 
---5.2.9 start the file or repository of the node of console.commandTree 
+--5.2.9 start the file or repository of the node of console.commandTree
 command_startnode = iup.item {title = "Starten"}
 function command_startnode:action() 
 	if console.commandTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.commandTree['title']:match("^.:\\.*[^\\]+$") or console.commandTree['title']:match("^.:\\$") or console.commandTree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -873,7 +873,7 @@ function command_startnode:action()
 	end --if console.commandTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.commandTree['title']:match("^.:\\.*[^\\]+$") or console.commandTree['title']:match("^.:\\$") or console.commandTree['title']:match("^[^ ]*//[^ ]+$") then 
 end --function command_startnode:action()
 
---5.2.10 execute Lua script with Lua chunk of the node of console.commandTree and write result under the node
+--5.2.10 execute Lua script with Lua chunk of the node of console.commandTree and write result under the node of tree console.outputTree
 command_startnode_script = iup.item {title = "Knoten ausführen"}
 function command_startnode_script:action()
 	if console.commandTree["KIND"]=="BRANCH" then 
@@ -885,12 +885,12 @@ function command_startnode_script:action()
 	end --if console.commandTree["KIND"]=="BRANCH" then 
 end --function command_startnode_script:action()
 
---5.2.10 execute Lua script with Lua chunk of the node of console.commandTree and write result under the node
+--5.2.11 execute Lua script with Lua chunk of the node and all child nodes of console.commandTree and write result under the node of tree console.outputTree
 command_startnode_script_update_with_children = iup.item {title = "Knoten mit Unterknoten aktualisieren"}
 function command_startnode_script_update_with_children:action() 
 	if console.commandTree["KIND"]=="BRANCH" then 
-		local startNodinput_command_outputlue=console.commandTree.value
-		for i=startNodinput_command_outputlue,startNodinput_command_outputlue+console.commandTree['TOTALCHILDCOUNT' .. startNodinput_command_outputlue] do
+		local startNode=console.commandTree.value
+		for i=startNode,startNode+console.commandTree['TOTALCHILDCOUNT' .. startNode] do
 			console.commandTree.value=i
 			if console.commandTree['KIND' .. i]=="BRANCH" and console.commandTree['KIND' .. i+1]=="LEAF" then 
 				console.commandTree['delnode' .. i+1]="SELECTED"
@@ -904,14 +904,14 @@ function command_startnode_script_update_with_children:action()
 	end --if console.commandTree["KIND"]=="BRANCH" then 
 end --function command_startnode_script_update_with_children:action()
 
---5.2.10 execute Lua script with Lua chunk of the node of console.commandTree and write result under the node
+--5.2.12 execute Lua script with Lua chunk of the node of console.commandTree and rewrite result under the node in console.outputTree
 command_startnode_script_update = iup.item {title = "Knoten aktualisieren"}
 function command_startnode_script_update:action() 
 	if console.commandTree["KIND"]=="BRANCH" then 
-		local startNodinput_command_outputlue=console.commandTree.value
-		if console.commandTree["KIND" .. startNodinput_command_outputlue+1]=="LEAF" then
-			console.commandTree['delnode' .. startNodinput_command_outputlue+1] = "SELECTED" --TOTALCHILDCOUNT
-		end --if console.commandTree["KIND" .. startNodinput_command_outputlue+1]=="LEAF" then
+		local startNode=console.outputTree.value
+		if console.outputTree["KIND" .. startNode+1]=="LEAF" then
+			console.outputTree['delnode' .. startNode+1] = "SELECTED" --TOTALCHILDCOUNT
+		end --if console.outputTree["KIND" .. startNode+1]=="LEAF" then
 		if console.commandTree['title']:match("^.:\\.*%.lua$") then 
 			dofile(console.commandTree['title']) 
 		elseif console.commandTree['title']:match("%(") or console.commandTree['title']:match("=") then
@@ -920,7 +920,7 @@ function command_startnode_script_update:action()
 	end --if console.commandTree["KIND"]=="BRANCH" then 
 end --function command_startnode_script_update:action()
 
---5.2.12 put the buttons together in the menu for console.commandTree
+--5.2.13 put the menu items together in the menu for console.commandTree
 command_menu = iup.menu{
 		command_startcopy,
 		command_renamenode, 
