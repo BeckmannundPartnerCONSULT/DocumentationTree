@@ -3,7 +3,7 @@
 --1. read input tree
 dofile("/Tree/Luajava_Tree/Tree_Luajava_output_Tree.lua")
 
---1.1 origingal repository
+--1.1 original repository
 originalRepository="/Tree/Luajava_Tree"
 
 --1.2 goal repository
