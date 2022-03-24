@@ -3,7 +3,7 @@
 inputTextFile='/home/pi/Tree/TXTtoLua_build/TXTtoLua_Linux.lua'
 outputLuaScript='/home/pi/Tree/TXTtoLua_build/TXTtoLua_Tree.lua'
 
---1. function for splittings strings
+--1. function string:split() for splittings strings
 function string:split( inSplitPattern )
 	local outResults = {}
 	local theStart = 1
@@ -62,6 +62,6 @@ for i=1, pos_curline+1 do
 	io.write('}')
 end --for i=1, pos_curline+1 do
 
---4. write end of file
+--4. write end of file with return
 io.write('\n\nreturn treefromtabtext')
 io.close()
