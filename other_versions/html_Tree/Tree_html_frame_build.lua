@@ -283,12 +283,12 @@ outputfile2:write('<p>This frame html contains a tree in the left frame. The mar
 p=io.popen('dir * /b/o/s ')
 --write lines only when not in manual tree
 --test with: for k,v in pairs(AusgabeTabelle) do print(k,v) end
-for line in p:lines() do 
+for line in p:lines() do
 	--test with: print(line:gsub(path .. "\\",""))
 	if AusgabeTabelle[line:gsub(path .. "\\","")]==nil then
 		outputfile2:write(line .. '\n')
 	end --if AusgabeTabelle[line]==nil then
-end --for line in p:lines() do 
+end --for line in p:lines() do
 outputfile2:write('</pre>\n')
 outputfile2:write([[
 
@@ -302,7 +302,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-</textarea>  
+</textarea>
 
 ]])
 outputfile2:close()
@@ -318,7 +318,7 @@ outputfile3:write([[
     <frame name="wb_cont" src="Tree_html_frame_home.html" frameborder="1">
   <noframes>
   <body>
-  <p>This page uses frames, but your browser doesn&#39;t support them.</p>
+  <p>This page uses frames, but your browser does not support them.</p>
   </body>
   </noframes>
   </frameset>
@@ -337,7 +337,7 @@ require("cdlua")
 require("cdluapdf") --for pdf and powerpoint
 require("imlua")
 require("cdluaim") --for screen capture
-require("iuplua")
+require("iuplua")           --require iuplua for GUIs
 require("iupluacd") --for iup canvas
 
 --4.2 optional section for pdf or powerpoint and screen capture
