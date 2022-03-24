@@ -78,7 +78,7 @@ function string.escape_forbidden_char(insertstring) --this function takes a stri
 	return insertstring:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\'", "\\\'"):gsub("\n", "\\n"):gsub("\r", "\\n")
 end --function string.escape_forbidden_char(insertstring)
 
---3.3 function which saves the current iup htmlTexts as a lua table.
+--3.3 function which saves the current iup htmlTexts as a lua table
 function save_html_to_lua(htmlTexts, outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
@@ -642,7 +642,7 @@ function addbranch_fromclipboard:action()
 	tree.value=tree.value+1
 end --function addbranch_fromclipboard:action()
 
---5.1.4.1 add branch of tree from clipboard by insertbranch
+--5.1.4.1 add branch to tree by insertbranch from clipboard
 addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function addbranch_fromclipboardbottom:action()
 	tree["insertbranch" .. tree.value]= clipboard.text
@@ -711,7 +711,7 @@ local newText=[====[<!DOCTYPE html> <head></head><html> <body>
 end --function menu_new_page:action()
 
 
---5.1.9 menu for go to webbrowser page
+--5.1.9 menu for going to webbrowser page
 menu_goto_page=iup.item {title="Gehe zu Seite vom Knoten", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function menu_goto_page:action()
 	if tonumber(tree['title']) then 
@@ -731,7 +731,7 @@ function menu_goto_page:action()
 	end --if tonumber(tree['title']) then 
 end --function menu_goto_page:flat_action()
 
---5.1.10 start the file or repository of the node of tree 
+--5.1.10 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then os.execute('start "D" "' .. tree['title'] .. '"') end
@@ -745,7 +745,7 @@ function startnode_url:action()
 	end --if tree['title']:match("http") then
 end --function startnode_url:action()
 
---5.1.12 put the buttons together in the menu for tree
+--5.1.12 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		renamenode, 
@@ -810,7 +810,7 @@ function button_logo:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
---6.2 button for saving TextHTMLtable
+--6.2 button for saving TextHTMLtable and the programm of the graphical user interface
 button_save_lua_table=iup.flatbutton{title="Datei speichern", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	save_html_to_lua(TextHTMLtable, path .. "\\" .. thisfilename)
@@ -976,7 +976,7 @@ function button_load_tree_to_html:flat_action()
 end --function button_load_tree_to_html:action()
 
 
---6.8 button for saving TextHTMLtable
+--6.8 button for saving TextHTMLtable as html file
 button_save_as_html=iup.flatbutton{title="Als html speichern", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_as_html:flat_action()
 	local outputfile1=io.open(path .. "\\" .. thisfilename:gsub("%.lua$",".html"),"w")
@@ -1015,7 +1015,7 @@ function button_save_as_html:flat_action()
 	outputfile1:close()
 end --function button_save_as_html:flat_action()
 
---6.12 button with second logo
+--6.9 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
