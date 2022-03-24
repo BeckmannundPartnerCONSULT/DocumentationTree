@@ -1,9 +1,9 @@
---1. read XML-File
+--1. read XML File
 inputfile1=io.open("/home/pi/Tree/example_XML.txt","r")
 inputText=inputfile1:read("*a")
 inputfile1:close()
 
---2. transfer XML to Lua table
+--2. convert XML to Lua table
 inputText=inputText
 :gsub("<%?(xml[^>]*)>",'Tree_XML={branchname=[====[%1]====],') --take xml definition as root branch
 :gsub("<([^/]*)/>","[====[%1]====],")                          --simple tags as leafs
