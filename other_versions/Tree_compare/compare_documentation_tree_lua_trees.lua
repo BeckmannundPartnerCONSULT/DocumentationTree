@@ -23,7 +23,7 @@ do --sandboxing
 	local secureTable={}
 	secureTable[old]=os.execute
 	function os.execute(a)
-		if 
+		if
 		a:lower():match("^sftp ") or
 		a:lower():match("^dir ") or
 		a:lower():match("^pause") or
@@ -32,23 +32,23 @@ do --sandboxing
 		a:lower():match("^copy ") or
 		a:lower():match("^color ") or
 		a:lower():match("^start ") or
-		a:lower():match("^cls") 
+		a:lower():match("^cls")
 		then
 			return secureTable[old](a)
 		else
 			print(a .." ist nicht erlaubt.")
-		end --if a:match("del") then 
+		end --if a:match("del") then
 	end --function os.execute(a)
 	secureTable[old .. "1"]=io.popen
 	function io.popen(a)
-		if 
+		if
 		a:lower():match("^dir ") or
-		a:lower():match('^"dir ') 
+		a:lower():match('^"dir ')
 		then
 			return secureTable[old .. "1"](a)
 		else
 			print(a .." ist nicht erlaubt.")
-		end --if a:match("del") then 
+		end --if a:match("del") then
 	end --function io.popen(a)
 end --do --sandboxing
 
@@ -83,7 +83,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 
 --3 functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -152,7 +152,7 @@ function change_state_level(new_state,level,descendants_also)
 	end --if descendants_also=="YES" then
 end --function change_state_level(new_state,level,descendants_also)
 
---3.2.1 function which saves the current iup tree as a lua table.
+--3.2.1 function which saves the current iup tree as a lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -248,7 +248,7 @@ function change_state_keyword(new_state,keyword,descendants_also)
 		for i=0,tree.count-1 do
 			if tree["title" .. i]:match(keyword)~=nil then
 				iup.TreeSetNodeAttributes(tree,i,{state=new_state})
-			end --if tree["title" .. i]:match(keyword)~=nil then 
+			end --if tree["title" .. i]:match(keyword)~=nil then
 		end --for i=0,tree.count-1 do
 	end --if descendants_also=="YES" then
 end --function change_state_keyword(new_state,level,descendants_also)
@@ -341,40 +341,40 @@ dlg_expand_collapse=iup.dialog{
 --6 buttons
 --6.1 logo image definition and button with logo
 img_logo = iup.image{
-  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,3,3,1,1,1,1,1,3,1,1,1,3,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,1,1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,3,3,3,4,4,3,1,1,1,1,3,3,3,3,1,1,1,1,3,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,4,4,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,3,3,3,1,1,3,1,3,1,1,1,3,1,3,1,1,4,4,4 }, 
-  { 4,1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,3,1,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,3,1,3,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,1,1,3,3,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,1,1,3,3,1,3,1,1,1,1,1,1,1,4,4,4 }, 
+  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,3,3,1,1,1,1,1,3,1,1,1,3,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,1,1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,3,3,3,4,4,3,1,1,1,1,3,3,3,3,1,1,1,1,3,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,4,4,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,3,3,3,1,1,3,1,3,1,1,1,3,1,3,1,1,4,4,4 },
+  { 4,1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,3,1,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,3,1,3,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,1,1,3,3,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,1,1,3,3,1,3,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,1,1,1,1,4,4,4,4,4,3,3,4,4,4,4,1,3,3,1,1,1,1,1,1,1,4,4,4,4 },
   { 4,1,1,1,1,1,1,1,4,4,4,4,3,3,3,3,3,3,4,4,4,3,1,1,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,1,4,4,4,4,4,3,3,3,3,3,3,3,3,3,4,3,4,1,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,1,1,1,1,1,1,4,4,4 },
-  { 4,1,1,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,4,4,4 }, 
-  { 4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4 }, 
-  { 4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },  
-  { 4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4 },  
-  { 4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },  
-  { 4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },  
-  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4 },  
-  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },  
-  { 3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },  
-  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }  
+  { 4,1,1,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,1,1,4,4,4 },
+  { 4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,4,4,4 },
+  { 4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,1,1,4,4,4 },
+  { 4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,4,4,4 },
+  { 4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4 },
+  { 4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },
+  { 4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4 },
+  { 4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },
+  { 4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },
+  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4 },
+  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }
   ; colors = { color_grey_bpc, color_light_color_grey_bpc, color_blue_bpc, "255 255 255" }
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
@@ -387,17 +387,11 @@ button_loading_lua_table_1=iup.flatbutton{title="Ersten Baum aus Lua \nTabelle l
 function button_loading_lua_table_1:flat_action()
 	tree1.delnode0 = "CHILDREN"
 	tree1.title=''
-	--build file dialog for reading lua file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
-	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
-	if filedlg.status=="1" then
-		iup.Message("Neue Datei",filedlg.value)
-	elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
+	if file_exists(textbox1.value) then
 		--load tree from file 
-		textbox1.value=filedlg.value
-		dofile(filedlg.value) --initialize the tree, read from the lua file
-		for line in io.lines(filedlg.value) do
-			if line:match('=')~= nil then 
+		dofile(textbox1.value) --initialize the tree, read from the lua file
+		for line in io.lines(textbox1.value) do
+			if line:match('=')~= nil then
 				tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
 				break
 			end --if line:match('=')~= nil then 
@@ -405,15 +399,40 @@ function button_loading_lua_table_1:flat_action()
 		--save table in the variable actualtree
 		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here	
 		if _VERSION=='Lua 5.1' then
-			loadstring('actualtree='..tablename)()	
+			loadstring('actualtree='..tablename)()
 		else
 			load('actualtree='..tablename)() --now actualtree is the table.
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree1,actualtree)
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
-		iup.NextField(maindlg)
-	end --if filedlg.status=="1" then
+		--build file dialog for reading lua file
+		local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
+		filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
+		if filedlg.status=="1" then
+			iup.Message("Neue Datei",filedlg.value)
+		elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
+			--load tree from file 
+			textbox1.value=filedlg.value
+			dofile(filedlg.value) --initialize the tree, read from the lua file
+			for line in io.lines(filedlg.value) do
+				if line:match('=')~= nil then
+					tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
+					break
+				end --if line:match('=')~= nil then
+			end --for line in io.lines(path_documentation_tree) do
+			--save table in the variable actualtree
+			--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
+			if _VERSION=='Lua 5.1' then
+				loadstring('actualtree='..tablename)()
+			else
+				load('actualtree='..tablename)() --now actualtree is the table.
+			end --if _VERSION=='Lua 5.1' then
+			iup.TreeAddNodes(tree1,actualtree)
+		else
+			iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
+			iup.NextField(maindlg)
+		end --if filedlg.status=="1" then
+	end --if file_exists(textbox1.value) then
 end --function button_loading_lua_table_1:flat_action()
 
 --6.3 button for loading tree 2
@@ -421,17 +440,11 @@ button_loading_lua_table_2=iup.flatbutton{title="Zweiten Baum aus Lua \nTabelle 
 function button_loading_lua_table_2:flat_action()
 	tree2.delnode0 = "CHILDREN"
 	tree2.title=''
-	--build file dialog for reading lua file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
-	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
-	if filedlg.status=="1" then
-		iup.Message("Neue Datei",filedlg.value)
-	elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
-		--load tree2 from file 
-		textbox2.value=filedlg.value
-		dofile(filedlg.value) --initialize the tree, read from the lua file
-		for line in io.lines(filedlg.value) do
-			if line:match('=')~= nil then 
+	if file_exists(textbox2.value) then
+		--load tree from file
+		dofile(textbox2.value) --initialize the tree, read from the lua file
+		for line in io.lines(textbox2.value) do
+			if line:match('=')~= nil then
 				tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
 				break
 			end --if line:match('=')~= nil then 
@@ -439,15 +452,40 @@ function button_loading_lua_table_2:flat_action()
 		--save table in the variable actualtree
 		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here	
 		if _VERSION=='Lua 5.1' then
-			loadstring('actualtree='..tablename)()	
+			loadstring('actualtree='..tablename)()
 		else
 			load('actualtree='..tablename)() --now actualtree is the table.
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree2,actualtree)
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
-		iup.NextField(maindlg)
-	end --if filedlg.status=="1" then
+		--build file dialog for reading lua file
+		local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
+		filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
+		if filedlg.status=="1" then
+			iup.Message("Neue Datei",filedlg.value)
+		elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
+			--load tree2 from file
+			textbox2.value=filedlg.value
+			dofile(filedlg.value) --initialize the tree, read from the lua file
+			for line in io.lines(filedlg.value) do
+				if line:match('=')~= nil then
+					tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
+					break
+				end --if line:match('=')~= nil then
+			end --for line in io.lines(path_documentation_tree) do
+			--save table in the variable actualtree
+			--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
+			if _VERSION=='Lua 5.1' then
+				loadstring('actualtree='..tablename)()
+			else
+				load('actualtree='..tablename)() --now actualtree is the table.
+			end --if _VERSION=='Lua 5.1' then
+			iup.TreeAddNodes(tree2,actualtree)
+		else
+			iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
+			iup.NextField(maindlg)
+		end --if filedlg.status=="1" then
+	end --if file_exists(textbox2.value) then
 end --function button_loading_lua_table_2:flat_action()
 
 --6.4 button for expand and collapse
@@ -468,33 +506,33 @@ function button_compare:flat_action()
 	local tree_script={branchname="compare",{branchname="Vergleich von " .. tostring(textbox1.value) .. " mit " .. tostring(textbox2.value)}}
 	local file2existsTable={}
 	local file2numberTable={}
-	for i=0,tree2.totalchildcount0 do 
+	for i=0,tree2.totalchildcount0 do
 		local line=tree2['TITLE' .. i]
 		file2numberTable[#file2numberTable+1]=line
 		file2existsTable[line]=#file2numberTable
-	end --for i=0,tree1.totalchildcount0 do 
+	end --for i=0,tree1.totalchildcount0 do
 	--go through tree 1
 	local lineNumber=0
 	local file1existsTable={}
-	for i=0,tree1.totalchildcount0 do 
+	for i=0,tree1.totalchildcount0 do
 		local line=tree1['TITLE' .. i]
 		file1existsTable[line]=true
 		lineNumber=lineNumber+1
-		if line==file2numberTable[lineNumber] then 
+		if line==file2numberTable[lineNumber] then
 			if tree_script[#tree_script].branchname=="gleich" then
 				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
 			else
 				tree_script[#tree_script+1]={branchname="gleich"}
 				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
 			end --if tree_script[#tree_script].branchname=="gleich" then
-		elseif file2existsTable[line] and lineNumber>file2existsTable[line] then 
+		elseif file2existsTable[line] and lineNumber>file2existsTable[line] then
 			if tree_script[#tree_script].branchname=="gleich siehe oben" then
 				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
 			else
 				tree_script[#tree_script+1]={branchname="gleich siehe oben"}
 				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
 			end --if tree_script[#tree_script].branchname=="gleich siehe oben" then
-		elseif file2existsTable[line] and lineNumber<file2existsTable[line] then 
+		elseif file2existsTable[line] and lineNumber<file2existsTable[line] then
 			if tree_script[#tree_script].branchname=="gleich siehe unten" then
 				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
 			else
@@ -505,10 +543,10 @@ function button_compare:flat_action()
 			--without Levenshtein distance: tree_script[#tree_script+1]={branchname="unterschiedlich",{branchname=lineNumber .. ": " .. line,lineNumber .. ": " .. tostring(file2numberTable[lineNumber])}}
 			tree_script[#tree_script+1]={branchname="unterschiedlich",{branchname=lineNumber .. ": " .. line,{branchname=lineNumber .. ": " .. tostring(file2numberTable[lineNumber]) ,"Levenshtein-Distanz: " .. string.levenshtein(line, tostring(file2numberTable[lineNumber]))}}}
 		end --if file2Table[line] then
-	end --for i=0,tree1.totalchildcount0 do 
+	end --for i=0,tree1.totalchildcount0 do
 	--go through tree 1 to search for missing lines in tree 2
 	local line1Number=0
-	for i=0,tree1.totalchildcount0 do 
+	for i=0,tree1.totalchildcount0 do
 		local line=tree1['TITLE' .. i]
 		line1Number=line1Number+1
 		if file2existsTable[line]==nil then
@@ -522,7 +560,7 @@ function button_compare:flat_action()
 	end --for i=0,tree1.totalchildcount0 do
 	--go through tree 2 to search for missing lines in tree 1
 	local line2Number=0
-	for i=0,tree2.totalchildcount0 do 
+	for i=0,tree2.totalchildcount0 do
 		local line=tree2['TITLE' .. i]
 		line2Number=line2Number+1
 		if file1existsTable[line]==nil then
@@ -550,11 +588,11 @@ function button_sort_with_tree:flat_action()
 	file2ParentTable[tree2['TITLE' .. 0]]="root"
 	for i=1,tree2.totalchildcount0 do 
 		file2ParentTable[tree2['TITLE' .. i]]=tree2['TITLE' .. tree2['PARENT' .. i]]
-	end --for i=0,tree1.totalchildcount0 do 
+	end --for i=0,tree1.totalchildcount0 do
 	--go through tree 1 to search for missing lines in tree 2
 	local line1Number=0
 	local treeSortedTable={}
-	for i=0,tree1.totalchildcount0 do 
+	for i=0,tree1.totalchildcount0 do
 		local line=tree1['TITLE' .. i]
 		line1Number=line1Number+1
 		if file2ParentTable[line]==nil then
@@ -603,7 +641,7 @@ button_sort_in_tree=iup.flatbutton{title="Ersten Baum in \nanderen einsortieren"
 function button_sort_in_tree:flat_action()
 	tree.delnode0 = "SELECTED" --"CHILDREN"
 	--deep copy of tree2 in tree
-	for i=0,tree2.totalchildcount0 do 
+	for i=0,tree2.totalchildcount0 do
 		if tree2['KIND' .. i]=="LEAF" then
 			tree['addleaf' .. i-1]=tree2['title' .. i]
 		elseif tree2['KIND' .. i]=="BRANCH" and tree2['KIND' .. i-1]=="LEAF" and i>0 and tree2['depth' .. i]==tree2['depth' .. i-1]  then
@@ -629,13 +667,13 @@ function button_sort_in_tree:flat_action()
 		else
 			tree['addbranch' .. i-1]=tree2['title' .. i]
 		end --if tree2['KIND' .. i]=="LEAF" then
-	end --for i=0,tree2.totalchildcount0 do 
+	end --for i=0,tree2.totalchildcount0 do
 	--make the sort
 	--go through tree 1
 	local file1existsTable={}
-	for i=0,tree1.totalchildcount0 do 
+	for i=0,tree1.totalchildcount0 do
 		file1existsTable[tree1['TITLE' .. i]]=true
-	end --for i=0,tree1.totalchildcount0 do 
+	end --for i=0,tree1.totalchildcount0 do
 	for i=tree.totalchildcount0,0,-1 do
 		if file1existsTable[tree['TITLE' .. i]]==nil and tree['totalchildcount' .. i]=="0" then
 			tree["delnode" .. i] = "SELECTED"
@@ -644,15 +682,15 @@ function button_sort_in_tree:flat_action()
 	--go through tree 2
 	local file2existsTable={}
 	local file2numberTable={}
-	for i=0,tree2.totalchildcount0 do 
+	for i=0,tree2.totalchildcount0 do
 		local line=tree2['TITLE' .. i]
 		file2numberTable[#file2numberTable+1]=line
 		file2existsTable[line]=#file2numberTable
-	end --for i=0,tree1.totalchildcount0 do 
+	end --for i=0,tree1.totalchildcount0 do
 	--go through tree 1 to search for missing lines in tree 2
 	local tree_script={branchname="rest",{branchname="Sortieren von " .. tostring(textbox1.value) .. " mit " .. tostring(textbox2.value)}}
 	local line1Number=0
-	for i=0,tree1.totalchildcount0 do 
+	for i=0,tree1.totalchildcount0 do
 		local line=tree1['TITLE' .. i]
 		line1Number=line1Number+1
 		if file2existsTable[line]==nil then
@@ -664,7 +702,7 @@ function button_sort_in_tree:flat_action()
 			end --if tree_script[#tree_script].branchname=="nur in erster Datei" then
 		end --if file2existsTable[line] then
 	end --for i=0,tree1.totalchildcount0 do
-	--add results which tree is sorted by which and 
+	--add results which tree is sorted by which and
 	local searchDiff3=0
 	for i1=tree.totalchildcount0,0,-1 do
 		if tree['depth' .. i1]=="1" then break end
@@ -681,7 +719,7 @@ button_tree1_not_in_tree=iup.flatbutton{title="Ersten Baum, der nicht \nim ander
 function button_tree1_not_in_tree:flat_action()
 	tree.delnode0 = "SELECTED" --"CHILDREN"
 	--deep copy of tree1 in tree
-	for i=0,tree1.totalchildcount0 do 
+	for i=0,tree1.totalchildcount0 do
 		if tree1['KIND' .. i]=="LEAF" then
 			tree['addleaf' .. i-1]=tree1['title' .. i]
 		elseif tree1['KIND' .. i]=="BRANCH" and tree1['KIND' .. i-1]=="LEAF" and i>0 and tree1['depth' .. i]==tree1['depth' .. i-1]  then
@@ -707,13 +745,13 @@ function button_tree1_not_in_tree:flat_action()
 		else
 			tree['addbranch' .. i-1]=tree1['title' .. i]
 		end --if tree1['KIND' .. i]=="LEAF" then
-	end --for i=0,tree1.totalchildcount0 do 
+	end --for i=0,tree1.totalchildcount0 do
 	--make the sort
 	--go through tree 2
 	local file2existsTable={}
-	for i=0,tree2.totalchildcount0 do 
+	for i=0,tree2.totalchildcount0 do
 		file2existsTable[tree2['TITLE' .. i]]=true
-	end --for i=0,tree2.totalchildcount0 do 
+	end --for i=0,tree2.totalchildcount0 do
 	for i=tree.totalchildcount0,0,-1 do
 		if file2existsTable[tree['TITLE' .. i]] and tree['totalchildcount' .. i]=="0" then
 			tree["delnode" .. i] = "SELECTED"
