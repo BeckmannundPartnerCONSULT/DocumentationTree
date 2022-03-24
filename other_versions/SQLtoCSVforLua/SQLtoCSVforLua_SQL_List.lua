@@ -1,9 +1,9 @@
 --This script reads the query-SQL statements of an SQL liste and their query name resp. view name and build dependencies from query to table and table to view and from query to the parts of the SQL statements
 
---1. input file
+--1. input text file
 SQLList="C:\\Tree\\SQLtoCSVforLua\\SQLtoCSVforLua_SQL_List.txt"
 
---2. output file
+--2. output CSV file
 outputFile="C:\\Tree\\SQLtoCSVforLua\\SQLtoCSVforLua_List_dependencies.csv"
 print("Treate SQL list") 
 
