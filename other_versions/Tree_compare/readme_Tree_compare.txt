@@ -8,3 +8,7 @@ This graphical user interface is useful for the comparison of two text files or 
 
 This graphical user interface is useful for the comparison of two trees. The result is also a tree.
 
+3. Git_download_files_to_compare.lua
+
+This script downloads all the files on github documentation tree other versions and compares them with local files.
+
