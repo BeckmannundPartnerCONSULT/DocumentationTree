@@ -13,11 +13,21 @@ inputText=inputText
 :gsub(",([^,}]*)}",",[====[%1]====]}")                         --simple texts as leafs
 :gsub("}","},")                                                --set comma after curly bracket
 --translate XML special caracters
-:gsub("&lt;","<"):gsub("&#60;","<"):gsub("&#x3C;","<")
-:gsub("&gt;",">"):gsub("&#62;",">"):gsub("&#x3E;",">")
-:gsub("&amp;","&"):gsub("&#38;","&"):gsub("&#x26;","&")
-:gsub("&quot;",'"'):gsub("&#34;",'"'):gsub("&#x22;",'"')
-:gsub("&apos;","'"):gsub("&#39;","'"):gsub("&#x27;","'")
+:gsub("&lt;","<")
+:gsub("&#60;","<")
+:gsub("&#x3C;","<")
+:gsub("&gt;",">")
+:gsub("&#62;",">")
+:gsub("&#x3E;",">")
+:gsub("&amp;","&")
+:gsub("&#38;","&")
+:gsub("&#x26;","&")
+:gsub("&quot;",'"')
+:gsub("&#34;",'"')
+:gsub("&#x22;",'"')
+:gsub("&apos;","'")
+:gsub("&#39;","'")
+:gsub("&#x27;","'")
 
 --3. write Lua script
 outputfile1=io.open("/home/pi/Tree/example_XML_Linux.lua","w")
