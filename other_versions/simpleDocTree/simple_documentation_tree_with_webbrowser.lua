@@ -451,13 +451,13 @@ function button_alphabetic_sort:flat_action()
 end --function button_alphabetic_sort:flat_action()
 
 --6.6 button for going to first page
-button_first_page=iup.flatbutton{title="Startseite", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_first_page=iup.flatbutton{title="Startseite", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_first_page:flat_action()
 	webbrowser1.HTML=TextHTMLtable[1]
 end --function button_first_page:flat_action()
 
 --6.7 button for going to the next page
-button_next_page=iup.flatbutton{title="Nächste Seite", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_next_page=iup.flatbutton{title="Nächste Seite", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_next_page:flat_action()
 	if actualPage<#TextHTMLtable then actualPage=actualPage+1 end
 	webbrowser1.HTML=TextHTMLtable[actualPage]
@@ -465,7 +465,7 @@ function button_next_page:flat_action()
 end --function button_next_page:flat_action()
 
 --6.8 button for going to the previous page
-button_previous_page=iup.flatbutton{title="Vorige Seite", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_previous_page=iup.flatbutton{title="Vorige Seite", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_previous_page:flat_action()
 	if actualPage>1 then actualPage=actualPage-1 end
 	webbrowser1.HTML=TextHTMLtable[actualPage]
@@ -473,7 +473,7 @@ function button_previous_page:flat_action()
 end --function button_previous_page:flat_action()
 
 --6.9 button for going to the page
-button_goto_page=iup.flatbutton{title="Gehe zu Seite\nvom Knoten", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_goto_page=iup.flatbutton{title="Gehe zu Seite\nvom Knoten", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_goto_page:flat_action()
 	if tonumber(tree['title']) then 
 		actualPage=math.tointeger(tonumber(tree['title'])) 
@@ -590,7 +590,7 @@ maindlg = iup.dialog{
 			button_next_page,
 			button_goto_page,
 			textbox1,
-			iup.label{size="10x",},
+			iup.label{size="30x",},
 			iup.fill{},
 			button_logo2,
 		},
