@@ -1,14 +1,14 @@
-lua_tree_output={ branchname="example of a reflexive tree", 
-{ branchname="Ordner für Lua", 
-{ branchname="C:\\Lua", 
+lua_tree_output={ branchname="example of a reflexive tree",
+{ branchname="Ordner für Lua",
+{ branchname="C:\\Lua",
 state="COLLAPSED",
 },
-{ branchname="Ordner Temp", 
-{ branchname="C:\\Temp", 
+{ branchname="Ordner Temp",
+{ branchname="C:\\Temp",
 state="COLLAPSED",
 },
 },
-{ branchname="Ordner Tree", 
+{ branchname="Ordner Tree",
  "C:\\Tree",}}}--lua_tree_output
 
 
@@ -22,7 +22,7 @@ state="COLLAPSED",
 
 
 --1.1.1 libraries
-require('iuplua')           --require iuplua for GUIs
+require("iuplua")           --require iuplua for GUIs
 
 
 --1.1.2 initalize clipboard
@@ -714,7 +714,7 @@ function button_search:flat_action()
 	dlg_search:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_search:flat_action(
 
---6.4 button for building new page
+--6.4 button for building tree with new directory
 button_new_directory = iup.flatbutton{title = "Zielordner \nladen",size="50x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_new_directory:flat_action()
 	tree1.delnode0 = "CHILDREN"
@@ -753,7 +753,7 @@ function button_new_directory:flat_action()
 end --function button_new_directory:action()
 
 
---6.4.1 button for building new page without versions
+--6.4.1 button for building tree with new directory without versions
 button_new_directory_without_versions = iup.flatbutton{title = "Zielordner ohne \nVersionen laden",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_new_directory_without_versions:flat_action()
 	tree1.delnode0 = "CHILDREN"
@@ -791,7 +791,7 @@ function button_new_directory_without_versions:flat_action()
 	end --if textbox1.value==tree['title']:match(".*\\[^\\]+%.[^\\]+$") then
 end --function button_new_directory_without_versions:action()
 
---6.4.2 button for building new page tree2 without versions
+--6.4.2 button for building tree with start directory without versions
 button_start_directory_without_versions = iup.flatbutton{title = "Ursprungsordner ohne \nVersionen laden",size="90x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_start_directory_without_versions:flat_action()
 	tree2.delnode0 = "CHILDREN"
@@ -829,7 +829,7 @@ function button_start_directory_without_versions:flat_action()
 	end --if textbox2.value==tree['title']:match(".*\\[^\\]+%.[^\\]+$") then
 end --function button_start_directory_without_versions:action()
 
---6.5 button for copy and paste
+--6.5 button paste file picked
 button_version_move_copy_and_paste = iup.flatbutton{title = "Datei in Ziel-\nordner einfügen",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_version_move_copy_and_paste:flat_action()
 	local new_directory=textbox1.value 
@@ -859,7 +859,7 @@ function button_version_move_copy_and_paste:flat_action()
 	button_new_directory_without_versions:flat_action()
 end --function button_version_move_copy_and_paste:action()
 
---6.6 button for copy and paste
+--6.6 button for copy and paste all missing files in goal directory
 button_missing_copy_and_paste = iup.flatbutton{title = "Fehlende Dateien im \nZielordner ergänzen",size="90x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_missing_copy_and_paste:flat_action()
 	local new_directory=textbox1.value 
