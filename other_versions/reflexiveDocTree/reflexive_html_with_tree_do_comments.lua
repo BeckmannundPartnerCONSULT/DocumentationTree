@@ -1,7 +1,7 @@
 --Fachliches Konzept IDIV-Produkte mit den Oberflächen koordinieren
 
 --1. chosen number of the scripts
-chosenNumber=1
+chosenNumber=10
 
 --2. comment table
 commentsTable={}
@@ -1784,9 +1784,9 @@ commentsTable["write home html in the home frame"]={
 "Die Startseite in Html-Code wird in den Frame mit der Startseite geschrieben.",
 "A code text written in html is needed to write home in html in the home frame.",
 }
-commentsTable["frame with 2 frames"]={
-"Es wird ein Frame mit zwei Frames benötigt.",
-"A frame with 2 frames is needed.",
+commentsTable["build whole frame with tree and home frame"]={
+"Es wird ein Frame mit einem Baumansicht-Frame und einem Startseiten-Frame benötigt.",
+"A frame with tree and home frame is needed.",
 }
 commentsTable["build the path wb_img for the images"]={
 "Es wird das Unterverzeichnis wb_img für die Bilder gebildet.",
