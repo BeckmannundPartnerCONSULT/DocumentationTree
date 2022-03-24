@@ -6,10 +6,10 @@
     "testet",
 }
 --]]
---1. tree from file
+--1. read input tree
 dofile("Tree_Baum.lua")
 
---2. recursive function to read the tree
+--2.1 function to build recursively the tree
 function readTreetohtmlRecursive(TreeTable)
     AusgabeTabelle[tostring(TreeTable.branchname:match('/mnt[^%.]+%.[^"]+'))]=true
     outputfile1:write("<ul><li>" ..
@@ -40,9 +40,9 @@ function readTreetohtmlRecursive(TreeTable)
     end --for k, v in ipairs(TreeTable) do
     outputfile1:write("</li></ul>" .. "\n")
 end --readTreetohtmlRecursive(TreeTable)
-AusgabeTabelle={}
 
---3. make html
+--2.2 apply the recursive function and build html file
+AusgabeTabelle={}
 print('Bitte die Datei Tree_output.lua in html kopieren')
 outputfile1=io.open("Tree_output.lua","w")
 outputfile1:write('<font size="5"> ')
@@ -51,7 +51,7 @@ outputfile1:write("</font>")
 outputfile1:close()
 --test with: for line in io.lines('Tree_output.lua') do print(line) end
 
---4. list files and repositories for Touch Lua
+--3. list files and repositories for Touch Lua
 if sys then 
         print(sys.docspath())
         print("")
