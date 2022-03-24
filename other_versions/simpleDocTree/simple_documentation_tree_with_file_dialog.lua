@@ -40,7 +40,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 
 --3 functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -80,7 +80,7 @@ function printtree()
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
 
---3.2.4 function which saves the current iup tree as a lua table.
+--3.2.4 function which saves the current iup tree as a lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -237,7 +237,7 @@ function alphabetic_tree_sort(tree)
 	change_state_level("EXPANDED","0","YES") --expand all branches again
 end --function alphabetic_tree_sort(tree)
 
---3.5.3 function that sorts ascending whole lua table with tree not tree in IUP effectively
+--3.5.3 function that sorts ascending whole lua table with tree but not the tree in IUP
 function sortascendingTableRecursive(aTable)
 	table.sort(aTable,function(a,b) if type(a)=="table" then aT=tostring(a.branchname) else aT=tostring(a) end if type(b)=="table" then bT=tostring(b.branchname) else bT=tostring(b) end aTl=aT:lower() bTl=bT:lower() return aTl<bTl end)
 	for i,v in ipairs(aTable) do
@@ -247,7 +247,7 @@ function sortascendingTableRecursive(aTable)
 	end --for i,v in ipairs(aTable)
 end --function sortascendingTableRecursive(aTable)
 
---3.5.4 function that sorts descending whole lua table with tree not tree in IUP effectively
+--3.5.4 function that sorts descending whole lua table with tree but not the tree in IUP
 function sortdescendingTableRecursive(aTable)
 	table.sort(aTable,function(a,b) if type(a)=="table" then aT=tostring(a.branchname) else aT=tostring(a) end if type(b)=="table" then bT=tostring(b.branchname) else bT=tostring(b) end aTl=aT:lower() bTl=bT:lower() return aTl>bTl end)
 	for i,v in ipairs(aTable) do
@@ -545,7 +545,7 @@ function startcopy:action() --copy node
 end --function startcopy:action()
 
 
---5.1.1.1 copy node of tree with all children
+--5.1.1.1 copy node of tree with all children and add to the root
 startcopy_doubling = iup.item {title = "Verdoppeln"}
 function startcopy_doubling:action() --copy first node with same text as selected node with all its child nodes
 	local TreeText=""
@@ -620,12 +620,12 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 	local _,numberCurlyBraketsEnd=TreeText:gsub("}","")
 	if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 		loadstring('tree_temp='..TreeText)()
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	elseif numberCurlyBraketsBegin==numberCurlyBraketsEnd then
 		load('tree_temp='..TreeText)() --now tree_temp is filled
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	else
@@ -683,7 +683,7 @@ function addbranch_fromclipboard:action()
 	tree.value=tree.value+1
 end --function addbranch_fromclipboard:action()
 
---5.1.4.1 add branch to tree by insertbranch
+--5.1.4.1 add branch to tree by insertbranch from clipboard
 addbranch_fromclipboardbottom = iup.item {title = "Ast darunter aus Zwischenablage"}
 function addbranch_fromclipboardbottom:action()
 	tree["insertbranch" .. tree.value] = clipboard.text
@@ -695,7 +695,7 @@ function addbranch_fromclipboardbottom:action()
 	end --for i=tree.value+1,tree.count-1 do
 end --function addbranch_fromclipboardbottom:action()
 
---5.1.4.2 add leaf to tree by insertleaf
+--5.1.4.2 add leaf to tree by insertleaf from clipboard
 addleaf_fromclipboardbottom = iup.item {title = "Blatt darunter aus Zwischenablage"}
 function addleaf_fromclipboardbottom:action()
 	tree["insertleaf" .. tree.value] = clipboard.text
@@ -739,7 +739,7 @@ function cut_leafs_of_node:action()
 	end --for i=endNodeNumber,startNodeNumber,-1 do
 end --function cut_leafs_of_node:action()
 
---5.1.7.2 cut of all leafs of a node
+--5.1.7.2 cut of all nodes of a node
 cut_nodes_of_node = iup.item {title = "Alle Knoten darunter ausschneiden"}
 function cut_nodes_of_node:action()
 	local startNodeNumber=tree.value
@@ -805,7 +805,7 @@ function copy_leafs_of_node:action()
 	end --for i=endNodeNumber,startNodeNumber,-1 do
 end --function copy_leafs_of_node:action()
 
---5.1.7.4 copy of all leafs of a node
+--5.1.7.4 copy of all nodes of a node
 copy_nodes_of_node = iup.item {title = "Alle Knoten darunter kopieren"}
 function copy_nodes_of_node:action()
 	local startNodeNumber=tree.value
@@ -866,7 +866,7 @@ function paste_nodes_of_node:action()
 	end --if tree_nodes then
 end --function paste_nodes_of_node:action()
 
---5.1.7.7 paste of all nodes of a node
+--5.1.7.7 paste of all nodes of a node in an ascending order
 paste_nodes_of_node_sorted_ascending = iup.item {title = "Alle Knoten darunter aufsteigend sortiert einfügen"}
 function paste_nodes_of_node_sorted_ascending:action()
 	sortascendingTableRecursive(tree_nodes)
@@ -875,7 +875,7 @@ function paste_nodes_of_node_sorted_ascending:action()
 	end --if tree_nodes then
 end --function paste_nodes_of_node_sorted_ascending:action()
 
---5.1.7.8 paste of all nodes of a node
+--5.1.7.8 paste of all nodes of a node in a descending order
 paste_nodes_of_node_sorted_descending = iup.item {title = "Alle Knoten darunter absteigend sortiert einfügen"}
 function paste_nodes_of_node_sorted_descending:action()
 	sortdescendingTableRecursive(tree_nodes)
@@ -885,7 +885,7 @@ function paste_nodes_of_node_sorted_descending:action()
 end --function paste_nodes_of_node_sorted_descending:action()
 
 
---5.1.7.9 for alphabetic sort of leafs ascending case sensitive
+--5.1.7.9 alphabetic sort of leafs ascending case sensitive
 alphabetic_sort_leafs_of_node_ascending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben aufsteigend sortieren"}
 function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
 	local startNodeNumber=tree.value
@@ -908,7 +908,7 @@ function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
 	end --for i,v in ipairs(leafTable) do
 end --function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
 
---5.1.7.10 for alphabetic sort of leafs ascending case insensitive
+--5.1.7.10 alphabetic sort of leafs ascending case insensitive
 alphabetic_sort_leafs_of_node_ascending_case_insensitive = iup.item {title = "Alle Blätter darunter alphabetisch aufsteigend sortieren"}
 function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
 	local startNodeNumber=tree.value
@@ -932,7 +932,7 @@ function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
 end --function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
 
 
---5.1.7.11 for alphabetic sort of leafs ascending case sensitive
+--5.1.7.11 alphabetic sort of leafs ascending case sensitive
 alphabetic_sort_leafs_of_node_descending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben absteigend sortieren"}
 function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
 	local startNodeNumber=tree.value
@@ -955,7 +955,7 @@ function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
 	end --for i,v in ipairs(leafTable) do
 end --function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
 
---5.1.7.12 for alphabetic sort of leafs ascending case insensitive
+--5.1.7.12 alphabetic sort of leafs ascending case insensitive
 alphabetic_sort_leafs_of_node_descending_case_insensitive = iup.item {title = "Alle Blätter darunter alphabetisch absteigend sortieren"}
 function alphabetic_sort_leafs_of_node_descending_case_insensitive:action()
 	local startNodeNumber=tree.value
@@ -978,7 +978,7 @@ function alphabetic_sort_leafs_of_node_descending_case_insensitive:action()
 	end --for i,v in ipairs(leafTable) do
 end --function alphabetic_sort_leafs_of_node_descending_case_insensitive:action()
 
---5.1.8 put the buttons together in the menu for tree
+--5.1.13 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		startcopy_doubling,
@@ -1011,7 +1011,7 @@ menu = iup.menu{
 
 
 --6. buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -1218,12 +1218,6 @@ maindlg = iup.dialog{
 
 --7.2.1 show the dialog
 maindlg:show()
-
---7.2.3 go to the main dialog
-iup.NextField(maindlg)
-
-
-
 
 --7.3 Main Loop
 if (iup.MainLoopLevel()==0) then
