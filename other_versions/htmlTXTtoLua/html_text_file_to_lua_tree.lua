@@ -31,6 +31,6 @@ for Block in inputText2:gmatch("<li .-></li>") do
 		.. '"' .. tostring(Block:match('<a href="([^"]*)"') .. '",'
 		.. "},\n")
 	)
-end --for Block in inputText:gmatch("<li .-></li>") do 
+end --for Block in inputText:gmatch("<li .-></li>") do
 outputfile2:write('}')
 outputfile2:close()
