@@ -53,7 +53,7 @@ os.date("%Y"),           --8: document.Formular1.Eingabe3.value
 "Sources: ISDA 2006 Section 4.16(f), though the first two rules are not included. 'ISDA Definitions, Section 4.16'. 2006. Retrieved2014-09-18.", --33
 }, --{branchname="30/360 Bond Basis, 30A/360:",
 {branchname="Anzahl Tage Zähler 30 und Nenner 360", --onclick="Anzahltage30zaehler()" --34
-"", --35: document.FormularZins.Anzahltage30.value 
+"", --35: document.FormularZins.Anzahltage30.value
 }, --{branchname="Anzahl Tage Zähler 30 und Nenner 360",
 
 {branchname="30/360 ISDA:", state="COLLAPSED", --36
@@ -62,8 +62,8 @@ os.date("%Y"),           --8: document.Formular1.Eingabe3.value
 "Sources: alternate names of day conventions.", --39
 }, --{branchname="30/360 ISDA:",
 {branchname="Anzahl Tage Zähler 30ISDA und Nenner 360", --onclick="Anzahltage30ISDAzaehler()" --40
-"" --41: document.FormularZins.Anzahltage30ISDA.value 
-}, --"", 
+"" --41: document.FormularZins.Anzahltage30ISDA.value
+}, --"",
  
 {branchname="30E/360, 30/360 ICMA, 30S/360, Eurobond basis (ISDA 2006), Special German (spezielle deutsche Zinsmethode):", state="COLLAPSED", --42
 "Regel 1: If D1 is 31, then change D1 to 30.", --43
@@ -109,7 +109,7 @@ os.date("%Y"),           --8: document.Formular1.Eingabe3.value
 }, --{branchname="30/360 US:",
 {branchname="Anzahl Tage Zähler 30US und Nenner 360", --onclick="Anzahltage30USzaehler()" --70
 "" --71: document.FormularZins.Anzahltage30US.value 
-}, --{branchname="Anzahl Tage Zähler 30US und Nenner 360", 
+}, --{branchname="Anzahl Tage Zähler 30US und Nenner 360",
 
 }, --{branchname="Tage = 360 * ( Y2 -  Y1 ) + 30 * ( M2 - M1 ) + (D2 - D1)",
 }, --{branchname="Tageskonventionen für 360 Tage mit der Formel",
@@ -123,7 +123,7 @@ os.date("%Y"),           --8: document.Formular1.Eingabe3.value
 "0", --76: document.FormularZins.AnzahltageNoLeap.value
 }, --{branchname="Für die no leap year abgezogene Tage im Zähler bei der Methode NL/365"
 }, --{branchname="Anzahl Tage Zähler actual und Nenner für actual im Weiteren Knoten bestimmen",
-}, --{branchname="Tageskonventionen actual mit der exakten Anzahl Tage im Zähler und Nenner für actual im Weiteren Knoten bestimmen" 
+}, --{branchname="Tageskonventionen actual mit der exakten Anzahl Tage im Zähler und Nenner für actual im Weiteren Knoten bestimmen"
 
 {branchname="Für die Rechnung benutzte Tage im Zähler", --77
 "", --78: document.FormularZins.AnzahlTageZaehler.value
@@ -225,7 +225,7 @@ os.date("%Y"),           --8: document.Formular1.Eingabe3.value
 
 }, --{branchname="Alle Zinsen mit Titel ausgeben",
 
-}, --{branchname="Kapital und Zinssatz eintragen", 
+}, --{branchname="Kapital und Zinssatz eintragen",
 
 {branchname="Zurücksetzen", -- onclick="KapitalZinssatzZuruecksetzen()" --128
 
@@ -266,37 +266,37 @@ end --if _VERSION=='Lua 5.1' then
 
 --1.1.3 securisation by allowing only necessary os.execute commands
 do --sandboxing
-local old=os.date("%H%M%S")
-local secureTable={}
-secureTable[old]=os.execute
-function os.execute(a)
-if 
-a:lower():match("^sftp ") or
-a:lower():match("^dir ") or
-a:lower():match("^pause") or
-a:lower():match("^title") or
-a:lower():match("^md ") or
-a:lower():match("^copy ") or
-a:lower():match("^color ") or
-a:lower():match("^start ") or
-a:lower():match("^cls") 
-then
-return secureTable[old](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
-secureTable[old .. "1"]=io.popen
-function io.popen(a)
-if 
-a:lower():match("^dir ") or
-a:lower():match('^"dir ') 
-then
-return secureTable[old .. "1"](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
+	local old=os.date("%H%M%S")
+	local secureTable={}
+	secureTable[old]=os.execute
+	function os.execute(a)
+		if 
+		a:lower():match("^sftp ") or
+		a:lower():match("^dir ") or
+		a:lower():match("^pause") or
+		a:lower():match("^title") or
+		a:lower():match("^md ") or
+		a:lower():match("^copy ") or
+		a:lower():match("^color ") or
+		a:lower():match("^start ") or
+		a:lower():match("^cls") 
+		then
+			return secureTable[old](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function os.execute(a)
+	secureTable[old .. "1"]=io.popen
+	function io.popen(a)
+		if 
+		a:lower():match("^dir ") or
+		a:lower():match('^"dir ')
+		then
+			return secureTable[old .. "1"](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function io.popen(a)
 end --do --sandboxing
 
 --1.2 color section
@@ -335,10 +335,10 @@ end --function file_exists(name)
 
 --3.1.2 round function here away-from-zero
 --other forms of round functions can also be implemented in Lua
-function math.round(a,precisionNumber) 
-precisionNumber=precisionNumber or 0 
-if a>0 then return math.floor(a*10^precisionNumber+0.5)/10^precisionNumber 
-else        return math.ceil (a*10^precisionNumber-0.5)/10^precisionNumber 
+function math.round(a,precisionNumber)
+precisionNumber=precisionNumber or 0
+if a>0 then return math.floor(a*10^precisionNumber+0.5)/10^precisionNumber
+else        return math.ceil (a*10^precisionNumber-0.5)/10^precisionNumber
 end --if a>0 then
 end --function math.round(a,precisionNumber)
 
@@ -349,16 +349,16 @@ end --function math.round(a,precisionNumber)
 
 --3.3.1 functions with function names corresponding to nodes
 
-function Schaltjahr () 
+function Schaltjahr ()
 Jahr = tree['title' .. 8]
 Tage = 28 
 if (Jahr%4==0) then Tage=Tage+1 end
 if (Jahr%100==0) then Tage=Tage+1 end --;if(Jahr%400==0) Tage++;
 if (Tage==28) then tree['title' .. 10] = Jahr .. " ist kein Schaltjahr" end ;
 if (Tage==29) then tree['title' .. 10] =Jahr .. " ist ein Schaltjahr" end ;
-end --function Schaltjahr() 
+end --function Schaltjahr()
 
-function Rechner() 
+function Rechner()
 load("Ergebnis = " .. tree['title' .. 3]:gsub('×','*'):gsub('÷','/'):gsub(',','.'))()
 tree['title' .. 5]=Ergebnis
 end--function Rechner()
@@ -385,7 +385,7 @@ tree['title107'] = 360
 end --function Anzahltage30zaehler()
 
 --
-function Anzahltage30ISDAzaehler() 
+function Anzahltage30ISDAzaehler()
 -- 30/360 ISDA:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
@@ -406,7 +406,7 @@ end --function Anzahltage30ISDAzaehler()
 
 
 --
-function Anzahltage30Ezaehler() 
+function Anzahltage30Ezaehler()
 -- 30E/360 Date adjustment rules:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
@@ -425,7 +425,7 @@ tree['title107'] = 360
 end --function Anzahltage30Ezaehler()
 
 --
-function Anzahltage30EPluszaehler() 
+function Anzahltage30EPluszaehler()
 -- 30E+/360 Date adjustment rules:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
@@ -440,7 +440,7 @@ veraendert = "unverändert: "
 if (D1==31) then D1 = 30 end --Regel 1: If D1 is 31, then change D1 to 30.
 if (D2==31) then D2 = D2Plus; M2 = M2Plus; Y2 = Y2Plus; veraendert = "verändert: " end --Regel 2: If D2 is 31, then set D2.M2.Y2 to 1st day of the next month.
 --Die Umrechnung in den ersten des nächsten Monats entspricht der Beibehaltung des 31. des Endemonats in der Formel. Es wird eh nur ein Tag hinzugerechnet.
-Ergebnis = 360 * ( Y2 -  Y1 ) + 30 * ( M2 - M1 ) + (D2 - D1) 
+Ergebnis = 360 * ( Y2 -  Y1 ) + 30 * ( M2 - M1 ) + (D2 - D1)
 tree['title57'] = Ergebnis .. " Endedatum " .. veraendert .. D2 .. "." .. M2 .. "." .. Y2;
 tree['title78'] = Ergebnis
 tree['title114'] = "M30E+";
@@ -449,7 +449,7 @@ tree['title107'] = 360
 end --function Anzahltage30PlusEzaehler()
 
 --
-function Anzahltage30Germanzaehler() 
+function Anzahltage30Germanzaehler()
 -- 30German/360 Date adjustment rules:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
@@ -461,10 +461,10 @@ D1LetzterFebruar =""
 D2LetzterFebruar =""
 if (D1==31) then D1 = 30 end --Regel 1: If D1 is 31, then change D1 to 30.
 if (D2==31) then D2 = 30 end --Regel 1: If D2 is 31, then change D2 to 30.
---nämlich Regel 1: If D1 and/or D2 is 31, then change D1 to 30 and/or D2 to. 
+--nämlich Regel 1: If D1 and/or D2 is 31, then change D1 to 30 and/or D2 to.
 if (tree['title20']=="ja") then D1=30; D1LetzterFebruar=" Startdatum letzter vom Februar " end
 if (tree['title26']=="ja") then D2=30; D2LetzterFebruar=" Endedatum letzter vom Februar "  end
--- Regel 2 If D1.M1.Y1 and/or D2.M2.Y2 = last day of february =1.3.-1 Tag then change D1 to 30 and/or D2 to 30. 
+-- Regel 2 If D1.M1.Y1 and/or D2.M2.Y2 = last day of february =1.3.-1 Tag then change D1 to 30 and/or D2 to 30.
 Ergebnis = 360 * ( Y2 -  Y1 ) + 30 * ( M2 - M1 ) + (D2 - D1)
 tree['title63'] = Ergebnis .. "" .. D1LetzterFebruar .. D2LetzterFebruar;
 tree['title78'] = Ergebnis
@@ -474,7 +474,7 @@ tree['title107'] = 360
 end --function Anzahltage30Germanzaehler()
 
 
-function Anzahltage30USzaehler() 
+function Anzahltage30USzaehler()
 -- 30German/360 Date adjustment rules:
 D1 = -(-tree['title18'])
 D2 = -(-tree['title24'])
@@ -490,7 +490,7 @@ if (D2==31 and D1==30) then D2 = 30 end --Regel 3: If D2 is 31 and D1=30 or D1=3
 if (D2==31 and D1==31) then D2 = 30 end
 if (D1==31) then D1 = 30 end --Regel 4: If D1 is 31, then change D1 to 30.
 Ergebnis = 360 * ( Y2 -  Y1 ) + 30 * ( M2 - M1 ) + (D2 - D1)
-tree['title71'] = Ergebnis ..  " " .. Regel1 .. Regel2 
+tree['title71'] = Ergebnis ..  " " .. Regel1 .. Regel2
 tree['title78'] = Ergebnis
 tree['title114'] = "M30US"
 tree['title112'] =  Ergebnis / 360
@@ -501,7 +501,7 @@ end --function Anzahltage30USzaehler()
 
 --
 --actual Methode
-function Anzahltagezaehler() 
+function Anzahltagezaehler()
 Startdatum=os.time{year=tree['title16'],month=tree['title17'],day=tree['title18']}
 Endedatum=os.time{year=tree['title22'], month=tree['title23'],day=tree['title24']}
 Ergebnis = math.tointeger(math.round((Endedatum - Startdatum)/60/60/24,0))
@@ -512,7 +512,7 @@ end --function Anzahltagezaehler()
 
 --
 function Nenneractual36525()
-Anzahltagezaehler() 
+Anzahltagezaehler()
 tree['title84'] = 365.25
 tree['title114'] = "act365Komma25bzw1durch1";
 if tonumber(tree['title78']) then tree['title112'] =  tonumber(tree['title78']) / 365.25 end
@@ -521,7 +521,7 @@ end --function Nenneractual36525()
 
 --
 function Nenneractual366()
-Anzahltagezaehler() 
+Anzahltagezaehler()
 tree['title88'] = 366
 tree['title114'] = "act366";
 if tonumber(tree['title78']) then tree['title112'] =  tonumber(tree['title78']) / 366 end
@@ -530,7 +530,7 @@ end --function Nenneractual366()
 
 
 --
-function Nenneractual365() 
+function Nenneractual365()
 Anzahltagezaehler()
 tree['title94'] = 365
 tree['title114'] = "act365";
@@ -540,7 +540,7 @@ end --function Nenneractual365()
 
 
 --
-function Nenneractual364() 
+function Nenneractual364()
 Anzahltagezaehler()
 tree['title99'] = 364
 tree['title114'] = "act364";
@@ -550,7 +550,7 @@ end --function Nenneractual364()
 
 
 --
-function Nenneractual360() 
+function Nenneractual360()
 Anzahltagezaehler()
 tree['title105'] = 360
 tree['title114'] = "act360";
@@ -560,13 +560,13 @@ end --function Nenneractual360()
 
 
 --Zinsrechner
-function JahreManuellSetzen() 
+function JahreManuellSetzen()
 tree['title112'] = tree['title109']
 tree['title114'] = "manuell";
 end --function JahreManuellSetzen()
 
 
-function KapitalZinssatzSchreiben() 
+function KapitalZinssatzSchreiben()
 Start=os.date("%d.%m.%Y",os.time{year=tree['title16'],month=tree['title17'],day=tree['title18']})
 Ende=os.date("%d.%m.%Y",os.time{year=tree['title22'], month=tree['title23'],day=tree['title24']})
 tree['title119'] = '"' .. "Zinsart" .. '"' .. ";" .. '"' .. "Kapital" .. '"' .. ";" .. '"' .. "Zinssatz" .. '"' .. ";" .. '"' .. "Startdatumsangabe" .. '"' .. ";" .. '"' .. "Endedatumsangabe" .. '"'
@@ -576,33 +576,33 @@ tree['title125'] ='"' ..  "Zinsstetig" .. '"' .. ";" .. '"' .. tree['title13']:g
 end --function KapitalZinssatzSchreiben()
 
 
-function TitelErgaenzen() 
-if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then 
-tree['title119'] = tree['title119'] .. ";" .. '"' .. "Methode_" .. tree['title114'] .. '"' .. ";" .. '"' .. "Ergebnis_" .. tree['title114'] .. '"' 
-end --if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then 
+function TitelErgaenzen()
+if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then
+tree['title119'] = tree['title119'] .. ";" .. '"' .. "Methode_" .. tree['title114'] .. '"' .. ";" .. '"' .. "Ergebnis_" .. tree['title114'] .. '"'
+end --if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then
 end --function TitelErgaenzen()
 
 
-function Zinsen() 
-if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then 
-Ergebnis = tonumber(tree['title13']) * tonumber(tree['title14']) * tonumber(tree['title78']) / tonumber(tree['title107']) 
+function Zinsen()
+if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then
+Ergebnis = tonumber(tree['title13']) * tonumber(tree['title14']) * tonumber(tree['title78']) / tonumber(tree['title107'])
 Ergebnis = math.round(Ergebnis,2)
-tree['title121'] = tree['title121'] .. ";" .. '"' .. tree['title114'] .. '"' .. ";" .. '"' .. tostring(Ergebnis):gsub('%.',',') .. '"' 
-end --if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then 
+tree['title121'] = tree['title121'] .. ";" .. '"' .. tree['title114'] .. '"' .. ";" .. '"' .. tostring(Ergebnis):gsub('%.',',') .. '"'
+end --if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then
 end --function Zinsen()
-function Zinseszinsen() 
-if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then 
+function Zinseszinsen()
+if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then
 Ergebnis = tree['title13']*(math.pow(-(-1-tree['title14']), tonumber(tree['title78']) / tonumber(tree['title107']))-1)
 Ergebnis = "" .. math.round(Ergebnis,2)
-tree['title123'] = tree['title123'] .. ";" .. '"' .. tree['title114'] .. '"' .. ";" .. '"' .. Ergebnis:gsub('%.',',') .. '"' 
-end --if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then 
+tree['title123'] = tree['title123'] .. ";" .. '"' .. tree['title114'] .. '"' .. ";" .. '"' .. Ergebnis:gsub('%.',',') .. '"'
+end --if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then
 end --function Zinseszinsen()
-function Zinsenstetig() 
-if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then 
+function Zinsenstetig()
+if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then
 Ergebnis = tree['title13']*(math.exp(-(-tree['title14']) * tonumber(tree['title78']) / tonumber(tree['title107']) )-1);
 Ergebnis = "" .. math.round(Ergebnis,2)
 tree['title125'] = tree['title125'] .. ";" .. '"' .. tree['title114'] .. '"' .. ";" .. '"' .. Ergebnis:gsub('%.',',') .. '"'
-end --if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then 
+end --if tonumber(tree['title13']) and tonumber(tree['title14']) and tonumber(tree['title112']) then
 end --function Zinsenstetig()
 
 function ZinsenTitelAlle()
@@ -613,15 +613,15 @@ Zinsenstetig();
 end --function ZinsenTitelAlle()
 
 --
-function KapitalZinssatzZuruecksetzen() 
+function KapitalZinssatzZuruecksetzen()
 tree['title119']=""
 tree['title121']=""
 tree['title123']=""
 tree['title125']=""
-end --function KapitalZinssatzZuruecksetzen() 
+end --function KapitalZinssatzZuruecksetzen()
 --
 
-function ZinsErgebnisAlleZeilenAusgabe() 
+function ZinsErgebnisAlleZeilenAusgabe()
 outputfile1=io.open(path .. "\\" .. thisfilename:gsub("%.lua",".txt"),"w")
 outputfile1:write(tree['title119'] .. "\n")
 outputfile1:write(tree['title121'] .. "\n")
@@ -641,29 +641,29 @@ startnodescripter = iup.item {title = "Skripter starten"}
 function startnodescripter:action()
 	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
 	if file_exists(tree['title']) then inputfile=io.open(tree['title'],"r") ErsteZeile=inputfile:read() inputfile:close() end
-	if file_exists(tree['title']) and ErsteZeile then 
+	if file_exists(tree['title']) and ErsteZeile then
 		os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. tree['title'] .. '"')
-	elseif file_exists(tree['title']) then 
+	elseif file_exists(tree['title']) then
 		os.execute('start "d" notepad.exe "' .. tree['title'] .. '"')
 	else
 		os.execute('start "d" C:\\Lua\\iupluascripter54.exe ')
-	end --if file_exists(tree['title']) and ErsteZeile then 
+	end --if file_exists(tree['title']) and ErsteZeile then
 end --function startnodescripter:action()
 
 --5.1.2 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
-function startnode:action() 
-	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
-		os.execute('start "D" "' .. tree['title'] .. '"') 
-	elseif tree['title']:match("sftp .*") then 
-		os.execute(tree['title']) 
-	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
+function startnode:action()
+	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then
+		os.execute('start "D" "' .. tree['title'] .. '"')
+	elseif tree['title']:match("sftp .*") then
+		os.execute(tree['title'])
+	end --if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then
 end --function startnode:action()
 
 --5.1.3 put the menu items together in the menu for tree
 menu = iup.menu{
-		startnodescripter, 
-		startnode, 
+		startnodescripter,
+		startnode,
 		}
 --5.1 menu of tree end
 
@@ -671,40 +671,40 @@ menu = iup.menu{
 --6 buttons
 --6.1 logo image definition and button with logo
 img_logo = iup.image{
-  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,3,3,1,1,1,1,1,3,1,1,1,3,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,1,1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,3,3,3,4,4,3,1,1,1,1,3,3,3,3,1,1,1,1,3,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,4,4,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,3,3,3,1,1,3,1,3,1,1,1,3,1,3,1,1,4,4,4 }, 
-  { 4,1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,3,1,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,3,1,3,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,1,1,3,3,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,1,1,3,3,1,3,1,1,1,1,1,1,1,4,4,4 }, 
+  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,3,3,1,1,1,1,1,3,1,1,1,3,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,1,1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,3,3,3,4,4,3,1,1,1,1,3,3,3,3,1,1,1,1,3,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,4,4,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,3,3,3,1,1,3,1,3,1,1,1,3,1,3,1,1,4,4,4 },
+  { 4,1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,3,1,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,3,1,3,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,1,1,3,3,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,1,1,3,3,1,3,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,1,1,1,1,4,4,4,4,4,3,3,4,4,4,4,1,3,3,1,1,1,1,1,1,1,4,4,4,4 },
   { 4,1,1,1,1,1,1,1,4,4,4,4,3,3,3,3,3,3,4,4,4,3,1,1,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,1,4,4,4,4,4,3,3,3,3,3,3,3,3,3,4,3,4,1,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,1,1,1,1,1,1,4,4,4 },
-  { 4,1,1,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,4,4,4 }, 
-  { 4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4 }, 
-  { 4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },  
-  { 4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4 },  
-  { 4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },  
-  { 4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },  
-  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4 },  
-  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },  
-  { 3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },  
-  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }  
+  { 4,1,1,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,1,1,4,4,4 },
+  { 4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,4,4,4 },
+  { 4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,1,1,4,4,4 },
+  { 4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,4,4,4 },
+  { 4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4 },
+  { 4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },
+  { 4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4 },
+  { 4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },
+  { 4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },
+  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4 },
+  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }
   ; colors = { color_grey_bpc, color_light_color_grey_bpc, color_blue_bpc, "255 255 255" }
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
@@ -716,63 +716,63 @@ end --function button_logo:flat_action()
 --7 Main Dialog
 --7.1 icon definitions
 img_functionarrow= iup.image{
-  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 },  
-  { 1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,2,2,1,1,2,2,1,1,1,1,1 }, 
-  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 }, 
-  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 },  
-  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 },
-  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 }, 
-  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 }, 
-  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 },  
+  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1 },
   { 1,1,1,1,1,2,2,1,1,2,2,1,1,1,1,1 },
-  { 1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },  
+  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 },
+  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 },
+  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 },
+  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 },
+  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 },
+  { 1,1,1,1,2,2,1,1,1,1,2,2,1,1,1,1 },
+  { 1,1,1,1,1,2,2,1,1,2,2,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
   { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
   -- Sets "X" image colors
   ; colors = { color_background_tree, color_red_bpc}
 }
 img_inputarrow= iup.image{
-  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 },  
-  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,2,2,2,2,2,2,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },  
+  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 },
   { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },
-  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },  
   { 1,1,1,1,1,2,2,2,2,2,2,1,1,1,1,1 },
-  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },  
+  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },
+  { 1,1,1,1,1,2,2,2,2,2,2,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
   { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
   -- Sets "X" image colors
   ; colors = { color_background_tree, color_red_bpc}
 }
 img_rightarrow= iup.image{
-  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1 },  
-  { 1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1 },  
-  { 1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,1 },
-  { 1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1 },  
+  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1 },
   { 1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1 },
-  { 1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1 }, 
-  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },  
+  { 1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1 },
+  { 1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1 },
+  { 1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,1 },
+  { 1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,1 },
+  { 1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1 },
+  { 1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1 },
+  { 1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,2,2,2,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1 },
+  { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
   { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 
   -- Sets "X" image colors
@@ -806,7 +806,7 @@ function tree:rightclick_cb(id)
 	elseif tree['title']=="Nenner actual 364"                                                             then Nenneractual364()
 	elseif tree['title']=="Nenner actual 360"                                                             then Nenneractual360()
 	elseif tree['title']=="Jahre manuell setzen"                                                          then JahreManuellSetzen()
-	elseif tree['title']=="Kapital und Zinssatz eintragen"                                                then KapitalZinssatzSchreiben() 
+	elseif tree['title']=="Kapital und Zinssatz eintragen"                                                then KapitalZinssatzSchreiben()
 	elseif tree['title']=="Alle Zinsen mit Titel ausgeben"                                                then ZinsenTitelAlle()
 	elseif tree['title']=="Titel"                                                                         then TitelErgaenzen()
 	elseif tree['title']=="Zinsen linear = Kapital * Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner"                                                                 then Zinsen()
@@ -834,7 +834,7 @@ maindlg = iup.dialog {iup.frame{title="Zinsrechner",
 }--maindlg = iup.dialog {
 
 --7.4 show the dialog
-maindlg:showxy(iup.LEFT,iup.CENTER) 
+maindlg:showxy(iup.LEFT,iup.CENTER)
 
 --7.5 icons adopted in tree
 --default image for branch collapsed can be defined by: tree.imagebranchcollapsed=img_rightarrow
@@ -892,7 +892,7 @@ tree['image55']=img_inputarrow  --document.FormularZins.EndetagPlus.value
 tree['image57']=img_rightarrow  --document.FormularZins.Anzahltage30EPlus.value
 tree['image63']=img_rightarrow  --document.FormularZins.Anzahltage30German.value
 tree['image71']=img_rightarrow  --document.FormularZins.Anzahltage30US.value
-tree['image74']=img_rightarrow  --document.FormularZins.Anzahltageactual.value 
+tree['image74']=img_rightarrow  --document.FormularZins.Anzahltageactual.value
 tree['image76']=img_inputarrow  --document.FormularZins.AnzahltageNoLeap.value
 tree['image78']=img_rightarrow  --document.FormularZins.AnzahlTageZaehler.value
 tree['image84']=img_rightarrow  --document.FormularZins.Nenner36525.value
