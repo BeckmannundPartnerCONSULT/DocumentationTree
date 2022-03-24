@@ -1800,6 +1800,22 @@ commentsTable["optional section for pdf or powerpoint and screen capture"]={
 "Es werden optional der Bildschirmausdruck sowie der PDF und Powerpoint-Export definiert.",
 "An optional section for pdf or powerpoint and screen capture is defined.",
 }
+commentsTable["library for LuaCOM"]={
+"Die Bibliothek für LuaCOM, d.h. das Microsoft Objekt-Modell für Lua, wird eingebunden.",
+"The library LuaCOM, i.e. the Microsoft object model for Lua, is made available.",
+}
+commentsTable["open Word with LuaCOM"]={
+"Word wird mit LuaCOM geöffnet.",
+"Word is opened with LuaCOM.",
+}
+commentsTable["build a new Word document"]={
+"Ein neues Word-Dokument wird gebildet.",
+"A new Word document is built.",
+}
+commentsTable["save Word document"]={
+"Das Word-Dokument wird gespeichert.",
+"The Word document is saved.",
+}
 
 --1. function escaping magic characters
 function string.escape_forbidden_char(insertstring) --this function takes a string and returns the same string with escaped characters
@@ -1867,6 +1883,8 @@ componentSortTable["1: library"]="1: a5"
 componentSortTable["1: libraries for video and GUI"]="1: a6"
 componentSortTable["1: libraries for images"]="1: a7"
 componentSortTable["1: libraries for videos"]="1: a8"
+componentSortTable["1: library for LuaCOM"]="1: a9"
+componentSortTable["1: open Word with LuaCOM"]="1: b1"
 componentSortTable["3: functions"]="3: a1"
 componentSortTable["3: general Lua functions"]="3: a2"
 componentSortTable["3: functions for GUI"]="3: a3"
