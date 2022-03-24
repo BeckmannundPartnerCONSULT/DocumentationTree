@@ -4,15 +4,16 @@
 --1. basic data
 
 --1.1 libraries
-require('iuplua')           --require iuplua for GUIs
---1.1.1 import libraries for images
+require("iuplua")           --require iuplua for GUIs
+
+--1.1.1 libraries for images
 require("cdlua")
 require("cdluapdf") --for pdf and powerpoint
 require("imlua")
 require("cdluaim") --for screen capture
-require("iuplua")
 require("iupluacd") --for iup canvas
---1.1.2 import for videos
+
+--1.1.2 libraries for videos
 require("imlua_avi")
 
 
@@ -48,7 +49,7 @@ path_documentation_tree=path .. "\\" .. "screenshot_tree.lua"
 
 --3 functions
 
---3.1 general lua-functions
+--3.1 general Lua functions
 
 --3.1.1 function checking if file exits
 function file_exists(name)
@@ -73,7 +74,7 @@ function startcopy:action() --copy node
 	 clipboard.text = tree['title']
 end --function startcopy:action()
 
---5.1.2 start the file or repository of the node of tree 
+--5.1.2 start the file or repository of the node of tree
 startnode = iup.item {title = "Starten"}
 function startnode:action() 
 	if tree['title']:match("^.:\\.*%.[^\\ ]+$") or tree['title']:match("^.:\\.*[^\\]+$") or tree['title']:match("^.:\\$") or tree['title']:match("^[^ ]*//[^ ]+$") then 
@@ -85,7 +86,7 @@ end --function startnode:action()
 
 
 
---5.1.3 put the buttons together in the menu for tree
+--5.1.3 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		startnode, 
@@ -97,7 +98,7 @@ menu = iup.menu{
 
 
 --6 buttons
---6.1 logo image definition and button wiht logo 
+--6.1 logo image definition and button with logo
 img_logo = iup.image{
   { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
   { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
@@ -158,7 +159,7 @@ function button_screenshot:flat_action()
 	canvas:Kill()
 end --function button_screenshot:flat_action()
 
---6.3 button for video
+--6.3 button for building video from tree images
 button_video=iup.flatbutton{title="Video \nherstellen", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_video:flat_action()
 	numberOfImages=0
@@ -191,7 +192,7 @@ end --function button_logo:flat_action()
 
 
 --7 Main Dialog
---7.1 load tree from file (this ensures that tree and tree2 are compared contentwise)
+--7.1 load tree from file
 if file_exists(path_documentation_tree) then
 	dofile(path_documentation_tree) --initialize the tree, read from the lua file
 	for line in io.lines(path_documentation_tree) do
@@ -283,13 +284,7 @@ maindlg = iup.dialog{
 --7.5.1 show the dialog
 maindlg:showxy(iup.RIGHT,iup.CENTER)
 
---7.5.3 go to the main dialog
-iup.NextField(maindlg)
-
-
-
-
---7.8 Main Loop
+--7.6 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
