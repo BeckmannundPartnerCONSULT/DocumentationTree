@@ -19,37 +19,37 @@ end --if _VERSION=='Lua 5.1' then
 
 --1.1.4 securisation by allowing only necessary os.execute commands
 do --sandboxing
-local old=os.date("%H%M%S")
-local secureTable={}
-secureTable[old]=os.execute
-function os.execute(a)
-if 
-a:lower():match("^sftp ") or
-a:lower():match("^dir ") or
-a:lower():match("^pause") or
-a:lower():match("^title") or
-a:lower():match("^md ") or
-a:lower():match("^copy ") or
-a:lower():match("^color ") or
-a:lower():match("^start ") or
-a:lower():match("^cls") 
-then
-return secureTable[old](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
-secureTable[old .. "1"]=io.popen
-function io.popen(a)
-if 
-a:lower():match("^dir ") or
-a:lower():match('^"dir ') 
-then
-return secureTable[old .. "1"](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
+	local old=os.date("%H%M%S")
+	local secureTable={}
+	secureTable[old]=os.execute
+	function os.execute(a)
+		if 
+		a:lower():match("^sftp ") or
+		a:lower():match("^dir ") or
+		a:lower():match("^pause") or
+		a:lower():match("^title") or
+		a:lower():match("^md ") or
+		a:lower():match("^copy ") or
+		a:lower():match("^color ") or
+		a:lower():match("^start ") or
+		a:lower():match("^cls") 
+		then
+			return secureTable[old](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function os.execute(a)
+	secureTable[old .. "1"]=io.popen
+	function io.popen(a)
+		if 
+		a:lower():match("^dir ") or
+		a:lower():match('^"dir ') 
+		then
+			return secureTable[old .. "1"](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function io.popen(a)
 end --do --sandboxing
 
 --1.2 color section
@@ -260,40 +260,40 @@ dlg_expand_collapse=iup.dialog{
 --6 buttons
 --6.1 logo image definition and button with logo
 img_logo = iup.image{
-  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,3,3,1,1,1,1,1,3,1,1,1,3,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,1,1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,3,3,3,4,4,3,1,1,1,1,3,3,3,3,1,1,1,1,3,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,4,4,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,3,3,3,1,1,3,1,3,1,1,1,3,1,3,1,1,4,4,4 }, 
-  { 4,1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,3,1,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,3,1,3,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,1,1,3,3,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,1,1,3,3,1,3,1,1,1,1,1,1,1,4,4,4 }, 
+  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,3,3,1,1,1,1,1,3,1,1,1,3,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,1,1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,3,3,3,4,4,3,1,1,1,1,3,3,3,3,1,1,1,1,3,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,4,4,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,3,3,3,1,1,3,1,3,1,1,1,3,1,3,1,1,4,4,4 },
+  { 4,1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,3,1,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,3,1,3,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,1,1,3,3,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,1,1,3,3,1,3,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,1,1,1,1,4,4,4,4,4,3,3,4,4,4,4,1,3,3,1,1,1,1,1,1,1,4,4,4,4 },
   { 4,1,1,1,1,1,1,1,4,4,4,4,3,3,3,3,3,3,4,4,4,3,1,1,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,1,4,4,4,4,4,3,3,3,3,3,3,3,3,3,4,3,4,1,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,1,1,1,1,1,1,4,4,4 },
-  { 4,1,1,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,4,4,4 }, 
-  { 4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4 }, 
-  { 4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },  
-  { 4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4 },  
-  { 4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },  
-  { 4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },  
-  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4 },  
-  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },  
-  { 3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },  
-  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }  
+  { 4,1,1,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,1,1,4,4,4 },
+  { 4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,4,4,4 },
+  { 4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,1,1,4,4,4 },
+  { 4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,4,4,4 },
+  { 4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4 },
+  { 4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },
+  { 4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4 },
+  { 4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },
+  { 4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },
+  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4 },
+  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }
   ; colors = { color_grey_bpc, color_light_color_grey_bpc, color_blue_bpc, "255 255 255" }
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
@@ -304,20 +304,27 @@ end --function button_logo:flat_action()
 --6.2 button for loading text file 1
 button_loading_first_text_file=iup.flatbutton{title="Erste Textdatei laden", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_first_text_file:flat_action()
-	--build file dialog for reading text file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.*",filterinfo="Text Files",directory=path}
-	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
-	if filedlg.status=="1" then
-		iup.Message("Neue Datei",filedlg.value)
-	elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
-		textbox1.value=filedlg.value
-		local inputfile1=io.open(filedlg.value,"r")
+	local inputfile1
+	if file_exists(textbox1.value) then
+		inputfile1=io.open(textbox1.value,"r")
 		textfield1.value=inputfile1:read("*all")
 		inputfile1:close()
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
-		iup.NextField(maindlg)
-	end --if filedlg.status=="1" then
+		--build file dialog for reading text file
+		local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.*",filterinfo="Text Files",directory=path}
+		filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
+		if filedlg.status=="1" then
+			iup.Message("Neue Datei",filedlg.value)
+		elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
+			textbox1.value=filedlg.value
+			inputfile1=io.open(filedlg.value,"r")
+			textfield1.value=inputfile1:read("*all")
+			inputfile1:close()
+		else
+			iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
+			iup.NextField(maindlg)
+		end --if filedlg.status=="1" then
+	end --if file_exists(textbox1.value) then
 end --function button_loading_first_text_file:flat_action()
 
 --6.2.1 button for loading text file 1
@@ -325,9 +332,9 @@ button_scripter_first_text_file=iup.flatbutton{title="Skripter mit erster \nText
 function button_scripter_first_text_file:flat_action()
 	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
 	if file_exists(textbox1.value) then inputfile=io.open(textbox1.value,"r") ErsteZeile=inputfile:read() inputfile:close() end
-	if file_exists(textbox1.value) and ErsteZeile then 
+	if file_exists(textbox1.value) and ErsteZeile then
 		os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. textbox1.value .. '"')
-	elseif file_exists(textbox1.value) then 
+	elseif file_exists(textbox1.value) then
 		os.execute('start "d" notepad.exe "' .. textbox1.value .. '"')
 	else
 		os.execute('start "d" C:\\Lua\\iupluascripter54.exe ')
@@ -337,20 +344,27 @@ end --function button_scripter_first_text_file:flat_action()
 --6.3 button for loading text file 2
 button_loading_second_text_file=iup.flatbutton{title="Zweite Textdatei laden", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_second_text_file:flat_action()
-	--build file dialog for reading text file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.*",filterinfo="Text Files",directory=path}
-	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
-	if filedlg.status=="1" then
-		iup.Message("Neue Datei",filedlg.value)
-	elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
-		textbox2.value=filedlg.value
-		local inputfile2=io.open(filedlg.value,"r")
-		textfield2.value=inputfile2:read("*all")
-		inputfile2:close()
+	local inputfile2
+	if file_exists(textbox2.value) then
+		inputfile1=io.open(textbox2.value,"r")
+		textfield2.value=inputfile1:read("*all")
+		inputfile1:close()
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
-		iup.NextField(maindlg)
-	end --if filedlg.status=="1" then
+		--build file dialog for reading text file
+		local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.*",filterinfo="Text Files",directory=path}
+		filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
+		if filedlg.status=="1" then
+			iup.Message("Neue Datei",filedlg.value)
+		elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
+			textbox2.value=filedlg.value
+			inputfile2=io.open(filedlg.value,"r")
+			textfield2.value=inputfile2:read("*all")
+			inputfile2:close()
+		else
+			iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
+			iup.NextField(maindlg)
+		end --if filedlg.status=="1" then
+	end --if file_exists(textbox2.value) then
 end --function button_loading_second_text_file:flat_action()
 
 --6.3.1 button for loading text file 2
@@ -358,13 +372,13 @@ button_scripter_second_text_file=iup.flatbutton{title="Skripter mit zweiter \nTe
 function button_scripter_second_text_file:flat_action()
 	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
 	if file_exists(textbox2.value) then inputfile=io.open(textbox2.value,"r") ErsteZeile=inputfile:read() inputfile:close() end
-	if file_exists(textbox2.value) and ErsteZeile then 
+	if file_exists(textbox2.value) and ErsteZeile then
 		os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. textbox2.value .. '"')
-	elseif file_exists(textbox2.value) then 
+	elseif file_exists(textbox2.value) then
 		os.execute('start "d" notepad.exe "' .. textbox2.value .. '"')
 	else
 		os.execute('start "d" C:\\Lua\\iupluascripter54.exe ')
-	end --if file_exists(textbox2.value) and ErsteZeile then 
+	end --if file_exists(textbox2.value) and ErsteZeile then
 end --function button_scripter_second_text_file:flat_action()
 
 --6.3.2 button for loading all text files without versions in IUP Lua scripter found in first directory and subdirectories containing the search text
@@ -376,10 +390,10 @@ function button_scripter_loading_text_files_with_search:flat_action()
 		directoryText=textbox1.value:match("(.*)")
 	elseif textbox1.value:match("^.:\\.*\\") then
 		directoryText=textbox1.value:match("(.*)\\")
-	end --if textbox1.value:match("^.:\\") then 
+	end --if textbox1.value:match("^.:\\") then
 	if directoryText~=nil and textbox3.value~="" then
 		searchAlarm=iup.Alarm("Wollen Sie die Suche der Dateien in folgendem Verzeichnis?",tostring(directoryText),"        Ja, bitte Suchen        ","        Nicht Suchen        ")
-		if searchAlarm==1 then 
+		if searchAlarm==1 then
 			local fileFound=""
 			p=io.popen('dir ' .. directoryText .. ' /b/o/s ')
 			for fileText in p:lines() do
@@ -398,7 +412,7 @@ function button_scripter_loading_text_files_with_search:flat_action()
 			os.execute('start "d" C:\\Lua\\iupluascripter54.exe ' .. fileFound .. " ")
 		else
 			iup.Message("Keine Suche","Es wird nicht gesucht.")
-		end --if searchAlarm==1 then 
+		end --if searchAlarm==1 then
 	end --if directoryText~=nil then
 end --function button_scripter_loading_text_files_with_search:flat_action()
 
@@ -430,7 +444,7 @@ function button_compare:flat_action()
 	for line in (textfield1.value .. "\n"):gmatch("([^\n]*)\n") do
 		file1existsTable[line]=true
 		lineNumber=lineNumber+1
-		if line==file2numberTable[lineNumber] then 
+		if line==file2numberTable[lineNumber] then
 			if tree_script[#tree_script].branchname=="gleich" then
 				tree_script[#tree_script][#tree_script[#tree_script]+1]=lineNumber .. ": " .. line
 			else
