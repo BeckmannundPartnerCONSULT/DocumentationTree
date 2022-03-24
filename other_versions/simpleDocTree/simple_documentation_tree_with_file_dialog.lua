@@ -1223,4 +1223,3 @@ maindlg:show()
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
-
