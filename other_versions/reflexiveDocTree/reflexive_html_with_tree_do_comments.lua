@@ -1,7 +1,7 @@
 --Fachliches Konzept IDIV-Produkte mit den Oberflächen koordinieren
 
 --1. chosen number of the scripts
-chosenNumber=25
+chosenNumber=1
 
 --2. comment table
 commentsTable={}
@@ -1772,8 +1772,34 @@ commentsTable["write end curly brackets"]={
 "Die geschweiften Klammer zu werden geschrieben.",
 "The end curly brackets are written.",
 }
-
-
+commentsTable["text written in html to build a tree in html with textboxes, buttons and functions"]={
+"Ein Programmtext wird benötigt, in dem in Html die Textboxes, Schaltflächen und Funktionen für den Baum in Html definiert sind.",
+"A code text written in html is needed to build a tree in html with textboxes, buttons and functions.",
+}
+commentsTable["write tree in html in the tree frame"]={
+"Der Baum in Html-Code wird in den Frame mit der Baumansicht geschrieben.",
+"A code text written in html is needed to write tree in html in the tree frame.",
+}
+commentsTable["write home html in the home frame"]={
+"Die Startseite in Html-Code wird in den Frame mit der Startseite geschrieben.",
+"A code text written in html is needed to write home in html in the home frame.",
+}
+commentsTable["frame with 2 frames"]={
+"Es wird ein Frame mit zwei Frames benötigt.",
+"A frame with 2 frames is needed.",
+}
+commentsTable["build the path wb_img for the images"]={
+"Es wird das Unterverzeichnis wb_img für die Bilder gebildet.",
+"The images on the path wb_img are build.",
+}
+commentsTable["build the needed images for the frames"]={
+"Es werden die Bilder für die Frames gebildet.",
+"The images for the frames are build.",
+}
+commentsTable["optional section for pdf or powerpoint and screen capture"]={
+"Es werden optional der Bildschirmausdruck sowie der PDF und Powerpoint-Export definiert.",
+"An optional section for pdf or powerpoint and screen capture is defined.",
+}
 
 --1. function escaping magic characters
 function string.escape_forbidden_char(insertstring) --this function takes a string and returns the same string with escaped characters
