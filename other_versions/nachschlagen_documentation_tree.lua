@@ -1459,7 +1459,7 @@ tree=iup.tree{
 map_cb=function(self)
 self:AddNodes(actualtree)
 end, --function(self)
-SIZE="400x200",
+SIZE="400x350",
 showrename="YES",--F2 key active
 markmode="SINGLE",--for Drag & Drop SINGLE not MULTIPLE
 showdragdrop="YES",
@@ -1717,7 +1717,7 @@ end --function tree3:k_any(c)
 
 --7.3 preview field as scintilla editor
 textfield1=iup.scintilla{}
-textfield1.SIZE="440x120" --I think this is not optimal! (since the size is so appears to be fixed)
+textfield1.SIZE="580x180" --I think this is not optimal! (since the size is so appears to be fixed)
 --textfield1.wordwrap="WORD" --enable wordwarp
 textfield1.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
 textfield1.FONT="Courier New, 8" --font of shown code
