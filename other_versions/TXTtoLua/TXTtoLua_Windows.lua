@@ -1,9 +1,9 @@
 --automatically build tree from file with regular tabulators, i.e. only one new tabulator more in next line
 
-inputTextFile='C:\\Tree\\TXTtoLua_build\\TXTtoLua_Windows.lua'
-outputLuaScript='C:\\Tree\\TXTtoLua_build\\TXTtoLua_Tree_Windows.lua'
+inputTextFile='C:\\Tree\\TXTtoLua\\TXTtoLua_Windows.lua'
+outputLuaScript='C:\\Tree\\TXTtoLua\\TXTtoLua_Tree_Windows.lua'
 
---1. function for splittings strings
+--1. function string:split() for splittings strings
 function string:split( inSplitPattern )
 	local outResults = {}
 	local theStart = 1
@@ -53,7 +53,7 @@ for line in io.lines(inputTextFile) do
 			io.write(',')
 		end --if pos_curline<pos_prevline then
 		io.write('\n{branchname="' .. helpstring .. '"')
-		--io.write('\n')	
+		--io.write('\n')
 	end --if line:match('%S')~=nil then
 end --for line in io.lines(inputTextFile) do
 
@@ -62,6 +62,6 @@ for i=1, pos_curline+1 do
 	io.write('}')
 end --for i=1, pos_curline+1 do
 
---4. write end of file
+--4. write end of file with return
 io.write('\n\nreturn treefromtabtext')
 io.close()
