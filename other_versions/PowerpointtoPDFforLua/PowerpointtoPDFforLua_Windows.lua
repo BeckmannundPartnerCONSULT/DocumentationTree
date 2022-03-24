@@ -60,7 +60,7 @@ for k,v in pairs(collectFileNamesTable) do
 end --for k,v in pairs(collectFileNamesTable) do 
 --test with: for k,v in pairs(powerpointFileTable) do print(secureFileTable[k:gsub(".pptx","_pptx2") .. ".txt"], v) end
 
---3. export powerpoint files to pdf if there is no export or if the date of the export to pdf is older than the date of the excel file
+--3. export powerpoint files to pdf if there is no export or if the date of the export to pdf is older than the date of the powerpoint file
 fileTable={}
 p=io.popen('dir C:\\Temp\\*.pptx /b/o/s')
 for powerpointFile in p:lines() do 
