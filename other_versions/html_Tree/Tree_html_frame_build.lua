@@ -50,7 +50,7 @@ textBeginHTML=[[
   </style>
   <script type="text/javascript">
   lastLink = null;
-  
+
   function hideFolder(folder, id) {
     var imageNode = document.images["img" + id];
     if (imageNode != null) {
@@ -60,10 +60,10 @@ textBeginHTML=[[
       else if (imageNode.src.substring(len-8,len-4) == "node")
         {imageNode.src = "wb_img/plusnode.png";
         imageNode.alt = "+";}
-    } //if (imageNode != null) {   
+    } //if (imageNode != null) {
     folder.style.display = "none";
   } //function hideFolder(folder, id) {
-  
+
   function showFolder(folder, id) {
     var imageNode = document.images["img" + id];
     if (imageNode != null) {
@@ -79,12 +79,12 @@ textBeginHTML=[[
 
   function toggleFolder(id) {
     var folder = document.getElementById(id);
-    if (folder.style.display == "block") 
+    if (folder.style.display == "block")
       hideFolder(folder, id);
-    else 
+    else
       showFolder(folder, id);
   } //function toggleFolder(id) {
-  
+
   function setFoldersAtLevel(level, show) {
     var i = 1;
     do {
@@ -101,61 +101,61 @@ textBeginHTML=[[
       i++;
     } while(folder != null);
   } //function setFoldersAtLevel(level, show) {
-   
+
   function showAllFolders() {setFoldersAtLevel("", true); }
   function hideAllFolders() {setFoldersAtLevel("", false);}
 
   function searchInTree() {
-  for (var i = 0; i < document.links.length; i++) {      
+  for (var i = 0; i < document.links.length; i++) {
       var link = document.links[i];
 		if (link.text.toLowerCase().search(document.G.Q.value.toLowerCase())>=0) //e.g. "Tree_Baum.html"
-		{ document.G.R.value=getFolderId(link.name); 
-			link.style.color = "#00ff00";  
+		{ document.G.R.value=getFolderId(link.name);
+			link.style.color = "#00ff00";
 			//return;
 			}
 		else
 		{  //document.G.Q.value=link.name;
-			link.style.color = "#0000ff";  
+			link.style.color = "#0000ff";
 			//return;
 		} //if (link.name==document.G.Q.value)
-    } //for (var i = 0; i < document.links.length; i++) {      
+    } //for (var i = 0; i < document.links.length; i++) {
   showAllFolders()
 } //function searchInTree()
 
   function searchInTreeNext() {
   var searchI=0;
-  for (var i = 0; i < document.links.length; i++) {      
+  for (var i = 0; i < document.links.length; i++) {
       var link = document.links[i];
 		if (link.text.toLowerCase().search(document.G.Q.value.toLowerCase())>=0) //e.g. "Tree_Baum.html"
 		{  document.G.R.value=getFolderId(link.name);
 			searchI=i;
 			//test with: document.G.R.value = document.G.R.value + "nr: " + searchI
-			  for (var i = 0; i < document.links.length; i++) {      
+			  for (var i = 0; i < document.links.length; i++) {
 			//test with: document.G.R.value=document.G.R.value+"-"+getFolderId(document.links[i].name);
 				if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0 && i < searchI) {
-					document.links[i].style.color = "#ff0000";  
+					document.links[i].style.color = "#ff0000";
 				} //if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0) {
-			  } //  for (var i = 0; i < document.links.length; i++) {      
-			link.style.color = "#00ff00";  
+			  } //  for (var i = 0; i < document.links.length; i++) {
+			link.style.color = "#00ff00";
 			//return;
 			goToLink(link)
 			parent.wb_cont.location.href = link.href;
 			}
 		else
 		{  //document.G.Q.value=link.name;
-			link.style.color = "#0000ff";  
+			link.style.color = "#0000ff";
 			//return;
 		} //if (link.name==document.G.Q.value)
-    } //for (var i = 0; i < document.links.length; i++) {      
+    } //for (var i = 0; i < document.links.length; i++) {
 } //function searchInTreeNext()
 
 
-  function goToLink(link) { //because of the systematic for the folder names in the link.name it is not possible to go to link together with correct mark of tree                 
+  function goToLink(link) { //because of the systematic for the folder names in the link.name it is not possible to go to link together with correct mark of tree
     var id = getFolderId(link.name);
-	document.G.Q.value=document.G.Q.value + "->" + link.text; //text of a href 
+	document.G.Q.value=document.G.Q.value + "->" + link.text; //text of a href
     showFolderRec(id);
     location.hash = "#" + link.name;
-    link.style.color = "#00ff00";  
+    link.style.color = "#00ff00";
     //clear link
     clearLastLink();
     lastLink = link;
@@ -176,25 +176,25 @@ textBeginHTML=[[
 
   function clearLastLink() {
     if (lastLink != null) {
-      lastLink.style.color = ""  
+      lastLink.style.color = ""
       lastLink = null;
     } //if (lastLink != null) {
   } //function clearLastLink() {
 
-  
+
   </script>
 </head>
 
-<body style="margin: 2px; background-color: #F1F1F1"  onload="showStartPage()"> 
+<body style="margin: 2px; background-color: #F1F1F1"  onload="showStartPage()">
 
 <form name="G">
 <img alt="Expand All Nodes" src="wb_img/showall.png" onclick="showAllFolders()" onmouseover="this.src='wb_img/showall_over.png'" onmouseout="this.src='wb_img/showall.png'">
 
 <img alt="Contract All Nodes" src="wb_img/hideall.png" onclick="hideAllFolders()" onmouseover="this.src='wb_img/hideall_over.png'" onmouseout="this.src='wb_img/hideall.png'">
 
-Suche von:<input value="" name="Q" size="54" type="text"> 
+Suche von:<input value="" name="Q" size="54" type="text">
 <input value="Markieren aller Fundstellen und Ausklappen" onclick="searchInTree()" type="button">
-<input value="Markieren der ersten Fundstelle" onclick="searchInTreeNext()" type="button"> 
+<input value="Markieren der ersten Fundstelle" onclick="searchInTreeNext()" type="button">
 Bei Bedarf auf IDIV klicken.
 Ergebnis:<input value="" name="R" size="54" type="text">
 </form>
@@ -213,15 +213,15 @@ function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,li
 	level = levelStart or 0
 	AusgabeTabelle[TreeTable.branchname:match('"([^"]*)">')]=true
 	--build the branches
-	textforHTML = textforHTML .. string.rep("\t",level) .. '<p style="margin: 0px 0px 5px ' .. level*30  .. 'px">' 
+	textforHTML = textforHTML .. string.rep("\t",level) .. '<p style="margin: 0px 0px 5px ' .. level*30  .. 'px">'
 	if TreeTable.state=="COLLAPSED" then
-		textforHTML = textforHTML .. 
-		[[<img name="imgfolder]] .. levelFolder .. [[" src="wb_img/plusnode.png" alt="+" onclick="toggleFolder('folder]] .. levelFolder .. [[')">]] 
+		textforHTML = textforHTML ..
+		[[<img name="imgfolder]] .. levelFolder .. [[" src="wb_img/plusnode.png" alt="+" onclick="toggleFolder('folder]] .. levelFolder .. [[')">]]
 	else
-		textforHTML = textforHTML .. 
-		[[<img name="imgfolder]] .. levelFolder .. [[" src="wb_img/minusnode.png" alt="-" onclick="toggleFolder('folder]] .. levelFolder .. [[')">]] 
+		textforHTML = textforHTML ..
+		[[<img name="imgfolder]] .. levelFolder .. [[" src="wb_img/minusnode.png" alt="-" onclick="toggleFolder('folder]] .. levelFolder .. [[')">]]
 	end --if state=="COLLAPSED" then
-	textforHTML = textforHTML .. 
+	textforHTML = textforHTML ..
 	'<a name="link' .. linkNumber .. 'folder' .. levelFolder .. '" href=' ..
 	tostring(TreeTable.branchname)
 	:gsub("Ã¤","&auml;")
@@ -261,7 +261,7 @@ function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,li
 	textforHTML = textforHTML .. string.rep("\t",level) .. "</div>\n"
 	level = level - 1
 end --readTreetohtmlRecursive(TreeTable)
-  
+
 --1.4.1 apply the recursive function
 AusgabeTabelle={}
 readTreetohtmlRecursive(Tree)
@@ -269,10 +269,10 @@ readTreetohtmlRecursive(Tree)
 --1.4.2 tree frame: write tree html
 outputfile1=io.open(path .. "\\" .. "Tree_html_frame_wb_tree.html","w")
 outputfile1:write(textBeginHTML)
---word wrap without this: 
+--word wrap without this:
 outputfile1:write('<div class="tree">' .. "\n")
 outputfile1:write(textforHTML)
---word wrap without this: 
+--word wrap without this:
 outputfile1:write("</div>")
 outputfile1:write("\n</body>\n</html>")
 outputfile1:close()
