@@ -695,7 +695,7 @@ function button_previous_page:flat_action()
 end --function button_previous_page:flat_action()
 
 --6.9 button for going to the page
-button_page_hyperlinks_in_tree=iup.flatbutton{title="Hyperlinks im Baum \nübernehmen", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_page_hyperlinks_in_tree=iup.flatbutton{title="Hyperlinks im Baum \nübernehmen", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_page_hyperlinks_in_tree:flat_action()
 	nodeInTreeTable={}
 	for i=0,tree.count-1 do
@@ -822,7 +822,7 @@ end --function button_logo:flat_action()
 --7. Main Dialog
 
 --7.1 textboxes
-textbox0=iup.multiline{value="https://www.lua.org",size="340x20",wordwrap="YES"}
+textbox0=iup.multiline{value="https://www.lua.org",size="240x20",wordwrap="YES"}
 textbox1=iup.multiline{value="",size="250x150"}
 textbox2=iup.multiline{value="Textdatei s.u.",size="190x20",wordwrap="YES"}
 
