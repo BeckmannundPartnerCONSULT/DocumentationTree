@@ -1,4 +1,4 @@
---1. tree structure
+--1. tree as Lua table
 --[[Tree={branchname="Testtree",
     "besser",
     "soso",
