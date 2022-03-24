@@ -1,5 +1,6 @@
 
---1. Tree to be build (can also be extern file with dofile)
+--1. tree as Lua table
+--It can also be extern file with dofile.
 Tree={branchname="\"Tree_html_frame_home.html\">IDIV",
 {branchname="\"Tree_html_frame_home.html\">Html mit den drei Feldern (frames)",
 {branchname="\"Tree_html_frame.html\">Tree_html_frame.html", state="COLLAPSED",
@@ -34,7 +35,7 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 --test with: print(arg[0])
 --test with: print(thisfilename)
 
---1.2 text for tree html
+--1.2 text written in html to build a tree in html with textboxes, buttons and functions
 textBeginHTML=[[
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
 <html>
@@ -203,8 +204,7 @@ Ergebnis:<input value="" name="R" size="54" type="text">
 
 ]]
 
---1.3 build the tree from Lua table
-textforHTML=""
+--1.3 function to build recursively the tree
 function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,linkNumberStart)
 	linkNumber=linkNumberStart or 1
 	iNumber= iStart or 1
@@ -262,11 +262,12 @@ function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,li
 	level = level - 1
 end --readTreetohtmlRecursive(TreeTable)
 
---1.4.1 apply the recursive function
+--1.4.1 apply the recursive function and build html file
+textforHTML=""
 AusgabeTabelle={}
 readTreetohtmlRecursive(Tree)
 
---1.4.2 tree frame: write tree html
+--1.4.2 write tree in html in the tree frame
 outputfile1=io.open(path .. "\\" .. "Tree_html_frame_wb_tree.html","w")
 outputfile1:write(textBeginHTML)
 --word wrap without this:
@@ -277,7 +278,7 @@ outputfile1:write("</div>")
 outputfile1:write("\n</body>\n</html>")
 outputfile1:close()
 
---2. home frame write home html
+--2. write home html in the home frame
 outputfile2=io.open(path .. "\\" .. "Tree_html_frame_home.html","w")
 outputfile2:write('<p>This frame html contains a tree in the left frame. The mark functionality is limited because of the denomination of the link names. Go to link is not possible if mark functions correctly and vice versa.</p><pre>\n')
 p=io.popen('dir * /b/o/s ')
@@ -307,7 +308,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ]])
 outputfile2:close()
 
---3. frame with 2 frames
+--3. build whole frame with tree and home frame
 outputfile3=io.open(path .. "\\" .. "Tree_html_frame.html","w")
 outputfile3:write([[
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN"><html><head>
@@ -329,10 +330,10 @@ outputfile3:write([[
 ]])
 outputfile3:close()
 
---4. build the images on the path wb_img
+--4. build the path wb_img for the images
 os.execute('md "' .. path .. '\\wb_img"')
 
---4.1 import libraries for images
+--4.1 libraries for images
 require("cdlua")
 require("cdluapdf") --for pdf and powerpoint
 require("imlua")
