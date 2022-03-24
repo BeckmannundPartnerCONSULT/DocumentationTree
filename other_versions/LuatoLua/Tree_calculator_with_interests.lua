@@ -204,7 +204,7 @@ os.date("%Y"),           --8: document.Formular1.Eingabe3.value
 
 {branchname="Alle Zinsen mit Titel ausgeben", -- onclick="ZinsenTitelAlle()" --117
 
-{branchname="Titel", -- onclick="TitelErgaenzen()" --118    
+{branchname="Titel", -- onclick="TitelErgaenzen()" --118
 "", --119: document.FormularZins.Titel.value
 },
 {branchname="Zinsen linear = Kapital * Zinssatz * Anzahl_Tage_Zaehler / Anzahl_Tage_Nenner", -- onclick="Zinsen()" --120
@@ -254,7 +254,7 @@ os.date("%Y"),           --8: document.Formular1.Eingabe3.value
 
 --1.1 libraries and clipboard
 --1.1.1 libraries
-require("iuplua")
+require("iuplua")           --require iuplua for GUIs
 
 --1.1.2 math.integer for Lua 5.1 and Lua 5.2
 if _VERSION=='Lua 5.1' then
@@ -732,7 +732,7 @@ img_functionarrow= iup.image{
   { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 }, 
   { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },  
   { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
-   
+
   -- Sets "X" image colors
   ; colors = { color_background_tree, color_red_bpc}
 }
@@ -753,7 +753,7 @@ img_inputarrow= iup.image{
   { 1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1 }, 
   { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },  
   { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
-   
+
   -- Sets "X" image colors
   ; colors = { color_background_tree, color_red_bpc}
 }
@@ -774,7 +774,7 @@ img_rightarrow= iup.image{
   { 1,1,1,1,1,1,2,2,2,1,1,1,1,1,1,1 }, 
   { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },  
   { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
-   
+
   -- Sets "X" image colors
   ; colors = { color_background_tree, color_red_bpc}
 }
