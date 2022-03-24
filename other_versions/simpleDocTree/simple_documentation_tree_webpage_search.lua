@@ -222,7 +222,7 @@ function insertion_sort_recursive(tree,node_value)
 			if tree.PREVIOUS~=nil then
 				insertion_sort_recursive(tree,tree.PREVIOUS)
 			end --if tree.PREVIOUS~=nil then
-		end --if tree.title:lower() > tree[¨title" .. tree.NEXT]:lower() then 
+		end --if tree.title:lower() > tree["title" .. tree.NEXT]:lower() then 
 	end --if tree.NEXT~=nil then
 end --function insertion_sort_recursive(tree,node_value)
 
