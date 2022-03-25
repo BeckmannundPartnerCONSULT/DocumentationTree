@@ -4,7 +4,7 @@
 
 --1.1 libraries and clipboard
 --1.1.1 libraries
-require('iuplua')           --require iuplua for GUIs
+require("iuplua")           --require iuplua for GUIs
 require("iuplua_scintilla") --for Scintilla-editor
 
 --1.1.2 initalize clipboard
@@ -191,7 +191,7 @@ function delete_nodes_2nd_arg(tree,tree2)
 end --function delete_nodes_2nd_arg(tree,tree2)
 
 
---3.2.3 function which saves the current iup tree as a lua table
+--3.2.3 function which saves the current iup tree as a Lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -651,7 +651,7 @@ function searchup:flat_action()
 		iup.NextField(maindlg)
 		iup.NextField(dlg_search)
 	end --if help==false then
-end --	function searchup:flat_action()
+end --function searchup:flat_action()
 
 checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
@@ -670,7 +670,7 @@ iup.Message("Suchtext in der Vorschau nicht gefunden","Suchtext in der Vorschau 
 else
 textfield1.SELECTIONPOS=from-1 .. ":" .. to
 end --if from==nil then 
-end --	function search_in_textfield1:flat_action()
+end --function search_in_textfield1:flat_action()
 
 
 --put above together in a search dialog
@@ -827,12 +827,12 @@ function startcopy_doubling:action() --copy first node with same text as selecte
 	local _,numberCurlyBraketsEnd=TreeText:gsub("}","")
 	if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 		loadstring('tree_temp='..TreeText)()
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	elseif numberCurlyBraketsBegin==numberCurlyBraketsEnd then
 		load('tree_temp='..TreeText)() --now tree_temp is filled
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	else
@@ -1223,12 +1223,12 @@ function startcopy_withchilds2:action() --copy first node with same text as sele
 	local _,numberCurlyBraketsEnd=TreeText:gsub("}","")
 	if numberCurlyBraketsBegin==numberCurlyBraketsEnd and _VERSION=='Lua 5.1' then
 		loadstring('tree_temp='..TreeText)()
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	elseif numberCurlyBraketsBegin==numberCurlyBraketsEnd then
 		load('tree_temp='..TreeText)() --now tree_temp is filled
-		--test with: 	for k,v in pairs(tree_temp) do print(k,v) end
+		--test with: for k,v in pairs(tree_temp) do print(k,v) end
 		tree_temp={branchname=tree["title0"],tree_temp}
 		iup.TreeAddNodes(tree,tree_temp)
 	elseif tree2["KIND" .. numberOfNode ]=="LEAF" then
@@ -1440,7 +1440,7 @@ end --function textbox_leaf:dropfiles_cb(filename)
 
 --7.2.1 load tree from file
 if file_exists(path_documentation_tree) then
-	dofile(path_documentation_tree) --initialize the tree, read from the lua file
+	dofile(path_documentation_tree) --initialize the tree, read from the Lua file
 	for line in io.lines(path_documentation_tree) do
 		if line:match('=')~= nil then 
 			tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
@@ -1721,7 +1721,7 @@ textfield1.SIZE="580x180" --I think this is not optimal! (since the size is so a
 --textfield1.wordwrap="WORD" --enable wordwarp
 textfield1.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
 textfield1.FONT="Courier New, 8" --font of shown code
-textfield1.LEXERLANGUAGE="lua" --set the programming language to lua for syntax higlighting
+textfield1.LEXERLANGUAGE="lua" --set the programming language to Lua for syntax higlighting
 textfield1.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
 --colors for syntax highlighting
 textfield1.STYLEFGCOLOR0="0 0 0"      -- 0-Default
