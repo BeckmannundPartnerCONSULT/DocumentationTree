@@ -1,7 +1,7 @@
---This script converts a word file in a text file (TXT) by using luacom
+--This script converts a word file in a text file (TXT) by using LuaCOM
 
 --1. library
-require("luacom")
+require("luacom")           --require treatment of office files
 
 --2.1 read word file names of the directory in a Lua table
 wordFileTable={}
