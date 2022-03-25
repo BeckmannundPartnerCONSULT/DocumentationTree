@@ -7,14 +7,15 @@
 require("iuplua")           --require iuplua for GUIs
 
 --1.1.1 libraries for images
-require("cdlua")
+require("cdlua") --for images
 require("cdluapdf") --for pdf and powerpoint
-require("imlua")
+require("imlua") --for images
 require("cdluaim") --for screen capture
 require("iupluacd") --for iup canvas
 
 --1.1.2 libraries for videos
-require("imlua_avi")
+--require("imlua_wmv") --format .WMV for saving video
+require("imlua_avi") --format .AVI for saving video
 
 
 --1.3 initalize clipboard
@@ -194,7 +195,7 @@ end --function button_logo:flat_action()
 --7 Main Dialog
 --7.1 load tree from file
 if file_exists(path_documentation_tree) then
-	dofile(path_documentation_tree) --initialize the tree, read from the lua file
+	dofile(path_documentation_tree) --initialize the tree, read from the Lua file
 	for line in io.lines(path_documentation_tree) do
 		if line:match('=')~= nil then 
 			tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
