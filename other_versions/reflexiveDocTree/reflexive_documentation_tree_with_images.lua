@@ -32,13 +32,13 @@ state="COLLAPSED",
 
 
 --1.1.1 libraries
-require('iuplua')           --require iuplua for GUIs
+require("iuplua")           --require iuplua for GUIs
 --for images:
-require"imlua"
-require"cdlua"
-require"cdluaim"
-require"iupluacd"
-require"imlua_process" --for rotation
+require("imlua") --for images
+require("cdlua") --for images
+require("cdluaim") --for images
+require("iupluacd") --for iup canvas
+require("imlua_process") --require for rotation
 
 --1.1.2 initalize clipboard
 clipboard=iup.clipboard{}
@@ -130,7 +130,7 @@ function string.escape_forbidden_char(insertstring) --this function takes a stri
 	return insertstring:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\'", "\\\'"):gsub("\n", "\\n"):gsub("\r", "\\n")
 end --function string.escape_forbidden_char(insertstring)
 
---3.3 function which saves the current iup tree as a lua table
+--3.3 function which saves the current iup tree as a Lua table
 function save_reflexive_tree_to_lua(outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
