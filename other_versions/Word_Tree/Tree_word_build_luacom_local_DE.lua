@@ -1,6 +1,6 @@
 
 --1. library for LuaCOM
-require("luacom")
+require("luacom")           --require treatment of office files
 
 --1.1 open Word with LuaCOM
 word=luacom.CreateObject("Word.Application")
