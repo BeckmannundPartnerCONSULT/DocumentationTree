@@ -78,7 +78,7 @@ function string.escape_forbidden_char(insertstring) --this function takes a stri
 	return insertstring:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\'", "\\\'"):gsub("\n", "\\n"):gsub("\r", "\\n")
 end --function string.escape_forbidden_char(insertstring)
 
---3.3 function which saves the current iup htmlTexts as a lua table
+--3.3 function which saves the current iup htmlTexts as a Lua table
 function save_html_to_lua(htmlTexts, outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
