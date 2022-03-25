@@ -1,7 +1,7 @@
---This script converts a html file in a text file (TXT) by using curl, luacom and Word
+--This script converts a html file in a text file (TXT) by using curl, LuaCOM and Word
 
 --1. library
-require("luacom")
+require("luacom")           --require treatment of office files
 
 --2. collect internet site names from tree
 URLTable={}
