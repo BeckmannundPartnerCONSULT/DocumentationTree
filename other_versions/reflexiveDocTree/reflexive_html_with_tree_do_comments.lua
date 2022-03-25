@@ -179,9 +179,9 @@ commentsTable["button for getting internet sites from text"]={
 "Eine Schaltfläche, die aus dem Text die Internetseitenadressen ermittelt, ist nötig.",
 "A button for getting internet sites from text is needed.",
 }
-commentsTable["function which saves the current iup htmlTexts as a lua table"]={
+commentsTable["function which saves the current iup htmlTexts as a Lua table"]={
 "Eine Funktion, die die aktuellen IUP-Html-Texte als Lua-Tabelle und das Programm der graphischen Benutzeroberfläche speichert, ist nötig.",
-"A function is needed which saves the current iup html texts as a lua table and the programm of the graphical user interface.",
+"A function is needed which saves the current iup html texts as a Lua table and the programm of the graphical user interface.",
 }
 commentsTable["button for building new page"]={
 "Eine Schaltfläche, die eine neue Seite anlegt, ist nötig.",
@@ -711,6 +711,10 @@ commentsTable["output in a standard way as text area replaced by tree"]={
 commentsTable["textboxes"]={
 "Textfelder zeigen den Inhalt von Dateien oder Variablen.",
 "Textboxes show the content of files or variables.",
+}
+commentsTable["checkboxes"]={
+"Checkfelder mit einem Häkchen oder einem leeren Feld können an und ausgestellt werden.",
+"Checkboxes can be checked ON or OFF.",
 }
 commentsTable["text areas"]={
 "Textfelder zeigen den Inhalt von Dateien oder Variablen.",
@@ -1414,13 +1418,13 @@ commentsTable["function for writing tree2 in a text file (function for printing 
 "Eine Funktion speichert den zweiten IUP-Baum als Textdatei mit Tabulatoren ab.",
 "A function saves the current second iup tree as a text file with tabulators.",
 }
-commentsTable["function that sorts ascending whole lua table with tree but not the tree in IUP"]={
+commentsTable["function that sorts ascending whole Lua table with tree but not the tree in IUP"]={
 "Eine Funktion sortiert aufsteigend eine ganze Lua-Tabelle mit Rekursion, aber nicht den Baum in IUP.",
-"A function sorts ascending whole lua table with tree, but not the tree in IUP.",
+"A function sorts ascending whole Lua table with tree, but not the tree in IUP.",
 }
-commentsTable["function that sorts descending whole lua table with tree but not the tree in IUP"]={
+commentsTable["function that sorts descending whole Lua table with tree but not the tree in IUP"]={
 "Eine Funktion sortiert absteigend eine ganze Lua-Tabelle mit Rekursion, aber nicht den Baum in IUP.",
-"A function sorts descending whole lua table with tree, but not the tree in IUP.",
+"A function sorts descending whole Lua table with tree, but not the tree in IUP.",
 }
 commentsTable["first a recursive function for the performed insertion sort"]={
 "Eine rekursive Funktion sortiert den Baum in IUP als erstes mit Einfügen.",
@@ -1440,9 +1444,9 @@ commentsTable["function to change expand/collapse relying on keyword"]={
 "A function is defined to change expand/collapse relying on a keyword.",
 }
 
-commentsTable["function which saves the current iup tree as a lua table"]={
+commentsTable["function which saves the current iup tree as a Lua table"]={
 "Eine Funktion speichert den IUP-Baum als Lua-Tabelle.",
-"A function saves the current iup tree as a lua table.",
+"A function saves the current iup tree as a Lua table.",
 }
 
 commentsTable["functions for writing text files"]={
