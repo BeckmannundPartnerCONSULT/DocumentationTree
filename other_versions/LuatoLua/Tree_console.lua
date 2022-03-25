@@ -2,7 +2,7 @@
 
 --1.1 libraries and clipboard
 --1.1.1 libraries
-require ("iuplua")
+require("iuplua")           --require iuplua for GUIs
 
 --1.1.2 initalize clipboard
 clipboard=iup.clipboard{}
@@ -112,7 +112,7 @@ function console.prompt:k_any(key)
 		console.prev_command()
 	elseif (key == iup.K_DOWN) then  -- Down Arrow - shows the next command in history
 		console.next_command()
-	end --if (key == iup.K_CR) then  
+	end --if (key == iup.K_CR) then
 end --function console.prompt:k_any(key)
 
 --2.2 output in a standard way as text area replaced by tree
@@ -126,7 +126,7 @@ console.output = iup.text{expand="Yes",
 --2.3.1 drag & drop text area branch
 console.textbox_branch = iup.text{value="Ast bilden",size="45x10", readonly="YES", dragdrop = "Yes",BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 console.textbox_branch.tip = "Drop files here to build a branch"
---callback to add branch with drag & drop         
+--callback to add branch with drag & drop
 function console.textbox_branch:dropfiles_cb(filename)
 	console.outputTree['addbranch']=tostring(filename)
 end --function console.textbox_branch:dropfiles_cb(filename)
@@ -134,7 +134,7 @@ end --function console.textbox_branch:dropfiles_cb(filename)
 --2.3.2 drag & drop text area leaf
 console.textbox_leaf = iup.text{value="Blatt bilden",size="45x10", readonly="YES", dragdrop = "Yes",BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 console.textbox_leaf.tip = "Drop files here to build a leaf"
---callback to add leaf with drag & drop 
+--callback to add leaf with drag & drop
 function console.textbox_leaf:dropfiles_cb(filename)
 	console.outputTree['addleaf']=tostring(filename)
 end --function console.textbox_leaf:dropfiles_cb(filename)
@@ -223,7 +223,7 @@ function console.print2output(s, no_newline)
 			-- if io.write was called, then a print is called, must add a new line before
 			console.output.append = "\n" .. tostring(s) .. "\n"
 			console.no_newline = nil
-		else  
+		else
 			console.output.append = tostring(s) .. "\n"
 		end --if (console.no_newline) then
 	end --if (no_newline) then
@@ -318,7 +318,7 @@ function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end --function file_exists(name)
 
---3.14 function which saves the current iup tree as a lua table
+--3.14 function which saves the current iup tree as a Lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.open(outputfile_path,"w") --a output file
@@ -440,7 +440,7 @@ label1 = iup.label{title="Name:"}--label for textfield
 
 --open the dialog for renaming branch/leaf
 dlg_rename = iup.dialog{
-	iup.vbox{label1, text, iup.hbox{ok,cancel}}; 
+	iup.vbox{label1, text, iup.hbox{ok,cancel}};
 	title="Knoten bearbeiten",
 	size="QUARTER",
 	startfocus=text,
@@ -553,11 +553,11 @@ function startversion:action()
 	if console.outputTree['title']:match("^.:\\.*%.[^\\]+") then
 		Version=0
 		p=io.popen('dir "' .. console.outputTree['title']:gsub("(%.+)","_Version*%1") .. '" /b/o')
-		for Datei in p:lines() do 
-			--test with: iup.Message("Version",Datei) 
+		for Datei in p:lines() do
+			--test with: iup.Message("Version",Datei)
 			if Datei:match("_Version(%d+)") then Version_alt=Version Version=tonumber(Datei:match("_Version(%d+)")) if Version<Version_alt then Version=Version_alt end end
-			--test with: iup.Message("Version",Version) 
-		end --for Datei in p:lines() do 
+			--test with: iup.Message("Version",Version)
+		end --for Datei in p:lines() do
 		--test with: iup.Message(Version,Version+1)
 		Version=Version+1
 		iup.Message("Archivieren der Version:",console.outputTree['title']:gsub("(%.+)","_Version" .. Version .. "%1"))
@@ -570,9 +570,9 @@ startnodescripter = iup.item {title = "Skripter starten"}
 function startnodescripter:action()
 	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
 	if file_exists(console.outputTree['title']) then inputfile=io.open(console.outputTree['title'],"r") ErsteZeile=inputfile:read() inputfile:close() end
-	if file_exists(console.outputTree['title']) and ErsteZeile then 
+	if file_exists(console.outputTree['title']) and ErsteZeile then
 		os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. console.outputTree['title'] .. '"')
-	elseif file_exists(console.outputTree['title']) then 
+	elseif file_exists(console.outputTree['title']) then
 		os.execute('start "d" notepad.exe "' .. console.outputTree['title'] .. '"')
 	else
 		os.execute('start "d" C:\\Lua\\iupluascripter54.exe ')
@@ -581,79 +581,79 @@ end --function startnodescripter:action()
 
 --5.1.9 start the file or repository of the node of console.outputTree
 startnode = iup.item {title = "Starten"}
-function startnode:action() 
+function startnode:action()
 	if console.outputTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.outputTree['title']:match("^.:\\.*[^\\]+$") or console.outputTree['title']:match("^.:\\$") or console.outputTree['title']:match("^[^ ]*//[^ ]+$") then 
-		os.execute('start "D" "' .. console.outputTree['title'] .. '"') 
-	elseif console.outputTree['title']:match("sftp .*") then 
-		os.execute(console.outputTree['title']) 
+		os.execute('start "D" "' .. console.outputTree['title'] .. '"')
+	elseif console.outputTree['title']:match("sftp .*") then
+		os.execute(console.outputTree['title'])
 	end --if console.outputTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.outputTree['title']:match("^.:\\.*[^\\]+$") or console.outputTree['title']:match("^.:\\$") or console.outputTree['title']:match("^[^ ]*//[^ ]+$") then 
 end --function startnode:action()
 
 --5.1.10 execute Lua script with Lua chunk of the node of console.outputTree and write result under the node
 startnode_script = iup.item {title = "Knoten ausführen"}
 function startnode_script:action()
-	if console.outputTree["KIND"]=="BRANCH" then 
+	if console.outputTree["KIND"]=="BRANCH" then
 		if console.outputTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.outputTree['title']:match("^.:\\.*[^\\]+$") or console.outputTree['title']:match("^.:\\$") or console.outputTree['title']:match("^[^ ]*//[^ ]+$") then 
-			dofile(console.outputTree['title']) 
+			dofile(console.outputTree['title'])
 		elseif console.outputTree['title']:match("%(") or console.outputTree['title']:match("=") then
 			loadstring(console.outputTree['title'])()
 		end --if console.outputTree['title']:match("^.:\\.*%.[^\\ ]+$") or console.outputTree['title']:match("^.:\\.*[^\\]+$") or console.outputTree['title']:match("^.:\\$") or console.outputTree['title']:match("^[^ ]*//[^ ]+$") then 
-	end --if console.outputTree["KIND"]=="BRANCH" then 
+	end --if console.outputTree["KIND"]=="BRANCH" then
 end --function startnode_script:action()
 
 --5.1.11 execute Lua script with Lua chunk of the node and the child nodes of console.outputTree and write result under the node
 startnode_script_update_with_children = iup.item {title = "Knoten mit Unterknoten aktualisieren"}
 function startnode_script_update_with_children:action() 
-	if console.outputTree["KIND"]=="BRANCH" then 
+	if console.outputTree["KIND"]=="BRANCH" then
 		local startNodeValue=console.outputTree.value
 		for i=startNodeValue,startNodeValue+console.outputTree['TOTALCHILDCOUNT' .. startNodeValue] do
 			console.outputTree.value=i
-			if console.outputTree['KIND' .. i]=="BRANCH" and console.outputTree['KIND' .. i+1]=="LEAF" then 
+			if console.outputTree['KIND' .. i]=="BRANCH" and console.outputTree['KIND' .. i+1]=="LEAF" then
 				console.outputTree['delnode' .. i+1]="SELECTED"
-			end --if console.outputTree['KIND' .. i+1]=="LEAF" then 
-			if console.outputTree['title' .. i]:match("^.:\\.*%.lua$") then 
+			end --if console.outputTree['KIND' .. i+1]=="LEAF" then
+			if console.outputTree['title' .. i]:match("^.:\\.*%.lua$") then
 				dofile(console.outputTree['title' .. i])
 			elseif console.outputTree['title' .. i]:match("%(") or console.outputTree['title' .. i]:match("=") then
-				loadstring(console.outputTree['title' .. i])() 
-			end --if console.outputTree['title' .. i]:match("^.:\\.*%.lua$") then 
+				loadstring(console.outputTree['title' .. i])()
+			end --if console.outputTree['title' .. i]:match("^.:\\.*%.lua$") then
 		end --for i=console.outputTree.value+1,console.outputTree.value+console.outputTree['TOTALCHILDCOUNT'] do
-	end --if console.outputTree["KIND"]=="BRANCH" then 
+	end --if console.outputTree["KIND"]=="BRANCH" then
 end --function startnode_script_update_with_children:action()
 
 --5.1.12 execute Lua script with Lua chunk of the node of console.outputTree and rewrite result under the node of tree console.outputTree
 startnode_script_update = iup.item {title = "Knoten aktualisieren"}
-function startnode_script_update:action() 
-	if console.outputTree["KIND"]=="BRANCH" then 
+function startnode_script_update:action()
+	if console.outputTree["KIND"]=="BRANCH" then
 		local startNodeValue=console.outputTree.value
 		if console.outputTree["KIND" .. startNodeValue+1]=="LEAF" then
 			console.outputTree['delnode' .. startNodeValue+1] = "SELECTED" --TOTALCHILDCOUNT
 		end --if console.outputTree["KIND" .. startNodeValue+1]=="LEAF" then
-		if console.outputTree['title']:match("^.:\\.*%.lua$") then 
-			dofile(console.outputTree['title']) 
+		if console.outputTree['title']:match("^.:\\.*%.lua$") then
+			dofile(console.outputTree['title'])
 		elseif console.outputTree['title']:match("%(") or console.outputTree['title']:match("=") then
 			loadstring(console.outputTree['title'])()
-		end --if console.outputTree['title']:match("^.:\\.*%.lua$") then 
-	end --if console.outputTree["KIND"]=="BRANCH" then 
+		end --if console.outputTree['title']:match("^.:\\.*%.lua$") then
+	end --if console.outputTree["KIND"]=="BRANCH" then
 end --function startnode_script_update:action()
 
 --5.1.13 put the menu items together in the menu for console.outputTree
 menu = iup.menu{
 		startcopy,
-		renamenode, 
+		renamenode,
 		addbranch,
-		addbranchbottom,  
-		addbranch_fromclipboard, 
-		addbranch_fromclipboardbottom, 
+		addbranchbottom,
+		addbranch_fromclipboard,
+		addbranch_fromclipboardbottom,
 		addleaf,
 		addleafbottom,
 		addleaf_fromclipboard,
 		addleaf_fromclipboardbottom,
-		startversion, 
+		startversion,
 		startnodescripter,
-		startnode_script, 
-		startnode_script_update_with_children, 
-		startnode_script_update, 
-		startnode, 
+		startnode_script,
+		startnode_script_update_with_children,
+		startnode_script_update,
+		startnode,
 		}
 --5.1 menu of console.outputTree end
 
@@ -661,40 +661,40 @@ menu = iup.menu{
 --6 buttons
 --6.1 logo image definition and button with logo
 img_logo = iup.image{
-  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,3,3,1,1,1,1,1,3,1,1,1,3,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,1,1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,3,3,3,4,4,3,1,1,1,1,3,3,3,3,1,1,1,1,3,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,4,4,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,3,3,3,1,1,3,1,3,1,1,1,3,1,3,1,1,4,4,4 }, 
-  { 4,1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,3,1,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,3,1,3,3,1,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,1,1,3,3,1,3,1,3,1,1,1,1,1,1,4,4,4 }, 
-  { 4,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,1,1,3,3,1,3,1,1,1,1,1,1,1,4,4,4 }, 
+  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,3,3,1,1,1,1,1,3,1,1,1,3,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,3,3,1,1,3,1,1,3,1,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,3,1,1,3,1,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,3,3,3,4,4,3,1,1,1,1,3,3,3,3,1,1,1,1,3,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,4,4,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,1,1,1,3,1,1,1,3,1,1,3,1,1,1,1,1,4,4,4 },
+  { 4,1,1,3,3,3,3,3,3,3,3,1,1,1,3,3,3,3,1,1,3,1,3,1,1,1,3,1,3,1,1,4,4,4 },
+  { 4,1,1,1,3,3,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,3,3,3,3,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,3,1,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,1,4,1,1,1,1,1,3,1,3,3,1,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,1,1,4,4,4,4,1,1,3,3,1,3,1,3,1,1,1,1,1,1,4,4,4 },
+  { 4,1,1,1,1,1,1,1,1,1,1,4,4,4,4,4,4,4,1,1,3,3,1,3,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,1,1,1,1,4,4,4,4,4,3,3,4,4,4,4,1,3,3,1,1,1,1,1,1,1,4,4,4,4 },
   { 4,1,1,1,1,1,1,1,4,4,4,4,3,3,3,3,3,3,4,4,4,3,1,1,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,1,4,4,4,4,4,3,3,3,3,3,3,3,3,3,4,3,4,1,1,1,1,1,1,1,1,4,4,4 },
   { 4,1,1,1,1,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,1,1,1,1,1,1,4,4,4 },
-  { 4,1,1,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,1,1,4,4,4 }, 
-  { 4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,4,4,4 }, 
-  { 4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4 }, 
-  { 4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },  
-  { 4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4 },  
-  { 4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },  
-  { 4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },  
-  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4 },  
-  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },  
-  { 3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },  
-  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }  
+  { 4,1,1,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,1,1,4,4,4 },
+  { 4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,1,1,1,4,4,4 },
+  { 4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,1,1,4,4,4 },
+  { 4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,1,4,4,4 },
+  { 4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4 },
+  { 4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },
+  { 4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4 },
+  { 4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3 },
+  { 4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4 },
+  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4 },
+  { 3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 },
+  { 4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4 }
   ; colors = { color_grey_bpc, color_light_color_grey_bpc, color_blue_bpc, "255 255 255" }
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
@@ -769,7 +769,7 @@ console.dialog = iup.dialog{
 		--margin = "5x5",
 		--gap = "5",
 	}, --iup.vbox{
-	title="Lua Console", 
+	title="Lua Console",
 	size="HALFxFULL", -- initial size
 	icon=img_logo, -- 0 use the Lua icon from the executable in Windows
 } --iup.dialog{
