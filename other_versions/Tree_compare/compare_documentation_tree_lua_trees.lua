@@ -152,7 +152,7 @@ function change_state_level(new_state,level,descendants_also)
 	end --if descendants_also=="YES" then
 end --function change_state_level(new_state,level,descendants_also)
 
---3.2.1 function which saves the current iup tree as a lua table
+--3.2.1 function which saves the current iup tree as a Lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -389,7 +389,7 @@ function button_loading_lua_table_1:flat_action()
 	tree1.title=''
 	if file_exists(textbox1.value) then
 		--load tree from file 
-		dofile(textbox1.value) --initialize the tree, read from the lua file
+		dofile(textbox1.value) --initialize the tree, read from the Lua file
 		for line in io.lines(textbox1.value) do
 			if line:match('=')~= nil then
 				tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
@@ -397,7 +397,7 @@ function button_loading_lua_table_1:flat_action()
 			end --if line:match('=')~= nil then 
 		end --for line in io.lines(path_documentation_tree) do
 		--save table in the variable actualtree
-		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here	
+		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 		if _VERSION=='Lua 5.1' then
 			loadstring('actualtree='..tablename)()
 		else
@@ -405,7 +405,7 @@ function button_loading_lua_table_1:flat_action()
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree1,actualtree)
 	else
-		--build file dialog for reading lua file
+		--build file dialog for reading Lua file
 		local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
 		filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 		if filedlg.status=="1" then
@@ -413,7 +413,7 @@ function button_loading_lua_table_1:flat_action()
 		elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
 			--load tree from file 
 			textbox1.value=filedlg.value
-			dofile(filedlg.value) --initialize the tree, read from the lua file
+			dofile(filedlg.value) --initialize the tree, read from the Lua file
 			for line in io.lines(filedlg.value) do
 				if line:match('=')~= nil then
 					tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
@@ -442,7 +442,7 @@ function button_loading_lua_table_2:flat_action()
 	tree2.title=''
 	if file_exists(textbox2.value) then
 		--load tree from file
-		dofile(textbox2.value) --initialize the tree, read from the lua file
+		dofile(textbox2.value) --initialize the tree, read from the Lua file
 		for line in io.lines(textbox2.value) do
 			if line:match('=')~= nil then
 				tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
@@ -450,7 +450,7 @@ function button_loading_lua_table_2:flat_action()
 			end --if line:match('=')~= nil then 
 		end --for line in io.lines(path_documentation_tree) do
 		--save table in the variable actualtree
-		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here	
+		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 		if _VERSION=='Lua 5.1' then
 			loadstring('actualtree='..tablename)()
 		else
@@ -458,7 +458,7 @@ function button_loading_lua_table_2:flat_action()
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree2,actualtree)
 	else
-		--build file dialog for reading lua file
+		--build file dialog for reading Lua file
 		local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
 		filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 		if filedlg.status=="1" then
@@ -466,7 +466,7 @@ function button_loading_lua_table_2:flat_action()
 		elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
 			--load tree2 from file
 			textbox2.value=filedlg.value
-			dofile(filedlg.value) --initialize the tree, read from the lua file
+			dofile(filedlg.value) --initialize the tree, read from the Lua file
 			for line in io.lines(filedlg.value) do
 				if line:match('=')~= nil then
 					tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
