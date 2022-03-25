@@ -4,7 +4,7 @@
 
 --1.1 libraries and clipboard
 --1.1.1 libraries
-require('iuplua')           --require iuplua for GUIs
+require("iuplua")           --require iuplua for GUIs
 require("iuplua_scintilla") --for Scintilla-editor
 
 --1.1.2 initalize clipboard
@@ -310,7 +310,7 @@ function delete_nodes_of_tree(tree_given)
 end --function delete_nodes_of_tree(tree_given)
 
 
---3.2.2 function which saves the current iup tree as a lua table
+--3.2.2 function which saves the current iup tree as a Lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -1232,7 +1232,7 @@ end --function button_logo:flat_action()
 --7 Main Dialog
 --7.1 load tree from file
 if file_exists(path_documentation_tree) then
-	dofile(path_documentation_tree) --initialize the tree, read from the lua file
+	dofile(path_documentation_tree) --initialize the tree, read from the Lua file
 	for line in io.lines(path_documentation_tree) do
 		if line:match('=')~= nil then 
 			tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
@@ -1373,7 +1373,7 @@ textfield1.SIZE="440x120" --I think this is not optimal! (since the size is so a
 --textfield1.wordwrap="WORD" --enable wordwarp
 textfield1.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
 textfield1.FONT="Courier New, 8" --font of shown code
-textfield1.LEXERLANGUAGE="lua" --set the programming language to lua for syntax higlighting
+textfield1.LEXERLANGUAGE="lua" --set the programming language to Lua for syntax higlighting
 textfield1.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
 --colors for syntax highlighting
 textfield1.STYLEFGCOLOR0="0 0 0"      -- 0-Default
