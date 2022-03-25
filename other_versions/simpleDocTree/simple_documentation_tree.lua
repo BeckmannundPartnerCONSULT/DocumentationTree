@@ -6,7 +6,7 @@ path_documentation_tree="C:\\Tree\\SQLtoCSVforLua\\SQLtoCSVforLua_dependencies_t
 --1. basic data
 
 --1.1 libraries
-require('iuplua')           --require iuplua for GUIs
+require("iuplua")           --require iuplua for GUIs
 
 
 --1.2 initalize clipboard
@@ -458,7 +458,7 @@ end --function button_logo:flat_action()
 --7 Main Dialog
 --7.1 load tree from file
 if file_exists(path_documentation_tree) then
-	dofile(path_documentation_tree) --initialize the tree, read from the lua file
+	dofile(path_documentation_tree) --initialize the tree, read from the Lua file
 	for line in io.lines(path_documentation_tree) do
 		if line:match('=')~= nil then 
 			tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
