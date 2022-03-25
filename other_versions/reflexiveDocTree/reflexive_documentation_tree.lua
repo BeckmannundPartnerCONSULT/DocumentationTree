@@ -10,7 +10,7 @@ state="COLLAPSED",
 --1. basic data
 
 --1.1 libraries
-require('iuplua')           --require iuplua for GUIs
+require("iuplua")           --require iuplua for GUIs
 
 
 --1.2 initalize clipboard
@@ -60,7 +60,7 @@ end --function string.escape_forbidden_char(insertstring)
 
 --3.2 functions for GUI
 
---3.2.1 function which saves the current iup tree as a lua table
+--3.2.1 function which saves the current iup tree as a Lua table
 function save_tree_to_lua(tree, outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
