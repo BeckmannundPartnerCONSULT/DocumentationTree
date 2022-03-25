@@ -5,8 +5,8 @@
 --1. basic data
 
 --1.1 libraries
-require('iuplua')           --require iuplua for GUIs
-require('iupluaweb')        --require iupluaweb for webbrowser
+require("iuplua")           --require iuplua for GUIs
+require("iupluaweb")        --require iupluaweb for webbrowser
 
 
 
@@ -87,7 +87,7 @@ function printtree()
 end --function printtree()
 
 
---3.2.4 function which saves the current iup tree as a lua table
+--3.2.4 function which saves the current iup tree as a Lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -841,7 +841,7 @@ Ergebnis
 
 --7.2.1 load tree from file
 if file_exists(path_documentation_tree) then
-	dofile(path_documentation_tree) --initialize the tree, read from the lua file
+	dofile(path_documentation_tree) --initialize the tree, read from the Lua file
 	for line in io.lines(path_documentation_tree) do
 		if line:match('=')~= nil then 
 			tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
