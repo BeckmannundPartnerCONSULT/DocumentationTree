@@ -27,8 +27,8 @@ Das Inhaltsverzeichnis wird immer automatisch aktuell gehalten. Das ist sehr pra
 --1. basic data
 
 --1.1 libraries
-require( "iuplua" )
-require( "iupluaweb" )
+require("iuplua")           --require iuplua for GUIs
+require("iupluaweb")        --require iupluaweb for webbrowser
 --iup.SetGlobal("UTF8MODE","NO")
 
 --1.2 color section
@@ -86,7 +86,7 @@ if _VERSION=='Lua 5.1' or _VERSION=='Lua 5.2' then
 	end --function table.move(a,f,e,t)
 end --if _VERSION=='Lua 5.1' then
 
---3.2 function which saves the current iup htmlTexts as a lua table
+--3.2 function which saves the current iup htmlTexts as a Lua table
 function save_html_to_lua(htmlTexts, outputfile_path)
 	--read the programm of the file itself, commentSymbol is used to have another pattern here as searched
 	inputfile=io.open(path .. "\\" .. thisfilename,"r")
