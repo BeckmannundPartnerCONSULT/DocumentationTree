@@ -1,7 +1,7 @@
---This script converts a PDF file in a text file (TXT) by using luacom and Word
+--This script converts a PDF file in a text file (TXT) by using LuaCOM and Word
 
 --1. library
-require("luacom")
+require("luacom")           --require treatment of office files
 
 --2.1 read pdf file names of the directory in a Lua table
 PDFFileTable={}
