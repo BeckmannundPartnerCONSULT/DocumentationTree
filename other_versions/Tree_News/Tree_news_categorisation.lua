@@ -6,7 +6,7 @@
 --1.1 libraries
 require("iuplua")           --require iuplua for GUIs
 require("iupluaweb")        --require iupluaweb for webbrowser
-require("luacom")           --require for converting PDF to text file with Word
+require("luacom")           --require treatment of office files, especially for converting PDF to text file with Word
 
 --1.2 initalize clipboard
 clipboard=iup.clipboard{}
@@ -129,7 +129,7 @@ function printtree()
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
 
---3.2.2 function which saves the current iup tree as a lua table
+--3.2.2 function which saves the current iup tree as a Lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -1232,7 +1232,7 @@ actualPage=1
 
 --7.3.1 load tree from file
 if file_exists(path_documentation_tree) then
-	dofile(path_documentation_tree) --initialize the tree, read from the lua file
+	dofile(path_documentation_tree) --initialize the tree, read from the Lua file
 	for line in io.lines(path_documentation_tree) do
 		if line:match('=')~= nil then 
 			tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
