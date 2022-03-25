@@ -1,7 +1,7 @@
---This script converts an excel file in a pdf file by using luacom
+--This script converts an excel file in a pdf file by using LuaCOM
 
 --1. library
-require("luacom")
+require("luacom")           --require treatment of office files
 
 --2.1 read excel file names of the directory in a Lua table
 excelFileTable={}
