@@ -1,7 +1,7 @@
 --This script converts a powerpoint file in a pdf file by using luacom
 
 --1. library
-require("luacom")
+require("luacom")           --require treatment of office files
 
 --2.1 read powerpoint file names of the directory in a Lua table
 powerpointFileTable={}
