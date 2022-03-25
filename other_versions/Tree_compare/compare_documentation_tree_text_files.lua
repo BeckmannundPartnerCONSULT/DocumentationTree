@@ -382,7 +382,7 @@ function button_scripter_second_text_file:flat_action()
 end --function button_scripter_second_text_file:flat_action()
 
 --6.3.2 button for loading all text files without versions in IUP Lua scripter found in first directory and subdirectories containing the search text
-button_scripter_loading_text_files_with_search=iup.flatbutton{title="Skripter mit Textdateien im ersten\n Ordner mit Suchergebnis laden", size="135x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_scripter_loading_text_files_with_search=iup.flatbutton{title="Skripter mit maximal x Textdateien im \nersten Ordner mit Suchergebnissen laden", size="145x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_scripter_loading_text_files_with_search:flat_action()
 	local directoryText
 	clipboard.text=textbox3.value
@@ -395,21 +395,51 @@ function button_scripter_loading_text_files_with_search:flat_action()
 		searchAlarm=iup.Alarm("Wollen Sie die Suche der Dateien in folgendem Verzeichnis?",tostring(directoryText),"        Ja, bitte Suchen        ","        Nicht Suchen        ")
 		if searchAlarm==1 then
 			local fileFound=""
+			local numberFileFound=0
 			p=io.popen('dir ' .. directoryText .. ' /b/o/s ')
 			for fileText in p:lines() do
-				if fileText:match("_Version(%d+)")==nil then
+				 --do not scan versions and archived files, lnk, js, sh, bat, office files and files with blanks
+				if fileText:match("%.js")==nil
+				and fileText:match(" ")==nil
+				and fileText:match("%.lnk")==nil
+				and fileText:match("%.bat")==nil
+				and fileText:match("%.sh")==nil
+				and fileText:match("%.html")==nil
+				and fileText:match("%.doc")==nil
+				and fileText:match("%.xls")==nil
+				and fileText:match("%.ppt")==nil
+				and fileText:match("%.accdb")==nil
+				and fileText:match("_Version(%d+)")==nil
+				and fileText:match("%d%d%d%d%d%d%d%d")==nil
+				and fileText:match("%(")==nil
+				and fileText:match("%)")==nil
+				then
 					local inputfile2=io.open(fileText,"r")
 					if inputfile2 then --open if it is a file, for directory inputfile2 is nil
 						inputText2=inputfile2:read("*all")
 						inputfile2:close()
-						if inputText2:lower():match(textbox3.value:lower()) then
-							fileFound=fileFound .. " " .. fileText
-						end --if inputText2:lower():match(textbox3.value:lower()) then
+						if checkboxforcasesensitive.value=="OFF"  then
+							if inputText2:lower():match(textbox3.value:lower()) and numberFileFound <math.tointeger(tonumber(textbox4.value)) then
+								fileFound=fileFound .. " " .. fileText
+								numberFileFound=numberFileFound+1
+							elseif inputText2:lower():match(textbox3.value:lower()) and numberFileFound >=math.tointeger(tonumber(textbox4.value)) then
+								numberFileFound=numberFileFound+1
+							end --if inputText2:lower():match(textbox3.value:lower()) then
+						else
+							if inputText2:match(textbox3.value) and numberFileFound <math.tointeger(tonumber(textbox4.value)) then
+								fileFound=fileFound .. " " .. fileText
+								numberFileFound=numberFileFound+1
+							elseif inputText2:match(textbox3.value) and numberFileFound >=math.tointeger(tonumber(textbox4.value)) then
+								numberFileFound=numberFileFound+1
+							end --if inputText2:lower():match(textbox3.value:lower()) then
+						end --if checkboxforcasesensitive.value=="ON"  then
 					end --if inputfile2 then
 				end --if fileText:match("_Version(%d+)")==nil then
 			end --for fileText in p:lines() do
-			--test with: iup.Message("Suche in",fileFound)
-			os.execute('start "d" C:\\Lua\\iupluascripter54.exe ' .. fileFound .. " ")
+			iup.Message("Fundstellen in " .. numberFileFound .. " Dateien mit den ersten " .. math.tointeger(tonumber(textbox4.value)) .. " Dateien:",fileFound:gsub(" ","\n"))
+			if numberFileFound>0 then
+				os.execute('start "d" C:\\Lua\\iupluascripter54.exe ' .. fileFound .. " ")
+			end --if numberFileFound>0 then
 		else
 			iup.Message("Keine Suche","Es wird nicht gesucht.")
 		end --if searchAlarm==1 then
@@ -513,7 +543,11 @@ end --function button_logo:flat_action()
 --7.1 textboxes
 textbox1 = iup.multiline{value="",size="320x20",WORDWRAP="YES"}
 textbox2 = iup.multiline{value="",size="320x20",WORDWRAP="YES"}
-textbox3 = iup.multiline{value="",size="320x20",WORDWRAP="YES"}
+textbox3 = iup.multiline{value="",size="220x20",WORDWRAP="YES"}
+textbox4 = iup.text{value="12",size="30x20"}
+
+--7.1.1 checkboxes
+checkboxforcasesensitive = iup.toggle{title="Groß-/\nKleinschreibung", value="OFF"} --checkbox for casesensitiv search
 
 --7.2 display empty compare tree
 actualtree={branchname="compare"}
@@ -535,7 +569,7 @@ textfield1.SIZE="280x530" --I think this is not optimal! (since the size is so a
 --textfield1.wordwrap="WORD" --enable wordwarp
 textfield1.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
 textfield1.FONT="Courier New, 8" --font of shown code
-textfield1.LEXERLANGUAGE="lua" --set the programming language to lua for syntax higlighting
+textfield1.LEXERLANGUAGE="lua" --set the programming language to Lua for syntax higlighting
 textfield1.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
 --colors for syntax highlighting
 textfield1.STYLEFGCOLOR0="0 0 0"      -- 0-Default
@@ -560,7 +594,7 @@ textfield2.SIZE="280x530" --I think this is not optimal! (since the size is so a
 --textfield2.wordwrap="WORD" --enable wordwarp
 textfield2.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
 textfield2.FONT="Courier New, 8" --font of shown code
-textfield2.LEXERLANGUAGE="lua" --set the programming language to lua for syntax higlighting
+textfield2.LEXERLANGUAGE="lua" --set the programming language to Lua for syntax higlighting
 textfield2.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
 --colors for syntax highlighting
 textfield2.STYLEFGCOLOR0="0 0 0"      -- 0-Default
@@ -595,6 +629,9 @@ maindlg = iup.dialog{
 			iup.label{size="5x",},
 			button_scripter_loading_text_files_with_search,
 			textbox3,
+			checkboxforcasesensitive,
+			iup.label{title="x: "},
+			textbox4,
 			iup.fill{},
 			button_compare,
 			iup.label{size="5x",},
