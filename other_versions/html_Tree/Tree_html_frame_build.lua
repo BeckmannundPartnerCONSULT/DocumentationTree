@@ -334,9 +334,9 @@ outputfile3:close()
 os.execute('md "' .. path .. '\\wb_img"')
 
 --4.1 libraries for images
-require("cdlua")
+require("cdlua") --for images
 require("cdluapdf") --for pdf and powerpoint
-require("imlua")
+require("imlua") --for images
 require("cdluaim") --for screen capture
 require("iuplua")           --require iuplua for GUIs
 require("iupluacd") --for iup canvas
