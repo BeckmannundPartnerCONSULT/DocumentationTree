@@ -1,7 +1,10 @@
---This script converts an excel file in a txt file by using luacom
+--This script converts an excel file in a txt file by using LuaCOM
+
+--1 previously delete temporary test data
 os.execute('del "C:\\Temp\\test_*.txt"')
---1. library
-require("luacom")
+
+--1.1 library
+require("luacom")           --require treatment of office files
 
 --2.1 read excel file names of the directory in a Lua table
 excelFileTable={}
