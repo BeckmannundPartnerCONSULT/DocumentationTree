@@ -318,7 +318,7 @@ function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end --function file_exists(name)
 
---3.14 function which saves the current iup tree as a lua table
+--3.14 function which saves the current iup tree as a Lua table
 function save_tree_to_lua(tree, outputfile_path,outputname_tree)
 	local output_tree_text=outputname_tree .. "=" --"lua_tree_input=" --the output string
 	local outputfile=io.open(outputfile_path,"w") --a output file
@@ -490,7 +490,7 @@ command_text.SIZE="200x120" --I think this is not optimal! (since the size is so
 command_text.wordwrap="WORD" --enable wordwarp
 command_text.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
 command_text.FONT="Courier New, 8" --font of shown code
-command_text.LEXERLANGUAGE="lua" --set the programming language to lua for syntax higlighting
+command_text.LEXERLANGUAGE="lua" --set the programming language to Lua for syntax higlighting
 command_text.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false function true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
 --colors for syntax highlighting
 command_text.STYLEFGCOLOR0="0 0 0"      -- 0-Default
