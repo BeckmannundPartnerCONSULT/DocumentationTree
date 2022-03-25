@@ -17,14 +17,14 @@ state="COLLAPSED",
 }}--lua_tree_output
 
 --1.1.1 libraries for video and GUI
-local im = require "imlua"
-require "imlua_capture"
-local gl = require "luagl"
-local iup = require "iuplua"
-require "iupluagl"
+local im = require("imlua") --for images
+require("imlua_capture") --library for video camera
+local gl = require("luagl") --library for video camera
+local iup = require("iuplua")           --require iuplua for GUIs
+require("iupluagl") --library for video camera
 
---require"imlua_wmv" --format for video
-require"imlua_avi" --format for video
+--require("imlua_wmv") --format .WMV for saving video
+require("imlua_avi") --format .AVI for saving video
 
 
 --1.1.2 securisation by allowing only necessary os.execute commands
