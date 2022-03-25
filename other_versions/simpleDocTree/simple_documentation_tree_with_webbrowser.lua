@@ -7,8 +7,8 @@ textHTML_file="C:\\Tree\\simpleDocTree\\example_HTML_table_for_webbrowser.lua"
 --1. basic data
 
 --1.1 libraries
-require('iuplua')           --require iuplua for GUIs
-require('iupluaweb')        --require iupluaweb for webbrowser
+require("iuplua")           --require iuplua for GUIs
+require("iupluaweb")        --require iupluaweb for webbrowser
 
 
 --1.2 initalize clipboard
@@ -513,7 +513,7 @@ actualPage=1
 
 --7.3 load tree from file
 if file_exists(path_documentation_tree) then
-	dofile(path_documentation_tree) --initialize the tree, read from the lua file
+	dofile(path_documentation_tree) --initialize the tree, read from the Lua file
 	for line in io.lines(path_documentation_tree) do
 		if line:match('=')~= nil then 
 			tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
