@@ -1820,6 +1820,10 @@ commentsTable["save Word document"]={
 "Das Word-Dokument wird gespeichert.",
 "The Word document is saved.",
 }
+commentsTable["previously delete temporary test data"]={
+"Die temporären Testdaten werden vorab gelöscht.",
+"The temporary test data are previously deleted.",
+}
 
 --1. function escaping magic characters
 function string.escape_forbidden_char(insertstring) --this function takes a string and returns the same string with escaped characters
