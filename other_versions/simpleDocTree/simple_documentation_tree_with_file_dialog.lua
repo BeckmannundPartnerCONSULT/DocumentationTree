@@ -7,7 +7,7 @@ arg[0]}
 --1. basic data
 
 --1.1 libraries
-require('iuplua')           --require iuplua for GUIs
+require("iuplua")           --require iuplua for GUIs
 
 
 --1.2 initalize clipboard
@@ -80,7 +80,7 @@ function printtree()
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
 
---3.2.4 function which saves the current iup tree as a lua table
+--3.2.4 function which saves the current iup tree as a Lua table
 function save_tree_to_lua(tree, outputfile_path)
 	local output_tree_text="lua_tree_output=" --the output string
 	local outputfile=io.output(outputfile_path) --a output file
@@ -237,7 +237,7 @@ function alphabetic_tree_sort(tree)
 	change_state_level("EXPANDED","0","YES") --expand all branches again
 end --function alphabetic_tree_sort(tree)
 
---3.5.3 function that sorts ascending whole lua table with tree but not the tree in IUP
+--3.5.3 function that sorts ascending whole Lua table with tree but not the tree in IUP
 function sortascendingTableRecursive(aTable)
 	table.sort(aTable,function(a,b) if type(a)=="table" then aT=tostring(a.branchname) else aT=tostring(a) end if type(b)=="table" then bT=tostring(b.branchname) else bT=tostring(b) end aTl=aT:lower() bTl=bT:lower() return aTl<bTl end)
 	for i,v in ipairs(aTable) do
@@ -247,7 +247,7 @@ function sortascendingTableRecursive(aTable)
 	end --for i,v in ipairs(aTable)
 end --function sortascendingTableRecursive(aTable)
 
---3.5.4 function that sorts descending whole lua table with tree but not the tree in IUP
+--3.5.4 function that sorts descending whole Lua table with tree but not the tree in IUP
 function sortdescendingTableRecursive(aTable)
 	table.sort(aTable,function(a,b) if type(a)=="table" then aT=tostring(a.branchname) else aT=tostring(a) end if type(b)=="table" then bT=tostring(b.branchname) else bT=tostring(b) end aTl=aT:lower() bTl=bT:lower() return aTl>bTl end)
 	for i,v in ipairs(aTable) do
@@ -1057,14 +1057,14 @@ end --function button_logo:flat_action()
 --6.2 button for loading tree
 button_loading_lua_table=iup.flatbutton{title="Baum aus Lua Tabelle laden\n(Strg+O)", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_lua_table:flat_action()
-	--build file dialog for reading lua file
+	--build file dialog for reading Lua file
 	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
 	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 	if filedlg.status=="1" then
 		iup.Message("Neue Datei",filedlg.value)
 	elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
 	--load tree from file 
-		dofile(filedlg.value) --initialize the tree, read from the lua file
+		dofile(filedlg.value) --initialize the tree, read from the Lua file
 		for line in io.lines(filedlg.value) do
 			if line:match('=')~= nil then 
 				tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
@@ -1072,7 +1072,7 @@ function button_loading_lua_table:flat_action()
 			end --if line:match('=')~= nil then 
 		end --for line in io.lines(path_documentation_tree) do
 		--save table in the variable actualtree
-		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here	
+		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 		if _VERSION=='Lua 5.1' then
 			loadstring('actualtree='..tablename)()	
 		else
@@ -1223,3 +1223,4 @@ maindlg:show()
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
+
