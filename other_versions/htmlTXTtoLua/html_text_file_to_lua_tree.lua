@@ -26,6 +26,12 @@ for Block in inputText2:gmatch("<li .-></li>") do
 							:gsub("â€˜","'")
 							:gsub("Â "," ")
 							:gsub("Ã©","é")
+							:gsub("Ã—","×")
+							:gsub("Ã·","÷")
+							:gsub("Ã§","ç")
+							:gsub("Ã´","ô")
+							:gsub("Ã ","à")
+							:gsub("Ã¨","è")
 							 .. '", state="COLLAPSED",'
 		.. '"' .. os.date("%d.%m.%Y %H:%M:%S",tostring(Block:match('psDate%-(%d+)000">'))) .. '",'
 		.. '"' .. tostring(Block:match('<a href="([^"]*)"') .. '",'
