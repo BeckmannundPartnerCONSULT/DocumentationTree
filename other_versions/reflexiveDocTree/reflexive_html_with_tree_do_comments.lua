@@ -7,6 +7,35 @@ chosenNumber=10
 commentsTable={}
 
 
+commentsTable["read opening and closing brackets and count them and add missing ones"]={
+"Die öffnenden und schließenden runden Klammern werden gelesen und gezählt, damit die jeweils fehlenden bei Ungleichheit ergänzt werden.",
+"The opening and closing brackets are read and counted so that the missing brackets are added.",
+}
+commentsTable["build from previous data a previous file"]={
+"Eine Textdatei mit den Daten aus dem vorherigen Lauf wird geschrieben.",
+"A previous text file is built from previous data.",
+}
+commentsTable["build new titles in tree compared to previous tree"]={
+"Die neuen Titeln im Baum im Vergleich zu dem vorherigen Baum werden ermittelt.",
+"New titles in tree compared to previous tree are determined.",
+}
+commentsTable["collect new titles with the distance to all the previous titles if not in previous tree"]={
+"Die neuen Titeln im Baum, die nicht im vorherigen Baum sind, werden bezüglich ihrer Levenshtein-Distance, also der Änderungen in den Zeichenketten im Vergleich zu allen Titeln des vorherigen Baumes ausgewertet.",
+"New titles in tree are collected with the Levenshtein distance, i.e. all differences in characters, to all the previous titles if not in previous tree.",
+}
+commentsTable["read previous tree and current tree"]={
+"Der vorherige und der aktuelle Baum werden gelesen.",
+"Previous tree and current tree are read.",
+}
+commentsTable["optional: show it in a simple documentation tree"]={
+"Der Baum wird optional ein einer einfachen Baumansicht gezeigt.",
+"Optionally the tree is shown in a simple documentation tree.",
+}
+
+commentsTable["show all parts of brackets"]={
+"Alle Klammerpaarinhalte werden gezeigt.",
+"All parts of brackets are shown.",
+}
 commentsTable["cut of all leafs of a node"]={
 "Ein Kontextmenüpunkt schneidet alle Blätter darunter aus.",
 "A menu item cuts all leafs of a node.",
