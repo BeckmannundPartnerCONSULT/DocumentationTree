@@ -23,3 +23,7 @@ This is an example as input tree for simple_documentation_tree_with_webbrowser.l
 6. example_HTML_table_for_webbrowser.lua
 
 This is an example as input HTML webpages in Lua table for simple_documentation_tree_with_webbrowser.lua. 
+
+7. simple_documentation_tree_brackets.lua
+
+This script runs a graphical user interface (GUI) in order to built up a documentation tree of SQL statements or of excel formulas.
