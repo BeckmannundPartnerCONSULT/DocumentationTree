@@ -1,9 +1,9 @@
 --This script converts a text with brackets, for instance with SQL-statements, into a Lua tree with
 
 --example text variable
-text="SELECT * FROM (SELECT * FROM (SELECT * FROM TABLE1), (SELECT * FROM TABLE)s)d(a)(w(s(b)a)d)d(w(c)q(a(c(dd)r)f(ee)e)s;"
+text="SELECT * FROM (SELECT * FROM (SELECT * FROM TABLE1), (SELECT * FROM TABLE)s)d(a)(w(s(b)a)d)d(w(c)q(a(c(dd)r)f(ee)e)s);"
 
---1. read opening and closing brackets and count them
+--1. read opening and closing brackets and count them and add missing ones
 numberBracketOpen=0
 for bracketOpen in ("(" .. text .. ")"):gmatch("%(") do
 	numberBracketOpen= numberBracketOpen+1
@@ -18,7 +18,7 @@ elseif numberBracketOpen<numberBracketClose then
 	text=string.rep("(~missing~",numberBracketClose-numberBracketOpen) .. text
 end --if numberBracketOpen>numberBracketClose then
 
---2. show all parts of brachets
+--2. show all parts of brackets
 pos=1
 while true do 
 	findText,pos=("(" .. text .. ")"):find("%(",pos) 
