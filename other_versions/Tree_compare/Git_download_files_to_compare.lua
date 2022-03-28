@@ -5,7 +5,6 @@ distanceLineNumberTable={}
 distanceLineTable={}
 distanceLineScriptTable={}
 
-----[[
 fileSiteTable["C:\\Tree\\CSVtoLua\\CSVtoLua_Linux_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/CSVtoLua/CSVtoLua_Linux.lua"
 fileSiteTable["C:\\Tree\\CSVtoLua\\CSVtoLua_Windows_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/CSVtoLua/CSVtoLua_Windows.lua"
 fileSiteTable["C:\\Tree\\ExceltoPDFforLua\\ExceltoPDFforLua_Windows_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/ExceltoPDFforLua/ExceltoPDFforLua_Windows.lua"
@@ -23,6 +22,7 @@ fileSiteTable["C:\\Tree\\LuatoLua\\input_command_output_tree_Git.html"]="https:/
 fileSiteTable["C:\\Tree\\LuatoLua\\input_command_output_tree_MDI_graphics_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/LuatoLua/input_command_output_tree_MDI_graphics.lua"
 fileSiteTable["C:\\Tree\\PowerpointtoPDFforLua\\PowerpointtoPDFforLua_Windows_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/PowerpointtoPDFforLua/PowerpointtoPDFforLua_Windows.lua"
 fileSiteTable["C:\\Tree\\SQLtoCSVforLua\\SQLtoCSVforLua_SQL_List_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/SQLtoCSVforLua/SQLtoCSVforLua_SQL_List.lua"
+fileSiteTable["C:\\Tree\\TXTtoLua\\bracketstoLua_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/TXTtoLua/bracketstoLua.lua"
 fileSiteTable["C:\\Tree\\TXTtoLua\\TXTtoLua_Linux_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/TXTtoLua/TXTtoLua_Linux.lua"
 fileSiteTable["C:\\Tree\\TXTtoLua\\TXTtoLua_Windows_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/TXTtoLua/TXTtoLua_Windows.lua"
 fileSiteTable["C:\\Tree\\Tree_News\\Tree_news_categorisation_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/Tree_News/Tree_news_categorisation.lua"
@@ -34,10 +34,8 @@ fileSiteTable["C:\\Tree\\Word_Tree\\Tree_word_build_luacom_Git.html"]="https://g
 fileSiteTable["C:\\Tree\\Word_Tree\\Tree_word_build_luacom_local_DE_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/Word_Tree/Tree_word_build_luacom_local_DE.lua"
 fileSiteTable["C:\\Tree\\WordtoTXTforLua\\PDFtoTXTforLua_Windows_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/WordtoTXTforLua/PDFtoTXTforLua_Windows.lua"
 fileSiteTable["C:\\Tree\\WordtoTXTforLua\\WordtoTXTforLua_Windows_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/WordtoTXTforLua/WordtoTXTforLua_Windows.lua"
- fileSiteTable["C:\\Tree\\XMLtoLua\\XMLtoLua_Linux_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/XMLtoLua/XMLtoLua_Linux.lua"
+fileSiteTable["C:\\Tree\\XMLtoLua\\XMLtoLua_Linux_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/XMLtoLua/XMLtoLua_Linux.lua"
 fileSiteTable["C:\\Tree\\XMLtoLua\\XMLtoLua_Windows_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/XMLtoLua/XMLtoLua_Windows.lua"
---
-fileSiteTable["C:\\Tree\\htmlTXTtoLua\\html_text_file_to_lua_tree_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/htmlTXTtoLua/html_text_file_to_lua_tree.lua"
 fileSiteTable["C:\\Tree\\html_Tree\\Tree_html_frame_build_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/html_Tree/Tree_html_frame_build.lua"
 fileSiteTable["C:\\Tree\\html_Tree\\html_build_node_content_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/html_Tree/html_build_node_content.lua"
 fileSiteTable["C:\\Tree\\html_Tree\\html_build_text_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/html_Tree/html_build_text.lua"
@@ -58,12 +56,13 @@ fileSiteTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_with_file_dial
 fileSiteTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_with_webbrowser_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/simpleDocTree/simple_documentation_tree_with_webbrowser.lua"
 fileSiteTable["C:\\Tree\\wikitextoHtml\\wikiTeXtoHtml_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/wikitextoHtml/wikiTeXtoHtml.lua"
 fileSiteTable["C:\\Tree\\html_Tree\\html_Tree_relative_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/html_Tree_relative.lua"
---]]
 fileSiteTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\ansicht_documentation_tree_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/ansicht_documentation_tree.lua"
 fileSiteTable["C:\\Tree\\html_Tree\\html_build_Linux_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/html_build_Linux.lua"
 fileSiteTable["C:\\Tree\\html_Tree\\html_build_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/html_Tree/html_build.lua"
 fileSiteTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\nachschlagen_documentation_tree_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/nachschlagen_documentation_tree.lua"
-
+fileSiteTable["C:\\Tree\\htmlTXTtoLua\\html_text_file_to_lua_tree_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/htmlTXTtoLua/html_text_file_to_lua_tree.lua"
+fileSiteTable["C:\\Tree\\htmlTXTtoLua\\html_text_file_to_lua_tree_compared_with_previous_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/htmlTXTtoLua/html_text_file_to_lua_tree_compared_with_previous.lua"
+fileSiteTable["C:\\Tree\\Tree_compare\\Git_download_files_to_compare_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/Tree_compare/Git_download_files_to_compare.lua"
 
 --3.1.3 general function for distance between texts
 function string.levenshtein(str1, str2)
@@ -123,55 +122,61 @@ for k,v in pairs(fileSiteTable) do
 							:gsub('&gt;','>')
 							:gsub('&#39;',"'")
 							:gsub("\n","")
-							:gsub("�€ž","'")
-							:gsub("�€œ","'")
-							:gsub("�€š","'")
-							:gsub("�€˜","'")
+							:gsub("ââ‚¬Å¾","'")
+							:gsub("ââ‚¬Å“","'")
+							:gsub("ââ‚¬Å¡","'")
+							:gsub("ââ‚¬Ëœ","'")
+							:gsub("ÃƒÂ¤","Ã¤")
 							:gsub("Ã¤","ä")
-							:gsub("ä","�")
+							:gsub("Ãƒâ€ž","Ã„")
 							:gsub("Ã„","Ä")
-							:gsub("Ä","�")
+							:gsub("ÃƒÂ¶","Ã¶")
 							:gsub("Ã¶","ö")
-							:gsub("ö","�")
+							:gsub("Ãƒâ€“","Ã–")
 							:gsub("Ã–","Ö")
-							:gsub("Ö","�")
+							:gsub("ÃƒÂ¼","Ã¼")
 							:gsub("Ã¼","ü")
-							:gsub("ü","�")
+							:gsub("ÃƒÅ“","Ãœ")
 							:gsub("Ãœ","Ü")
-							:gsub("Ü","�")
+							:gsub("ÃƒÅ¸","ÃŸ")
 							:gsub("ÃŸ","ß")
-							:gsub("ß","�")
-							:gsub(" "," ")
-							:gsub("×","�")
-							:gsub("÷","�")
-							:gsub("é","�")
-							:gsub("î","�")
-							:gsub("ê","�")
-							:gsub("â","�")
-							:gsub("ç","�")
-							:gsub("ô","�")
-							:gsub("à","�")
-							:gsub("â€“","–")	
-							:gsub("â€ž", "„")
-							:gsub("„", "�")
-							:gsub("�", "�")
-							:gsub("�", " ")
+							:gsub("Â "," ")
+							:gsub("Ã—","×")
+							:gsub("Ã·","÷")
+							:gsub("Ã©","é")
+							:gsub("Ã®","î")
+							:gsub("Ãª","ê")
+							:gsub("Ã¢","â")
+							:gsub("Ã§","ç")
+							:gsub("Ã´","ô")
+							:gsub("Ã ","à")
+							:gsub("Ã¢â‚¬â€œ","â€“")	
+							:gsub("Ã¢â‚¬Å¾", "â€ž")
+							:gsub("â€ž", "ä")
+							:gsub("„", "ä")
 							:gsub("ÿ", " ")
-							:gsub("â€œ", "“")
-							:gsub("â€š", "‚")
-							:gsub("â€˜", "‘")
-							:gsub("Â ",     " ")
-							:gsub("Ã©",    "é")
-							:gsub("è","�")
-							:gsub("ùd��ø89:;2§","�d���89:;2�")
-							:gsub("–","�")
-							:gsub("�€“","-")
-							:gsub(" "," ")
-							:gsub("é","�")
-							:gsub("�€ž","�")
-							:gsub("�€œ","'")
-							:gsub("�€š","'")
-							:gsub("�€˜","'")
+							:gsub("Ã¿", " ")
+							:gsub("Ã¢â‚¬Å“", "â€œ")
+							:gsub("Ã¢â‚¬Å¡", "â€š")
+							:gsub("Ã¢â‚¬Ëœ", "â€˜")
+							:gsub("Ã‚ ",     "Â ")
+							:gsub("ÃƒÂ©",    "Ã©")
+							:gsub("Ã¨","è")
+							:gsub("Ã¹dÖÜÃ¸89:;2Â§","ùdÖÜø89:;2§")
+							:gsub("â€“","–")
+							:gsub("ââ‚¬â€œ","-")
+							:gsub("Â "," ")
+							:gsub("Ã©","é")
+							:gsub("ââ‚¬Å¾","ä")
+							:gsub("ââ‚¬Å“","'")
+							:gsub("ââ‚¬Å¡","'")
+							:gsub("ââ‚¬Ëœ","'")
+							:gsub("Ãƒâ€”","×")
+							:gsub("ÃƒÂ·","÷")
+							:gsub("ÃƒÂ§","ç")
+							:gsub("ÃƒÂ´","ô")
+							:gsub("ÃƒÂ¨","è")
+							:gsub("Ãƒ ","à")
 							)
 								:match('(%d+)">(.*)')
 			--test with: print(lineNumber,lineText)
@@ -188,44 +193,44 @@ for k,v in pairs(fileSiteTable) do
 									:gsub('&lt;','<')
 									:gsub('&gt;','>')
 									:gsub('&#39;',"'")
+									:gsub("ÃƒÂ¤","Ã¤")
 									:gsub("Ã¤","ä")
-									:gsub("ä","�")
-									:gsub("Ä","�")
 									:gsub("Ã„","Ä")
-									:gsub("ö","�")
+									:gsub("Ãƒâ€ž","Ã„")
 									:gsub("Ã¶","ö")
-									:gsub("Ö","�")
+									:gsub("ÃƒÂ¶","Ã¶")
 									:gsub("Ã–","Ö")
-									:gsub("ü","�")
+									:gsub("Ãƒâ€“","Ã–")
 									:gsub("Ã¼","ü")
-									:gsub("Ü","�")
+									:gsub("ÃƒÂ¼","Ã¼")
 									:gsub("Ãœ","Ü")
-									:gsub("ß","�")
+									:gsub("ÃƒÅ“","Ãœ")
 									:gsub("ÃŸ","ß")
-									:gsub(" "," ")
-									:gsub("×","�")
-									:gsub("÷","�")
-									:gsub("é","�")
-									:gsub("ç","�")
-									:gsub("ô","�")
-									:gsub("à","�")
-									:gsub("–","-")
-									:gsub("â€“","–")	
-									:gsub("â€ž", "„")
-									:gsub("„", "�")
-									:gsub("�", "�")
-									:gsub("�", " ")
+									:gsub("ÃƒÅ¸","ÃŸ")
+									:gsub("Â "," ")
+									:gsub("Ã—","×")
+									:gsub("Ã·","÷")
+									:gsub("Ã©","é")
+									:gsub("Ã§","ç")
+									:gsub("Ã´","ô")
+									:gsub("Ã ","à")
+									:gsub("â€“","-")
+									:gsub("Ã¢â‚¬â€œ","â€“")	
+									:gsub("Ã¢â‚¬Å¾", "â€ž")
+									:gsub("â€ž", "ä")
+									:gsub("„", "ä")
 									:gsub("ÿ", " ")
-									:gsub("â€œ", "“")
-									:gsub("â€š", "‚")
-									:gsub("â€˜", "‘")
-									:gsub("Â ",     " ")
-									:gsub("Ã©",    "é")
-									:gsub("è","�")
-									:gsub("“","'")
-									:gsub("‚","'")
-									:gsub("‘","'") 
-									:gsub("�"," ") --blank without space character
+									:gsub("Ã¿", " ")
+									:gsub("Ã¢â‚¬Å“", "â€œ")
+									:gsub("Ã¢â‚¬Å¡", "â€š")
+									:gsub("Ã¢â‚¬Ëœ", "â€˜")
+									:gsub("Ã‚ ",     "Â ")
+									:gsub("ÃƒÂ©",    "Ã©")
+									:gsub("Ã¨","è")
+									:gsub("â€œ","'")
+									:gsub("â€š","'")
+									:gsub("â€˜","'") 
+									:gsub(" "," ") --blank without space character
 
 		end --for line in io.lines(fileNameLua) do
 		local lineNumber=0
