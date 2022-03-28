@@ -22,3 +22,6 @@ This script converts a text file with titles and text into a tree in a Lua table
 
 This text file is an example for the input text file of the script text_to_lua_tree.lua.
 
+4. bracketstoLua.lua
+
+This script converts a text with brackets in a Lua tree.
