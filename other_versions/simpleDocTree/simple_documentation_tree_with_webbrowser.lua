@@ -528,7 +528,7 @@ if file_exists(path_documentation_tree) then
 		load('actualtree='..tablename)() --now actualtree is the table.
 	end --if _VERSION=='Lua 5.1' then
 end --if file_exists(path_documentation_tree) then
---builde tree
+--build tree
 tree=iup.tree{
 map_cb=function(self)
 self:AddNodes(actualtree)
