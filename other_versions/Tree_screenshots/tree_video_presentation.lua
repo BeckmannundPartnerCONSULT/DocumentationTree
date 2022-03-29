@@ -204,7 +204,7 @@ menu = iup.menu{
 
 --7.1 load tree from self file
 actualtree=lua_tree_output
---builde tree
+--build tree
 tree=iup.tree{
 map_cb=function(self)
 self:AddNodes(actualtree)
