@@ -84,6 +84,7 @@ Diese wird jetzt verändert.
 --1.1.1 libraries
 require("iuplua")           --require iuplua for GUIs
 require("iupluaweb")        --require iupluaweb for webbrowser
+require("iuplua_scintilla") --for Scintilla-editor
 --iup.SetGlobal("UTF8MODE","NO")
 
 --1.1.2 initalize clipboard
@@ -310,11 +311,11 @@ dlg_rename = iup.dialog{
 --ok_change_page button
 ok_change_page = iup.flatbutton{title = "Seite verändern",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function ok_change_page:flat_action()
-	webbrowser1.HTML= text1.value
+	webbrowser1.HTML= textfield1.value
 	if tonumber(textbox1.value) then
-		TextHTMLtable[aktuelleSeite]= text1.value
+		TextHTMLtable[aktuelleSeite]= textfield1.value
 	else
-		TextHTMLtable[textbox1.value]= text1.value
+		TextHTMLtable[textbox1.value]= textfield1.value
 	end --if tonumber(textbox1.value) then
 	return iup.CLOSE
 end --function ok_change_page:flat_action()
@@ -329,25 +330,51 @@ end --function cancel_change_page:flat_action()
 search_in_text = iup.flatbutton{title = "Suche in der Seite",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 searchPosition=1
 function search_in_text:flat_action()
-	from,to=text1.value:find(textbox2.value,searchPosition)
+	from,to=textfield1.value:find(textbox2.value,searchPosition)
 	searchPosition=to
 	if from==nil then 
 		searchPosition=1 
 		iup.Message("Suchtext in der Seite nicht gefunden","Suchtext in der Seite nicht gefunden")
 	else
-		text1.SELECTIONPOS=from-1 .. ":" .. to
+		textfield1.SELECTIONPOS=from-1 .. ":" .. to
 	end --if from==nil then 
 end --function search_in_text:flat_action()
 
-text1 = iup.multiline{size="120x50",border="YES",expand="YES",wordwrap="YES"} --textfield
+--textfield
+textfield1=iup.scintilla{}
+textfield1.SIZE="320x320" --I think this is not optimal! (since the size is so appears to be fixed)
+textfield1.EXPAND="YES"
+--textfield1.wordwrap="WORD" --enable wordwarp
+textfield1.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
+textfield1.FONT="Courier New, 12" --font of shown code
+textfield1.LEXERLANGUAGE="lua" --set the programming language to Lua for syntax higlighting
+textfield1.KEYWORDS0="for end while date time if io elseif else execute do dofile require return break and or os type string nil not next false true gsub gmatch goto ipairs open popen pairs print" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
+--colors for syntax highlighting
+textfield1.STYLEFGCOLOR0="0 0 0"      -- 0-Default
+textfield1.STYLEFGCOLOR1="0 128 0"    -- 1-Lua comment
+textfield1.STYLEFGCOLOR2="0 128 0"    -- 2-Lua comment line
+textfield1.STYLEFGCOLOR3="0 128 0"    -- 3-JavaDoc/ Doxygen style Lua commen
+textfield1.STYLEFGCOLOR4="180 0 0"    -- 4-Number 
+textfield1.STYLEFGCOLOR5="0 0 255"    -- 5-Keywords (id=0) 
+textfield1.STYLEFGCOLOR6="160 20 180"  -- 6-String 
+textfield1.STYLEFGCOLOR7="128 0 0"    -- 7-Character
+textfield1.STYLEFGCOLOR8="160 20 180"  -- 8-Literal string
+textfield1.STYLEFGCOLOR9="0 0 255"    -- 9-Old preprocessor block (obsolete)
+textfield1.STYLEFGCOLOR10="128 0 0" -- 10-Operator 
+--textfield1.STYLEBOLD10="YES"
+--textfield1.STYLEFGCOLOR11="255 0 255" -- 11-Identifier (this overwrites the default color)
+--textfield1.STYLEITALIC10="YES"
+textfield1.MARGINWIDTH0="40"
+
+--label
 label1 = iup.label{title="Blattinhalt:"}--label for textfield
 
 --open the dialog for renaming page
 dlg_change_page = iup.dialog{
-	iup.vbox{label1, text1, iup.hbox{ok_change_page,search_in_text,cancel_change_page}}; 
+	iup.vbox{label1, textfield1, iup.hbox{ok_change_page,search_in_text,cancel_change_page}}; 
 	title="Seite bearbeiten",
-	size="400x350",
-	startfocus=text1,
+	size="500x450",
+	startfocus=textfield1,
 	}
 
 --4.2 change page dialog end
@@ -914,8 +941,8 @@ function button_edit_page:flat_action()
 		TextErsatz=TextHTMLtable[textbox1.value]
 		webbrowser1.HTML=TextErsatz
 	end --if tonumber(textbox1.value) then
-	text1.value=TextErsatz
-	dlg_change_page:popup(iup.CENTER, iup.CENTER) --popup rename dialog
+	textfield1.value=TextErsatz
+	dlg_change_page:popup(iup.LEFT, iup.TOP) --popup rename dialog
 end --function button_edit_page:action()
 
 --6.6.1 button for going to the page
