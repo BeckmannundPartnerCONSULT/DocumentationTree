@@ -82,22 +82,22 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraﬂe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstra√üe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
---6.2 button for showing SQL as tree
+--6.2 button for building tree with SQL
 button_show_sql_as_tree=iup.flatbutton{title="Das SQL als Baum zeigen", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_sql_as_tree:flat_action()
 	tree.delnode0 = "CHILDREN"
 	tree.title='brackets tree'
 	--example text variable
 	text=textfield1.value
-	text=text:gsub(";",");(")
+	--treat multiple SQL statements with semicolon at the end
+	text=text:gsub(";",";)(")
 		:gsub(" +$","")
 		:gsub(" +\n","\n")
 		:gsub("\n+","")
-		:gsub("%);%($",";")
-	text=text:gsub("(%u+)%(","(%1") --exchange function words in upper cases and brackets
+		:gsub(";%)%($",";")
 	--read opening and closing brackets and count them and add missing ones
 	numberBracketOpen=0
 	for bracketOpen in ("(" .. text .. ")"):gmatch("%(") do
@@ -126,7 +126,7 @@ function button_show_sql_as_tree:flat_action()
 	iup.TreeAddNodes(tree,tree_sql_script)
 end --function button_show_sql_as_tree:flat_action()
 
---6.3 button for showing Excel formula as tree
+--6.3 button for building tree with Excel formula
 button_show_excel_formula_as_tree=iup.flatbutton{title="Die Excel-Formel als Baum zeigen", size="145x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_excel_formula_as_tree:flat_action()
 	tree.delnode0 = "CHILDREN"
@@ -167,7 +167,7 @@ end --function button_show_excel_formula_as_tree:flat_action()
 --6.4 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraﬂe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstra√üe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --7. Main Dialog
