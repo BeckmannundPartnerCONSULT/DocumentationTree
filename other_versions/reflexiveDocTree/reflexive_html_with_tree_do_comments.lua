@@ -7,6 +7,16 @@ chosenNumber=10
 commentsTable={}
 
 
+commentsTable["exchange words in upper cases and brackets"]={
+"Wörter in Großbuchstaben mit direkt angrenzender Klammer werden mit dieser in der Reihenfolge umgetauscht.",
+"Words in upper cases and brackets are exchanged.",
+}
+
+commentsTable["example text variable"]={
+"Eine Textvariable dient als Beispiel.",
+"A text variable is used as an example.",
+}
+
 commentsTable["read opening and closing brackets and count them and add missing ones"]={
 "Die öffnenden und schließenden runden Klammern werden gelesen und gezählt, damit die jeweils fehlenden bei Ungleichheit ergänzt werden.",
 "The opening and closing brackets are read and counted so that the missing brackets are added.",
@@ -408,6 +418,26 @@ commentsTable["button for building tree with start directory without versions"]=
 "Eine Schaltfläche dient dazu, das Quellverzeichnis ohne Versionsdateien als Baum darzustellen.",
 "A button is used to show the start directory without file versions as a tree.",
 }
+commentsTable["button for building tree with SQL"]={
+"Eine Schaltfläche dient dazu, das SQL als Baum darzustellen.",
+"A button is used to show the SQL as a tree.",
+}
+commentsTable["button for building tree with Excel formula"]={
+"Eine Schaltfläche dient dazu, die Excel-Formel als Baum darzustellen.",
+"A button is used to show the Excel formula as a tree.",
+}
+commentsTable["button for copying page as a Lua tree"]={
+"Eine Schaltfläche dient dazu, die Html-Seite als Baum zu kopieren.",
+"A button is used to copy the site page as a tree.",
+}
+commentsTable["button for copying page as a pure programm"]={
+"Eine Schaltfläche dient dazu, die Html-Seite als Programm zu kopieren.",
+"A button is used to copy the site page as a programm.",
+}
+commentsTable["button for copying page as a programm with comments"]={
+"Eine Schaltfläche dient dazu, die Html-Seite als Programm mit Kommentaren zu kopieren. Die Kommentarzeichen werden in einer Textbox gezeigt und können dort verändert werden.",
+"A button is used to copy the site page as a programm with comments. The comment characters are shown in a textbox and can be changed there.",
+}
 
 commentsTable["filter all leafs under the branch for pattern in console prompt"]={
 "Ein Kontextmenüpunkt filtert alle Blätter unter dem Ast nach einem Muster, das im Konsolen-Prompt-Textfeld eingegeben ist.",
@@ -652,6 +682,10 @@ commentsTable["optional save video"]={
 commentsTable["no dialogs"]={
 "Es gibt keine zusätzlichen Fenster neben dem Hauptfenster oder dem Skript.",
 "There are no dialogs except the main dialog or the script.",
+}
+commentsTable["no functions"]={
+"Es gibt keine Funktionen.",
+"There are no functions.",
 }
 commentsTable["no dialogs needed since tree is fixed"]={
 "Es gibt keine zusätzlichen Fenster neben dem Hauptfenster oder dem Skript, weil der Baum fix ist.",
@@ -1247,6 +1281,10 @@ commentsTable["drag & drop text area leaf"]={
 commentsTable["display empty first tree"]={
 "Beim Start der graphischen Benutzeroberfläche wird ein leerer erster Baum angezeigt.",
 "At the load of the graphical user interface an empty first tree is shown.",
+}
+commentsTable["display empty SQL tree"]={
+"Beim Start der graphischen Benutzeroberfläche wird ein leerer SQL-Baum angezeigt.",
+"At the load of the graphical user interface an empty SQL tree is shown.",
 }
 commentsTable["display empty second tree"]={
 "Beim Start der graphischen Benutzeroberfläche wird ein leerer zweiter Baum angezeigt.",
@@ -1925,6 +1963,7 @@ componentSortTable["1: open Word with LuaCOM"]="1: b1"
 componentSortTable["3: functions"]="3: a1"
 componentSortTable["3: general Lua functions"]="3: a2"
 componentSortTable["3: functions for GUI"]="3: a3"
+componentSortTable["3: no functions"]="3: a4"
 componentSortTable["4: dialogs"]="4: a1"
 componentSortTable["4: no dialogs"]="4: a2"
 componentSortTable["4: no dialogs needed since tree is fixed"]="4: a3"
