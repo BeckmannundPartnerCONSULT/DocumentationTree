@@ -1457,16 +1457,10 @@ function tree:k_any(c)
 			--table.remove(attributes, tree.value+1)
 		end --for j=0,tree.totalchildcount do
 		tree.delnode = "MARKED"
-	elseif c == iup.K_cP then -- added output of current table to a text file
-		printtree()
 	elseif c == iup.K_cF then
 		searchtext.value=tree.title
 		searchtext.SELECTION="ALL"
 		dlg_search:popup(iup.ANYWHERE, iup.ANYWHERE)
-	elseif c == iup.K_cH then
-		searchtext_replace.value=tree.title
-		replacetext_replace.SELECTION="ALL"
-		dlg_search_replace:popup(iup.ANYWHERE, iup.ANYWHERE)
 	elseif c == iup.K_Menu then
 		menu:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
 	end --if c == iup.K_DEL then
