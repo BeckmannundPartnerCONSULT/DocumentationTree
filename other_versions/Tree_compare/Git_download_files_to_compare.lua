@@ -65,6 +65,7 @@ fileSiteTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\nachschlagen_documentati
 fileSiteTable["C:\\Tree\\htmlTXTtoLua\\html_text_file_to_lua_tree_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/htmlTXTtoLua/html_text_file_to_lua_tree.lua"
 fileSiteTable["C:\\Tree\\htmlTXTtoLua\\html_text_file_to_lua_tree_compared_with_previous_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/htmlTXTtoLua/html_text_file_to_lua_tree_compared_with_previous.lua"
 fileSiteTable["C:\\Tree\\Tree_compare\\Git_download_files_to_compare_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/Tree_compare/Git_download_files_to_compare.lua"
+fileSiteTable["C:\\Tree\\htmlTXTtoLua\\htmlListTreeTXTtoLua_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/htmlTXTtoLua/htmlListTreeTXTtoLua.lua"
 
 --3.1.3 general function for distance between texts
 function string.levenshtein(str1, str2)
