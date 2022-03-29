@@ -1087,7 +1087,7 @@ function button_loading_lua_table:flat_action()
 end --function button_loading_lua_table:flat_action()
 
 --6.3.1 button for saving tree
-button_save_lua_table=iup.flatbutton{title="Baum als Lua-Tabelle speichern \n(Strg+P)", size="125x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_save_lua_table=iup.flatbutton{title="Baum als Lua-Tabelle speichern \n(Strg+L)", size="125x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	--open a filedialog
 	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.lua",filterinfo="Lua Files", directory=path}
@@ -1169,6 +1169,8 @@ function tree:k_any(c)
 		tree.delnode = "MARKED"
 	elseif c == iup.K_cP then -- added output of current table to a text file
 		printtree()
+	elseif c == iup.K_cL then -- added output of current table to a Lua file
+		button_save_lua_table:flat_action()
 	elseif c == iup.K_cR then -- expand collapse dialog
 		text_expand_collapse.value=tree.title
 		dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
