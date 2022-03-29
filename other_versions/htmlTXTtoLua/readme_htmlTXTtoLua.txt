@@ -14,3 +14,7 @@ Afterwards this file is read and converted in a Lua tree table.
 
 At last only the new nodes compared with the previous tree are shown.
 
+3. htmlListTreeTXTtoLua.lua
+
+This auxiliary script converts a html tree as a list with <ul><li> tags into a Lua tree.
+
