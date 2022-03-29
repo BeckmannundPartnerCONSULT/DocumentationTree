@@ -5789,6 +5789,122 @@ dlg_change_page = iup.dialog{
 
 --4.2 change page dialog end
 
+--4.3 search dialog
+searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
+
+--search in downward direction
+searchdown    = iup.flatbutton{title = "Abwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+function searchdown:flat_action()
+	local help=false
+	--downward search
+	if checkboxforcasesensitive.value=="ON"  then
+		for i=tree.value + 1, tree.count-1 do
+			if tree["title" .. i]:match(searchtext.value)~= nil then
+				tree.value= i
+				help=true
+				break
+			end --if tree["title" .. i]:match(searchtext.value)~= nil then
+		end --for i=tree.value + 1, tree.count-1 do
+	else
+		for i=tree.value + 1, tree.count-1 do
+			if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+				tree.value= i
+				help=true
+				break
+			end --if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+		end --for i=tree.value + 1, tree.count-1 do
+	end --if checkboxforcasesensitive.value=="ON" then
+	if help==false then
+		iup.Message("Suche","Ende des Baumes erreicht.")
+		tree.value=0 --starting again from the top
+		iup.NextField(maindlg)
+		iup.NextField(dlg_search)
+	end --if help==false then
+end --function searchdown:flat_action()
+
+--search to mark without going to the any node
+searchmark    = iup.flatbutton{title = "Markieren",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+function searchmark:flat_action()
+	--unmark all nodes
+	for i=0, tree.count - 1 do
+			tree["color" .. i]="0 0 0"
+	end --for i=0, tree.count - 1 do
+	--unmark all nodes end
+	--mark all nodes
+	for i=0, tree.count - 1 do
+		if tree["title" .. i]:upper():match(searchtext.value:upper())~= nil then
+			iup.TreeSetAncestorsAttributes(tree,i,{color="255 0 0",})
+			iup.TreeSetNodeAttributes(tree,i,{color="0 0 250",})
+			iup.TreeSetDescendantsAttributes(tree,i,{color="90 195 0"})
+		end --if tree["title" .. i]:upper():match(searchtext.value:upper())~= nil then
+	end --for i=0, tree.count - 1 do
+	--mark all nodes end
+	for i=0, tree.count - 1 do
+	end --for i=0, tree.count - 1 do
+end --function searchmark:flat_action()
+
+--unmark without leaving the search-window
+unmark    = iup.flatbutton{title = "Entmarkieren",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+function unmark:flat_action()
+--unmark all nodes
+for i=0, tree.count - 1 do
+	tree["color" .. i]="0 0 0"
+end --for i=0, tree.count - 1 do
+--unmark all nodes end
+end --function unmark:flat_action()
+
+--search in upward direction
+searchup   = iup.flatbutton{title = "Aufwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+function searchup:flat_action()
+	local help=false
+	--upward search
+	if checkboxforcasesensitive.value=="ON" then
+		for i=tree.value - 1, 0, -1 do
+			if tree["title" .. i]:match(searchtext.value)~= nil then
+				tree.value= i
+				help=true
+				break
+			end --if tree["title" .. i]:match(searchtext.value)~= nil then
+		end --for i=tree.value - 1, 0, -1 do
+	else
+		for i=tree.value - 1, 0, -1 do
+			if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+				tree.value= i
+				help=true
+				break
+			end --if tree["title" .. i]:lower():match(searchtext.value:lower())~= nil then
+		end --for i=tree.value - 1, 0, -1 do
+	end --if checkboxforcasesensitive.value=="ON" then
+	if help==false then
+		iup.Message("Suche","Anfang des Baumes erreicht.")
+		tree.value=tree.count-1 --starting again from the bottom
+		iup.NextField(maindlg)
+		iup.NextField(dlg_search)
+	end --if help==false then
+end --	function searchup:flat_action()
+
+checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
+search_label=iup.label{title="Suchfeld:"} --label for textfield
+
+--put above together in a search dialog
+dlg_search =iup.dialog{
+			iup.vbox{iup.hbox{search_label,searchtext,}, 
+
+			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+			iup.hbox{searchmark,unmark,}, 
+			iup.label{title="rot: übergeordnete Knoten",fgcolor = "255 0 0", },
+			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
+			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
+			iup.hbox{searchdown, searchup,checkboxforcasesensitive,},
+
+			}; 
+		title="Suchen",
+		size="420x100",
+		startfocus=searchtext
+		}
+
+--4.3 search dialog end
+
 --5. context menus (menus for right mouse click)
 
 --5.1 menu of tree
@@ -6035,7 +6151,15 @@ function button_save_lua_table:flat_action()
 	save_html_to_lua(TextHTMLtable, path .. "\\" .. thisfilename)
 end --function button_save_lua_table:flat_action()
 
---6.3 button for going to first page
+--6.3.1 button for search in tree
+button_search=iup.flatbutton{title="Suchen\n(Strg+F)", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_search:flat_action()
+	searchtext.value=tree.title
+	searchtext.SELECTION="ALL"
+	dlg_search:popup(iup.ANYWHERE, iup.ANYWHERE)
+end --function button_search:flat_action()
+
+--6.3.2 button for going to first page
 button_go_to_first_page = iup.flatbutton{title = "Startseite",size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_to_first_page:flat_action()
 	webbrowser1.HTML=TextHTMLtable[1]
@@ -6112,8 +6236,8 @@ function button_save_as_html:flat_action()
 end --function button_save_as_html:flat_action()
 
 --6.9 button for search in TextHTMLtable
-button_search=iup.flatbutton{title="Suche in Seiten", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
-function button_search:flat_action()
+button_search_in_pages=iup.flatbutton{title="Suche in Seiten", size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_search_in_pages:flat_action()
 	if tonumber(textbox1.value) then
 		aktuelleSeite=math.tointeger(tonumber(textbox1.value))
 		if aktuelleSeite<=#TextHTMLtable then
@@ -6136,7 +6260,7 @@ function button_search:flat_action()
 			end --if TextHTMLtable[i]:gsub("<[^>]+>",""):lower():match(textbox2.value:lower()) then
 		end --for k,v in pairs(TextHTMLtable) do
 	end --if tonumber(textbox1.value) then
-end --function button_search:flat_action()
+end --function button_search_in_pages:flat_action()
 
 
 --6.10 button for going to the next page
@@ -6177,7 +6301,7 @@ webbrowser1=iup.webbrowser{HTML=TextHTMLtable[1],MAXSIZE="900x750"}
 
 --7.3 load tree from self file
 actualtree=lua_tree_output
---builde tree
+--build tree
 tree=iup.tree{
 map_cb=function(self)
 self:AddNodes(actualtree)
@@ -6212,10 +6336,6 @@ function tree:k_any(c)
 			searchtext.value=tree.title
 			searchtext.SELECTION="ALL"
 			dlg_search:popup(iup.ANYWHERE, iup.ANYWHERE)
-	elseif c == iup.K_cH then
-			searchtext_replace.value=tree.title
-			replacetext_replace.SELECTION="ALL"
-			dlg_search_replace:popup(iup.ANYWHERE, iup.ANYWHERE)
 	elseif c == iup.K_Menu then
 		menu:popup(iup.MOUSEPOS,iup.MOUSEPOS) --popup the defined menue
 	end --if c == iup.K_DEL then
@@ -6269,6 +6389,7 @@ maindlg = iup.dialog {
 		iup.hbox{
 			button_logo,
 			button_save_lua_table,
+			button_search,
 			button_go_to_first_page,
 			button_go_back,
 			button_edit_page,
@@ -6277,7 +6398,7 @@ maindlg = iup.dialog {
 			button_delete,
 			iup.fill{},
 			button_save_as_html,
-			button_search,
+			button_search_in_pages,
 			textbox2,
 			button_go_forward,
 			button_new_page,
