@@ -227,7 +227,7 @@ function save_html_to_lua(htmlTexts, outputfile_path)
 		if type(k)=="number" then
 		output_htmlTexts_text=output_htmlTexts_text .. "\n[====[" .. v .. "]====],"
 		else
-		output_htmlTexts_text=output_htmlTexts_text .. '\n["' .. k .. '"]=[====[' .. v .. "]====],"
+		output_htmlTexts_text=output_htmlTexts_text .. '\n["' .. string.escape_forbidden_char(k) .. '"]=[====[' .. v .. "]====],"
 		end --if type(k)=="number" then
 	end --for k,v in pairs(TextHTMLtable) do 
 
