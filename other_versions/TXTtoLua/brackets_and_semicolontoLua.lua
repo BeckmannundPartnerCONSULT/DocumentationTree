@@ -5,7 +5,7 @@
 --C:\Temp\EBA Validation Rules 2021-12-10_2.xlsx:
 text='=WENN(TEIL(M4;1;1)="";"-"; WENNFEHLER(WENNFEHLER(WENN(SUCHEN(M4;$Vorgehensweise_neu.$AE$21)>0;"SO");WENN(SUCHEN(M4;$Vorgehensweise_neu.$AH$21)>0;"FF"));WENN(TEIL(N4;1;1)="F"; WENNFEHLER(WENNFEHLER(WENN(SUCHEN(N4;$Vorgehensweise_neu.$AE$21)>0;"SO");WENN(SUCHEN(N4;$Vorgehensweise_neu.$AH$21)>0;"FF"));WENN(TEIL(O4;1;1)="F"; WENNFEHLER(WENNFEHLER(WENN(SUCHEN(O4;$Vorgehensweise_neu.$AE$21)>0;"SO");WENN(SUCHEN(O4;$Vorgehensweise_neu.$AH$21)>0;"FF"));WENN(TEIL(P4;1;1)="F"; WENNFEHLER(WENNFEHLER(WENN(SUCHEN(P4;$Vorgehensweise_neu.$AE$21)>0;"SO");WENN(SUCHEN(P4;$Vorgehensweise_neu.$AH$21)>0;"FF"));WENN(TEIL(Q4;1;1)="F"; WENNFEHLER(WENNFEHLER(WENN(SUCHEN(Q4;$Vorgehensweise_neu.$AE$21)>0;"SO");WENN(SUCHEN(Q4;$Vorgehensweise_neu.$AH$21)>0;"FF"));WENN(TEIL(R4;1;1)="F"; WENNFEHLER(WENNFEHLER(WENN(SUCHEN(R4;$Vorgehensweise_neu.$AE$21)>0;"SO");WENN(SUCHEN(R4;$Vorgehensweise_neu.$AH$21)>0;"FF"));WENN(TEIL(S4;1;1)="F"; WENNFEHLER(WENNFEHLER(WENN(SUCHEN(S4;$Vorgehensweise_neu.$AE$21)>0;"SO");WENN(SUCHEN(S4;$Vorgehensweise_neu.$AH$21)>0;"FF"));"nM");"nM"));"nM"));"nM"));"nM"));"nM"));"nM")))'
 
---1.1 exchange function words in upper cases and brackets
+--1.1 exchange words in upper cases and brackets
 text=text:gsub("(%u+)%(","(%1~~~") 
 
 --1.2 read opening and closing brackets and count them and add missing ones
