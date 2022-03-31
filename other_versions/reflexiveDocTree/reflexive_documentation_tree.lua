@@ -297,7 +297,7 @@ function searchup:flat_action()
 		iup.NextField(maindlg)
 		iup.NextField(dlg_search)
 	end --if help==false then
-end --	function searchup:flat_action()
+end --function searchup:flat_action()
 
 checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
@@ -617,7 +617,7 @@ if fileLocked=="YES" then
 			iup.hbox{
 				iup.frame{title="Manuelle Zuordnung als Baum",tree,},
 				},
-	
+
 		},
 
 		icon = img_logo,
