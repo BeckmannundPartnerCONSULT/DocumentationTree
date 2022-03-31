@@ -14,6 +14,9 @@ packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree.lua"]="C:
 packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_with_directory.lua"]="C:\\Tree\\IDIV_package\\IDIV_Ordnergliederung"
 packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_with_webbrowser.lua"]="C:\\Tree\\IDIV_package\\IDIV_Browser"
 packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_html_with_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Praesentation"
+packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_htmlbook_with_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Textheft"
+packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_of_Lua.lua"]="C:\\Tree\\IDIV_package\\IDIV_Browser_der_Lua_Syntax"
+packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_with_html.lua"]="C:\\Tree\\IDIV_package\\IDIV_Textverarbeitung"
 
 --non reflexive scripts can be easily updated, but they need aditional files
 packageTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\nachschlagen_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Arbeitsplatz"
@@ -25,6 +28,9 @@ packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_webpage_search.
 packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
 packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_with_file_dialog.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
 packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_with_webbrowser.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
+packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_brackets.lua"]="C:\\Tree\\IDIV_package\\IDIV_Klammerhierarchien"
+packageTable["C:\\Tree\\Tree_screenshots\\simple_tree_screenshots.lua"]="C:\\Tree\\IDIV_package\\IDIV_Bildschirmausdruck"
+packageTable["C:\\Tree\\Tree_screenshots\\tree_video_presentation.lua"]="C:\\Tree\\IDIV_package\\IDIV_Videopraesentation"
 packageTable["C:\\Tree\\LuatoLua\\Tree_console.lua"]="C:\\Tree\\IDIV_package\\IDIV_Skripter"
 packageTable["C:\\Tree\\LuatoLua\\ansicht_documentation_tree_balance.lua"]="C:\\Tree\\IDIV_package\\IDIV_Bilanzanalysewerkzeug"
 packageTable["C:\\Tree\\LuatoLua\\Tree_calculator_with_interests.lua"]="C:\\Tree\\IDIV_package\\IDIV_Zinskalkulationsschema"
