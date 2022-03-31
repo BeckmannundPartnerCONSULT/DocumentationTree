@@ -5,6 +5,8 @@ distanceLineNumberTable={}
 distanceLineTable={}
 distanceLineScriptTable={}
 
+fileSiteTable["C:\\Tree\\IDIV_package_starter_kit_zip_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/IDIV_package_starter_kit_zip.lua"
+fileSiteTable["C:\\Tree\\IDIV_package_zip_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/IDIV_package_zip.lua"
 fileSiteTable["C:\\Tree\\CSVtoLua\\CSVtoLua_Linux_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/CSVtoLua/CSVtoLua_Linux.lua"
 fileSiteTable["C:\\Tree\\CSVtoLua\\CSVtoLua_Windows_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/CSVtoLua/CSVtoLua_Windows.lua"
 fileSiteTable["C:\\Tree\\ExceltoPDFforLua\\ExceltoPDFforLua_Windows_Git.html"]="https://github.com/BeckmannundPartnerCONSULT/DocumentationTree/blob/develop/other_versions/ExceltoPDFforLua/ExceltoPDFforLua_Windows.lua"
