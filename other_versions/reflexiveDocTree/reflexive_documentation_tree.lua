@@ -1,7 +1,7 @@
-lua_tree_output={ branchname="example of a reflexive tree",
-{ branchname="Node 1",
+lua_tree_output={ branchname="example of a reflexive tree", 
+{ branchname="Node 1", 
 state="COLLAPSED",
-{ branchname="Node 2",
+{ branchname="Node 2", 
 state="COLLAPSED",
  "Leaf",}}}--lua_tree_output
 
@@ -174,8 +174,6 @@ function printtree()
 		iup.NextField(maindlg)
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
-
-
 
 
 
@@ -588,48 +586,92 @@ function tree:k_any(c)
 	end --if c == iup.K_DEL then
 end --function tree:k_any(c)
 
+--7.2.1 write locking file if it does not exist
+if file_exists(path .. "\\" .. thisfilename:gsub("%.lua$",".lualock")) then
+	fileLocked="YES"
+else
+	fileLocked="NO"
+	outputfile_lock=io.open( path .. "\\" .. thisfilename:gsub("%.lua$",".lualock") , "w")
+	outputfile_lock:write(os.getenv("USERNAME") .. "\n")
+	outputfile_lock:close()
+end --if file_exists(path .. "\\" .. thisfilename:gsub("%.lua$",".lualock")) then
 
---7.2 building the dialog and put buttons, trees and preview together
-maindlg = iup.dialog{
-	--simply show a box with buttons
-	iup.vbox{
-		--first row of buttons
-		iup.hbox{
-			button_logo,
-			button_save_lua_table,
-			button_search,
-			button_replace,
-			iup.label{size="10x",},
-			button_compare,
-			iup.label{size="10x",},
-			iup.fill{},
-			button_logo2,
-		},
-		
-		iup.hbox{
-			iup.frame{title="Manuelle Zuordnung als Baum",tree,},
+
+--7.2.2 building the dialog and put buttons and tree together depending on locking file
+if fileLocked=="YES" then
+	maindlg = iup.dialog{
+		--simply show a box with buttons
+		iup.vbox{
+			--first row of buttons
+			iup.hbox{
+				button_logo,
+				button_search,
+				button_replace,
+				iup.label{size="10x",},
+				button_compare,
+				iup.label{size="10x",},
+				iup.fill{},
+				button_logo2,
 			},
+			
+			iup.hbox{
+				iup.frame{title="Manuelle Zuordnung als Baum",tree,},
+				},
+	
+		},
 
-	},
+		icon = img_logo,
+		title = path .. " Documentation Tree",
+		SIZE = 'FULLxFULL',
+		BACKGROUND=color_background
+	}
+else
+	maindlg = iup.dialog{
+		--simply show a box with buttons
+		iup.vbox{
+			--first row of buttons
+			iup.hbox{
+				button_logo,
+				button_save_lua_table,
+				button_search,
+				button_replace,
+				iup.label{size="10x",},
+				button_compare,
+				iup.label{size="10x",},
+				iup.fill{},
+				button_logo2,
+			},
+			
+			iup.hbox{
+				iup.frame{title="Manuelle Zuordnung als Baum",tree,},
+				},
 
-	icon = img_logo,
-	title = path .. " Documentation Tree",
-	SIZE = 'FULLxFULL',
-	BACKGROUND=color_background
-}
+		},
+
+		icon = img_logo,
+		title = path .. " Documentation Tree",
+		SIZE = 'FULLxFULL',
+		BACKGROUND=color_background
+	}
+end --if fileLocked=="YES" then
 
 --7.2.1 show the dialog
 maindlg:show()
 
---7.3 callback on close of the main dialog for saving
+--7.3 callback on close of the main dialog for saving and unlocking
 function maindlg:close_cb()
-	EndeAlarm=iup.Alarm("Alarm","Wollen Sie den Baum speichern?","Speichern","Nein")
-	if EndeAlarm==1 then 
-		save_tree_to_lua(tree, path .. "\\" .. thisfilename)
-		iup.ExitLoop()
-		maindlg:destroy()
-		return iup.IGNORE
-	end --if EndeAlarm==1 then 
+	if fileLocked=="YES" then
+		--locked file is closed without asking
+	else
+		os.execute('del ' .. path .. "\\" .. thisfilename:gsub("%.lua$",".lualock"))
+		EndeAlarm=iup.Alarm("Alarm","Wollen Sie den Baum speichern?","Speichern","Nein")
+		if EndeAlarm==1 then 
+			save_tree_to_lua(tree, path .. "\\" .. thisfilename)
+			iup.ExitLoop()
+			maindlg:destroy()
+			return iup.IGNORE
+		end --if EndeAlarm==1 then 
+	end --if fileLocked=="YES" then
 end --function maindlg:close_cb()
 
 --7.4 Timer for autosave of tree
