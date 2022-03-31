@@ -1,4 +1,9 @@
 
+
+--delete the zip file
+os.execute('del C:\\Tree\\IDIV_package.zip')
+
+
 --build the product package for the interactive dynamic table of contents products
 
 packageTable={}
@@ -7,6 +12,7 @@ packageTable={}
 packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_search.lua"]="C:\\Tree\\IDIV_package\\IDIV_Suchergebnisse_Internet"
 packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
 packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_with_directory.lua"]="C:\\Tree\\IDIV_package\\IDIV_Ordnergliederung"
+packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_documentation_tree_with_webbrowser.lua"]="C:\\Tree\\IDIV_package\\IDIV_Browser"
 packageTable["C:\\Tree\\reflexiveDocTree\\reflexive_html_with_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Praesentation"
 
 --non reflexive scripts can be easily updated, but they need aditional files
