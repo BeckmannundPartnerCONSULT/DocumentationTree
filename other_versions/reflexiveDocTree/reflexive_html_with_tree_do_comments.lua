@@ -735,6 +735,10 @@ commentsTable["building the dialog and put buttons, trees and other elements tog
 "Die Schaltflächen, die Baumansichten und die anderen Elemente der graphischen Benutzeroberfläche werden in einem Hauptfenster zusammengestellt.",
 "The buttons, trees and other elements of the graphical user interface are put in a main dialog.",
 }
+commentsTable["building the dialog and put buttons and tree together depending on locking file"]={
+"Die Schaltflächen und die Baumansicht der graphischen Benutzeroberfläche werden in einem Hauptfenster je nach Sperrdatei zusammengestellt. Beim ersten Öffnen wird die graphische Benutzeroberfläche mit Speicherbutton, sonst ohne Speicherbutton gezeigt.",
+"The buttons and trees of the graphical user interface are put in a main dialog depending on the locking file. The first user opening the graphical user interface sees the save button, all other during the existence of the locking file do not see the save button.",
+}
 commentsTable["building the dialog and put trees and video together"]={
 "Die Schaltflächen, die Baumansichten und das Videofeld der graphischen Benutzeroberfläche werden in einem Hauptfenster zusammengestellt.",
 "The buttons, trees and video field of the graphical user interface are put in a main dialog.",
@@ -842,6 +846,14 @@ commentsTable["button for loading all text files without versions in IUP Lua scr
 commentsTable["button to rotate image"]={
 "Eine Schaltfläche dreht das Bild um 90 Grad nach rechts.",
 "A button rotates the image by 90 degrees to the right.",
+}
+commentsTable["button for editing page with potential code"]={
+"Eine Schaltfläche wird benötigt, um die Seite in den Editmodus zu bringen, so dass der potentielle Programmcode verändert werden kann.",
+"A button for editing page is needed to be able to change the content of the site. Only text that can be used as a code is left in the page.",
+}
+commentsTable["button for not editing and go back to page"]={
+"Eine Schaltfläche wird benötigt, um den Edit-Modus der Seite zu beenden und zur gespeicherten Seite zurückzugehen.",
+"A button for leaving edit mode of the page is needed and going back to the page.",
 }
 commentsTable["button for screen capture"]={
 "Eine Schaltfläche macht einen Bildschirmausdruck mit dem Knotentext als Dateinamen, falls möglich, sonst mit einem Standard-Dateinamen.",
@@ -1080,6 +1092,14 @@ commentsTable["callback on close of the main dialog for saving or restoring"]={
 commentsTable["callback on close of the main dialog for saving"]={
 "Beim Beenden der graphischen Benutzeroberfläche wird abgefragt, ob gespeichert wird.",
 "At the close of the graphical user interface the user must answer to save the data.",
+}
+commentsTable["callback on close of the main dialog for saving and unlocking"]={
+"Beim Beenden der graphischen Benutzeroberfläche wird abgefragt, ob gespeichert wird. Die Sperrdatei wird gelöscht.",
+"At the close of the graphical user interface the user must answer to save the data. The locking file is deleted.",
+}
+commentsTable["write locking file if it does not exist"]={
+"Eine Sperrdatei wird geschrieben, falls diese nicht existiert.",
+"A locking file is to be written if it does not exist.",
 }
 commentsTable["dialogs"]={
 "Zusatzfenster zusätzlich zum Hauptfenster werden benötigt.",
