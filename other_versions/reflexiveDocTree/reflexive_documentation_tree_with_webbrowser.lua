@@ -1053,7 +1053,7 @@ local newText=[====[<!DOCTYPE html> <head></head><html> <body>
 	TextHTMLtable[aktuelleSeite]= newText
 end --function button_new_page:flat_action()
 
---6.12.1.1 button for editing page
+--6.12.1.1 button for editing page with potential code
 button_edit_programm = iup.flatbutton{title = "Programm \neditieren",size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_edit_programm:flat_action()
 	exchangeText=webbrowser1.HTML:gsub("<h.-/h%d>","") --do not take titles
