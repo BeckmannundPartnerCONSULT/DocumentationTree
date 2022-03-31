@@ -373,7 +373,7 @@ label1 = iup.label{title="Blattinhalt:"}--label for textfield
 dlg_change_page = iup.dialog{
 	iup.vbox{label1, textfield1, iup.hbox{ok_change_page,search_in_text,cancel_change_page}}; 
 	title="Seite bearbeiten",
-	size="500x450",
+	size="560x450",
 	startfocus=textfield1,
 	}
 
@@ -774,6 +774,7 @@ end --function startversion:action()
 --5.1.8 menu for building new page
 menu_new_page = iup.item {title = "Neue Seite"}
 function menu_new_page:action()
+	webbrowser1.EDITABLE="NO"
 local newText=[====[<!DOCTYPE html> <head></head><html> <body>
 <h1>]====] .. tree['title'] .. [====[</h1>
 
@@ -797,6 +798,7 @@ end --function menu_new_page:action()
 --5.1.9 menu for going to webbrowser page
 menu_goto_page=iup.item {title="Gehe zu Seite vom Knoten", size="65x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function menu_goto_page:action()
+	webbrowser1.EDITABLE="NO"
 	if tonumber(tree['title']) then 
 		actualPage=math.tointeger(tonumber(tree['title'])) 
 		webbrowser1.HTML=TextHTMLtable[actualPage]
@@ -917,22 +919,25 @@ end --function button_expand_collapse_dialog:flat_action()
 --6.3.3 button for going to first page
 button_go_to_first_page = iup.flatbutton{title = "Startseite",size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_to_first_page:flat_action()
+	webbrowser1.EDITABLE="NO"
 	webbrowser1.HTML=TextHTMLtable[1]
 	aktuelleSeite=1
 	textbox1.value=aktuelleSeite
-end --function button_go_to_first_page:action()
+end --function button_go_to_first_page:flat_action()
 
 --6.4 button for going one page back
 button_go_back = iup.flatbutton{title = "Eine Seite \nzurück",size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_back:flat_action()
+	webbrowser1.EDITABLE="NO"
 	if aktuelleSeite>1 then aktuelleSeite=aktuelleSeite-1 end
 	webbrowser1.HTML=TextHTMLtable[aktuelleSeite]
 	textbox1.value=aktuelleSeite
-end --function button_go_back:action()
+end --function button_go_back:flat_action()
 
 --6.5 button for going to the page and edit the page
 button_edit_page = iup.flatbutton{title = "Editieren der \nSeite:",size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_edit_page:flat_action()
+	webbrowser1.EDITABLE="NO"
 	if tonumber(textbox1.value) then
 		aktuelleSeite=math.tointeger(tonumber(textbox1.value))
 		TextErsatz=TextHTMLtable[aktuelleSeite]
@@ -943,11 +948,12 @@ function button_edit_page:flat_action()
 	end --if tonumber(textbox1.value) then
 	textfield1.value=TextErsatz
 	dlg_change_page:popup(iup.LEFT, iup.TOP) --popup rename dialog
-end --function button_edit_page:action()
+end --function button_edit_page:flat_action()
 
 --6.6.1 button for going to the page
 button_go_to_page = iup.flatbutton{title = "Gehe \nzu Seite:",size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_to_page:flat_action()
+	webbrowser1.EDITABLE="NO"
 	if tonumber(textbox1.value) then
 		aktuelleSeite=math.tointeger(tonumber(textbox1.value))
 		TextErsatz=TextHTMLtable[aktuelleSeite]
@@ -957,11 +963,12 @@ function button_go_to_page:flat_action()
 		TextErsatz=TextHTMLtable[aktuelleSeite]
 		webbrowser1.HTML=TextErsatz
 	end --if tonumber(textbox1.value) then
-end --function button_go_to_page:action()
+end --function button_go_to_page:flat_action()
 
 --6.6.2 button for going to the page
 button_go_to_page_of_node = iup.flatbutton{title = "Gehe zu Seite \nvom Knoten:",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_to_page_of_node:flat_action()
+	webbrowser1.EDITABLE="NO"
 	if tonumber(tree['title']) then 
 		actualPage=math.tointeger(tonumber(tree['title'])) 
 		webbrowser1.HTML=TextHTMLtable[actualPage]
@@ -977,7 +984,7 @@ function button_go_to_page_of_node:flat_action()
 			webbrowser1.HTML=tree['title'] .. " hat keine Webpage"
 		end --if TextHTMLtable[tree['title']] then
 	end --if tonumber(tree['title']) then 
-end --function button_go_to_page_of_node:action()
+end --function button_go_to_page_of_node:flat_action()
 
 --6.7 button for deleting the page
 button_delete = iup.flatbutton{title = "Löschen \nder Seite",size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
@@ -997,7 +1004,7 @@ function button_delete:flat_action()
 end --function button_delete:flat_action()
 
 --6.8 button for saving TextHTMLtable as html file
-button_save_as_html=iup.flatbutton{title="Als html \nspeichern", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_save_as_html=iup.flatbutton{title="Als html \nspeichern", size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_as_html:flat_action()
 	local outputfile1=io.open(path .. "\\" .. thisfilename:gsub("%.lua$",".html"),"w")
 	for k,v in pairs(TextHTMLtable) do
@@ -1026,14 +1033,16 @@ end --function button_search_in_pages:flat_action()
 --6.10 button for going to the next page
 button_go_forward = iup.flatbutton{title = "Eine \nSeite vor",size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_go_forward:flat_action()
+	webbrowser1.EDITABLE="NO"
 	if aktuelleSeite<#TextHTMLtable then aktuelleSeite=aktuelleSeite+1 end
 	webbrowser1.HTML=TextHTMLtable[aktuelleSeite]
 	textbox1.value=aktuelleSeite
-end --function button_go_forward:action()
+end --function button_go_forward:flat_action()
 
 --6.11 button for building new page
 button_new_page = iup.flatbutton{title = "Neue \nSeite",size="35x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_new_page:flat_action()
+	webbrowser1.EDITABLE="NO"
 	aktuelleSeite=#TextHTMLtable+1
 	textbox1.value=aktuelleSeite
 local newText=[====[<!DOCTYPE html> <head></head><html> <body>
@@ -1042,18 +1051,42 @@ local newText=[====[<!DOCTYPE html> <head></head><html> <body>
 </body></html> ]====]
 	webbrowser1.HTML=newText
 	TextHTMLtable[aktuelleSeite]= newText
-end --function button_new_page:action()
+end --function button_new_page:flat_action()
 
---6.12.1 button for copying page as a pure programm
-button_copy_programm = iup.flatbutton{title = "Reines Programm \nkopieren",size="75x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+--6.12.1.1 button for editing page
+button_edit_programm = iup.flatbutton{title = "Programm \neditieren",size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_edit_programm:flat_action()
+	exchangeText=webbrowser1.HTML:gsub("<h.-/h%d>","") --do not take titles
+					:gsub("<p.-/p>","") --do not take paragraphs
+					:gsub("\n"," ") --do not take line breaks
+					:gsub("<br>","\n") --html line breaks special treatment
+					:gsub("<.->","") --do not take all other tags
+					:gsub("\n","<br>") --restore html line breaks in code
+	webbrowser1.EDITABLE="YES"
+	webbrowser1.HTML=exchangeText
+end --function button_edit_programm:flat_action()
+
+--6.12.1.2 button for not editing and go back to page
+button_no_edit_and_back_to_page = iup.flatbutton{title = "Zur Seite \nzurück",size="40x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_no_edit_and_back_to_page:flat_action()
+	button_go_to_page_of_node:flat_action()
+end --function button_no_edit_and_back_to_page:flat_action()
+
+--6.12.2 button for copying page as a pure programm
+button_copy_programm = iup.flatbutton{title = "Reines Programm \nkopieren",size="70x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_copy_programm:flat_action()
 	clipboard.text = webbrowser1.HTML:gsub("<h.-/h%d>","") --do not take titles
 					:gsub("<p.-/p>","") --do not take paragraphs
-					:gsub("<br>","") --do not take line breaks
+					:gsub("\r","\n") --take carriage return as line break
+					:gsub(" \n"," ") --do not take line breaks
+					:gsub("\n"," ") --do not take line breaks
+					:gsub("<br>","\n") --html line breaks special treatment
+					:gsub("<BR>","\n") --html line breaks special treatment
 					:gsub("<.->","") --do not take all other tags
-end --function button_copy_programm:action()
+					:gsub("&nbsp;"," ") --do not take space as special code
+end --function button_copy_programm:flat_action()
 
---6.12.2 button for copying page as a programm with comments
+--6.12.3 button for copying page as a programm with comments
 button_copy_programm_with_comments = iup.flatbutton{title = "Programm mit \nKommentaren kopieren",size="95x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_copy_programm_with_comments:flat_action()
 	--put line break out of comments
@@ -1069,41 +1102,54 @@ function button_copy_programm_with_comments:flat_action()
 	while exchangeText:match("<ul><li>.-\n.-</li></ul>") do
 		exchangeText= exchangeText:gsub("<ul><li>(.-)\n(.-)</li></ul>","<ul><li>%1 %2</li></ul>")
 	end --while exchangeText:match("<ul><li>.-\n.-</li></ul>") do
-	clipboard.text = exchangeText:gsub("<h%d>(.-)</h%d>",textbox3.value .. " %1") --take titles as comments
-					:gsub("<p>(.-)</p>",textbox3.value .. " %1") --take paragraphs as comments
+	clipboard.text = exchangeText:gsub("\r","\n") --take carriage return as line break
+					:gsub(" \n"," ") --do not take line breaks
+					:gsub("\n"," ") --do not take line breaks
+					:gsub("<h%d>(.-)</h%d>","\n" .. textbox3.value .. " %1") --take titles as comments
+					:gsub("<p>(.-)</p>","\n" .. textbox3.value .. " %1") --take paragraphs as comments
 					:gsub("<ul><li>","\n" .. textbox3.value .. "\t") --take line tree as comments with only one tabulator independently of the tree hierarchy
-					:gsub("<br>","") --do not take line breaks
+					:gsub("<br>","\n") --html line breaks special treatment
+					:gsub("<BR>","\n") --html line breaks special treatment
 					:gsub("<.->","") --do not take all other tags
-end --function button_copy_programm_with_comments:action()
+					:gsub("&nbsp;"," ") --do not take space as special code
+end --function button_copy_programm_with_comments:flat_action()
 
---6.12.3 button for copying page as a Lua tree
+--6.12.4 button for copying page as a Lua tree
 button_copy_programm_with_comments_and_tree = iup.flatbutton{title = "Baum \nkopieren",size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_copy_programm_with_comments_and_tree:flat_action()
-	--put line break out of comments
-	exchangeText= webbrowser1.HTML:gsub("<h(%d)>(.-)\n(.-)</h(%d)>","<h%1>%2 %3</h%4>")
-	while exchangeText:match("<h%d>.-\n.-</h%d>") do
-		exchangeText= exchangeText:gsub("<h(%d)>(.-)\n(.-)</h(%d)>","<h%1>%2 %3</h%4>")
-	end --while exchangeText:match("<h%d>.-\n.-</h%d>") do
-	exchangeText= exchangeText:gsub("<p>(.-)\n(.-)</p>","<p>%1 %2</p>")
-	while exchangeText:match("<p>.-\n.-</p>") do
+	if webbrowser1.EDITABLE=="NO" then
+		--put line break out of comments
+		exchangeText= webbrowser1.HTML:gsub("<h(%d)>(.-)\n(.-)</h(%d)>","<h%1>%2 %3</h%4>")
+		while exchangeText:match("<h%d>.-\n.-</h%d>") do
+			exchangeText= exchangeText:gsub("<h(%d)>(.-)\n(.-)</h(%d)>","<h%1>%2 %3</h%4>")
+		end --while exchangeText:match("<h%d>.-\n.-</h%d>") do
 		exchangeText= exchangeText:gsub("<p>(.-)\n(.-)</p>","<p>%1 %2</p>")
-	end --while exchangeText:match("<p>.-\n.-</p>") do
-	exchangeText= exchangeText:gsub("<ul><li>(.-)\n(.-)</li></ul>","<ul><li>%1 %2</li></ul>")
-	while exchangeText:match("<ul><li>.-\n.-</li></ul>") do
+		while exchangeText:match("<p>.-\n.-</p>") do
+			exchangeText= exchangeText:gsub("<p>(.-)\n(.-)</p>","<p>%1 %2</p>")
+		end --while exchangeText:match("<p>.-\n.-</p>") do
 		exchangeText= exchangeText:gsub("<ul><li>(.-)\n(.-)</li></ul>","<ul><li>%1 %2</li></ul>")
-	end --while exchangeText:match("<ul><li>.-\n.-</li></ul>") do
-	--take <ul><li> tags as a Lua tree
-	exchangeText=exchangeText:gsub("<ul><li>",'\n{branchname="')
-	exchangeText=exchangeText:gsub("</li></ul>",'\n},')
-	exchangeText=exchangeText:gsub('{branchname="(.-) *\n','{branchname="%1",\n')
-	exchangeText=exchangeText:gsub("<h.-/h%d>","") --do not take titles
-					:gsub("<p.-/p>","") --do not take paragraphs
-					:gsub("<br>","") --do not take line breaks
-	exchangeText=exchangeText:gsub("\n([^{}\n]+)\n","\n--%1\n") --add comments to all lines not in tree first replacement
-	exchangeText=exchangeText:gsub("\n([^%-{}\n]+)\n","\n--%1\n") --add comments to all lines not in tree second replacement
-	exchangeText='Tree={branchname="' .. textbox1.value .. '",\n' .. exchangeText .. "\n}"
-	clipboard.text = exchangeText:gsub("<.->","") --add comments to all lines not in tree
-end --function button_copy_programm_with_comments_and_tree:action()
+		while exchangeText:match("<ul><li>.-\n.-</li></ul>") do
+			exchangeText= exchangeText:gsub("<ul><li>(.-)\n(.-)</li></ul>","<ul><li>%1 %2</li></ul>")
+		end --while exchangeText:match("<ul><li>.-\n.-</li></ul>") do
+		--take <ul><li> tags as a Lua tree
+		exchangeText=exchangeText:gsub("<ul><li>",'\n{branchname="')
+		exchangeText=exchangeText:gsub("</li></ul>",'\n},')
+		exchangeText=exchangeText:gsub('{branchname="(.-) *\n','{branchname="%1",\n')
+		exchangeText=exchangeText:gsub("<h.-/h%d>","") --do not take titles
+						:gsub("<p.-/p>","") --do not take paragraphs
+						:gsub("<br>","") --do not take line breaks
+		exchangeText=exchangeText:gsub("\n([^{}\n]+)\n","\n--%1\n") --add comments to all lines not in tree first replacement
+		exchangeText=exchangeText:gsub("\n([^%-{}\n]+)\n","\n--%1\n") --add comments to all lines not in tree second replacement
+		exchangeText='Tree={branchname="' .. textbox1.value .. '",\n' .. exchangeText .. "\n}"
+		clipboard.text = exchangeText:gsub("<.->","") --add comments to all lines not in tree
+	else
+		exchangeText=""
+		for line in (webbrowser1.HTML .. "\n"):gmatch("([^\n]*)\n") do
+			exchangeText = exchangeText .. '[====[' .. line .. ']====],\n'
+		end --for line in webbrowser1.HTML:gmatch("[\n]*\n") do
+		clipboard.text = 'Tree={branchname="' .. textbox1.value .. '",\n' .. exchangeText .. '}'
+	end --if webbrowser1.EDITABLE=="NO" then
+end --function button_copy_programm_with_comments_and_tree:flat_action()
 
 --6.13 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
@@ -1188,6 +1234,8 @@ maindlg = iup.dialog {
 			button_copy_programm_with_comments,
 			button_copy_programm_with_comments_and_tree,
 			textbox3,
+			button_edit_programm,
+			button_no_edit_and_back_to_page,
 			iup.fill{},
 			button_save_as_html,
 			button_search_in_pages,
