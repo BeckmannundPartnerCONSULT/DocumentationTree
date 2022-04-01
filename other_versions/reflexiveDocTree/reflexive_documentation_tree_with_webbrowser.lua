@@ -1098,6 +1098,10 @@ function button_copy_programm_with_comments:flat_action()
 	while exchangeText:match("<p>.-\n.-</p>") do
 		exchangeText= exchangeText:gsub("<p>(.-)\n(.-)</p>","<p>%1 %2</p>")
 	end --while exchangeText:match("<p>.-\n.-</p>") do
+	exchangeText= exchangeText:gsub("<pre>(.-)\n(.-)</pre>","<pre>%1<br>%2</pre>")
+	while exchangeText:match("<pre>.-\n.-</pre>") do
+		exchangeText= exchangeText:gsub("<pre>(.-)\n(.-)</pre>","<pre>%1<br>%2</pre>")
+	end --while exchangeText:match("<pre>.-\n.-</pre>") do
 	exchangeText= exchangeText:gsub("<ul><li>(.-)\n(.-)</li></ul>","<ul><li>%1 %2</li></ul>")
 	while exchangeText:match("<ul><li>.-\n.-</li></ul>") do
 		exchangeText= exchangeText:gsub("<ul><li>(.-)\n(.-)</li></ul>","<ul><li>%1 %2</li></ul>")
@@ -1111,6 +1115,8 @@ function button_copy_programm_with_comments:flat_action()
 					:gsub("<br>","\n") --html line breaks special treatment
 					:gsub("<BR>","\n") --html line breaks special treatment
 					:gsub("<.->","") --do not take all other tags
+					:gsub("&lt;","<") --convert html tag for programm
+					:gsub("&gt;","<") --convert html tag for programm
 					:gsub("&nbsp;"," ") --do not take space as special code
 end --function button_copy_programm_with_comments:flat_action()
 
