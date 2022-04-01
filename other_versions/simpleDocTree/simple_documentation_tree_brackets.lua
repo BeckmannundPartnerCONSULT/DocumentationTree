@@ -35,7 +35,31 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 --test with: print(arg[0])
 --test with: print(thisfilename)
 
---3. no functions
+--3. functions
+
+
+--3.1 general Lua functions
+
+--3.1.1 function escaping magic characters
+function string.escape_forbidden_char(insertstring) --this function takes a string and returns the same string with escaped characters
+	return insertstring:gsub("\\", "\\\\"):gsub("\"", "\\\""):gsub("\'", "\\\'"):gsub("\n", "\\n"):gsub("\r", "\\n")
+end --function string.escape_forbidden_char(insertstring)
+
+--3.1.2 function string:split() for splittings strings
+function string:split( inSplitPattern )
+	local outResults = {}
+	local theStart = 1
+	local theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+	--loop throuch string
+	while theSplitStart do
+		table.insert( outResults, string.sub( self, theStart, theSplitStart-1 ) )
+		theStart = theSplitEnd + 1
+		theSplitStart, theSplitEnd = string.find( self, inSplitPattern, theStart )
+	end --while theSplitStart do
+	--write results in table
+	table.insert( outResults, string.sub( self, theStart ) )
+	return outResults
+end --function string:split( inSplitPattern )
 
 --4. no dialogs
 
@@ -122,8 +146,8 @@ function button_show_sql_as_tree:flat_action()
 	else
 		load(outputText)() --now actualtree is the table.
 	end --if _VERSION=='Lua 5.1' then
-
 	iup.TreeAddNodes(tree,tree_sql_script)
+	textfield2.value=outputText
 end --function button_show_sql_as_tree:flat_action()
 
 --6.3 button for building tree with Excel formula
@@ -149,7 +173,7 @@ function button_show_excel_formula_as_tree:flat_action()
 		text=string.rep("(~missing~",numberBracketClose-numberBracketOpen) .. text
 	end --if numberBracketOpen>numberBracketClose then
 	--build the outputstring for the tree
-	outputText=("tree_sql_script={branchname=[====[brackets tree" .. ("(" .. text .. ")"):gsub("%(",']====],\n{branchname=[====[(')
+	outputText=("tree_excelformula_script={branchname=[====[brackets tree" .. ("(" .. text .. ")"):gsub("%(",']====],\n{branchname=[====[(')
 											:gsub("%)",')]====],\n},\n[====[') .. "]====],}")
 											:gsub(";",";]====],[====[") --for Excel formulas
 											:gsub("%[====%[%]====%],","")
@@ -160,11 +184,99 @@ function button_show_excel_formula_as_tree:flat_action()
 	else
 		load(outputText)() --now actualtree is the table.
 	end --if _VERSION=='Lua 5.1' then
-
-	iup.TreeAddNodes(tree,tree_sql_script)
+	iup.TreeAddNodes(tree,tree_excelformula_script)
+	textfield2.value=outputText
 end --function button_show_excel_formula_as_tree:flat_action()
 
---6.4 button with second logo
+--6.4 button for building tree with text with tabulator
+button_show_tabtext_as_tree=iup.flatbutton{title="Text mit Tabulatoren \nals Baum zeigen", size="145x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_show_tabtext_as_tree:flat_action()
+	tree.delnode0 = "CHILDREN"
+	tree.title='tabulator tree'
+	--example text variable
+	text=textfield1.value
+	--read data from textfield
+	outputText='tree_tabtext_script={branchname="tabulator tree"'
+	pos_prevline=0
+	pos_curline=0
+	for line in (text .. "\n"):gmatch("([^\n]*)\n") do
+		if line~="" and line:match('%S')~=nil then
+			pos_prevline=pos_curline --update position
+			pos_curline=0
+			local helpstring='\t' .. line
+			while helpstring:match('^\t')~=nil do -- get position of current line
+				pos_curline=pos_curline+1
+				helpstring=helpstring:gsub('^\t','')
+			end --while helpstring:match('^\t')~=nil do
+			-- modify helpstring in order to get desired results
+			while helpstring:match('^ ')~=nil do
+				helpstring=helpstring:gsub('^ ', '')
+			end --while helpstring:match('^ ')~=nil do
+			while helpstring:match('^ ')~=nil do
+				helpstring=helpstring:gsub('^ ', '')
+			end --while helpstring:match('^ ')~=nil do
+			helpstring=string.escape_forbidden_char(helpstring)
+			--print(pos_curline, pos_prevline)
+			if pos_curline<pos_prevline then
+				for i=1, pos_prevline-pos_curline +1 do
+					outputText=outputText .. '\n},' 
+				end --for i=1, pos_prevline-pos_curline +1 do
+			elseif pos_curline==pos_prevline and pos_curline~=0 then
+				outputText=outputText .. '\n},' 
+			elseif pos_curline==pos_prevline+1 then
+				outputText=outputText .. ','
+			elseif pos_curline>pos_prevline then
+				for i=1, pos_curline-pos_prevline-1 do
+					outputText=outputText .. ','
+					outputText=outputText .. '\n{branchname="missing"'
+				end --for i=1, pos_prevline-pos_curline-1 do
+			end --if pos_curline<pos_prevline then
+			--if lines are to long then build leafs with the rest of the lines up to a maximum length beeing lower than 259 for IUP tree
+			local maxLength=59 --must be lower than 259 for a IUP tree
+			if #helpstring>maxLength then
+				--collect words from textTable
+				local wordTable={}
+				for textWord in (helpstring .. " "):gmatch(".- ") do 
+					wordTable[#wordTable+1]=textWord 
+				end --for textWord in (helpstring .. " "):gmatch(".- ") do 
+				--put word in lines together with up to 259 characters until maxLength
+				local lineTable={}
+				local lineNumber=1
+				lineTable[lineNumber]=""
+				for i2,k2 in ipairs(wordTable) do 
+					if #(lineTable[lineNumber] .. k2) > maxLength then 
+						lineNumber=lineNumber+1
+						lineTable[lineNumber]=k2
+					else
+						lineTable[lineNumber]=lineTable[lineNumber] .. k2
+					end --if #(lineTable[lineNumber] .. k2) > maxLength then --259
+				end --for i2,k2 in ipairs(wordTable) do 
+				--put lines to the tree
+				outputText=outputText .. '\n{branchname="' .. lineTable[1]:gsub(" $","") .. '",'
+				for i=2,#lineTable-1 do
+					outputText=outputText .. '\n"' .. lineTable[i]:gsub(" $","") .. '",'
+				end --for i=2,#lineTable do
+				outputText=outputText .. '\n"' .. lineTable[#lineTable]:gsub(" $","") .. '"'
+			else
+				outputText=outputText .. '\n{branchname="' .. helpstring:gsub(" $","") .. '"'
+			end --if #helpstring>maxLength then
+		end --if line~="" and line:match('%S')~=nil then
+	end --for line in io.lines(inputTextFile) do
+	--write end curly brackets
+	for i=1, pos_curline+1 do
+		outputText=outputText .. '\n}'
+	end --for i=1, pos_curline+1 do
+	--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
+	if _VERSION=='Lua 5.1' then
+		loadstring(outputText)()
+	else
+		load(outputText)() --now actualtree is the table.
+	end --if _VERSION=='Lua 5.1' then
+	iup.TreeAddNodes(tree,tree_tabtext_script)
+	textfield2.value=outputText
+end --function button_show_tabtext_as_tree:flat_action()
+
+--6.5 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -172,9 +284,9 @@ end --function button_logo:flat_action()
 
 --7. Main Dialog
 
---7.1 preview field as scintilla editor
+--7.1 input field as scintilla editor
 textfield1=iup.scintilla{}
-textfield1.SIZE="440x560" --I think this is not optimal! (since the size is so appears to be fixed)
+textfield1.SIZE="340x560" --I think this is not optimal! (since the size is so appears to be fixed)
 --textfield1.wordwrap="WORD" --enable wordwarp
 textfield1.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
 textfield1.FONT="Courier New, 8" --font of shown code
@@ -200,8 +312,35 @@ textfield1.MARGINWIDTH0="40"
 textfield1.value="SELECT * FROM (SELECT * FROM (SELECT * FROM TABLE1), (SELECT * FROM TABLE)); \n\nSELECT * FROM (SELECT * FROM (SELECT * FROM TABLE1), (SELECT * FROM TABLE));"
 --example for an excel formula
 textfield1.value='=WENN(1=1;WENN(2<2;"nie";"immer");WENN(3>2;"immer";"nie"))'
+--example for an text with tabulators
+textfield1.value='Title\n\tAst\n\t\tBlattTitle\n\tAst\n\t\tBlattTitle\n\tAst\n\t\tBlatt'
 
---7.2 display empty SQL tree
+--7.2 output field as scintilla editor
+textfield2=iup.scintilla{}
+textfield2.SIZE="340x560" --I think this is not optimal! (since the size is so appears to be fixed)
+--textfield2.wordwrap="WORD" --enable wordwarp
+textfield2.WORDWRAPVISUALFLAGS="MARGIN" --show wrapped lines
+textfield2.FONT="Courier New, 8" --font of shown code
+textfield2.LEXERLANGUAGE="lua" --set the programming language to Lua for syntax higlighting
+textfield2.KEYWORDS0="SELECT select FROM from ORDER BY order by SORT sort INSERT INTO insert into DELETE delete WENN SUMMEWENN ISTFEHLER" --list of keywords for syntaxhighlighting, this list is not complete and can be enlarged
+--colors for syntax highlighting
+textfield2.STYLEFGCOLOR0="0 0 0"      -- 0-Default
+textfield2.STYLEFGCOLOR1="0 128 0"    -- 1-Lua comment
+textfield2.STYLEFGCOLOR2="0 128 0"    -- 2-Lua comment line
+textfield2.STYLEFGCOLOR3="0 128 0"    -- 3-JavaDoc/ Doxygen style Lua commen
+textfield2.STYLEFGCOLOR4="180 0 0"    -- 4-Number 
+textfield2.STYLEFGCOLOR5="0 0 255"    -- 5-Keywords (id=0) 
+textfield2.STYLEFGCOLOR6="160 20 180"  -- 6-String 
+textfield2.STYLEFGCOLOR7="128 0 0"    -- 7-Character
+textfield2.STYLEFGCOLOR8="160 20 180"  -- 8-Literal string
+textfield2.STYLEFGCOLOR9="0 0 255"    -- 9-Old preprocessor block (obsolete)
+textfield2.STYLEFGCOLOR10="128 0 0" -- 10-Operator 
+--textfield2.STYLEBOLD10="YES"
+--textfield2.STYLEFGCOLOR11="255 0 255" -- 11-Identifier (this overwrites the default color)
+--textfield2.STYLEITALIC10="YES"
+textfield2.MARGINWIDTH0="40"
+
+--7.3 display empty SQL tree
 actualtree={branchname="SQL"}
 tree=iup.tree{
 map_cb=function(self)
@@ -216,7 +355,7 @@ showdragdrop="YES",
 tree.BGCOLOR=color_background_tree
 
 
---7.3 building the dialog and put buttons, trees and preview together
+--7.4 building the dialog and put buttons, trees and preview together
 maindlg = iup.dialog{
 	--simply show a box with buttons
 	iup.vbox{
@@ -225,12 +364,14 @@ maindlg = iup.dialog{
 			button_logo,
 			button_show_sql_as_tree,
 			button_show_excel_formula_as_tree,
+			button_show_tabtext_as_tree,
 			iup.fill{},
 			button_logo2,
 		},
 		iup.hbox{
-			iup.frame{title="SQL-Statements",textfield1,},
-			iup.frame{title="SQL als Baum",tree,},
+			iup.frame{title="Inputtext",textfield1,},
+			iup.frame{title="Text als Baum",tree,},
+			iup.frame{title="Outputtext",textfield2,},
 			},
 
 	},
@@ -241,10 +382,10 @@ maindlg = iup.dialog{
 	BACKGROUND=color_background
 }
 
---7.3.1 show the dialog
+--7.4.1 show the dialog
 maindlg:show()
 
---7.4 Main Loop
+--7.5 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
