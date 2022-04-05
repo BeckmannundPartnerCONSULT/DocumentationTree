@@ -755,7 +755,7 @@ function cut_nodes_of_node:action()
 			for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
 				nodeText=nodeText .. '},\n' 
 			end --for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
- 		end --if tonumber(levelOldNode)>tonumber(tree['depth']) then 
+		end --if tonumber(levelOldNode)>tonumber(tree['depth']) then 
 		levelOldNode=tree['depth']
 		--take branch or leaf
 		if tree['KIND']=="BRANCH" and tonumber(tree['depth'])>=levelStartNode+1 then
@@ -821,7 +821,7 @@ function copy_nodes_of_node:action()
 			for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
 				nodeText=nodeText .. '},\n' 
 			end --for i=1,math.tointeger(tonumber(levelOldNode)-tonumber(tree['depth'])) do 
- 		end --if tonumber(levelOldNode)>tonumber(tree['depth']) then 
+		end --if tonumber(levelOldNode)>tonumber(tree['depth']) then 
 		levelOldNode=tree['depth']
 		--take branch or leaf
 		if tree['KIND']=="BRANCH" and tonumber(tree['depth'])>=levelStartNode+1 then
@@ -1063,20 +1063,16 @@ function button_loading_lua_table:flat_action()
 	if filedlg.status=="1" then
 		iup.Message("Neue Datei",filedlg.value)
 	elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
-	--load tree from file 
-		dofile(filedlg.value) --initialize the tree, read from the Lua file
-		for line in io.lines(filedlg.value) do
-			if line:match('=')~= nil then 
-				tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
-				break
-			end --if line:match('=')~= nil then 
-		end --for line in io.lines(path_documentation_tree) do
+		--load tree from file 
+		inputfile1=io.open(filedlg.value,"r")
+		treeTable=inputfile1:read("*all"):match("[^=]+=(%b{})")
+		inputfile1:close()
 		--save table in the variable actualtree
 		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 		if _VERSION=='Lua 5.1' then
-			loadstring('actualtree='..tablename)()	
+			loadstring('actualtree='..treeTable)()	
 		else
-			load('actualtree='..tablename)() --now actualtree is the table.
+			load('actualtree='..treeTable)() --now actualtree is the table.
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree,actualtree)
 	else
@@ -1205,7 +1201,7 @@ maindlg = iup.dialog{
 			iup.fill{},
 			button_logo2,
 		},
-		
+
 		iup.hbox{
 			iup.frame{title="Manuelle Zuordnung als Baum",tree,},
 			},
