@@ -389,19 +389,15 @@ function button_loading_lua_table_1:flat_action()
 	tree1.title=''
 	if file_exists(textbox1.value) then
 		--load tree from file 
-		dofile(textbox1.value) --initialize the tree, read from the Lua file
-		for line in io.lines(textbox1.value) do
-			if line:match('=')~= nil then
-				tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
-				break
-			end --if line:match('=')~= nil then 
-		end --for line in io.lines(path_documentation_tree) do
+		inputfile1=io.open(textbox1.value,"r")
+		treeTable=inputfile1:read("*all"):match("[^=]+=(%b{})")
+		inputfile1:close()
 		--save table in the variable actualtree
 		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 		if _VERSION=='Lua 5.1' then
-			loadstring('actualtree='..tablename)()
+			loadstring('actualtree='..treeTable)()	
 		else
-			load('actualtree='..tablename)() --now actualtree is the table.
+			load('actualtree='..treeTable)() --now actualtree is the table.
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree1,actualtree)
 	else
@@ -413,19 +409,15 @@ function button_loading_lua_table_1:flat_action()
 		elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
 			--load tree from file 
 			textbox1.value=filedlg.value
-			dofile(filedlg.value) --initialize the tree, read from the Lua file
-			for line in io.lines(filedlg.value) do
-				if line:match('=')~= nil then
-					tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
-					break
-				end --if line:match('=')~= nil then
-			end --for line in io.lines(path_documentation_tree) do
+			inputfile1=io.open(filedlg.value,"r")
+			treeTable=inputfile1:read("*all"):match("[^=]+=(%b{})")
+			inputfile1:close()
 			--save table in the variable actualtree
 			--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 			if _VERSION=='Lua 5.1' then
-				loadstring('actualtree='..tablename)()
+				loadstring('actualtree='..treeTable)()	
 			else
-				load('actualtree='..tablename)() --now actualtree is the table.
+				load('actualtree='..treeTable)() --now actualtree is the table.
 			end --if _VERSION=='Lua 5.1' then
 			iup.TreeAddNodes(tree1,actualtree)
 		else
@@ -441,20 +433,16 @@ function button_loading_lua_table_2:flat_action()
 	tree2.delnode0 = "CHILDREN"
 	tree2.title=''
 	if file_exists(textbox2.value) then
-		--load tree from file
-		dofile(textbox2.value) --initialize the tree, read from the Lua file
-		for line in io.lines(textbox2.value) do
-			if line:match('=')~= nil then
-				tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
-				break
-			end --if line:match('=')~= nil then 
-		end --for line in io.lines(path_documentation_tree) do
+		--load tree2 from file
+		inputfile2=io.open(textbox2.value,"r")
+		treeTable=inputfile2:read("*all"):match("[^=]+=(%b{})")
+		inputfile2:close()
 		--save table in the variable actualtree
 		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 		if _VERSION=='Lua 5.1' then
-			loadstring('actualtree='..tablename)()
+			loadstring('actualtree='..treeTable)()	
 		else
-			load('actualtree='..tablename)() --now actualtree is the table.
+			load('actualtree='..treeTable)() --now actualtree is the table.
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree2,actualtree)
 	else
@@ -466,19 +454,15 @@ function button_loading_lua_table_2:flat_action()
 		elseif filedlg.status=="0" then --this is the usual case, when a file was choosen
 			--load tree2 from file
 			textbox2.value=filedlg.value
-			dofile(filedlg.value) --initialize the tree, read from the Lua file
-			for line in io.lines(filedlg.value) do
-				if line:match('=')~= nil then
-					tablename=line:sub(1,line:find('=')-1):gsub(' ', '')
-					break
-				end --if line:match('=')~= nil then
-			end --for line in io.lines(path_documentation_tree) do
+			inputfile2=io.open(filedlg.value,"r")
+			treeTable=inputfile2:read("*all"):match("[^=]+=(%b{})")
+			inputfile2:close()
 			--save table in the variable actualtree
 			--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 			if _VERSION=='Lua 5.1' then
-				loadstring('actualtree='..tablename)()
+				loadstring('actualtree='..treeTable)()	
 			else
-				load('actualtree='..tablename)() --now actualtree is the table.
+				load('actualtree='..treeTable)() --now actualtree is the table.
 			end --if _VERSION=='Lua 5.1' then
 			iup.TreeAddNodes(tree2,actualtree)
 		else
@@ -497,7 +481,7 @@ end --function button_expand_collapse_dialog:flat_action()
 
 
 --6.5 button for comparing text file of tree and text file of tree2
-button_compare=iup.flatbutton{title="Baumstrukturen vergleichen", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_compare=iup.flatbutton{title="Baumstrukturen \nvergleichen", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_compare:flat_action()
 	tree.delnode0 = "CHILDREN"
 	tree.title='compare'
@@ -577,13 +561,16 @@ function button_compare:flat_action()
 end --function button_compare:flat_action()
 
 --6.6 button for sorting text file of tree with text file of tree2 to a tree with parent child
-button_sort_with_tree=iup.flatbutton{title="Ersten Baum mit \nanderem klassifizieren", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_sort_with_tree=iup.flatbutton{title="Gemeinsame Kategorien \nbilden", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_sort_with_tree:flat_action()
 	tree.delnode0 = "CHILDREN"
-	tree.title='classify'
+	tree.title='categories'
 	--make the sort
+	local titleTable={}
 	--go through tree 2
-	local tree_script={branchname="classify",{branchname="Klassifizieren von " .. tostring(textbox1.value) .. " mit " .. tostring(textbox2.value)}}
+	local tree_script={branchname="categories",{branchname="Kategorien von " .. tostring(textbox1.value) .. " in " .. tostring(textbox2.value)}}
+	titleTable["categories"]=true
+	titleTable["Kategorien von " .. tostring(textbox1.value) .. " in " .. tostring(textbox2.value)]=true
 	local file2ParentTable={}
 	file2ParentTable[tree2['TITLE' .. 0]]="root"
 	for i=1,tree2.totalchildcount0 do 
@@ -609,7 +596,7 @@ function button_sort_with_tree:flat_action()
 			end --if treeSortedTable[file2ParentTable[line]] then
 		end --if file2existsTable[line] then
 	end --for i=0,tree1.totalchildcount0 do
-	tree_script[#tree_script][#tree_script[#tree_script]+1]={branchname=tree1['TITLE' .. 0],tree2['TITLE' .. 0]}
+	tree_script[#tree_script][#tree_script[#tree_script]+1]={branchname=tree2['TITLE' .. 0],tree1['TITLE' .. 0]}
 	for i=0,tree2.totalchildcount0 do
 		if treeSortedTable[tree2['TITLE' .. i]] then
 			for i1,v1 in ipairs(treeSortedTable[tree2['TITLE' .. i]]) do
@@ -622,6 +609,7 @@ function button_sort_with_tree:flat_action()
 			end --for i1,v1 in ipairs(treeSortedTable[tree2['TITLE' .. i]]) do
 		end --if treeSortedTable[tree2['TITLE' .. i]] then
 	end --for i=0,tree2.totalchildcount0 do
+	titleTable["nur im ersten Baum"]=true
 	if treeSortedTable["nur im ersten Baum"] then
 		for i1,v1 in ipairs(treeSortedTable["nur im ersten Baum"]) do
 			if tree_script[#tree_script].branchname=="nur im ersten Baum" then
@@ -634,10 +622,25 @@ function button_sort_with_tree:flat_action()
 	end --if treeSortedTable["nur im ersten Baum"] then
 	--build the sorted tree
 	iup.TreeAddNodes(tree,tree_script)
+	--go through tree 1
+	local file1existsTable={}
+	for i=0,tree1.totalchildcount0 do
+		file1existsTable[tree1['TITLE' .. i]]=true
+	end --for i=0,tree1.totalchildcount0 do
+	--mark the tree in blue for nodes from tree 1
+	for i=0,tree.totalchildcount0 do
+		if titleTable[tree['TITLE' .. i]] then
+			tree["color" .. i]="250 0 0"
+		elseif file1existsTable[tree['TITLE' .. i]] then
+			tree["color" .. i]="0 0 250"
+		else
+			tree["color" .. i]=color_grey_bpc
+		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+	end --for i=tree.totalchildcount0,0,-1 do
 end --function button_sort_with_tree:flat_action()
 
 --6.7 button for sorting text file of tree in text file of tree2 to tree deleting not needed nodes
-button_sort_in_tree=iup.flatbutton{title="Ersten Baum in \nanderen einsortieren", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_sort_in_tree=iup.flatbutton{title="Übereinstimmungen \nfinden", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_sort_in_tree:flat_action()
 	tree.delnode0 = "SELECTED" --"CHILDREN"
 	--deep copy of tree2 in tree
@@ -688,7 +691,10 @@ function button_sort_in_tree:flat_action()
 		file2existsTable[line]=#file2numberTable
 	end --for i=0,tree1.totalchildcount0 do
 	--go through tree 1 to search for missing lines in tree 2
-	local tree_script={branchname="rest",{branchname="Sortieren von " .. tostring(textbox1.value) .. " mit " .. tostring(textbox2.value)}}
+	local titleTable={}
+	local tree_script={branchname="rest",{branchname="Übereinstimmungen von " .. tostring(textbox1.value) .. " in " .. tostring(textbox2.value)}}
+	titleTable["nur in erster Datei"]=true
+	titleTable["Übereinstimmungen von " .. tostring(textbox1.value) .. " in " .. tostring(textbox2.value)]=true
 	local line1Number=0
 	for i=0,tree1.totalchildcount0 do
 		local line=tree1['TITLE' .. i]
@@ -710,12 +716,23 @@ function button_sort_in_tree:flat_action()
 		--test with: print(searchDiff3)
 	end --for i1=i,0,-1 do
 	tree['insertbranch' .. tree.totalchildcount0-searchDiff3]="Ergebnisse"
+	titleTable["Ergebnisse"]=true
 	--build the tree of not sorted nodes
 	iup.TreeAddNodes(tree,tree_script,tree.totalchildcount0)
+	--mark the tree in blue for nodes from tree 1
+	for i=0,tree.totalchildcount0 do
+		if titleTable[tree['TITLE' .. i]] then
+			tree["color" .. i]="250 0 0"
+		elseif file1existsTable[tree['TITLE' .. i]] then
+			tree["color" .. i]="0 0 250"
+		else
+			tree["color" .. i]=color_grey_bpc
+		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+	end --for i=tree.totalchildcount0,0,-1 do
 end --function button_sort_in_tree:flat_action()
 
 --6.8 button for building tree with text file of tree1 deleting nodes being in tree2
-button_tree1_not_in_tree=iup.flatbutton{title="Ersten Baum, der nicht \nim anderen ist", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_tree1_not_in_tree=iup.flatbutton{title="Neueinträge \nfinden", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_tree1_not_in_tree:flat_action()
 	tree.delnode0 = "SELECTED" --"CHILDREN"
 	--deep copy of tree1 in tree
@@ -755,6 +772,14 @@ function button_tree1_not_in_tree:flat_action()
 	for i=tree.totalchildcount0,0,-1 do
 		if file2existsTable[tree['TITLE' .. i]] and tree['totalchildcount' .. i]=="0" then
 			tree["delnode" .. i] = "SELECTED"
+		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+	end --for i=tree.totalchildcount0,0,-1 do
+	--mark the tree in blue for nodes from tree 1
+	for i=0,tree.totalchildcount0 do
+		if file2existsTable[tree['TITLE' .. i]] then
+			tree["color" .. i]=color_grey_bpc
+		else
+			tree["color" .. i]="0 0 250"
 		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
 	end --for i=tree.totalchildcount0,0,-1 do
 end --function button_tree1_not_in_tree:flat_action()
@@ -887,7 +912,7 @@ maindlg = iup.dialog{
 		iup.hbox{
 			iup.frame{title="Erste Textdatei",iup.vbox{textbox1,tree1,},},
 			iup.frame{title="Zweite Textdatei",iup.vbox{textbox2,tree2,},},
-			iup.frame{title="Manuelle Zuordnung als Baum",tree,},
+			iup.frame{title="Manuelle Zuordnung als Baum",iup.vbox{iup.label{title="Legende: blau = aus dem ersten Baum, grau = aus dem zweiten Baum und rot = Titel"},tree,},},
 			},
 
 	},
