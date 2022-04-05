@@ -439,7 +439,6 @@ function button_new_page:flat_action()
 	textbox1.value=aktuelleSeite
 local newText=[====[<!DOCTYPE html> <head></head><html><body>
 <h1>Neue Seite </h1>
-
 </body></html> ]====]
 	if math.floor(aktuelleSeite/2)*2==aktuelleSeite then
 		webbrowser2.HTML=newText
@@ -462,8 +461,8 @@ textbox1 = iup.text{value="1",size="20x20",WORDWRAP="NO",alignment="ACENTER"}
 textbox2 = iup.multiline{value="",size="90x20",WORDWRAP="YES"}
 
 --7.2 webbrowser
-webbrowser1=iup.webbrowser{HTML=TextHTMLTabelle[1]}
-webbrowser2=iup.webbrowser{HTML=TextHTMLTabelle[2]}
+webbrowser1=iup.webbrowser{HTML=TextHTMLTabelle[1],maxsize="1400x1200"}
+webbrowser2=iup.webbrowser{HTML=TextHTMLTabelle[2],maxsize="1400x1200"}
 
 --7.3 building the dialog and put buttons, trees and other elements together
 maindlg = iup.dialog { 
@@ -477,6 +476,7 @@ maindlg = iup.dialog {
 			button_go_to_page,
 			textbox1,
 			button_delete,
+			iup.fill{},
 			button_save_as_html,
 			button_search,
 			textbox2,
