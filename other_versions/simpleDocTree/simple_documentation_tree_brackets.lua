@@ -1,4 +1,4 @@
---This script runs a graphical user interface (GUI) in order to built up a documentation tree of SQL statements or of excel formulas.
+--This script runs a graphical user interface (GUI) in order to convert text into a tree. SQL statements, excel formulas and text with tabulator can be treated.
 
 
 --1. basic data
@@ -109,7 +109,33 @@ function button_logo:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
---6.2 button for building tree with SQL
+--6.2 button for building tree with text with tabulator
+button_numbering_as_tabs=iup.flatbutton{title="Kommentar-Nummerierungen (--Zahl) \nmit Tabulatoren", size="145x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_numbering_as_tabs:flat_action()
+	text=textfield1.value:gsub("%-%-%d+%.%d+%.%d+%.%d+.%d+ ","\t\t\t\t\t%1")
+				:gsub("%-%-%d+%.%d+%.%d+%.%d+ ","\t\t\t\t%1")
+				:gsub("%-%-%d+%.%d+%.%d+ ","\t\t\t%1")
+				:gsub("%-%-%d+%.%d+ ","\t\t%1")
+				:gsub("%-%-%d+%. ","\t%1")
+				:gsub("%-%-%d+ ","\t%1")
+	local tabsBeforeText=""
+	local textExchange=""
+	for line in (text .. "\n"):gmatch("([^\n]*)\n") do
+		if line:match("\t%-%-%d") then
+			local numberTabs=0
+			for tabs in line:gmatch("\t") do
+				numberTabs=numberTabs+1 
+			end --for tabs in line:gmatch("\t") do
+			tabsBeforeText=string.rep("\t",numberTabs+1)
+			textExchange=textExchange .. "\n" .. line
+		else
+			textExchange=textExchange .. "\n" .. tabsBeforeText .. line
+		end --if line:match("\t") then
+	end --for (text .. "\n"):gmatch("([^\n]*)\n") do
+	textfield1.value=textExchange
+end --function button_numbering_as_tabs:flat_action()
+
+--6.3 button for building tree with SQL
 button_show_sql_as_tree=iup.flatbutton{title="Das SQL als Baum zeigen", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_sql_as_tree:flat_action()
 	tree.delnode0 = "CHILDREN"
@@ -150,7 +176,7 @@ function button_show_sql_as_tree:flat_action()
 	textfield2.value=outputText
 end --function button_show_sql_as_tree:flat_action()
 
---6.3 button for building tree with Excel formula
+--6.4 button for building tree with Excel formula
 button_show_excel_formula_as_tree=iup.flatbutton{title="Die Excel-Formel als Baum zeigen", size="145x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_excel_formula_as_tree:flat_action()
 	tree.delnode0 = "CHILDREN"
@@ -188,7 +214,7 @@ function button_show_excel_formula_as_tree:flat_action()
 	textfield2.value=outputText
 end --function button_show_excel_formula_as_tree:flat_action()
 
---6.4 button for building tree with text with tabulator
+--6.5 button for building tree with text with tabulator
 button_show_tabtext_as_tree=iup.flatbutton{title="Text mit Tabulatoren \nals Baum zeigen", size="145x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_tabtext_as_tree:flat_action()
 	tree.delnode0 = "CHILDREN"
@@ -228,7 +254,7 @@ function button_show_tabtext_as_tree:flat_action()
 			elseif pos_curline>pos_prevline then
 				for i=1, pos_curline-pos_prevline-1 do
 					outputText=outputText .. ','
-					outputText=outputText .. '\n{branchname="missing"'
+					outputText=outputText .. '\n{branchname="missing",'
 				end --for i=1, pos_prevline-pos_curline-1 do
 			end --if pos_curline<pos_prevline then
 			--if lines are to long then build leafs with the rest of the lines up to a maximum length beeing lower than 259 for IUP tree
@@ -266,6 +292,9 @@ function button_show_tabtext_as_tree:flat_action()
 	for i=1, pos_curline+1 do
 		outputText=outputText .. '\n}'
 	end --for i=1, pos_curline+1 do
+	outputText=outputText:gsub(",,",",") --correction for '\n{branchname="missing",' when to or more missings
+	--test with: print(outputText:match("%b{}"))
+	--test with: print(outputText)
 	--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 	if _VERSION=='Lua 5.1' then
 		loadstring(outputText)()
@@ -276,7 +305,7 @@ function button_show_tabtext_as_tree:flat_action()
 	textfield2.value=outputText
 end --function button_show_tabtext_as_tree:flat_action()
 
---6.5 button with second logo
+--6.6 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -312,8 +341,10 @@ textfield1.MARGINWIDTH0="40"
 textfield1.value="SELECT * FROM (SELECT * FROM (SELECT * FROM TABLE1), (SELECT * FROM TABLE)); \n\nSELECT * FROM (SELECT * FROM (SELECT * FROM TABLE1), (SELECT * FROM TABLE));"
 --example for an excel formula
 textfield1.value='=WENN(1=1;WENN(2<2;"nie";"immer");WENN(3>2;"immer";"nie"))'
---example for an text with tabulators
+--example for a text with tabulators
 textfield1.value='Title\n\tAst\n\t\tBlattTitle\n\tAst\n\t\tBlattTitle\n\tAst\n\t\tBlatt'
+--example for a text with comments with numberings
+textfield1.value="print('Hallo world')\n-" .. "-1. Title\nprint('Hallo world')\n-" .. "-2.1 Ast\nprint('Hallo world')\n-" .. "-2.1.1 BlattTitle\n-" .. "-2.2 Ast\n-" .. "-2.2.1 BlattTitle\n-" .. "-3. Ast\n-" .. "-3.1 Blatt\n" .. "4 Blatt"
 
 --7.2 output field as scintilla editor
 textfield2=iup.scintilla{}
@@ -362,6 +393,8 @@ maindlg = iup.dialog{
 		--first row of buttons
 		iup.hbox{
 			button_logo,
+			button_numbering_as_tabs,
+			iup.label{size="3x"},
 			button_show_sql_as_tree,
 			button_show_excel_formula_as_tree,
 			button_show_tabtext_as_tree,
