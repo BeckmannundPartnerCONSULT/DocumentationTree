@@ -31,7 +31,7 @@ ttk.Label(app, text ='Tree').pack(side=TOP)
 treeview1=ttk.Treeview(app,height=30,column=("c1"))
 treeview1.column('# 0',width=650)
 treeview1.column('# 1',width=2)
-treeview1.heading('# 0',text="Das ist der Baum in seiner guten Art.")
+treeview1.heading('# 0',text="IDIV-Basiskomponente.")
 
 #3.2.1 put the tree in the GUI
 treeview1.pack(side=TOP)
@@ -162,7 +162,8 @@ ttk.Label(app, text =' ').pack(side=LEFT)
 
 #5.2.4.1 define button and action to mark nodes with recursive functionality
 def mark_node(parent1):
-    if treeview1.item(parent1,"text").find(textfield1.get())>0:
+    #test with: print(treeview1.item(parent1,"text"))
+    if treeview1.item(parent1,"text").find(textfield1.get())>=0:
         treeview1.item(parent1,tag='BLUE_TAG')
         parentDict={}
         parentDict["1"]=treeview1.parent(parent1)
