@@ -21,6 +21,11 @@ data = lua.decode(Text)
 #print(data["branchname"])
 #print(lua.encode(data))
 
+#2.2 functionality to escape forbidden characters
+def string_escape_forbidden_characters(stringInput):
+    stringInput=stringInput.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n").replace("\r", "\\n")
+    return stringInput
+
 #3. build GUI
 app=Tk()
 app.geometry("800x800")
@@ -129,7 +134,7 @@ def button_write_lua_file_CallBack():
             if levelDict["-1"]>0 and level>0:
                 file1.write('},\n')
         if levelDict["-1"]>0 or level>0:
-            file1.write('{branchname="' + treeview1.item(parent,"text") + '",\n')
+            file1.write('{branchname="' + string_escape_forbidden_characters(treeview1.item(parent,"text")) + '",\n')
         levelDict["-1"]=level
         for child in treeview1.get_children(parent):
             write_children(child,level+1)
