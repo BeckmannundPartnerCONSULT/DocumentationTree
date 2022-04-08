@@ -67,3 +67,15 @@ This scripts contains three trees:
 
 This script gives the possibility to analyse a balance of an enterprise. Balance indicators can be calculated.
 
+8.1 documentation_tree_balance_active.lua
+
+This script is an example for the active side of the balance.
+
+8.2 documentation_tree_balance_passive.lua
+
+This script is an example for the passive side of the balance.
+
+8.3 documentation_tree_balance_indicators.lua
+
+This script is an example for the calculation of balance indicators.
+
