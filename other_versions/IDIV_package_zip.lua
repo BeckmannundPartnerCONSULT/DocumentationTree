@@ -23,7 +23,8 @@ packageTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\nachschlagen_documentatio
 packageTable["C:\\Tree\\GUI_Dokumentation_Verzeichnis\\ansicht_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Bibliothek"
 packageTable["C:\\Tree\\Tree_compare\\compare_documentation_tree_lua_trees.lua"]="C:\\Tree\\IDIV_package\\IDIV_Baumansichtvergleich"
 packageTable["C:\\Tree\\Tree_compare\\compare_documentation_tree_text_files.lua"]="C:\\Tree\\IDIV_package\\IDIV_Textdateivergleich"
-packageTable["C:\\Tree\\Tree_News\\Tree_news_categorisation.lua"]="C:\\Tree\\IDIV_package\\IDIV_Nachrichtenverarbeitung"
+packageTable["C:\\Tree\\Tree_news\\Tree_news_categorisation.lua"]="C:\\Tree\\IDIV_package\\IDIV_Nachrichtenverarbeitung"
+packageTable["C:\\Tree\\Tree_news\\html_Tree_news_Linux.lua"]="C:\\Tree\\IDIV_package\\IDIV_Nachrichtenverarbeitung"
 packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_webpage_search.lua"]="C:\\Tree\\IDIV_package\\IDIV_Suchergebnisse_Webpage"
 packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
 packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_with_file_dialog.lua"]="C:\\Tree\\IDIV_package\\IDIV_Basiskomponente"
@@ -62,7 +63,7 @@ for line in io.lines("C:\\Tree\\reflexiveDocTree\\reflexive_html_with_tree_Produ
 			:gsub("%-%->",'"},')
 			:gsub("%([^%)]*%)",'')
 		--test with: print(line:gsub("&nbsp;",""))
-		productTable[tostring(line:match('"([^"]*)"}')):gsub(" ",""):gsub("\\\\","\\")]=tostring(line:match('{branchname="([^"]*)"')):gsub(" +"," "):gsub(" $","") 
+		productTable[tostring(line:match('"([^"]*)"}')):gsub(" ",""):gsub("\\\\","\\")]=tostring(line:match('{branchname="([^"]*)"')):gsub(" +"," "):gsub(" $","")
 	end --if line:match("<!--") then
 end --for line in io.lines("C:\\Tree\\reflexiveDocTree\\reflexive_html_with_tree.lua") do
 
@@ -85,3 +86,4 @@ end --for k,v in pairs(productTable) do
 
 print("Anzahl Dateien im IDIV-Package: " .. anzahlDateien)
 os.execute('pause')
+
