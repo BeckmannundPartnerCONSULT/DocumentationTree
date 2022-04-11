@@ -8,6 +8,20 @@ import os
 from slpp import slpp as lua 
 #import library for regex expressions for pattern matching
 import re
+#https://pypi.org/project/lupa/ pip install lupa
+import lupa
+from lupa import LuaRuntime
+lua2 = LuaRuntime(unpack_returned_tuples=True)
+
+#1.1 check if file exists
+if os.path.exists('C:\\Tree\\Tree_Python\\Tree_Baum_script.lua')==False:
+    file0 = open("C:\\Tree\\Tree_Python\\Tree_Baum_script.lua", "w")
+    file0.write("p=io.popen('dir C:\\\\Tree\\\\Tree_Python /b/o/s')\nfor file in p:lines() do print(file) end")
+    file0.close() #This close() is important
+
+#1.2 execute Lua script
+lua2_function2=lua2.eval('function() dofile("C:\\\\Tree\\\\Tree_Python\\\\Tree_Baum_script.lua") end ')
+lua2_function2()
 
 #2. read Lua tree file
 file0 = open('C:\\Tree\\Tree_Python\\Tree_Baum.lua','r')
@@ -65,7 +79,7 @@ def treeRecursive(tree,level,numberNode):
             treeRecursive(tree[key],level+1,folderDict[numberNodeDict[str(level)]]) #numberNodeDict[str(level)])
         else:
             numberNodeDict["-1"]=numberNodeDict["-1"]+1
-            print(numberNodeDict["-1"],level,key,tree[key])
+            #test with: print(numberNodeDict["-1"],level,key,tree[key])
             if key=='branchname':
                 folderDict[tree[key]]=treeview1.insert(numberNode,'end','item' + str(numberNodeDict["-1"]),text=tree[key].replace("\\\\","\\"))
                 #test with: print(tree[key],folderDict[tree[key]])
@@ -251,6 +265,13 @@ def button_change_nodes_CallBack():
     textfield1.insert(0,treeview1.item(item,"text"))
 button_change_nodes = ttk.Button(app, text ="Knoten \nkopieren", command = button_change_nodes_CallBack, style="BW.TLabel")
 button_change_nodes.pack(side=LEFT)
+ttk.Label(app, text =' ').pack(side=LEFT)
+
+#5.2.10 define button to update console with Lua script
+def button_update_console_CallBack():
+    lua2_function2()
+button_update_console = ttk.Button(app, text ="Konsole \naktualisieren", command = button_update_console_CallBack, style="BW.TLabel")
+button_update_console.pack(side=LEFT)
 ttk.Label(app, text =' ').pack(side=LEFT)
 
 #6. start the main loop for the GUI
