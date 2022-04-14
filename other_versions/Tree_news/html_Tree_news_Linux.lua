@@ -5,7 +5,7 @@ os.execute("ls /mnt/sdcard/Tree/Tree_news/html_tree*.html >/mnt/sdcard/Tree/Tree
 dayBefore="00000000"
 for line in io.lines("/mnt/sdcard/Tree/Tree_news/dir_Tree_news.txt") do
 local dayNumber=line:match("%d+")
-if dayNumber~=os.date("%Y%m%d") and dayNumber>dayBefore then dayBefore=dayNumber end
+if dayNumber and dayNumber~=os.date("%Y%m%d") and dayNumber>dayBefore then dayBefore=dayNumber end
 end --for line in io.lines("/mnt/sdcard/Tree/Tree_news/dir_Tree_news.txt") do
 
 --1.1 read html file from convertion before
