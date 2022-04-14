@@ -302,7 +302,7 @@ function button_logo:action()
 end --function button_logo:flat_action()
 
 --6.2 button for loading text file 1
-button_loading_first_text_file=iup.flatbutton{title="Erste Textdatei laden", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_loading_first_text_file=iup.flatbutton{title="Erste Textdatei laden", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_first_text_file:flat_action()
 	local inputfile1
 	if file_exists(textbox1.value) then
@@ -328,7 +328,7 @@ function button_loading_first_text_file:flat_action()
 end --function button_loading_first_text_file:flat_action()
 
 --6.2.1 button for loading text file 1
-button_scripter_first_text_file=iup.flatbutton{title="Skripter mit erster \nTextdatei starten", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_scripter_first_text_file=iup.flatbutton{title="Skripter mit erster \nTextdatei starten", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_scripter_first_text_file:flat_action()
 	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
 	if file_exists(textbox1.value) then inputfile=io.open(textbox1.value,"r") ErsteZeile=inputfile:read() inputfile:close() end
@@ -342,7 +342,7 @@ function button_scripter_first_text_file:flat_action()
 end --function button_scripter_first_text_file:flat_action()
 
 --6.3 button for loading text file 2
-button_loading_second_text_file=iup.flatbutton{title="Zweite Textdatei laden", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_loading_second_text_file=iup.flatbutton{title="Zweite Textdatei laden", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_second_text_file:flat_action()
 	local inputfile2
 	if file_exists(textbox2.value) then
@@ -368,7 +368,7 @@ function button_loading_second_text_file:flat_action()
 end --function button_loading_second_text_file:flat_action()
 
 --6.3.1 button for loading text file 2
-button_scripter_second_text_file=iup.flatbutton{title="Skripter mit zweiter \nTextdatei starten", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_scripter_second_text_file=iup.flatbutton{title="Skripter mit zweiter \nTextdatei starten", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_scripter_second_text_file:flat_action()
 	--read first line of file. If it is empty then scripter cannot open it. So open file with notepad.exe
 	if file_exists(textbox2.value) then inputfile=io.open(textbox2.value,"r") ErsteZeile=inputfile:read() inputfile:close() end
@@ -382,7 +382,7 @@ function button_scripter_second_text_file:flat_action()
 end --function button_scripter_second_text_file:flat_action()
 
 --6.3.2 button for loading all text files without versions in IUP Lua scripter found in first directory and subdirectories containing the search text
-button_scripter_loading_text_files_with_search=iup.flatbutton{title="Skripter mit maximal x Textdateien im \nersten Ordner mit Suchergebnissen laden", size="145x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_scripter_loading_text_files_with_search=iup.flatbutton{title="Skripter mit maximal x Textdateien im \nersten Ordner mit Suchergebnissen laden", size="150x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_scripter_loading_text_files_with_search:flat_action()
 	local directoryText
 	clipboard.text=textbox3.value
@@ -447,15 +447,34 @@ function button_scripter_loading_text_files_with_search:flat_action()
 end --function button_scripter_loading_text_files_with_search:flat_action()
 
 --6.4 button for expand and collapse
-button_expand_collapse_dialog=iup.flatbutton{title="Ein-/Ausklappen", size="85x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+button_expand_collapse_dialog=iup.flatbutton{title="Ein-/\nAusklappen", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_expand_collapse_dialog:flat_action()
 	text_expand_collapse.value=tree.title
 	dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_expand_collapse_dialog:flat_action()
 
+--6.5 button for filtering the two texts to be compared for filtered lines
+button_filter=iup.flatbutton{title="Texte \nfiltern", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_filter:flat_action()
+	local textSubsitute=""
+	for line in (textfield1.value .. "\n"):gmatch("([^\n]*)\n") do
+		if line:match(textbox3.value) then
+			textSubsitute=textSubsitute .. line .. "\n"
+		end --if line:match(textbox3.value) then
+	end --for line in (textbox3.value .. "\n"):gmatch("([^\n]*)\n") do
+	textfield1.value=textSubsitute
+	textSubsitute=""
+	for line in (textfield2.value .. "\n"):gmatch("([^\n]*)\n") do
+		if line:match(textbox3.value) then
+			textSubsitute=textSubsitute .. line .. "\n"
+		end --if line:match(textbox3.value) then
+	end --for line in (textbox3.value .. "\n"):gmatch("([^\n]*)\n") do
+	textfield2.value=textSubsitute
+end --function button_filter:flat_action()
 
---6.5 button for comparing text file of tree and text file of tree2
-button_compare=iup.flatbutton{title="Textdateien vergleichen", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+
+--6.6 button for comparing text file of tree and text file of tree2
+button_compare=iup.flatbutton{title="Textdateien \nvergleichen", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_compare:flat_action()
 	tree.delnode0 = "CHILDREN"
 	tree.title='compare'
@@ -530,7 +549,7 @@ function button_compare:flat_action()
 	iup.TreeAddNodes(tree,tree_script)
 end --function button_compare:flat_action()
 
---6.6 button with second logo
+--6.7 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -633,6 +652,7 @@ maindlg = iup.dialog{
 			iup.label{title="x: "},
 			textbox4,
 			iup.fill{},
+			button_filter,
 			button_compare,
 			iup.label{size="5x",},
 			button_expand_collapse_dialog,
