@@ -14,37 +14,37 @@ end --if (not loadstring) then
 
 --1.1.4 securisation by allowing only necessary os.execute commands
 do --sandboxing
-local old=os.date("%H%M%S")
-local secureTable={}
-secureTable[old]=os.execute
-function os.execute(a)
-if 
-a:lower():match("^sftp ") or
-a:lower():match("^dir ") or
-a:lower():match("^pause") or
-a:lower():match("^title") or
-a:lower():match("^md ") or
-a:lower():match("^copy ") or
-a:lower():match("^color ") or
-a:lower():match("^start ") or
-a:lower():match("^cls") 
-then
-return secureTable[old](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
-secureTable[old .. "1"]=io.popen
-function io.popen(a)
-if 
-a:lower():match("^dir ") or
-a:lower():match('^"dir ') 
-then
-return secureTable[old .. "1"](a)
-else
-print(a .." ist nicht erlaubt.")
-end --if a:match("del") then 
-end --function os.execute(a)
+	local old=os.date("%H%M%S")
+	local secureTable={}
+	secureTable[old]=os.execute
+	function os.execute(a)
+		if 
+		a:lower():match("^sftp ") or
+		a:lower():match("^dir ") or
+		a:lower():match("^pause") or
+		a:lower():match("^title") or
+		a:lower():match("^md ") or
+		a:lower():match("^copy ") or
+		a:lower():match("^color ") or
+		a:lower():match("^start ") or
+		a:lower():match("^cls") 
+		then
+			return secureTable[old](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function os.execute(a)
+	secureTable[old .. "1"]=io.popen
+	function io.popen(a)
+		if 
+		a:lower():match("^dir ") or
+		a:lower():match('^"dir ') 
+		then
+			return secureTable[old .. "1"](a)
+		else
+			print(a .." ist nicht erlaubt.")
+		end --if a:match("del") then 
+	end --function io.popen(a)
 end --do --sandboxing
 
 --1.2 color section
@@ -641,12 +641,12 @@ menu = iup.menu{
 		startcopy,
 		renamenode,
 		addbranch,
-		addbranchbottom,
 		addbranch_fromclipboard,
+		addbranchbottom,
 		addbranch_fromclipboardbottom,
 		addleaf,
-		addleafbottom,
 		addleaf_fromclipboard,
+		addleafbottom,
 		addleaf_fromclipboardbottom,
 		startversion,
 		startnodescripter,
