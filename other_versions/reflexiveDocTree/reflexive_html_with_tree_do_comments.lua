@@ -7,6 +7,46 @@ chosenNumber=10
 commentsTable={}
 
 
+commentsTable["input field as scintilla editor"]={
+"Ein Textfeld als Scintilla Editor wird für die Eingabe benötigt.",
+"An input field as scintilla editor is needed.",
+}
+commentsTable["button for filtering the two texts to be compared on filtered lines"]={
+"Eine Schaltfläche filtert beide Texte nach einem Filtermuster, damit nur die gefilterten Zeilen verglichen werden.",
+"A button filters the two texts according to a pattern to be compared on filtered lines.",
+}
+commentsTable["output field as scintilla editor"]={
+"Ein Textfeld als Scintilla Editor wird für die Ausgabe benötigt.",
+"An output field as scintilla editor is needed.",
+}
+commentsTable["button for inserting tabulators in text with comments"]={
+"Eine Schaltfläche fügt in einen Text mit Kommentaren die geeigneten Tabulatoren ein. Nach den Kommentarzeichen werden die Ebenen der Gliederung nach Zahlen ermittelt und die entsprechende Anzahl Tabulatoren gesetzt.",
+"A button inserts tabulators in text with comments. The level of the order is determined with the numbering after the comment signs. Afterwards the same number of tabulators is set.",
+}
+commentsTable["button for building tree from text with tabulators"]={
+"Eine Schaltfläche bildet den Baum aus dem Text mit den Tabulatoren.",
+"A button builds the tree from text with tabulators.",
+}
+commentsTable["button for mirroring tree"]={
+"Eine Schaltfläche spiegelt den Baum.",
+"A button mirrors the tree.",
+}
+commentsTable["write html file with tree in right order"]={
+"Eine Html-Datie mit dem neuen Baum in der richtigen Reihenfolge wird geschrieben.",
+"A html file with tree in right order is written.",
+}
+commentsTable["build new tree with titles"]={
+"Ein neuer Baum mit den Titeln wird gebildet.",
+"A new tree with titles is built.",
+}
+commentsTable["search for the version before"]={
+"Die letzte Version vor der neuen Konvertierung wird bestimmt.",
+"The last convertion, i.e. the version before the new conversion must be found.",
+}
+commentsTable["read html file from convertion before"]={
+"Die Html-Datei, die bei der vorigen Konvertierung entstanden ist, wird gelesen.",
+"The html file from the convertion done before the new conversion is to be read.",
+}
 commentsTable["exchange words in upper cases and brackets"]={
 "Wörter in Großbuchstaben mit direkt angrenzender Klammer werden mit dieser in der Reihenfolge umgetauscht.",
 "Words in upper cases and brackets are exchanged.",
