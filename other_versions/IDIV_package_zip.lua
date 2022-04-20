@@ -39,6 +39,7 @@ packageTable["C:\\Tree\\LuatoLua\\input_command_output_tree_MDI_graphics.lua"]="
 packageTable["C:\\Tree\\LuatoLua\\reflexive_Tree_calculator_with_interests.lua"]="C:\\Tree\\IDIV_package\\IDIV_Entwicklungsumgebung_fuer_Kalkulationsschemata"
 packageTable["C:\\Tree\\LuatoLua\\input_command_output_tree.lua"]="C:\\Tree\\IDIV_package\\IDIV_Analysewerkzeug"
 packageTable["C:\\Zinsrechner\\Tree_calculator_with_interests.html"]="C:\\Tree\\IDIV_package\\IDIV_Zinsrechner"
+packageTable["C:\\Tree\\simpleDocTree\\simple_documentation_tree_brackets.lua"]="C:\\Tree\\IDIV_package\\IDIV_Konvertierung"
 
 
 
