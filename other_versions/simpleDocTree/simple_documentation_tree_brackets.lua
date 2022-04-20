@@ -305,7 +305,30 @@ function button_show_tabtext_as_tree:flat_action()
 	textfield2.value=outputText
 end --function button_show_tabtext_as_tree:flat_action()
 
---6.6 button with second logo
+--6.6 button for mirroring tree
+button_tree_mirror=iup.flatbutton{title="Baum \nspiegeln", size="45x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_tree_mirror:flat_action()
+	textExchange='tree_tabtext_script={branchname="tabulator tree",\n'
+	for i=0,tree.count-1 do
+		if tree["totalchildcount" .. i]=="0" then
+			textExchange=textExchange .. '{branchname="' .. tree["title" .. i] .. '",\n'
+			--write all parent nodes except the root node
+			i1=i
+			while tree["parent" .. i1]~="0" do
+				i1=tree["parent" .. i1]
+				--test with: print(tree["title" .. i1])
+				textExchange=textExchange .. '{branchname="' .. tree["title" .. i1] .. '",\n'
+			end --while tree["parent" .. i1]~="0" do
+			for i2=tree["depth" .. i]-tree["depth" .. i1],0,-1 do
+				textExchange=textExchange .. '},\n'
+			end --for i2=tree["depth" .. i]-tree["depth" .. i1],1,-1 do
+		end --if tree["totalchildcount" .. i]=="0" then
+	end --for i=0,tree.count-1 do
+	textExchange=textExchange .. '}\n'
+	textfield2.value=textExchange
+end --function button_tree_mirror:flat_action()
+
+--6.7 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -344,7 +367,7 @@ textfield1.value='=WENN(1=1;WENN(2<2;"nie";"immer");WENN(3>2;"immer";"nie"))'
 --example for a text with tabulators
 textfield1.value='Title\n\tAst\n\t\tBlattTitle\n\tAst\n\t\tBlattTitle\n\tAst\n\t\tBlatt'
 --example for a text with comments with numberings
-textfield1.value="print('Hallo world')\n-" .. "-1. Title\nprint('Hallo world')\n-" .. "-2.1 Ast\nprint('Hallo world')\n-" .. "-2.1.1 BlattTitle\n-" .. "-2.2 Ast\n-" .. "-2.2.1 BlattTitle\n-" .. "-3. Ast\n-" .. "-3.1 Blatt\n" .. "4 Blatt"
+textfield1.value="print('Hallo world1')\n-" .. "-1. Title\nprint('Hallo world2')\n-" .. "-2.1 Ast\nprint('Hallo world3')\n-" .. "-2.1.1 BlattTitle\n-" .. "-2.2 Ast\n-" .. "-2.2.1 BlattTitle\n-" .. "-3. Ast\n-" .. "-3.1 Blatt\n" .. "4 Blatt"
 
 --7.2 output field as scintilla editor
 textfield2=iup.scintilla{}
@@ -398,6 +421,7 @@ maindlg = iup.dialog{
 			button_show_sql_as_tree,
 			button_show_excel_formula_as_tree,
 			button_show_tabtext_as_tree,
+			button_tree_mirror,
 			iup.fill{},
 			button_logo2,
 		},
