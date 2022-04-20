@@ -390,8 +390,10 @@ function button_loading_lua_table_1:flat_action()
 	if file_exists(textbox1.value) then
 		--load tree from file 
 		inputfile1=io.open(textbox1.value,"r")
-		treeTable=inputfile1:read("*all"):match("[^=]+=(%b{})")
+		inputText=inputfile1:read("*all")
 		inputfile1:close()
+		treeTable=inputText:match("[^=]+=(%b{})")
+		if treeTable:match('{ *branchname *= *"')==nil then firstEqualPosition=inputText:find("=") treeTable=inputText:sub(firstEqualPosition+1) end
 		--save table in the variable actualtree
 		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 		if _VERSION=='Lua 5.1' then
@@ -410,8 +412,10 @@ function button_loading_lua_table_1:flat_action()
 			--load tree from file 
 			textbox1.value=filedlg.value
 			inputfile1=io.open(filedlg.value,"r")
-			treeTable=inputfile1:read("*all"):match("[^=]+=(%b{})")
+			inputText=inputfile1:read("*all")
 			inputfile1:close()
+			treeTable=inputText:match("[^=]+=(%b{})")
+			if treeTable:match('{ *branchname *= *"')==nil then firstEqualPosition=inputText:find("=") treeTable=inputText:sub(firstEqualPosition+1) end
 			--save table in the variable actualtree
 			--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 			if _VERSION=='Lua 5.1' then
@@ -435,8 +439,10 @@ function button_loading_lua_table_2:flat_action()
 	if file_exists(textbox2.value) then
 		--load tree2 from file
 		inputfile2=io.open(textbox2.value,"r")
-		treeTable=inputfile2:read("*all"):match("[^=]+=(%b{})")
+		inputText=inputfile2:read("*all")
 		inputfile2:close()
+		treeTable=inputText:match("[^=]+=(%b{})")
+		if treeTable:match('{ *branchname *= *"')==nil then firstEqualPosition=inputText:find("=") treeTable=inputText:sub(firstEqualPosition+1) end
 		--save table in the variable actualtree
 		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 		if _VERSION=='Lua 5.1' then
@@ -455,8 +461,10 @@ function button_loading_lua_table_2:flat_action()
 			--load tree2 from file
 			textbox2.value=filedlg.value
 			inputfile2=io.open(filedlg.value,"r")
-			treeTable=inputfile2:read("*all"):match("[^=]+=(%b{})")
+			inputText=inputfile2:read("*all")
 			inputfile2:close()
+			treeTable=inputText:match("[^=]+=(%b{})")
+			if treeTable:match('{ *branchname *= *"')==nil then firstEqualPosition=inputText:find("=") treeTable=inputText:sub(firstEqualPosition+1) end
 			--save table in the variable actualtree
 			--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
 			if _VERSION=='Lua 5.1' then
@@ -642,146 +650,123 @@ end --function button_sort_with_tree:flat_action()
 --6.7 button for sorting text file of tree in text file of tree2 to tree deleting not needed nodes
 button_sort_in_tree=iup.flatbutton{title="Übereinstimmungen \nfinden", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_sort_in_tree:flat_action()
-	tree.delnode0 = "SELECTED" --"CHILDREN"
-	--deep copy of tree2 in tree
-	for i=0,tree2.totalchildcount0 do
-		if tree2['KIND' .. i]=="LEAF" then
-			tree['addleaf' .. i-1]=tree2['title' .. i]
-		elseif tree2['KIND' .. i]=="BRANCH" and tree2['KIND' .. i-1]=="LEAF" and i>0 and tree2['depth' .. i]==tree2['depth' .. i-1]  then
-			tree['addbranch' .. i-1]=tree2['title' .. i]
-		elseif tree2['KIND' .. i]=="BRANCH" and tree2['KIND' .. i-1]=="LEAF" then
-			local searchDiff1=0
-			for i1=i,0,-1 do
-				if tree['depth' .. i1]==tree2['depth' .. i] then break end
-				searchDiff1=searchDiff1+1
-				--test with: print(searchDiff1)
-			end --for i1=i,0,-1 do
-			tree['insertbranch' .. i-searchDiff1]=tree2['title' .. i]
-		elseif  tree2['KIND' .. i]=="BRANCH" and  tree2['KIND' .. i-1]=="BRANCH" and i>0 and tree2['depth' .. i]==tree2['depth' .. i-1] then
-			tree['insertbranch' .. i-1]=tree2['title' .. i]
-		elseif  tree2['KIND' .. i]=="BRANCH" and  tree2['KIND' .. i-1]=="BRANCH" and i>0 and tree2['depth' .. i]<tree2['depth' .. i-1] then
-			local searchDiff2=0
-			for i1=i,0,-1 do
-				if tree['depth' .. i1]==tree2['depth' .. i] then break end
-				searchDiff2=searchDiff2+1
-				--test with: print(searchDiff2)
-			end --for i1=i,0,-1 do
-			tree['insertbranch' .. i-searchDiff2]=tree2['title' .. i]
+	if file_exists(textbox1.value) and file_exists(textbox2.value) then
+		tree.delnode0 = "CHILDREN"
+		tree.title=''
+		--load tree2 from file in compare tree
+		inputfile2=io.open(textbox2.value,"r")
+		inputText=inputfile2:read("*all")
+		inputfile2:close()
+		treeTable=inputText:match("[^=]+=(%b{})")
+		if treeTable:match('{ *branchname *= *"')==nil then firstEqualPosition=inputText:find("=") treeTable=inputText:sub(firstEqualPosition+1) end
+		--save table in the variable actualtree
+		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
+		if _VERSION=='Lua 5.1' then
+			loadstring('actualtree='..treeTable)()	
 		else
-			tree['addbranch' .. i-1]=tree2['title' .. i]
-		end --if tree2['KIND' .. i]=="LEAF" then
-	end --for i=0,tree2.totalchildcount0 do
-	--make the sort
-	--go through tree 1
-	local file1existsTable={}
-	for i=0,tree1.totalchildcount0 do
-		file1existsTable[tree1['TITLE' .. i]]=true
-	end --for i=0,tree1.totalchildcount0 do
-	for i=tree.totalchildcount0,0,-1 do
-		if file1existsTable[tree['TITLE' .. i]]==nil and tree['totalchildcount' .. i]=="0" then
-			tree["delnode" .. i] = "SELECTED"
-		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
-	end --for i=tree.totalchildcount0,0,-1 do
-	--go through tree 2
-	local file2existsTable={}
-	local file2numberTable={}
-	for i=0,tree2.totalchildcount0 do
-		local line=tree2['TITLE' .. i]
-		file2numberTable[#file2numberTable+1]=line
-		file2existsTable[line]=#file2numberTable
-	end --for i=0,tree1.totalchildcount0 do
-	--go through tree 1 to search for missing lines in tree 2
-	local titleTable={}
-	local tree_script={branchname="rest",{branchname="Übereinstimmungen von " .. tostring(textbox1.value) .. " in " .. tostring(textbox2.value)}}
-	titleTable["nur in erster Datei"]=true
-	titleTable["Übereinstimmungen von " .. tostring(textbox1.value) .. " in " .. tostring(textbox2.value)]=true
-	local line1Number=0
-	for i=0,tree1.totalchildcount0 do
-		local line=tree1['TITLE' .. i]
-		line1Number=line1Number+1
-		if file2existsTable[line]==nil then
-			if tree_script[#tree_script].branchname=="nur in erster Datei" then
-				tree_script[#tree_script][#tree_script[#tree_script]+1]=line
+			load('actualtree='..treeTable)() --now actualtree is the table.
+		end --if _VERSION=='Lua 5.1' then
+		iup.TreeAddNodes(tree,actualtree)
+		--go through tree 1
+		local file1existsTable={}
+		for i=0,tree1.totalchildcount0 do
+			file1existsTable[tree1['TITLE' .. i]]=true
+		end --for i=0,tree1.totalchildcount0 do
+		for i=tree.totalchildcount0,1,-1 do
+			if file1existsTable[tree['TITLE' .. i]]==nil and tree['totalchildcount' .. i]=="0" then
+				tree["delnode" .. i] = "SELECTED"
+			end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+		end --for i=tree.totalchildcount0,0,-1 do
+		--go through tree 2
+		local file2existsTable={}
+		local file2numberTable={}
+		for i=0,tree2.totalchildcount0 do
+			local line=tree2['TITLE' .. i]
+			file2numberTable[#file2numberTable+1]=line
+			file2existsTable[line]=#file2numberTable
+		end --for i=0,tree1.totalchildcount0 do
+		--go through tree 1 to search for missing lines in tree 2
+		local titleTable={}
+		local tree_script={branchname="rest",{branchname="Übereinstimmungen von " .. tostring(textbox1.value) .. " in " .. tostring(textbox2.value)}}
+		titleTable["nur in erster Datei"]=true
+		titleTable["Übereinstimmungen von " .. tostring(textbox1.value) .. " in " .. tostring(textbox2.value)]=true
+		local line1Number=0
+		for i=0,tree1.totalchildcount0 do
+			local line=tree1['TITLE' .. i]
+			line1Number=line1Number+1
+			if file2existsTable[line]==nil then
+				if tree_script[#tree_script].branchname=="nur in erster Datei" then
+					tree_script[#tree_script][#tree_script[#tree_script]+1]=line
+				else
+					tree_script[#tree_script+1]={branchname="nur in erster Datei"}
+					tree_script[#tree_script][#tree_script[#tree_script]+1]=line
+				end --if tree_script[#tree_script].branchname=="nur in erster Datei" then
+			end --if file2existsTable[line] then
+		end --for i=0,tree1.totalchildcount0 do
+		--add results which tree is sorted by which and
+		local searchDiff3=0
+		for i1=tree.totalchildcount0,0,-1 do
+			if tree['depth' .. i1]=="1" then break end
+			searchDiff3=searchDiff3+1
+			--test with: print(searchDiff3)
+		end --for i1=i,0,-1 do
+		--test with: print(tree.totalchildcount0,searchDiff3)
+		tree['insertbranch' .. math.tointeger(math.max(tree.totalchildcount0-searchDiff3,0))]="Ergebnisse"
+		titleTable["Ergebnisse"]=true
+		--build the tree of not sorted nodes
+		iup.TreeAddNodes(tree,tree_script,tree.totalchildcount0)
+		--mark the tree in blue for nodes from tree 1
+		for i=0,tree.totalchildcount0 do
+			if titleTable[tree['TITLE' .. i]] then
+				tree["color" .. i]="250 0 0"
+			elseif file1existsTable[tree['TITLE' .. i]] then
+				tree["color" .. i]="0 0 250"
 			else
-				tree_script[#tree_script+1]={branchname="nur in erster Datei"}
-				tree_script[#tree_script][#tree_script[#tree_script]+1]=line
-			end --if tree_script[#tree_script].branchname=="nur in erster Datei" then
-		end --if file2existsTable[line] then
-	end --for i=0,tree1.totalchildcount0 do
-	--add results which tree is sorted by which and
-	local searchDiff3=0
-	for i1=tree.totalchildcount0,0,-1 do
-		if tree['depth' .. i1]=="1" then break end
-		searchDiff3=searchDiff3+1
-		--test with: print(searchDiff3)
-	end --for i1=i,0,-1 do
-	tree['insertbranch' .. tree.totalchildcount0-searchDiff3]="Ergebnisse"
-	titleTable["Ergebnisse"]=true
-	--build the tree of not sorted nodes
-	iup.TreeAddNodes(tree,tree_script,tree.totalchildcount0)
-	--mark the tree in blue for nodes from tree 1
-	for i=0,tree.totalchildcount0 do
-		if titleTable[tree['TITLE' .. i]] then
-			tree["color" .. i]="250 0 0"
-		elseif file1existsTable[tree['TITLE' .. i]] then
-			tree["color" .. i]="0 0 250"
-		else
-			tree["color" .. i]=color_grey_bpc
-		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
-	end --for i=tree.totalchildcount0,0,-1 do
+				tree["color" .. i]=color_grey_bpc
+			end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+		end --for i=tree.totalchildcount0,0,-1 do
+	end --if file_exists(textbox1.value) and file_exists(textbox2.value) then
 end --function button_sort_in_tree:flat_action()
 
 --6.8 button for building tree with text file of tree1 deleting nodes being in tree2
 button_tree1_not_in_tree=iup.flatbutton{title="Neueinträge \nfinden", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_tree1_not_in_tree:flat_action()
-	tree.delnode0 = "SELECTED" --"CHILDREN"
-	--deep copy of tree1 in tree
-	for i=0,tree1.totalchildcount0 do
-		if tree1['KIND' .. i]=="LEAF" then
-			tree['addleaf' .. i-1]=tree1['title' .. i]
-		elseif tree1['KIND' .. i]=="BRANCH" and tree1['KIND' .. i-1]=="LEAF" and i>0 and tree1['depth' .. i]==tree1['depth' .. i-1]  then
-			tree['addbranch' .. i-1]=tree1['title' .. i]
-		elseif tree1['KIND' .. i]=="BRANCH" and tree1['KIND' .. i-1]=="LEAF" then
-			local searchDiff1=0
-			for i1=i,0,-1 do
-				if tree['depth' .. i1]==tree1['depth' .. i] then break end
-				searchDiff1=searchDiff1+1
-				--test with: print(searchDiff1)
-			end --for i1=i,0,-1 do
-			tree['insertbranch' .. i-searchDiff1]=tree1['title' .. i]
-		elseif  tree1['KIND' .. i]=="BRANCH" and  tree1['KIND' .. i-1]=="BRANCH" and i>0 and tree1['depth' .. i]==tree1['depth' .. i-1] then
-			tree['insertbranch' .. i-1]=tree1['title' .. i]
-		elseif  tree1['KIND' .. i]=="BRANCH" and  tree1['KIND' .. i-1]=="BRANCH" and i>0 and tree1['depth' .. i]<tree1['depth' .. i-1] then
-			local searchDiff2=0
-			for i1=i,0,-1 do
-				if tree['depth' .. i1]==tree1['depth' .. i] then break end
-				searchDiff2=searchDiff2+1
-				--test with: print(searchDiff2)
-			end --for i1=i,0,-1 do
-			tree['insertbranch' .. i-searchDiff2]=tree1['title' .. i]
+	if file_exists(textbox1.value) then
+		tree.delnode0 = "CHILDREN"
+		tree.title=''
+		--load tree1 from file in compare tree
+		inputfile1=io.open(textbox1.value,"r")
+		inputText=inputfile1:read("*all")
+		inputfile1:close()
+		treeTable=inputText:match("[^=]+=(%b{})")
+		if treeTable:match('{ *branchname *= *"')==nil then firstEqualPosition=inputText:find("=") treeTable=inputText:sub(firstEqualPosition+1) end
+		--save table in the variable actualtree
+		--Lua 5.1 has the function loadstring() - in later versions, this is replaced by load(), hence we detect this here
+		if _VERSION=='Lua 5.1' then
+			loadstring('actualtree='..treeTable)()	
 		else
-			tree['addbranch' .. i-1]=tree1['title' .. i]
-		end --if tree1['KIND' .. i]=="LEAF" then
-	end --for i=0,tree1.totalchildcount0 do
-	--make the sort
-	--go through tree 2
-	local file2existsTable={}
-	for i=0,tree2.totalchildcount0 do
-		file2existsTable[tree2['TITLE' .. i]]=true
-	end --for i=0,tree2.totalchildcount0 do
-	for i=tree.totalchildcount0,0,-1 do
-		if file2existsTable[tree['TITLE' .. i]] and tree['totalchildcount' .. i]=="0" then
-			tree["delnode" .. i] = "SELECTED"
-		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
-	end --for i=tree.totalchildcount0,0,-1 do
-	--mark the tree in blue for nodes from tree 1
-	for i=0,tree.totalchildcount0 do
-		if file2existsTable[tree['TITLE' .. i]] then
-			tree["color" .. i]=color_grey_bpc
-		else
-			tree["color" .. i]="0 0 250"
-		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
-	end --for i=tree.totalchildcount0,0,-1 do
+			load('actualtree='..treeTable)() --now actualtree is the table.
+		end --if _VERSION=='Lua 5.1' then
+		iup.TreeAddNodes(tree,actualtree)
+		--go through tree 2
+		local file2existsTable={}
+		for i=0,tree2.totalchildcount0 do
+			file2existsTable[tree2['TITLE' .. i]]=true
+		end --for i=0,tree2.totalchildcount0 do
+		for i=tree.totalchildcount0,0,-1 do
+			if file2existsTable[tree['TITLE' .. i]] and tree['totalchildcount' .. i]=="0" then
+				tree["delnode" .. i] = "SELECTED"
+			end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+		end --for i=tree.totalchildcount0,0,-1 do
+		--mark the tree in blue for nodes from tree 1
+		for i=0,tree.totalchildcount0 do
+			if file2existsTable[tree['TITLE' .. i]] then
+				tree["color" .. i]=color_grey_bpc
+			else
+				tree["color" .. i]="0 0 250"
+			end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+		end --for i=tree.totalchildcount0,0,-1 do
+	end --if file_exists(textbox2.value) then
 end --function button_tree1_not_in_tree:flat_action()
 
 --6.9 button for deleting one node leaving all other nodes but changing the order
