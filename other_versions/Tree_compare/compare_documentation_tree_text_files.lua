@@ -453,7 +453,7 @@ function button_expand_collapse_dialog:flat_action()
 	dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_expand_collapse_dialog:flat_action()
 
---6.5 button for filtering the two texts to be compared for filtered lines
+--6.5 button for filtering the two texts to be compared on filtered lines
 button_filter=iup.flatbutton{title="Texte \nfiltern", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_filter:flat_action()
 	local textSubsitute=""
