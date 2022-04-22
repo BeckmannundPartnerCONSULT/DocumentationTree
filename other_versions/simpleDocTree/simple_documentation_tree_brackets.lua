@@ -109,7 +109,7 @@ function button_logo:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
---6.2 button for building tree with text with tabulator
+--6.2 button for inserting tabulators in text with comments
 button_numbering_as_tabs=iup.flatbutton{title="Kommentar-Nummerierungen (--Zahl) \nmit Tabulatoren", size="145x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_numbering_as_tabs:flat_action()
 	text=textfield1.value:gsub("%-%-%d+%.%d+%.%d+%.%d+.%d+ ","\t\t\t\t\t%1")
@@ -214,7 +214,7 @@ function button_show_excel_formula_as_tree:flat_action()
 	textfield2.value=outputText
 end --function button_show_excel_formula_as_tree:flat_action()
 
---6.5 button for building tree with text with tabulator
+--6.5 button for building tree from text with tabulators
 button_show_tabtext_as_tree=iup.flatbutton{title="Text mit Tabulatoren \nals Baum zeigen", size="145x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_show_tabtext_as_tree:flat_action()
 	tree.delnode0 = "CHILDREN"
