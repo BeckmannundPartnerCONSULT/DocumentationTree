@@ -1153,7 +1153,15 @@ function tree:rightclick_cb(id)
 end --function tree:rightclick_cb(id)
 -- Callback called when a node will be doubleclicked
 function tree:executeleaf_cb(id)
-	if tree['title' .. id]:match("^.:\\.*%.[^\\ ]+$") or tree['title' .. id]:match("^.:\\.*[^\\]+$") or tree['title' .. id]:match("^.:\\$") or tree['title' .. id]:match("^[^ ]*//[^ ]+$") then os.execute('start "d" "' .. tree['title' .. id] .. '"') end
+	if tree['title' .. id]:match("/.*%.[^/ ]+$") or tree['title' .. id]:match("/.*[^/]+$") or tree['title' .. id]:match("^[^ ]*//[^ ]+$") then
+		if tree['title' .. id]:match("%.lua$") then
+			os.execute('geany "' .. tree['title' .. id] .. '" &')
+		elseif  tree['title' .. id]:match("http") then
+			os.execute('chromium-browser "' .. tree['title' .. id] .. '" &')
+		else
+			os.execute('pcmanfm "' .. tree['title' .. id] .. '" &')
+		end --if tree['title' .. id]:match("%.lua") then
+	end --if tree['title' .. id]:match("/.*%.[^/ ]+$") or tree['title' .. id]:match("/.*[^/]+$") or tree['title' .. id]:match("^[^ ]*//[^ ]+$") then
 end --function tree:executeleaf_cb(id)
 -- Callback for pressed keys
 function tree:k_any(c)
