@@ -62,7 +62,7 @@ end --function string.escape_forbidden_char(insertstring)
 --3.2.1 function for writing tree in a text file (function for printing tree)
 function printtree()
 	--open a filedialog
-	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.txt",filterinfo="Text Files", directory=path}
+	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswÃ¤hlen",filter="*.txt",filterinfo="Text Files", directory=path}
 	filedlg2:popup(iup.ANYWHERE,iup.ANYWHERE)
 	if filedlg2.status=="1" or filedlg2.status=="0" then
 		local outputfile=io.output(filedlg2.value) --setting the outputfile
@@ -75,7 +75,7 @@ function printtree()
 		end --for i=0,tree.totalchildcount0 do
 		outputfile:close() --close the outputfile
 	else --no outputfile was choosen
-		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.Message("SchlieÃŸen","Keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function printtree()
@@ -293,7 +293,7 @@ dlg_rename = iup.dialog{
 searchtext = iup.multiline{border="YES",expand="YES", SELECTION="ALL",wordwrap="YES"} --textfield for search
 
 --search in downward direction
-searchdown    = iup.flatbutton{title = "Abwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchdown    = iup.flatbutton{title = "AbwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchdown:flat_action()
 	local help=false
 	--downward search
@@ -352,7 +352,7 @@ end --for i=0, tree.count - 1 do
 end --function unmark:flat_action()
 
 --search in upward direction
-searchup   = iup.flatbutton{title = "Aufwärts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchup   = iup.flatbutton{title = "AufwÃ¤rts",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
 function searchup:flat_action()
 	local help=false
 	--upward search
@@ -381,20 +381,19 @@ function searchup:flat_action()
 	end --if help==false then
 end --	function searchup:flat_action()
 
-checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
-checkboxforsearchinfiles = iup.toggle{title="Suche in den Textdateien", value="OFF"} --checkbox for searcg in text files
+checkboxforcasesensitive = iup.toggle{title="GroÃŸ-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 search_label=iup.label{title="Suchfeld:"} --label for textfield
 
 --put above together in a search dialog
 dlg_search =iup.dialog{
 			iup.vbox{iup.hbox{search_label,searchtext,}, 
 
-			iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
-			iup.hbox{searchmark,unmark,checkboxforsearchinfiles,
+			iup.label{title="Sonderzeichen: %. fÃ¼r ., %- fÃ¼r -, %+ fÃ¼r +, %% fÃ¼r %, %[ fÃ¼r [, %] fÃ¼r ], %( fÃ¼r (, %) fÃ¼r ), %^ fÃ¼r ^, %$ fÃ¼r $, %? fÃ¼r ?",},
+			iup.hbox{searchmark,unmark,
 			}, 
-			iup.label{title="rot: übergeordnete Knoten",fgcolor = "255 0 0", },
+			iup.label{title="rot: Ã¼bergeordnete Knoten",fgcolor = "255 0 0", },
 			iup.label{title="blau: gleicher Knoten",fgcolor = "0 0 255", },
-			iup.label{title="grün: untergeordnete Knoten",fgcolor = "90 195 0", },
+			iup.label{title="grÃ¼n: untergeordnete Knoten",fgcolor = "90 195 0", },
 
 			iup.hbox{searchdown, searchup, 
 
@@ -524,7 +523,7 @@ dlg_search_replace =iup.dialog{
 					iup.hbox{search_label_replace,searchtext_replace},
 					iup.hbox{replace_label_replace,replacetext_replace},
 					iup.hbox{search_replace, cancel_replace,},
-					iup.label{title="Sonderzeichen: %. für ., %- für -, %+ für +, %% für %, %[ für [, %] für ], %( für (, %) für ), %^ für ^, %$ für $, %? für ?",},
+					iup.label{title="Sonderzeichen: %. fÃ¼r ., %- fÃ¼r -, %+ fÃ¼r +, %% fÃ¼r %, %[ fÃ¼r [, %] fÃ¼r ], %( fÃ¼r (, %) fÃ¼r ), %^ fÃ¼r ^, %$ fÃ¼r $, %? fÃ¼r ?",},
 				}; 
 				title="Suchen und Ersetzen",
 				size="420x100",
@@ -643,7 +642,7 @@ function renamenode:action()
 end --function renamenode:action()
 
 --5.1.3 add branch to tree
-addbranch = iup.item {title = "Ast hinzufügen"}
+addbranch = iup.item {title = "Ast hinzufÃ¼gen"}
 function addbranch:action()
 	tree['addbranch' .. tree.value] = ""
 	tree.value=tree.value+1
@@ -651,7 +650,7 @@ function addbranch:action()
 end --function addbranch:action()
 
 --5.1.3.1 add branch to tree by insertbranch
-addbranchbottom = iup.item {title = "Ast darunter hinzufügen"}
+addbranchbottom = iup.item {title = "Ast darunter hinzufÃ¼gen"}
 function addbranchbottom:action()
 	tree["insertbranch" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -664,7 +663,7 @@ function addbranchbottom:action()
 end --function addbranchbottom:action()
 
 --5.1.3.2 add leaf to tree by insertleaf
-addleafbottom = iup.item {title = "Blatt darunter hinzufügen"}
+addleafbottom = iup.item {title = "Blatt darunter hinzufÃ¼gen"}
 function addleafbottom:action()
 	tree["insertleaf" .. tree.value] = ""
 	for i=tree.value+1,tree.count-1 do
@@ -708,7 +707,7 @@ function addleaf_fromclipboardbottom:action()
 end --function addleaf_fromclipboardbottom:action()
 
 --5.1.5 add leaf of tree
-addleaf = iup.item {title = "Blatt hinzufügen"}
+addleaf = iup.item {title = "Blatt hinzufÃ¼gen"}
 function addleaf:action()
 	tree['addleaf' .. tree.value] = ""
 	tree.value=tree.value+1
@@ -724,7 +723,7 @@ end --function addleaf_fromclipboard:action()
 
 
 --5.1.7.1 cut of all leafs of a node
-cut_leafs_of_node = iup.item {title = "Alle Blätter darunter ausschneiden"}
+cut_leafs_of_node = iup.item {title = "Alle BlÃ¤tter darunter ausschneiden"}
 function cut_leafs_of_node:action()
 	local startNodeNumber=tree.value
 	local endNodeNumber=tree.value+tree.totalchildcount
@@ -791,7 +790,7 @@ function cut_nodes_of_node:action()
 end --function cut_nodes_of_node:action()
 
 --5.1.7.3 copy of all leafs of a node
-copy_leafs_of_node = iup.item {title = "Alle Blätter darunter kopieren"}
+copy_leafs_of_node = iup.item {title = "Alle BlÃ¤tter darunter kopieren"}
 function copy_leafs_of_node:action()
 	local startNodeNumber=tree.value
 	local endNodeNumber=tree.value+tree.totalchildcount
@@ -848,7 +847,7 @@ function copy_nodes_of_node:action()
 end --function copy_nodes_of_node:action()
 
 --5.1.7.5 paste of all leafs of a node
-paste_leafs_of_node = iup.item {title = "Alle Blätter darunter einfügen"}
+paste_leafs_of_node = iup.item {title = "Alle BlÃ¤tter darunter einfÃ¼gen"}
 function paste_leafs_of_node:action()
 	if leafTable then
 		for i=#leafTable,1,-1 do
@@ -859,7 +858,7 @@ function paste_leafs_of_node:action()
 end --function paste_leafs_of_node:action()
 
 --5.1.7.6 paste of all nodes of a node
-paste_nodes_of_node = iup.item {title = "Alle Knoten darunter einfügen"}
+paste_nodes_of_node = iup.item {title = "Alle Knoten darunter einfÃ¼gen"}
 function paste_nodes_of_node:action()
 	if tree_nodes then
 		tree:AddNodes(tree_nodes,tree.value)
@@ -867,7 +866,7 @@ function paste_nodes_of_node:action()
 end --function paste_nodes_of_node:action()
 
 --5.1.7.7 paste of all nodes of a node in an ascending order
-paste_nodes_of_node_sorted_ascending = iup.item {title = "Alle Knoten darunter aufsteigend sortiert einfügen"}
+paste_nodes_of_node_sorted_ascending = iup.item {title = "Alle Knoten darunter aufsteigend sortiert einfÃ¼gen"}
 function paste_nodes_of_node_sorted_ascending:action()
 	sortascendingTableRecursive(tree_nodes)
 	if tree_nodes then
@@ -876,7 +875,7 @@ function paste_nodes_of_node_sorted_ascending:action()
 end --function paste_nodes_of_node_sorted_ascending:action()
 
 --5.1.7.8 paste of all nodes of a node in a descending order
-paste_nodes_of_node_sorted_descending = iup.item {title = "Alle Knoten darunter absteigend sortiert einfügen"}
+paste_nodes_of_node_sorted_descending = iup.item {title = "Alle Knoten darunter absteigend sortiert einfÃ¼gen"}
 function paste_nodes_of_node_sorted_descending:action()
 	sortdescendingTableRecursive(tree_nodes)
 	if tree_nodes then
@@ -886,7 +885,7 @@ end --function paste_nodes_of_node_sorted_descending:action()
 
 
 --5.1.7.9 alphabetic sort of leafs ascending case sensitive
-alphabetic_sort_leafs_of_node_ascending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben aufsteigend sortieren"}
+alphabetic_sort_leafs_of_node_ascending_case_sensitive = iup.item {title = "Alle BlÃ¤tter darunter alphabetisch nach Klein- und GroÃŸbuchstaben aufsteigend sortieren"}
 function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
 	local startNodeNumber=tree.value
 	local endNodeNumber=tree.value+tree.totalchildcount
@@ -909,7 +908,7 @@ function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
 end --function alphabetic_sort_leafs_of_node_ascending_case_sensitive:action()
 
 --5.1.7.10 alphabetic sort of leafs ascending case insensitive
-alphabetic_sort_leafs_of_node_ascending_case_insensitive = iup.item {title = "Alle Blätter darunter alphabetisch aufsteigend sortieren"}
+alphabetic_sort_leafs_of_node_ascending_case_insensitive = iup.item {title = "Alle BlÃ¤tter darunter alphabetisch aufsteigend sortieren"}
 function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
 	local startNodeNumber=tree.value
 	local endNodeNumber=tree.value+tree.totalchildcount
@@ -933,7 +932,7 @@ end --function alphabetic_sort_leafs_of_node_ascending_case_insensitive:action()
 
 
 --5.1.7.11 alphabetic sort of leafs ascending case sensitive
-alphabetic_sort_leafs_of_node_descending_case_sensitive = iup.item {title = "Alle Blätter darunter alphabetisch nach Klein- und Großbuchstaben absteigend sortieren"}
+alphabetic_sort_leafs_of_node_descending_case_sensitive = iup.item {title = "Alle BlÃ¤tter darunter alphabetisch nach Klein- und GroÃŸbuchstaben absteigend sortieren"}
 function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
 	local startNodeNumber=tree.value
 	local endNodeNumber=tree.value+tree.totalchildcount
@@ -956,7 +955,7 @@ function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
 end --function alphabetic_sort_leafs_of_node_descending_case_sensitive:action()
 
 --5.1.7.12 alphabetic sort of leafs ascending case insensitive
-alphabetic_sort_leafs_of_node_descending_case_insensitive = iup.item {title = "Alle Blätter darunter alphabetisch absteigend sortieren"}
+alphabetic_sort_leafs_of_node_descending_case_insensitive = iup.item {title = "Alle BlÃ¤tter darunter alphabetisch absteigend sortieren"}
 function alphabetic_sort_leafs_of_node_descending_case_insensitive:action()
 	local startNodeNumber=tree.value
 	local endNodeNumber=tree.value+tree.totalchildcount
@@ -1051,14 +1050,14 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for loading tree
 button_loading_lua_table=iup.flatbutton{title="Baum aus Lua Tabelle laden\n(Strg+O)", size="115x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_loading_lua_table:flat_action()
 	--build file dialog for reading Lua file
-	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei öffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
+	local filedlg=iup.filedlg{dialogtype="OPEN",title="Datei Ã¶ffnen",filter="*.lua",filterinfo="Lua Files",directory=path}
 	filedlg:popup(iup.ANYWHERE,iup.ANYWHERE) --show the file dialog
 	if filedlg.status=="1" then
 		iup.Message("Neue Datei",filedlg.value)
@@ -1076,7 +1075,7 @@ function button_loading_lua_table:flat_action()
 		end --if _VERSION=='Lua 5.1' then
 		iup.TreeAddNodes(tree,actualtree)
 	else
-		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewählt")
+		iup.Message("Die Baumansicht wird nicht aktualisiert","Es wurde keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg.status=="1" then
 
@@ -1086,12 +1085,12 @@ end --function button_loading_lua_table:flat_action()
 button_save_lua_table=iup.flatbutton{title="Baum als Lua-Tabelle speichern \n(Strg+L)", size="125x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_save_lua_table:flat_action()
 	--open a filedialog
-	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswählen",filter="*.lua",filterinfo="Lua Files", directory=path}
+	filedlg2=iup.filedlg{dialogtype="SAVE",title="Ziel auswÃ¤hlen",filter="*.lua",filterinfo="Lua Files", directory=path}
 	filedlg2:popup(iup.ANYWHERE,iup.ANYWHERE)
 	if filedlg2.status=="1" or filedlg2.status=="0" then
 			save_tree_to_lua(tree, filedlg2.value)
 	else --no outputfile was choosen
-		iup.Message("Schließen","Keine Datei ausgewählt")
+		iup.Message("SchlieÃŸen","Keine Datei ausgewÃ¤hlt")
 		iup.NextField(maindlg)
 	end --if filedlg2.status=="1" or filedlg2.status=="0" then
 end --function button_save_lua_table:flat_action()
@@ -1126,7 +1125,7 @@ end --function button_alphabetic_sort:flat_action()
 --6.7 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraÃŸe 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6. buttons end
@@ -1146,6 +1145,7 @@ showdragdrop="YES",
 }
 --set colors of tree
 tree.BGCOLOR=color_background_tree --set the background color of the tree
+tree.FGCOLOR="0 0 0" --the text foreground color of the tree nodes must be defined in Linux
 -- Callback of the right mouse button click
 function tree:rightclick_cb(id)
 	tree.value = id
