@@ -58,3 +58,13 @@ This script is a graphical user interface for the description of the Lua syntax 
 9.2 reflexive_documentation_tree_of_Lua.html
 
 This file is an html site for the description of the Lua syntax with examples build from the script reflexive_documentation_tree_of_Lua.lua. The source of the texts is from official Lua documentation, reference manual and the book programming in Lua.
+
+10.1 reflexive_documentation_tree_write_html.lua
+
+This script is a graphical user interface for Windows with a textfield containing the raw text of an article which can contain format html-tags. The graphical user interface converts this text in a html site with titles defined by the numbering of the titles and shows the current table of contents as a tree.
+
+10.2 reflexive_documentation_tree_write_html_Linux.lua
+
+This script is a graphical user interface for Linux, tested on a Raspberry Pi, with a textfield containing the raw text of an article which can contain format html-tags. The graphical user interface converts this text in a html site with titles defined by the numbering of the titles and shows the current table of contents as a tree.
+
+
