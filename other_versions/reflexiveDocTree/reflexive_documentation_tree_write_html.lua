@@ -377,6 +377,20 @@ end --	function searchup:flat_action()
 checkboxforcasesensitive = iup.toggle{title="Groß-/Kleinschreibung", value="OFF"} --checkbox for casesensitiv search
 search_label=iup.label{title="Suchfeld:"} --label for textfield
 
+--search searchtext.value in textfield1
+search_in_textbox1   = iup.flatbutton{title = "Suche in dem Artikel",size="EIGHTH", BGCOLOR=color_buttons, FGCOLOR=color_button_text} 
+searchPosition=1
+function search_in_textbox1:flat_action()
+	from,to=textbox1.value:find(searchtext.value,searchPosition)
+	searchPosition=to
+	if from==nil then 
+		searchPosition=1 
+		iup.Message("Suchtext in dem Artikel nicht gefunden","Suchtext in dem Artikel nicht gefunden")
+	else
+		textbox1.SELECTIONPOS=from-1 .. ":" .. to
+	end --if from==nil then 
+end --function search_in_textbox1:flat_action()
+
 --put above together in a search dialog
 dlg_search =iup.dialog{
 			iup.vbox{iup.hbox{search_label,searchtext,}, 
@@ -393,7 +407,7 @@ dlg_search =iup.dialog{
 			iup.vbox{
 			checkboxforcasesensitive,},
 			},
-
+			search_in_textbox1,
 			}; 
 		title="Suchen",
 		size="420x100",
@@ -536,7 +550,7 @@ function startcopy:action() --copy node
 	 clipboard.text = tree['title']
 end --function startcopy:action()
 
---5.1.7.3 copy of all leafs of a node
+--5.1.2 copy of all leafs of a node
 copy_leafs_of_node = iup.item {title = "Alle Blätter darunter kopieren"}
 function copy_leafs_of_node:action()
 	local startNodeNumber=tree.value
@@ -551,7 +565,7 @@ function copy_leafs_of_node:action()
 	end --for i=endNodeNumber,startNodeNumber,-1 do
 end --function copy_leafs_of_node:action()
 
---5.1.7.4 copy of all nodes of a node
+--5.1.3 copy of all nodes of a node
 copy_nodes_of_node = iup.item {title = "Alle Knoten darunter kopieren"}
 function copy_nodes_of_node:action()
 	local startNodeNumber=tree.value
@@ -593,18 +607,7 @@ function copy_nodes_of_node:action()
 	--test add tree_nodes to node: tree:AddNodes(tree_nodes,startNodeNumber)
 end --function copy_nodes_of_node:action()
 
---5.1.7.5 paste of all leafs of a node
-paste_leafs_of_node = iup.item {title = "Alle Blätter darunter einfügen"}
-function paste_leafs_of_node:action()
-	if leafTable then
-		for i=#leafTable,1,-1 do
-			tree['addleaf' .. tree.value] = leafTable[i]
-			tree.value=tree.value+1
-		end --for i=#leafTable,1,-1 do
-	end --if leafTable then
-end --function paste_leafs_of_node:action()
-
---5.1.13 put the menu items together in the menu for tree
+--5.1.4 put the menu items together in the menu for tree
 menu = iup.menu{
 		startcopy,
 		copy_leafs_of_node,
@@ -657,7 +660,7 @@ img_logo = iup.image{
 }
 button_logo=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstra�e 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6.2 button for loading tree
@@ -741,7 +744,7 @@ end --function button_expand_collapse_dialog:flat_action()
 --6.6 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
-	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstra�e 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
+	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
 end --function button_logo:flat_action()
 
 --6. buttons end
