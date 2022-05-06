@@ -107,12 +107,19 @@ textBeginHTML=[[
   function hideAllFolders() {setFoldersAtLevel("", false);}
 
   function searchInTree() {
+  document.G.NR.value=0;
   for (var i = 0; i < document.links.length; i++) {
       var link = document.links[i];
 		if (link.text.toLowerCase().search(document.G.Q.value.toLowerCase())>=0) //e.g. "Tree_Baum.html"
 		{ document.G.R.value=getFolderId(link.name);
 			link.style.color = "#00ff00";
 			//return;
+			//search for all node above with a folder included in text of the founded node, e.g. folder.1 and folder.1.3 as texts are in text folder.1.3.4
+			for (var k = 0; k < document.links.length; k++) {      
+				if (document.G.R.value.toLowerCase().search(getFolderId(document.links[k].name).toLowerCase())>=0 && k < i) {
+					document.links[k].style.color = "#ff0000";  
+				} //if (document.G.R.value.toLowerCase().search(getFolderId(document.links[k].name).toLowerCase())>=0 && k < i) {
+			  } //  for (var k = 0; k < document.links.length; k++) {      
 			}
 		else
 		{  //document.G.Q.value=link.name;
@@ -125,17 +132,20 @@ textBeginHTML=[[
 
   function searchInTreeNext() {
   var searchI=0;
-  for (var i = 0; i < document.links.length; i++) {
+  //search begin up to number of node found
+  for (var i = document.G.NR.value; i < document.links.length; i++) {
       var link = document.links[i];
 		if (link.text.toLowerCase().search(document.G.Q.value.toLowerCase())>=0) //e.g. "Tree_Baum.html"
 		{  document.G.R.value=getFolderId(link.name);
 			searchI=i;
+			document.G.NR.value=(Number(i)+1).toString(); //should be add with 1 to find the next node
 			//test with: document.G.R.value = document.G.R.value + "nr: " + searchI
 			  for (var i = 0; i < document.links.length; i++) {
 			//test with: document.G.R.value=document.G.R.value+"-"+getFolderId(document.links[i].name);
+			//search for all node above with a folder included in text of the founded node, e.g. folder.1 and folder.1.3 as texts are in text folder.1.3.4
 				if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0 && i < searchI) {
 					document.links[i].style.color = "#ff0000";
-				} //if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0) {
+				} //if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0 && i < searchI) {
 			  } //  for (var i = 0; i < document.links.length; i++) {
 			link.style.color = "#00ff00";
 			//return;
@@ -153,7 +163,7 @@ textBeginHTML=[[
 
   function goToLink(link) { //because of the systematic for the folder names in the link.name it is not possible to go to link together with correct mark of tree
     var id = getFolderId(link.name);
-	document.G.Q.value=document.G.Q.value + "->" + link.text; //text of a href
+    document.G.Q.value=document.G.Q.value; // + "->" + link.text    text of a href 
     showFolderRec(id);
     location.hash = "#" + link.name;
     link.style.color = "#00ff00";
@@ -195,9 +205,10 @@ textBeginHTML=[[
 
 Suche von:<input value="" name="Q" size="54" type="text">
 <input value="Markieren aller Fundstellen und Ausklappen" onclick="searchInTree()" type="button">
-<input value="Markieren der ersten Fundstelle" onclick="searchInTreeNext()" type="button">
+<input value="Markieren der weiteren Fundstelle" onclick="searchInTreeNext()" type="button">
 Bei Bedarf auf IDIV klicken.
 Ergebnis:<input value="" name="R" size="54" type="text">
+Fundstellennummer:<input value="0" name="NR" size="54" type="text">
 </form>
 
 
