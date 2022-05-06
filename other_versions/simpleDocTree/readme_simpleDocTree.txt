@@ -34,3 +34,6 @@ This is an example as input HTML webpages in Lua table for simple_documentation_
 
 This script runs a graphical user interface (GUI) in order to built up a documentation tree of SQL statements or of excel formulas.
 
+8. simple_documentation_tree_with_analysis.lua
+
+This script opens a tree and analysis of it can be done, especially the analysis of dublicate nodes.
