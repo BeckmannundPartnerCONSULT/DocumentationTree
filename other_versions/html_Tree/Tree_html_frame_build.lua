@@ -10,6 +10,9 @@ Tree={branchname="\"Tree_html_frame_home.html\">IDIV",
 {branchname="\"Tree_html_frame_wb_tree.html\">Baumansicht links", state="COLLAPSED",
 "\"Tree_html_frame_wb_tree.html\">Tree_html_frame_wb_tree.html",
 },
+{branchname="Lua im Internet", state="COLLAPSED",
+"http://www.lua.org",
+},
 },
 {branchname="\"\">Ordner des IDIV-Arbeitsplatzes", state="COLLAPSED",
 "\"C:\\Tree\\html_Tree\">C:\\Tree\\html_Tree",
@@ -222,7 +225,11 @@ function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,li
 	levelFolder = (levelFolderStart or "") .. "." .. iNumber --string.rep(".x",level+1)
 	--test with: print(" >" .. levelFolder)
 	level = levelStart or 0
-	AusgabeTabelle[TreeTable.branchname:match('"([^"]*)">')]=true
+	if TreeTable.branchname:match('"([^"]*)">') then
+		AusgabeTabelle[TreeTable.branchname:match('"([^"]*)">')]=true
+	else
+		AusgabeTabelle[TreeTable.branchname]=true
+	end --if TreeTable.branchname:match('"([^"]*)">') then
 	--build the branches
 	textforHTML = textforHTML .. string.rep("\t",level) .. '<p style="margin: 0px 0px 5px ' .. level*30  .. 'px">'
 	if TreeTable.state=="COLLAPSED" then
@@ -232,9 +239,16 @@ function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,li
 		textforHTML = textforHTML ..
 		[[<img name="imgfolder]] .. levelFolder .. [[" src="wb_img/minusnode.png" alt="-" onclick="toggleFolder('folder]] .. levelFolder .. [[')">]]
 	end --if state=="COLLAPSED" then
+	if TreeTable.branchname:match('"([^"]*)">')==nil and tostring(TreeTable.branchname):match("http") then
+		LinkText='"' .. tostring(TreeTable.branchname) .. '">'
+	elseif TreeTable.branchname:match('"([^"]*)">')==nil then
+		LinkText='"Tree_html_frame_home.html">'
+	else
+		LinkText=""
+	end --if TreeTable.branchname:match('"([^"]*)">')==nil and tostring(TreeTable.branchname):match("http") then
 	textforHTML = textforHTML ..
 	'<a name="link' .. linkNumber .. 'folder' .. levelFolder .. '" href=' ..
-	tostring(TreeTable.branchname)
+	LinkText .. tostring(TreeTable.branchname)
 	:gsub("Ã¤","&auml;")
 	:gsub("Ã„","&Auml;")
 	:gsub("Ã¶","&ouml;")
@@ -254,8 +268,20 @@ function readTreetohtmlRecursive(TreeTable,levelStart,levelFolderStart,iStart,li
 			level = level +1
 			readTreetohtmlRecursive(v,level,levelFolder,i,linkNumber)
 		else
-			AusgabeTabelle[v:match('"([^"]*)">')]=true
-			textforHTML = textforHTML .. string.rep("\t",level+1) .. '<p style="margin: 0px 0px 5px ' .. (level+1)*30  .. 'px">' .. '<a name="link' .. linkNumber .. 'folder' .. levelFolder .. "." .. i .. '" href=' .. v
+			if v:match('"([^"]*)">') then
+				AusgabeTabelle[v:match('"([^"]*)">')]=true
+			else
+				AusgabeTabelle[v]=true
+			end --if v:match('"([^"]*)">') then
+			if v:match('"([^"]*)">')==nil and tostring(v):match("http") then
+				LinkText='"' .. tostring(v) .. '">'
+			elseif v:match('"([^"]*)">')==nil then
+				LinkText='"Tree_html_frame_home.html">'
+			else
+				LinkText=""
+			end --if TreeTable.branchname:match('"([^"]*)">')==nil and tostring(TreeTable.branchname):match("http") then
+			textforHTML = textforHTML .. string.rep("\t",level+1) .. '<p style="margin: 0px 0px 5px ' .. (level+1)*30  .. 'px">' .. '<a name="link' .. linkNumber .. 'folder' .. levelFolder .. "." .. i .. '" href=' .. 
+			LinkText .. v
 			:gsub("Ã¤","&auml;")
 			:gsub("Ã„","&Auml;")
 			:gsub("Ã¶","&ouml;")
@@ -292,7 +318,7 @@ outputfile1:close()
 --2. write home html in the home frame
 outputfile2=io.open(path .. "\\" .. "Tree_html_frame_home.html","w")
 outputfile2:write('<p>This frame html contains a tree in the left frame. The mark functionality is limited because of the denomination of the link names. Go to link is not possible if mark functions correctly and vice versa.</p><pre>\n')
-p=io.popen('dir * /b/o/s ')
+p=io.popen('dir C:\\Temp\\* /b/o/s ')
 --write lines only when not in manual tree
 --test with: for k,v in pairs(AusgabeTabelle) do print(k,v) end
 for line in p:lines() do
