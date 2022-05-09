@@ -453,7 +453,7 @@ function button_expand_collapse_dialog:flat_action()
 	dlg_expand_collapse:popup(iup.ANYWHERE, iup.ANYWHERE)
 end --function button_expand_collapse_dialog:flat_action()
 
---6.5 button for filtering the two texts to be compared on filtered lines
+--6.5.1 button for filtering the two texts to be compared on filtered lines
 button_filter=iup.flatbutton{title="Texte \nfiltern", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
 function button_filter:flat_action()
 	local textSubsitute=""
@@ -471,6 +471,25 @@ function button_filter:flat_action()
 	end --for line in (textbox3.value .. "\n"):gmatch("([^\n]*)\n") do
 	textfield2.value=textSubsitute
 end --function button_filter:flat_action()
+
+--6.5.2 button for filtering negatively the two texts to be compared on filtered lines
+button_filter_negatively=iup.flatbutton{title="Texte negativ\nfiltern", size="55x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_filter_negatively:flat_action()
+	local textSubsitute=""
+	for line in (textfield1.value .. "\n"):gmatch("([^\n]*)\n") do
+		if line:match(textbox3.value)==nil then
+			textSubsitute=textSubsitute .. line .. "\n"
+		end --if line:match(textbox3.value)==nil then
+	end --for line in (textbox3.value .. "\n"):gmatch("([^\n]*)\n") do
+	textfield1.value=textSubsitute
+	textSubsitute=""
+	for line in (textfield2.value .. "\n"):gmatch("([^\n]*)\n") do
+		if line:match(textbox3.value)==nil then
+			textSubsitute=textSubsitute .. line .. "\n"
+		end --if line:match(textbox3.value)==nil then
+	end --for line in (textbox3.value .. "\n"):gmatch("([^\n]*)\n") do
+	textfield2.value=textSubsitute
+end --function button_filter_negatively:flat_action()
 
 
 --6.6 button for comparing text file of tree and text file of tree2
@@ -653,6 +672,7 @@ maindlg = iup.dialog{
 			textbox4,
 			iup.fill{},
 			button_filter,
+			button_filter_negatively,
 			button_compare,
 			iup.label{size="5x",},
 			button_expand_collapse_dialog,
