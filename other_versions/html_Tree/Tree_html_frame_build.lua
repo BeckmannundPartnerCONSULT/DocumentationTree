@@ -110,7 +110,10 @@ textBeginHTML=[[
   function hideAllFolders() {setFoldersAtLevel("", false);}
 
   function searchInTree() {
+  var getFolderNameText="";
+  var GRfoundText="";
   document.G.NR.value=0;
+  document.G.AR.value=document.links.length + 1;
   for (var i = 0; i < document.links.length; i++) {
       var link = document.links[i];
 		if (link.text.toLowerCase().search(document.G.Q.value.toLowerCase())>=0) //e.g. "Tree_Baum.html"
@@ -118,10 +121,13 @@ textBeginHTML=[[
 			link.style.color = "#00ff00";
 			//return;
 			//search for all node above with a folder included in text of the founded node, e.g. folder.1 and folder.1.3 as texts are in text folder.1.3.4
-			for (var k = 0; k < document.links.length; k++) {      
-				if (document.G.R.value.toLowerCase().search(getFolderId(document.links[k].name).toLowerCase())>=0 && k < i) {
+			for (var k = 0; k < document.links.length; k++) {   
+				GRfoundText=document.G.R.value.toLowerCase().replaceAll(".","~");
+				getFolderNameText=getFolderId(document.links[k].name).toLowerCase().replaceAll(".","~") + "~";
+				if (GRfoundText.search(getFolderNameText)>=0 && k < i) {
 					document.links[k].style.color = "#ff0000";  
-				} //if (document.G.R.value.toLowerCase().search(getFolderId(document.links[k].name).toLowerCase())>=0 && k < i) {
+					//test with: document.G.PR.value=document.G.R.value.toLowerCase() +" mit " + getFolderNameText + "-" + document.G.PR.value;
+				} //if (GRfoundText.search(getFolderNameText)>=0 && k < i) {
 			  } //  for (var k = 0; k < document.links.length; k++) {      
 			}
 		else
@@ -134,6 +140,8 @@ textBeginHTML=[[
 } //function searchInTree()
 
   function searchInTreeNext() {
+  var getFolderNameText="";
+  var GRfoundText="";
   var searchI=0;
   //search begin up to number of node found
   for (var i = document.G.NR.value; i < document.links.length; i++) {
@@ -145,10 +153,12 @@ textBeginHTML=[[
 			//test with: document.G.R.value = document.G.R.value + "nr: " + searchI
 			  for (var i = 0; i < document.links.length; i++) {
 			//test with: document.G.R.value=document.G.R.value+"-"+getFolderId(document.links[i].name);
+			GRfoundText=document.G.R.value.toLowerCase().replaceAll(".","~");
+			getFolderNameText=getFolderId(document.links[i].name).toLowerCase().replaceAll(".","~") + "~";
 			//search for all node above with a folder included in text of the founded node, e.g. folder.1 and folder.1.3 as texts are in text folder.1.3.4
-				if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0 && i < searchI) {
+				if (GRfoundText.search(getFolderNameText)>=0 && i < searchI) {
 					document.links[i].style.color = "#ff0000";
-				} //if (document.G.R.value.toLowerCase().search(getFolderId(document.links[i].name).toLowerCase())>=0 && i < searchI) {
+				} //if (GRfoundText.search(getFolderNameText)>=0 && i < searchI) {
 			  } //  for (var i = 0; i < document.links.length; i++) {
 			link.style.color = "#00ff00";
 			//return;
@@ -206,12 +216,31 @@ textBeginHTML=[[
 
 <img alt="Contract All Nodes" src="wb_img/hideall.png" onclick="hideAllFolders()" onmouseover="this.src='wb_img/hideall_over.png'" onmouseout="this.src='wb_img/hideall.png'">
 
-Suche von:<input value="" name="Q" size="54" type="text">
+<br>
+Suche von:
+<br>
+<input value="" name="Q" size="54" type="text">
+<br>
 <input value="Markieren aller Fundstellen und Ausklappen" onclick="searchInTree()" type="button">
+<br>
 <input value="Markieren der weiteren Fundstelle" onclick="searchInTreeNext()" type="button">
+<br>
 Bei Bedarf auf IDIV klicken.
-Ergebnis:<input value="" name="R" size="54" type="text">
-Fundstellennummer:<input value="0" name="NR" size="54" type="text">
+<br>
+Ergebnis:
+<br>
+<input value="" name="R" size="54" type="text">
+<br>
+Fundstellennummer:
+<br>
+<input value="0" name="NR" size="54" type="text">
+<br>
+Anzahl Knoten:
+<br>
+<input value="0" name="AR" size="54" type="text">
+<br>
+
+<!--test with: input value="0" name="PR" size="54" type="text"-->
 </form>
 
 
