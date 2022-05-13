@@ -674,16 +674,7 @@ function maindlg:close_cb()
 	end --if fileLocked=="YES" then
 end --function maindlg:close_cb()
 
---7.4 Timer for autosave of tree
-timer1=iup.timer{time=10000}
-function timer1:action_cb()
-	--test with: textfield1.value="Timer"
-	save_tree_to_lua(tree, path .. "\\" .. thisfilename)
-end --function timer1:action_cb()
---turn timer on
-timer1.run="YES"
-
---7.5 Main Loop
+--7.4 Main Loop
 if (iup.MainLoopLevel()==0) then
 	iup.MainLoop()
 end --if (iup.MainLoopLevel()==0) then
