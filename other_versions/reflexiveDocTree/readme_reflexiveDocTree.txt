@@ -2,9 +2,13 @@ This repository has a script in IUP-Lua with with a reflexive Documentation Tree
 
 A reflexive Documentation Tree means that the script itself is able to save itself with new tree content changed by the user.
 
-1. reflexive_documentation_tree.lua
+1.1 reflexive_documentation_tree.lua
 
 This script shows only a simple tree.
+
+1.2 reflexive_documentation_tree.lua
+
+This script shows only a simple tree in Linux, tested on Ubuntu.
 
 2. reflexive_html_with_tree.lua
 
