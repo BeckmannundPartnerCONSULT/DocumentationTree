@@ -47,7 +47,7 @@ Next
 Debug.Print "}"
 textOutput = textOutput & "}" & vbCrLf
 Me.Text11 = textOutput
-   
+   'new nodes have the index at the end of Item list: Debug.Print objTree.Nodes.Item(objTree.Nodes.Count)
     Set objTree = Nothing
 
 End Sub
