@@ -338,17 +338,32 @@ function delete_nodes_of_tree(tree_given)
 end --function delete_nodes_of_tree(tree_given)
 
 
---3.2.2 function which deletes nodes in the second tree, if they occur in the tree of the first argument
+--3.2.2.1 function which deletes nodes in the second tree, if they occur in the tree of the first argument
 function delete_nodes_2nd_arg(tree,tree2)
+	local existTreeTable={}
 	for i=0, tree.count-1 do
-		for j=0, tree2.count -1 do
-			if tree["TITLE" .. i]==tree2.title0:match(".:\\.*") .. tree2["TITLE" .. j] then --neu: relativ und absolut vergleichen
-				tree2["DELNODE" .. j]="SELECTED"
-				break
-			end --if tree["TITLE" .. i]==tree2.title0:match(".:\\.*") .. tree2["TITLE" .. j] then
-		end --for j=0, tree2.count -1 do
+		existTreeTable[tree["TITLE" .. i]]=true
 	end --for i=0, tree.count-1 do
+	for j=tree2.count -1,0,-1  do
+		if existTreeTable[tree2.title0:match(".:\\.*") .. tree2["TITLE" .. j]] then --neu: relativ und absolut vergleichen
+			tree2["DELNODE" .. j]="SELECTED"
+		end --if tree["TITLE" .. i]==tree2.title0:match(".:\\.*") .. tree2["TITLE" .. j] then
+	end --for j=0, tree2.count -1 do
 end --function delete_nodes_2nd_arg(tree,tree2)
+
+
+--3.2.2.2 function which deletes nodes in the second tree, if they occur in the tree of the first argument
+function mark_nodes_2nd_arg(tree,tree2)
+	local existTreeTable={}
+	for i=0, tree.count-1 do
+		existTreeTable[tree["TITLE" .. i]]=true
+	end --for i=0, tree.count-1 do
+	for j=0, tree2.count -1 do
+		if existTreeTable[tree2.title0:match(".:\\.*") .. tree2["TITLE" .. j]] then --neu: relativ und absolut vergleichen
+			iup.TreeSetNodeAttributes(tree2,j,{color="0 0 250",})
+		end --if tree["TITLE" .. i]==tree2.title0:match(".:\\.*") .. tree2["TITLE" .. j] then
+	end --for j=0, tree2.count -1 do
+end --function mark_nodes_2nd_arg(tree,tree2)
 
 
 --3.2.3 function which saves the current iup tree as a Lua table
@@ -1522,9 +1537,8 @@ function button_copy_title:flat_action()
 		end --while true do
 	end --if file_exists(path .. "\\documentation_tree_script.lua") then
 	iup.TreeAddNodes(tree2, tree_script)
-
-	delete_nodes_2nd_arg(tree,tree2)
-
+	--delete_nodes_2nd_arg(tree,tree2)
+--[[
 	for i=0, tree.count-1 do
 		if file_exists(tree["TITLE" .. i]) then --existing files in black
 			iup.TreeSetNodeAttributes(tree,i,{color="0 0 0",})
@@ -1532,6 +1546,7 @@ function button_copy_title:flat_action()
 			iup.TreeSetNodeAttributes(tree,i,{color="200 200 150",})
 		end --if file_exists(tree["TITLE" .. i]) then
 	end --for i=0, tree.count-1 do
+--]]
 end --function button_copy_title:flat_action()
 
 --6.7 button to edit in IUP Lua scripter the script for tree2
@@ -1558,7 +1573,31 @@ function button_edit_treestatistics:flat_action()
 	os.execute('start "d" C:\\Lua\\iupluascripter54.exe "' .. path .. '\\documentation_tree_statistics.lua"')
 end --function button_edit_treestatistics:flat_action()
 
---6.10 button with second logo
+--6.10 button to delete files from tree2 if they are in tree
+button_delete_files_from_tree2=iup.flatbutton{title="Löschen der Dateien\naus dem Arbeitsvorrat", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_delete_files_from_tree2:flat_action()
+	delete_nodes_2nd_arg(tree,tree2)
+end --function button_delete_files_from_tree2:flat_action()
+
+--6.11 button to mark files from tree2 if they are in tree
+button_mark_files_from_tree2=iup.flatbutton{title="Markieren der Dateien\naus dem Arbeitsvorrat", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_mark_files_from_tree2:flat_action()
+	mark_nodes_2nd_arg(tree,tree2)
+end --function button_mark_files_from_tree2:flat_action()
+
+--6.12 button to check whether files exist
+button_check_whether_files_exist=iup.flatbutton{title="Prüfung, ob die\nDateien existieren", size="105x20", BGCOLOR=color_buttons, FGCOLOR=color_button_text}
+function button_check_whether_files_exist:flat_action()
+	for i=0, tree.count-1 do
+		if file_exists(tree["TITLE" .. i]) then --existing files in black
+			iup.TreeSetNodeAttributes(tree,i,{color="0 0 0",})
+		elseif tree["TITLE" .. i]:match("\\[^\\]+%.[^\\]+$") then    --mark not existing files in grey
+			iup.TreeSetNodeAttributes(tree,i,{color="200 200 150",})
+		end --if file_exists(tree["TITLE" .. i]) then
+	end --for i=0, tree.count-1 do
+end --function button_check_whether_files_exist:flat_action()
+
+--6.13 button with second logo
 button_logo2=iup.button{image=img_logo,title="", size="23x20"}
 function button_logo2:action()
 	iup.Message("Beckmann & Partner CONSULT","BERATUNGSMANUFAKTUR\nMeisenstraße 79\n33607 Bielefeld\nDr. Bruno Kaiser\nLizenz Open Source")
@@ -1762,6 +1801,9 @@ maindlg = iup.dialog{
 			button_statisticsupdate,
 			button_edit_treestatistics,
 			iup.fill{},
+			button_delete_files_from_tree2,
+			button_mark_files_from_tree2,
+			button_check_whether_files_exist,
 			button_logo2,
 		},
 		
@@ -1801,7 +1843,9 @@ end --for pluginFile in p:lines() do
 maindlg:show()
 
 --7.5.2 delete nodes in tree2 that are in tree and mark not existing files in grey (is possible only after having the GUI shown)
-delete_nodes_2nd_arg(tree,tree2)
+--delete_nodes_2nd_arg(tree,tree2)
+--
+--[[
 for i=0, tree.count-1 do
 	if file_exists(tree["TITLE" .. i]) then --existing files in black
 		iup.TreeSetNodeAttributes(tree,i,{color="0 0 0",})
@@ -1809,6 +1853,7 @@ for i=0, tree.count-1 do
 		iup.TreeSetNodeAttributes(tree,i,{color="200 200 150",})
 	end --if file_exists(tree["TITLE" .. i]) then
 end --for i=0, tree.count-1 do
+--]]
 
 --7.6 callback on close of the main dialog for saving or restoring
 function maindlg:close_cb()
