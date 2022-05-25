@@ -52,6 +52,23 @@ Me.Text11 = textOutput
 
 End Sub
 
+
+Private Sub Befehl13_Click()
+   Dim objTree As TreeView
+    Set objTree = Me.TreeView0.Object
+    Debug.Print objTree.SelectedItem.Text
+    Dim RetVal
+         
+    If InStr(1, objTree.SelectedItem.Text, ":\", vbTextCompare) Then
+        RetVal = Shell("CMD /r start ""d"" " & objTree.SelectedItem.Text, 1)
+    Else
+        RetVal = Shell("C:\WINDOWS\NOTEPAD.EXE", 1)    ' Open Notepad.
+    End If
+    'https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/shell-function
+End Sub
+
+
+
 Private Sub Befehl3_Click()
     Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
