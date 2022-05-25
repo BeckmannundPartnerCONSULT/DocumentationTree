@@ -13,7 +13,7 @@ Dim textOutput As String
 oldlevelOutput = -1
 levelOutput = 0
 Debug.Print "Tree={branchname=""" & objTree.Nodes.Item(1) & """"
-textOutput = "Tree={branchname=""" & objTree.Nodes.Item(1) & """" & vbCrLf
+textOutput = "Tree={branchname=""" & objTree.Nodes.Item(1) & """"
 'objTree.Nodes.Item(1).Expanded = True
 For ctr = 2 To objTree.Nodes.Count
     oldlevelOutput = levelOutput
@@ -26,17 +26,17 @@ For ctr = 2 To objTree.Nodes.Count
     'Debug.Print "--" & oldlevelOutput & " -> " & levelOutput
     If oldlevelOutput < levelOutput Then
         Debug.Print ",{branchname=""" & objTree.Nodes.Item(ctr) & """"
-        textOutput = textOutput & ",{branchname=""" & objTree.Nodes.Item(ctr) & """" & vbCrLf
+        textOutput = textOutput & "," & vbCrLf & "{branchname=""" & objTree.Nodes.Item(ctr) & """"
     ElseIf oldlevelOutput = levelOutput Then
         Debug.Print "},{branchname=""" & objTree.Nodes.Item(ctr) & """"
-        textOutput = textOutput & "},{branchname=""" & objTree.Nodes.Item(ctr) & """" & vbCrLf
+        textOutput = textOutput & "}," & vbCrLf & "{branchname=""" & objTree.Nodes.Item(ctr) & """"
     ElseIf oldlevelOutput > levelOutput Then
         For i = 1 To oldlevelOutput - levelOutput
             Debug.Print "},"
             textOutput = textOutput & "}," & vbCrLf
         Next
         Debug.Print "},{branchname=""" & objTree.Nodes.Item(ctr) & """"
-        textOutput = textOutput & "},{branchname=""" & objTree.Nodes.Item(ctr) & """" & vbCrLf
+        textOutput = textOutput & "}," & vbCrLf & "{branchname=""" & objTree.Nodes.Item(ctr) & """"
     End If
 Next
 'Debug.Print "--" & levelOutput
@@ -52,7 +52,6 @@ Me.Text11 = textOutput
 
 End Sub
 
-
 Private Sub Befehl13_Click()
    Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
@@ -66,8 +65,6 @@ Private Sub Befehl13_Click()
     End If
     'https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/shell-function
 End Sub
-
-
 
 Private Sub Befehl3_Click()
     Dim objTree As TreeView
@@ -93,7 +90,6 @@ Debug.Print objTree.SelectedItem.Text
 Debug.Print Me.Text7
 On Error Resume Next
 objTree.Nodes.Add Relative:=objTree.SelectedItem.Text, Relationship:=tvwChild, Key:=Me.Text7, Text:=Me.Text7
-
 End Sub
 
 Private Sub Befehl10_Click()
