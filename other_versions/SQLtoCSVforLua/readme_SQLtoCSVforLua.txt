@@ -4,9 +4,13 @@ This repository contains scripts to read the query-SQL statements of a database 
 
 The script is written for Access, but the part 3. and 4. can be used for the treatment of other databases with appropriate textfile with names of views and SQL statements
 
-2. test.accdb
+2.1 test.accdb
 
 Test database for SQLtoCSVforLua_Access.lua
+
+2.2 Modul_Formular_TreeView.txt
+
+This text file contains modul for building a TreeView in Access, editing and writing the output. This can be used in test.accdb for Formular2. Caveat: the "Tree output" button does not export the right Tree if a node is inserted within the tree. The node is appearing at the end of the tree. So it must be manually placed at the right place.
 
 3. SQLtoCSVforLua_SQL_List.lua
 
@@ -15,8 +19,4 @@ The script corresponds to the script written for Access part 3. and 4. . Here a 
 4.  SQLtoCSVforLua_SQL_List.txt
 
 Test data for the script SQLtoCSVforLua_SQL_List.lua.
-
-5. Modul_Formular_TreeView.txt
-
-This text file contains modul for building a TreeView in Access, editing and writing the output.
 
