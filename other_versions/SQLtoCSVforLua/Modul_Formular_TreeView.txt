@@ -1,7 +1,8 @@
 Option Compare Database
 
+
 'Verweise: Microsoft Windows Common Controls 6.0 (SP6)
-Private Sub Befehl2_Click()
+Private Sub Befehl2_Click() 'Tree output
     Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
  'output the tree as a Lua table
@@ -21,7 +22,7 @@ Dim minCount As Integer
 If objTree.Nodes.Count < Me.Text14 Then
     minCount = objTree.Nodes.Count
 Else
-    minCouint = Me.Text14
+    minCount = Me.Text14
 End If
 
 For ctr = 2 To minCount 'if number of nodes augmented then new nodes only at the end with objTree.Nodes.Count
@@ -67,7 +68,7 @@ Me.Text11 = textOutput
 
 End Sub
 
-Private Sub Befehl13_Click()
+Private Sub Befehl13_Click() 'Start Node
    Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
     Debug.Print objTree.SelectedItem.Text
@@ -81,7 +82,7 @@ Private Sub Befehl13_Click()
     'https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/shell-function
 End Sub
 
-Private Sub Befehl3_Click()
+Private Sub Befehl3_Click() 'Expand Tree
     Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
 Dim ctr As Integer
@@ -90,7 +91,42 @@ For ctr = 1 To objTree.Nodes.Count
 Next
 End Sub
 
-Private Sub Befehl6_Click()
+
+Private Sub Befehl16_Click() 'Mark Node
+    Dim objTree As TreeView
+    Set objTree = Me.TreeView0.Object
+    Dim ctr As Integer
+    Dim noddy As node
+
+    For ctr = 1 To objTree.Nodes.Count
+        If InStr(1, objTree.Nodes.Item(ctr), Me.Text7) Then
+            objTree.Nodes.Item(ctr).ForeColor = RGB(0, 0, 255)
+            Set noddy = objTree.Nodes.Item(ctr).Parent
+            noddy.ForeColor = RGB(255, 0, 0)
+            For i = 1 To 12
+                On Error Resume Next
+                Set noddy = noddy.Parent
+                On Error Resume Next
+                noddy.ForeColor = RGB(255, 0, 0)
+            Next
+            
+        End If
+    Next
+
+End Sub
+
+Private Sub Befehl17_Click() 'Unmark Node
+    Dim objTree As TreeView
+    Set objTree = Me.TreeView0.Object
+    Dim ctr As Integer
+
+    For ctr = 1 To objTree.Nodes.Count
+            objTree.Nodes.Item(ctr).ForeColor = RGB(0, 0, 0)
+    Next
+
+End Sub
+
+Private Sub Befehl6_Click() 'Edit Node
     Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
 Debug.Print objTree.SelectedItem.Text
@@ -98,7 +134,7 @@ Debug.Print Me.Text7
 objTree.SelectedItem.Text = Me.Text7
 End Sub
 
-Private Sub Befehl9_Click()
+Private Sub Befehl9_Click() 'Add Node
     Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
 Debug.Print objTree.SelectedItem.Text
@@ -107,7 +143,7 @@ On Error Resume Next
 objTree.Nodes.Add Relative:=objTree.SelectedItem.Text, Relationship:=tvwChild, Key:=Me.Text7, Text:=Me.Text7
 End Sub
 
-Private Sub Befehl10_Click()
+Private Sub Befehl10_Click() 'Delete Node
     Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
     Dim x As Integer
@@ -123,7 +159,7 @@ objTree.Nodes.Remove x
 End Sub
 
 
-Private Sub Form_Load()
+Private Sub Form_Load() 'Load Tree
     Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
    
