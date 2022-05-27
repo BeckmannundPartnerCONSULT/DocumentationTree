@@ -10,7 +10,11 @@ Test database for SQLtoCSVforLua_Access.lua
 
 2.2 Modul_Formular_TreeView.txt
 
-This text file contains modul for building a TreeView in Access, editing and writing the output. This can be used in test.accdb for Formular2. Caveat: the "Tree output" button does not export the right Tree if a node is inserted within the tree. The node is appearing at the end of the tree. So it must be manually placed at the right place.
+This text file contains a modul for building a TreeView in Access, editing and writing the output. This can be used in test.accdb for Formular2. The tree can have 12 levels.
+
+2.3 Modul_SplitTree.txt
+
+This test file contains a modul to convert a tree in a Lua table format in a reference table in Access. It can have 12 levels.
 
 3. SQLtoCSVforLua_SQL_List.lua
 
