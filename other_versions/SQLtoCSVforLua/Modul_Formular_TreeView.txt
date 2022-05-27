@@ -5,6 +5,7 @@ Private Sub Befehl2_Click()
     Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
  'output the tree as a Lua table
+Dim x As Integer
 Dim ctr As Integer
 Dim levelOutput As Integer
 Dim oldlevelOutput As Integer
@@ -12,10 +13,18 @@ Dim textOutput As String
 
 oldlevelOutput = -1
 levelOutput = 0
-Debug.Print "Tree={branchname=""" & objTree.Nodes.Item(1) & """"
+'Debug.Print "Tree={branchname=""" & objTree.Nodes.Item(1) & """"
 textOutput = "Tree={branchname=""" & objTree.Nodes.Item(1) & """"
 'objTree.Nodes.Item(1).Expanded = True
-For ctr = 2 To objTree.Nodes.Count
+
+Dim minCount As Integer
+If objTree.Nodes.Count < Me.Text14 Then
+    minCount = objTree.Nodes.Count
+Else
+    minCouint = Me.Text14
+End If
+
+For ctr = 2 To minCount 'if number of nodes augmented then new nodes only at the end with objTree.Nodes.Count
     oldlevelOutput = levelOutput
     Set noddy = objTree.Nodes.Item(ctr)
     'objTree.Nodes.Item(ctr).Expanded = True
@@ -25,26 +34,32 @@ For ctr = 2 To objTree.Nodes.Count
     levelOutput = UBound(Split(objTree.Nodes.Item(ctr).FullPath, "\"))
     'Debug.Print "--" & oldlevelOutput & " -> " & levelOutput
     If oldlevelOutput < levelOutput Then
-        Debug.Print ",{branchname=""" & objTree.Nodes.Item(ctr) & """"
+        'Debug.Print ",{branchname=""" & objTree.Nodes.Item(ctr) & """"
         textOutput = textOutput & "," & vbCrLf & "{branchname=""" & objTree.Nodes.Item(ctr) & """"
     ElseIf oldlevelOutput = levelOutput Then
-        Debug.Print "},{branchname=""" & objTree.Nodes.Item(ctr) & """"
+        'Debug.Print "},{branchname=""" & objTree.Nodes.Item(ctr) & """"
         textOutput = textOutput & "}," & vbCrLf & "{branchname=""" & objTree.Nodes.Item(ctr) & """"
     ElseIf oldlevelOutput > levelOutput Then
         For i = 1 To oldlevelOutput - levelOutput
-            Debug.Print "},"
+            'Debug.Print "},"
             textOutput = textOutput & "}," & vbCrLf
         Next
-        Debug.Print "},{branchname=""" & objTree.Nodes.Item(ctr) & """"
+        'Debug.Print "},{branchname=""" & objTree.Nodes.Item(ctr) & """"
         textOutput = textOutput & "}," & vbCrLf & "{branchname=""" & objTree.Nodes.Item(ctr) & """"
     End If
+    For x = Me.Text14 + 1 To objTree.Nodes.Count
+        If objTree.Nodes.Item(ctr) = objTree.Nodes.Item(x).Parent Then
+            Debug.Print objTree.Nodes.Item(x)
+            textOutput = textOutput & "," & vbCrLf & "{branchname=""" & objTree.Nodes.Item(x) & """}"
+        End If
+    Next
 Next
 'Debug.Print "--" & levelOutput
 For i = 1 To levelOutput
-    Debug.Print "},"
+    'Debug.Print "},"
     textOutput = textOutput & "}," & vbCrLf
 Next
-Debug.Print "}"
+'Debug.Print "}"
 textOutput = textOutput & "}" & vbCrLf
 Me.Text11 = textOutput
    'new nodes have the index at the end of Item list: Debug.Print objTree.Nodes.Item(objTree.Nodes.Count)
@@ -141,7 +156,7 @@ levelNumber = 0
 keyNumber = 0
 isLeaf = "no"
 Do While Not rs.EOF
-    Debug.Print rs!Tree
+    'Debug.Print rs!Tree
     arrayTree = Split(Replace(Replace(Replace(rs!Tree, Chr(13) & Chr(10), ""), """,""", """,{leaf"""), "}", """}"""), """")
     For x = 0 To UBound(arrayTree)
         If arrayTree(x) = ",{branchname=" Then
@@ -180,7 +195,7 @@ Loop 'Do While Not rs.EOF
 
 'print number of nodes
 Debug.Print objTree.Nodes.Count
-
+Me.Text14 = objTree.Nodes.Count
 'objTree.FullRowSelect = True
 
 ''''output the tree as a Lua table
