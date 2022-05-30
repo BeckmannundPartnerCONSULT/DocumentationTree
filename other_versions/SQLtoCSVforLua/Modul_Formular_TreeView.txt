@@ -15,7 +15,6 @@ Private Sub Befehl19_Click() 'Copy node
 Debug.Print objTree.SelectedItem.Text
 Debug.Print Me.Text7
 Me.Text7 = objTree.SelectedItem.Text
-
 End Sub
 
 
@@ -36,6 +35,9 @@ For ctr = 0 To objTree.Nodes.Count - 1
     dataText = ""
     If Not objTree.Nodes.Item(objTree.Nodes.Count - ctr).Children = 0 Then
     dataSum = 0
+    dataMax = -999999999999.9
+    dataMin = 999999999999.9
+    
     
     Set noddy = objTree.Nodes.Item(objTree.Nodes.Count - ctr).Child
     'Debug.Print objTree.Nodes.Item(objTree.Nodes.Count - ctr) & "->" & noddy
@@ -46,14 +48,30 @@ For ctr = 0 To objTree.Nodes.Count - 1
     End If 'If InStr(1, noddy, ": ", vbTextCompare) = 0 Then
     'Debug.Print dataNumber
     dataSum = dataSum + dataNumber
+    If dataNumber > dataMax Then
+        dataMax = dataNumber
+    End If 'If dataNumber > dataMax Then
+    If dataNumber < dataMin Then
+        dataMin = dataNumber
+    End If 'If dataNumber > dataMin Then
     For childrenctr = 2 To objTree.Nodes.Item(objTree.Nodes.Count - ctr).Children
         Set noddy = noddy.Next
         'Debug.Print objTree.Nodes.Item(objTree.Nodes.Count - ctr) & "->" & noddy
-        dataNumber = Mid(noddy, InStr(1, noddy, ": ", vbTextCompare) + 2)
+        If InStr(1, noddy, ": ", vbTextCompare) = 0 Then
+            dataNumber = 0
+        Else
+            dataNumber = Mid(noddy, InStr(1, noddy, ": ", vbTextCompare) + 2)
+        End If 'If InStr(1, noddy, ": ", vbTextCompare) = 0 Then
         'Debug.Print dataNumber
         dataSum = dataSum + dataNumber
+        If dataNumber > dataMax Then
+            dataMax = dataNumber
+        End If 'If dataNumber > dataMax Then
+        If dataNumber < dataMin Then
+            dataMin = dataNumber
+        End If 'If dataNumber > dataMin Then
     Next
-    dataText = ": " & dataSum
+    dataText = " # " & objTree.Nodes.Item(objTree.Nodes.Count - ctr).Children & " Min  " & dataMin & " Max  " & dataMax & " Durch " & Round(dataSum / objTree.Nodes.Item(objTree.Nodes.Count - ctr).Children, 2) & " S: " & dataSum
     End If 'If Not objTree.Nodes.Item(objTree.Nodes.Count - ctr).Children = 0 Then
     If InStr(1, objTree.Nodes.Item(objTree.Nodes.Count - ctr).Text, ": ") = 0 Then
         'Debug.Print objTree.Nodes.Item(objTree.Nodes.Count - ctr) & dataText
@@ -245,7 +263,6 @@ Me.Text11 = textOutput
 
     Set objTree = Nothing
 
-
 End Sub
 
 
@@ -264,6 +281,19 @@ Private Sub Befehl13_Click() 'Start Node
     'https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/shell-function
 End Sub
 
+
+
+Private Sub Befehl25_Click() 'Collapse leafs with data
+    Dim objTree As TreeView
+    Set objTree = Me.TreeView2.Object
+
+For ctr = 2 To objTree.Nodes.Count
+    If InStr(1, objTree.Nodes.Item(ctr), " # ") > 0 Then
+        objTree.Nodes.Item(ctr).Expanded = False
+    End If 'If InStr(1, objTree.Nodes.Item(ctr), " # ") > 0 Then
+Next
+
+End Sub
 
 Private Sub Befehl3_Click() 'Expand Tree
     Dim objTree As TreeView
