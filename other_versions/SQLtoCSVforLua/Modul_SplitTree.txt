@@ -10,7 +10,7 @@ Dim arrayTree As Variant
 Dim x As Integer
 Dim levelNumber As Integer
 Dim isLeaf As String
-Dim arrayNode(-1 To 12) As Variant
+Dim arrayNode(-2 To 12) As Variant
 
 DoCmd.SetWarnings False
 Set Db = CurrentDb
