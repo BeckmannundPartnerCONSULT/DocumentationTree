@@ -71,6 +71,10 @@ For ctr = 0 To objTree.Nodes.Count - 1
             dataMin = dataNumber
         End If 'If dataNumber > dataMin Then
     Next
+    'bei gekappten Limitauslastungen, d.h. wenn das Limit nicht ausgelastet ist, wird die Auslastung auf 0 gekappt.
+    'If dataSum < 0 Then
+    '    dataSum = 0
+    'End If 'If dataSum < 0 Then
     dataText = " # " & objTree.Nodes.Item(objTree.Nodes.Count - ctr).Children & " Min  " & dataMin & " Max  " & dataMax & " Durch " & Round(dataSum / objTree.Nodes.Item(objTree.Nodes.Count - ctr).Children, 2) & " S: " & dataSum
     End If 'If Not objTree.Nodes.Item(objTree.Nodes.Count - ctr).Children = 0 Then
     If InStr(1, objTree.Nodes.Item(objTree.Nodes.Count - ctr).Text, ": ") = 0 Then
@@ -257,8 +261,8 @@ Me.Text11 = textOutput
     Debug.Print "dataSum: " & dataSum
 
 
-textOutput = Replace(Me.Text11, "Tree={branchname=""" & objTree.Nodes.Item(1) & """", "Tree={branchname=""" & objTree.Nodes.Item(1) & ": " & dataSum & """")
-Me.Text11 = textOutput
+'test with: textOutput = Replace(Me.Text11, "Tree={branchname=""" & objTree.Nodes.Item(1) & """", "Tree={branchname=""" & objTree.Nodes.Item(1) & ": " & dataSum & """")
+'test with: Me.Text11 = textOutput
 
 
     Set objTree = Nothing
