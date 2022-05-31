@@ -299,6 +299,33 @@ Next
 
 End Sub
 
+Private Sub Befehl26_Click() 'Delete limit informations
+    Dim objTree As TreeView
+    Set objTree = Me.TreeView2.Object
+    Dim numberDeletedNodes As Integer
+    Dim chosenIndex As Integer
+    
+    numberDeletedNodes = 0
+For ctr = 0 To objTree.Nodes.Count - 1
+    If ctr + numberDeletedNodes > objTree.Nodes.Count - 1 Then
+        chosenIndex = objTree.Nodes.Count - 1
+    Else
+        chosenIndex = objTree.Nodes.Count - ctr
+    End If
+    
+    If InStr(1, objTree.Nodes.Item(chosenIndex), "Limit") > 0 Then
+        objTree.Nodes.Item(chosenIndex).Text = Left(objTree.Nodes.Item(chosenIndex), InStr(1, objTree.Nodes.Item(chosenIndex), ":") - 1)
+    End If '   If InStr(1, objTree.Nodes.Item(objTree.Nodes.Count - ctr), "Limit") > 0 Then
+    If objTree.Nodes.Item(chosenIndex) = "Limit" Then
+        objTree.Nodes.Remove chosenIndex
+        numberDeletedNodes = numberDeletedNodes + 1
+    End If 'If objTree.Nodes.Item(objTree.Nodes.Count - ctr) = "Limit" Then
+Next
+
+
+End Sub
+
+
 Private Sub Befehl3_Click() 'Expand Tree
     Dim objTree As TreeView
     Set objTree = Me.TreeView0.Object
@@ -373,6 +400,23 @@ Next
 
 On Error Resume Next
 objTree.Nodes.Remove x
+End Sub
+
+
+Private Sub Befehl27_Click() 'Delete Node
+    Dim objTree As TreeView
+    Set objTree = Me.TreeView2.Object
+    Dim x As Integer
+Debug.Print objTree.SelectedItem.Text
+For ctr = 1 To objTree.Nodes.Count
+    If objTree.Nodes.Item(ctr) = objTree.SelectedItem.Text Then
+        x = ctr
+    End If
+Next
+
+On Error Resume Next
+objTree.Nodes.Remove x
+
 End Sub
 
 
