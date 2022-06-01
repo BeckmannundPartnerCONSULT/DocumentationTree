@@ -1,4 +1,4 @@
---This is the respositorty for scripts to convert html downloaded by curl sites to text files with luacom and word
+This is the respository for scripts to convert html downloaded by curl sites to text files with luacom and word
 
 1. htmltoTXTforLua_Windows.lua
 
