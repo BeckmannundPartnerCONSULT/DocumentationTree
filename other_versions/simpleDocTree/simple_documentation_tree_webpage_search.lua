@@ -43,7 +43,6 @@ thisfilename=arg[0]:match("\\([^\\]+)$")
 
 path_documentation_tree=path .. "\\documentation_tree_webpage_search_output.lua"
 path_documentation_text=path .. "\\documentation_tree_webpage_search_output.txt"
-textbox2.value=path_documentation_text
 
 
 --3. functions
@@ -825,6 +824,7 @@ end --function button_logo:flat_action()
 textbox0=iup.multiline{value="https://www.lua.org",size="240x20",wordwrap="YES"}
 textbox1=iup.multiline{value="",size="250x150"}
 textbox2=iup.multiline{value="Textdatei s.u.",size="190x20",wordwrap="YES"}
+textbox2.value=path_documentation_text
 
 --7.2 webbrowser
 webbrowser1=iup.webbrowser{HTML=[[
