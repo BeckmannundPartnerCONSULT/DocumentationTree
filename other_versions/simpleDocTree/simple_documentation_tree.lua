@@ -1,7 +1,7 @@
 --This script is a simple documentation of a tree in a Lua table
 
-path_documentation_tree="C:\\Tree\\SQLtoCSVforLua\\SQLtoCSVforLua_dependencies_tree.lua"
-
+path_documentation_tree=arg[1] or "C:\\Tree\\SQLtoCSVforLua\\SQLtoCSVforLua_dependencies_tree.lua"
+print(arg[0],arg[1])
 
 --1. basic data
 
