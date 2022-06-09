@@ -971,6 +971,9 @@ function button_load_tree_to_html:flat_action()
 			:gsub("\\n","<br>") .. "\n"
 		end --if i>0 and tonumber(tree["DEPTH" .. i ]) > tonumber(tree["DEPTH" .. i-1 ]) then
 	end --for i=0,tree.count - 1 do --loop for all nodes
+	for i=tonumber(tree["DEPTH" .. tree.count - 1 ]),1,-1 do
+		webbrowserText=webbrowserText .. "</li></ul>"
+	end --	for i=tonumber(tree["DEPTH" .. tree.count - 1 ]),1,-1 do
 	webbrowserText=webbrowserText .. "</font>"
 	webbrowser1.HTML=webbrowserText
 end --function button_load_tree_to_html:action()
