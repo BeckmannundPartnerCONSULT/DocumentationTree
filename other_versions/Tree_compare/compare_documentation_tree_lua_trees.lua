@@ -847,16 +847,26 @@ function button_put_in_compare_tree:flat_action()
 			--put subtrees in nodeTreeTable
 			nodeTreeTable[tree1['title' .. startNodeNumber]]=tree_nodes
 		end --for startNodeNumber=1,tree1.count-1 do
-
+		--put the new nodes in the tree
 		for i=tree.count-1,1,-1 do
 			if nodeTreeTable[tree['title' .. i]] then
 				tree:AddNodes(nodeTreeTable[tree['title' .. i]],i)
 			end --if tree_nodes then
-
 		end --for i=1,tree2.count-1 do
-
 	end --if file_exists(textbox2.value) then
-
+	--go through tree 2
+	local file2existsTable={}
+	for i=0,tree2.totalchildcount0 do
+		file2existsTable[tree2['TITLE' .. i]]=true
+	end --for i=0,tree2.totalchildcount0 do
+	--mark the tree in blue for nodes from tree 1
+	for i=0,tree.totalchildcount0 do
+		if file2existsTable[tree['TITLE' .. i]] then
+			tree["color" .. i]=color_grey_bpc
+		else
+			tree["color" .. i]="0 0 250"
+		end --if file1existsTable[tree2['TITLE' .. i]]==nil and tree2['totalchildcount' .. i]=="0" then
+	end --for i=tree.totalchildcount0,0,-1 do
 end --function button_put_in_compare_tree:flat_action()
 
 --6.10 button for deleting one node leaving all other nodes but changing the order
