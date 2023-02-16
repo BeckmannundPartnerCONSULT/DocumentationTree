@@ -41,4 +41,8 @@ This script opens a tree and analysis of it can be done, especially the analysis
 
 9. simple_documentation_tree_with_variables_to_be_filed.lua
 
---This script contains a Lua tree with variables that can be filled by determining unknown variables.
+This script contains a Lua tree with variables that can be filled by determining unknown variables.
+
+10. simple_documentation_tree_output.lua
+
+This script is a simple documentation of a tree in a Lua table. It produces a tree as a Lua table or the mirror tree in a text field.
