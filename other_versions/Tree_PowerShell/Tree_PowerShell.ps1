@@ -1,6 +1,6 @@
 # This PowerShell script shows an individual tree and a tree with folders and files
 
-$RootFolder='P:\DIS-WS\CrisDa - Phase 3\07 SAS\Programm_Analyse'
+$RootFolder='C:\Temp'
 
 $subnodeNodeTable = @{
     'Erklärung' = 'Unterknoten'
