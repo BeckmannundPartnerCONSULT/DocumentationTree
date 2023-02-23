@@ -1,8 +1,12 @@
 This repository contains scripts for documenting SAS programms
 
-1. SAS_Analyser.lua
+1.1 SAS_Analyser.lua
 
 This programm collect data from a SAS programm and sub programms of it in a recursive manner to show in a tree the variables used.
+
+1.2 SAS_Analyser_sideeffects_more_variables.lua
+
+This programm collect data from SAS programms and their sub programms in a recursive manner. There can be more than one include file in one include statement. It shows side effects of many not needed variables variables to build a tree of dependent variables with side effects and with needed variables.
 
 2.1 SAS_Searcher.lua
 
