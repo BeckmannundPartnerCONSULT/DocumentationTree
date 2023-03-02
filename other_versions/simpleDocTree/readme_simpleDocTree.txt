@@ -46,3 +46,7 @@ This script contains a Lua tree with variables that can be filled by determining
 10. simple_documentation_tree_output.lua
 
 This script is a simple documentation of a tree in a Lua table. It produces a tree as a Lua table or the mirror tree in a text field.
+
+11. simple_documentation_tree _IDIV_bureau.lua
+
+This script is a simple documentation of a tree in a Lua table of the IDIV-bureau, so that other persons can see it
