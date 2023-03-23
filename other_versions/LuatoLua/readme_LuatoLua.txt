@@ -16,7 +16,7 @@ This script containns a Lua console with a tree output. In this tree Lua chunks 
 
 This script contains the tree of the Tree_console.lua script. This is an example for LuaCOM with Office files.
 
-4. input_command_output_tree.lua
+4.1 input_command_output_tree.lua
 
 This script is a calculation GUI for input data in a tree. The commands are organized as a tree and the output is also a tree.
 
@@ -35,6 +35,13 @@ This scripts contains three trees:
      input_command_output_tree_internal_interest_rate_output.lua
 
 Annotation: to use easily the input_command_output_tree_internal_interest_rate_.....lua files please copy input_command_output_tree.lua as input_command_output_tree_internal_interest_rate.lua.
+
+4.2 input_command_output_tree_internal_interest_rate.lua
+
+This script is the graphical interface for 
+1. input_command_output_tree_internal_interest_rate_input.lua
+2. input_command_output_tree_internal_interest_rate_command.lua
+3. input_command_output_tree_internal_interest_rate_output.lua
 
 5. Tree_calculator_with_interests.lua
 
@@ -78,4 +85,9 @@ This script is an example for the passive side of the balance.
 8.3 documentation_tree_balance_indicators.lua
 
 This script is an example for the calculation of balance indicators.
+
+8.4 tree_cost_distribution.lua
+
+This script calculates the parts on each branch and distributes the value on the root node into the tree nodes
+
 
