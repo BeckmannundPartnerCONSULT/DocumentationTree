@@ -1,4 +1,4 @@
-This repository contains different versions of the documentation tree.
+This repository contains different versions of the documentation tree and interactive-dynamic table of contents.
 
 IUP-Lua is taken from https://webserver2.tecgraf.puc-rio.br/iup/ with the licence:
 
